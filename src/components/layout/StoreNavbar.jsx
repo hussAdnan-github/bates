@@ -5,13 +5,19 @@ import Link from "next/link";
 import { Search, ShoppingCart, LogOut, Menu } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import SearchBar from "../store/SearchBar";
- 
+import CartDialog from "../store/CartDialog";
+
 function StoreNavbar() {
   const navLinks = [
     { title: "الرئيسية", href: "/" },
-    { title: "المنتجات", href: "/products" },
+    { title: "المنتجات", href: "/shop/products" },
     { title: "الطلبات", href: "/orders" },
   ];
 
@@ -43,7 +49,7 @@ function StoreNavbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-64" dir="rtl">
-                 <SheetTitle>القائمة الرئيسية</SheetTitle>
+              <SheetTitle>القائمة الرئيسية</SheetTitle>
               <div className="flex flex-col gap-6 mt-10">
                 {navLinks.map((link) => (
                   <Link
@@ -62,19 +68,22 @@ function StoreNavbar() {
         {/* جهة اليسار: أيقونات العمليات (البحث، السلة، الخروج) */}
         <div className="flex items-center gap-2 md:gap-5">
           {/* أيقونة البحث */}
-          
-           <SearchBar />
-            {/* <Search className="h-6 w-6" /> */}
-       
 
-          {/* أيقونة السلة مع العداد */}
-          <Link href="/cart" className="relative p-2">
-            <ShoppingCart className="h-7 w-7 text-gray-700" />
-            <Badge className="absolute -top-1 -right-1 bg-red-500 text-white w-5 h-5 flex items-center justify-center p-0 text-[10px] rounded-full border-2 border-white">
-              0
-            </Badge>
-          </Link>
+          <SearchBar />
+          {/* <Search className="h-6 w-6" /> */}
 
+          {/* استبدال الـ Link بمكون السلة المنبثقة */}
+          <CartDialog>
+            <div className="relative p-2 cursor-pointer hover:bg-gray-100 rounded-full transition-colors group">
+              {/* أيقونة السلة */}
+              <ShoppingCart className="h-7 w-7 text-gray-700 group-hover:text-[#F18721] transition-colors" />
+
+              {/* عداد المنتجات (Badge) */}
+              <Badge className="absolute -top-1 -right-1 bg-red-500 text-white w-5 h-5 flex items-center justify-center p-0 text-[10px] rounded-full border-2 border-white">
+                0
+              </Badge>
+            </div>
+          </CartDialog>
           {/* أيقونة تسجيل الخروج */}
           <Button
             variant="ghost"

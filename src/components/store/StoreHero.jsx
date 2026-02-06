@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 function StoreHero() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -72,7 +73,9 @@ function StoreHero() {
             size="lg"
             className="bg-[#F18721] hover:bg-[#d9771a] text-white px-12 py-8 text-xl font-bold rounded-md shadow-xl"
           >
+           <Link href={'/shop/products'}>
             اكتشف العروض
+           </Link>
           </Button>
 
           {/* نقاط التنقل السفلية */}

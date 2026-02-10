@@ -4,7 +4,7 @@ import request from "@/lib/apiService";
 
  
 
-export async function getCategories() {
+export async function getDepartment() {
   const result = await request(
     `departments/departments/`,
     "GET",

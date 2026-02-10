@@ -4,9 +4,10 @@ import request from "@/lib/apiService";
 
  
 
-export async function getProduts(search = '') {
+export async function getProduts(price = '' , department = '') {
+  console.log("first")
   const result = await request(
-    `products/products${search}`,
+    `products/products?status=&department=${department}&price=${price}`,
     "GET",
   );
 

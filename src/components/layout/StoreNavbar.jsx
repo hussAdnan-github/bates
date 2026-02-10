@@ -12,7 +12,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import SearchBar from "../store/SearchBar";
-import CartDialog from "../store/BasketsDialog";
+ 
+import BasketsDialog from "../store/BasketsDialog";
 
 function StoreNavbar() {
   const navLinks = [
@@ -73,7 +74,7 @@ function StoreNavbar() {
           {/* <Search className="h-6 w-6" /> */}
 
           {/* استبدال الـ Link بمكون السلة المنبثقة */}
-          <CartDialog>
+          <BasketsDialog>
             <div className="relative p-2 cursor-pointer hover:bg-gray-100 rounded-full transition-colors group">
               {/* أيقونة السلة */}
               <ShoppingCart className="h-7 w-7 text-gray-700 group-hover:text-[#F18721] transition-colors" />
@@ -83,7 +84,7 @@ function StoreNavbar() {
                 0
               </Badge>
             </div>
-          </CartDialog>
+          </BasketsDialog>
           {/* أيقونة تسجيل الخروج */}
           <Button
             variant="ghost"

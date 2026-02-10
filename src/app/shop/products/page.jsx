@@ -5,26 +5,17 @@ import { getProduts } from "@/actions/product";
 
 import Companies from "@/components/store/Companies";
 import SliderPrice from "@/components/store/SliderPrice";
-import Categories from "@/components/store/Categories";
+import Categories from "@/components/store/Department";
+import Department from "@/components/store/Department";
+import { getDepartment } from "@/actions/department";
 
-async function page() {
-  const products = await getProduts();
-
-  // const categories = [
-  //   "كل الفئات",
-  //   "استاندات فيدفي",
-  //   // "خوازن باوربنك فيدفي",
-  //   // "ساعات ذكية فيدفي",
-  //   // "سماعات بلوتوث فيدفي",
-  //   // "سماعات سلكية فيدفي",
-  //   // "شنط فيدفي",
-  //   // "شواحن سيارة",
-  //   // "شواحن فيدفي",
-  //   // "فلاشات وذاكر فيدفي",
-  //   // "كابلات فيدفي",
-  //   // "موصلات كهرباء وأجهزة إلكترونية",
-  //   // "هبات وموزعات فيدفي",
-  // ];
+async function page({ searchParams }) {
+  const { price, department } = await searchParams;
+ 
+  const [products, departmentData] = await Promise.all([
+    getProduts(price, department),
+    getDepartment(),
+  ]);
 
   return (
     <div className="bg-gray-50/50 min-h-screen py-10" dir="rtl">
@@ -34,19 +25,17 @@ async function page() {
         </h1>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* --- القائمة الجانبية (Filters Sidebar) --- */}
           <aside className="w-full lg:w-1/4 space-y-8 order-2 lg:order-1">
             <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
               <h3 className="font-black text-xl mb-4">الفئات</h3>
               <Separator className="mb-4" />
-              <Categories />
+              <Department department={departmentData}/>
               <h3 className="font-black text-xl mt-10 mb-4">السعر</h3>
               <Separator className="mb-4" />
               <SliderPrice />
             </div>
           </aside>
 
-          {/* --- المحتوى الرئيسي (Top Filter + Grid) --- */}
           <main className="w-full lg:w-3/4 order-1 lg:order-2 space-y-6">
             {/* فلتر الشركة العلوي */}
             <Companies />

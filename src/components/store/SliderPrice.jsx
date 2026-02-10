@@ -1,26 +1,60 @@
-'use client'
-import React, { useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { Slider } from "../ui/slider";
 import { Button } from "../ui/button";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Wallet } from "lucide-react";
 
 function SliderPrice() {
-  const [priceRange, setPriceRange] = useState([1000]);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const currentPrice = Number(searchParams.get("price")) || 1000;
+  const [priceRange, setPriceRange] = useState([currentPrice]);
+
+  // مزامنة السلايدر مع الـ URL
+  useEffect(() => {
+    setPriceRange([currentPrice]);
+  }, [currentPrice]);
+
+  const handelFillter = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("price", priceRange[0].toString());
+    params.delete("page"); // مهم مع pagination
+
+    router.push(`?${params.toString()}`);
+  };
 
   return (
-    <div className="space-y-6 flex justify-center flex-col">
-      <div className="flex justify-between items-center text-sm font-bold">
-        <span>السعر الأقصى:</span>
+    <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm space-y-6">
+      {/* العنوان */}
+      <div className="flex items-center gap-2 font-black text-gray-700">
+        <Wallet className="h-5 w-5 text-[#F18721]" />
+        <span>تصفية حسب السعر</span>
       </div>
+
+      {/* السعر الحالي */}
+      <div className="flex justify-between items-center text-sm">
+        <span className="text-gray-500">السعر الأقصى</span>
+        <span className="rounded-full bg-orange-50 px-3 py-1 text-[#F18721] font-bold">
+          {priceRange[0]} ر.س
+        </span>
+      </div>
+
+      {/* السلايدر */}
       <Slider
-        defaultValue={[1000]}
+        value={priceRange}
         max={1000}
         step={10}
-        onValueChange={(val) => setPriceRange(val)}
-        className="py-4"
+        onValueChange={setPriceRange}
+        className="py-3"
       />
-      <span className="text-[#F18721] text-center">{priceRange[0]} ر.س</span>
 
-      <Button className="w-full bg-[#F18721] hover:bg-[#d9771a] font-bold py-6 text-lg">
+      {/* زر التطبيق */}
+      <Button
+        onClick={handelFillter}
+        className="w-full bg-[#F18721] hover:bg-[#d9771a] font-bold py-5 text-base rounded-xl transition-all"
+      >
         تطبيق الفلتر
       </Button>
     </div>

@@ -5,6 +5,7 @@ import axios from 'axios';
 const BASE_URL = process.env.API_URL;
 console.log(BASE_URL)
 async function request(endpoint, method = 'GET', data = null, isFormData = false) {
+  console.log(`endpoint ${endpoint}`)
   const cookieStore = await cookies();
   const token = cookieStore.get('auth_token')?.value;
  

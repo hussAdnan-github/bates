@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import CardProduct from "../shared/CardProduct";
 import { getProduts } from "@/actions/product";
+import InfiniteProductList from "./InfiniteProductList";
 
 async function FeaturedProducts() {
   const products = await getProduts();
@@ -75,7 +76,12 @@ async function FeaturedProducts() {
         </div>
 
         {/* شبكة المنتجات */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <InfiniteProductList 
+              initialData={products.data} 
+              // price={price} 
+              // department={department} 
+            />
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.data.results.map((product) => (
             <CardProduct
               key={product.id}
@@ -87,7 +93,7 @@ async function FeaturedProducts() {
               images={product.images}
             />
           ))}
-        </div>
+        </div> */}
       </div>
     </section>
   );

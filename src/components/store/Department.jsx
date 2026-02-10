@@ -19,8 +19,7 @@ export default function Department({ department }) {
       params.set("department", id);
     }
 
-    // رجوع للصفحة الأولى عند تغيير الفئة (مهم جدًا)
-    params.delete("page");
+     params.delete("page");
 
     router.push(`?${params.toString()}`);
   };
@@ -36,7 +35,7 @@ export default function Department({ department }) {
       </CategoryItem>
 
       {/* الفئات */}
-      {department.data.results.map((dep) => (
+      {department.data.map((dep) => (
         <CategoryItem
           key={dep.id}
           active={currentDepartment === dep.id.toString()}

@@ -8,15 +8,18 @@ import SliderPrice from "@/components/store/SliderPrice";
 import Categories from "@/components/store/Department";
 import Department from "@/components/store/Department";
 import { getDepartment } from "@/actions/department";
+import InfiniteProductList from "@/components/store/InfiniteProductList";
 
 async function page({ searchParams }) {
-  const { price, department } = await searchParams;
- 
-  const [products, departmentData] = await Promise.all([
-    getProduts(price, department),
-    getDepartment(),
-  ]);
+  const { price, department, department__company } = await searchParams;
 
+  
+  console.log(price, department, department__company);
+  const [products, departmentData] = await Promise.all([
+    getProduts(price, department, department__company),
+    getDepartment(department__company),
+  ]);
+console.log(products.data.results)
   return (
     <div className="bg-gray-50/50 min-h-screen py-10" dir="rtl">
       <div className="container mx-auto px-4">
@@ -29,7 +32,7 @@ async function page({ searchParams }) {
             <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
               <h3 className="font-black text-xl mb-4">الفئات</h3>
               <Separator className="mb-4" />
-              <Department department={departmentData}/>
+              <Department department={departmentData}  />
               <h3 className="font-black text-xl mt-10 mb-4">السعر</h3>
               <Separator className="mb-4" />
               <SliderPrice />
@@ -37,10 +40,9 @@ async function page({ searchParams }) {
           </aside>
 
           <main className="w-full lg:w-3/4 order-1 lg:order-2 space-y-6">
-            {/* فلتر الشركة العلوي */}
             <Companies />
-            {/* شبكة المنتجات */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {products.data.results.map((product) => (
                 <CardProduct
                   key={product.id}
@@ -52,7 +54,13 @@ async function page({ searchParams }) {
                   images={product.images}
                 />
               ))}
-            </div>
+            </div> */}
+            <InfiniteProductList
+              initialData={products.data}
+              price={price}
+              department={department}
+              department__company={department__company}
+            />
           </main>
         </div>
       </div>

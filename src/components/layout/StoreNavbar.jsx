@@ -1,4 +1,4 @@
-"use client";
+ 
 
 import React from "react";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import SearchBar from "../store/SearchBar";
-import CartDialog from "../store/CartDialog";
+import CartDialog from "../store/BasketsDialog";
 
 function StoreNavbar() {
   const navLinks = [
@@ -20,7 +20,7 @@ function StoreNavbar() {
     { title: "المنتجات", href: "/shop/products" },
     { title: "الطلبات", href: "/orders" },
   ];
-
+ 
   return (
     <nav
       className="w-full bg-white border-b sticky top-0 z-50 shadow-sm"

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +18,14 @@ function Navbar() {
     { title: "فروعنا", href: "#branches" },
     { title: "تواصل معنا", href: "#contact" },
   ];
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // إذا لم يتم التحميل بعد على المتصفح، لا تظهر الـ Navbar أو أظهر نسخة مبسطة
+  if (!mounted) return null; // أو أظهر الهيكل فقط بدون الـ Sheet
 
   return (
     <nav className="w-full border-b bg-white py-4 sticky top-0 z-50" dir="rtl">

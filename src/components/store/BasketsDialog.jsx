@@ -1,7 +1,5 @@
-"use client";
-
-import React, { useState } from "react";
-import Image from "next/image";
+ 
+ import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -20,10 +18,12 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import OrdersDialog from "./OrdersDialog";
+import { getBaskets } from "@/actions/baskets";
 
-const CartDialog = ({ children }) => {
-  const [quantity, setQuantity] = useState(1);
-
+const BasketsDialog =async ({ children }) => {
+  // const [quantity, setQuantity] = useState(1);
+  const baskets = await getBaskets();
+console.log(baskets.data.results.basketitems)
   return (
     <Dialog className="w-[10000px]">
       {/* الـ Trigger هو أي عنصر نمرره للمكون (مثل أيقونة السلة في النافبار) */}
@@ -71,7 +71,7 @@ const CartDialog = ({ children }) => {
                 </span>
               </div>
               <div className="col-span-2  text-gray-700">42.00 ر.س</div>
-              <div className="col-span-2">
+              {/* <div className="col-span-2">
                 <div className="flex items-center justify-center border rounded-md overflow-hidden h-9">
                   <button
                     onClick={() => setQuantity((q) => q + 1)}
@@ -87,7 +87,7 @@ const CartDialog = ({ children }) => {
                     <Minus size={14} />
                   </button>
                 </div>
-              </div>
+              </div> */}
               <div className="col-span-2  text-[#F18721]">42.00 ر.س</div>
               <div className="col-span-1">
                 <button className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors">
@@ -143,4 +143,4 @@ const CartDialog = ({ children }) => {
   );
 };
 
-export default CartDialog;
+export default BasketsDialog;

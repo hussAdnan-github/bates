@@ -1,5 +1,5 @@
 import Navbar from "@/components/layout/Navbar";
-import { Cairo } from "next/font/google"; // استبدال Geist بخط عربي احترافي
+import { Cairo } from "next/font/google";  
 import '../globals.css'
 import Footer from "@/components/layout/Footer";
 

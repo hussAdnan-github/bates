@@ -2,59 +2,61 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import CardProduct from "../shared/CardProduct";
+import { getProduts } from "@/actions/product";
 
-function FeaturedProducts() {
-  // بيانات المنتجات التجريبية (يمكنك استبدالها ببيانات من الـ API لاحقاً)
-  const products = [
-    {
-      id: 1,
-      title: "سماعات راس",
-      price: "58.00",
-      image: "/images/product.jpg", // ضع مسارات صورك هنا
-    },
-    {
-      id: 2,
-      title: "سماعات راس",
-      price: "58.00",
-      image: "/images/product.jpg", // ضع مسارات صورك هنا
-    },
-    {
-      id: 3,
-      title: "سماعات راس",
-      price: "58.00",
-      image: "/images/product.jpg", // ضع مسارات صورك هنا
-    },
-    {
-      id: 4,
-      title: "سماعات راس",
-      price: "58.00",
-      image: "/images/product.jpg", // ضع مسارات صورك هنا
-    },
-    {
-      id: 5,
-      title: "سماعات راس",
-      price: "58.00",
-      image: "/images/product.jpg", // ضع مسارات صورك هنا
-    },
-    {
-      id: 6,
-      title: "توصيلات قماش تايبسي 2 متر فيدفي",
-      price: "4.50",
-      image: "/images/product.jpg",
-    },
-    {
-      id: 7,
-      title: "خازن فيدفي قوة 20 ألف ملي أمبير شحن سريع",
-      price: "45.00",
-      image: "/images/product.jpg",
-    },
-    {
-      id: 8,
-      title: "شاحن 18W شحن سريع مخرج USB مع وصلة تايبسي",
-      price: "10.50",
-      image: "/images/product.jpg",
-    },
-  ];
+async function FeaturedProducts() {
+  const products = await getProduts();
+
+  // const products = [
+  //   {
+  //     id: 1,
+  //     title: "سماعات راس",
+  //     price: "58.00",
+  //     image: "/images/product.jpg", // ضع مسارات صورك هنا
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "سماعات راس",
+  //     price: "58.00",
+  //     image: "/images/product.jpg", // ضع مسارات صورك هنا
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "سماعات راس",
+  //     price: "58.00",
+  //     image: "/images/product.jpg", // ضع مسارات صورك هنا
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "سماعات راس",
+  //     price: "58.00",
+  //     image: "/images/product.jpg", // ضع مسارات صورك هنا
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "سماعات راس",
+  //     price: "58.00",
+  //     image: "/images/product.jpg", // ضع مسارات صورك هنا
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "توصيلات قماش تايبسي 2 متر فيدفي",
+  //     price: "4.50",
+  //     image: "/images/product.jpg",
+  //   },
+  //   {
+  //     id: 7,
+  //     title: "خازن فيدفي قوة 20 ألف ملي أمبير شحن سريع",
+  //     price: "45.00",
+  //     image: "/images/product.jpg",
+  //   },
+  //   {
+  //     id: 8,
+  //     title: "شاحن 18W شحن سريع مخرج USB مع وصلة تايبسي",
+  //     price: "10.50",
+  //     image: "/images/product.jpg",
+  //   },
+  // ];
 
   return (
     <section className="py-16 bg-white" dir="rtl">
@@ -74,13 +76,15 @@ function FeaturedProducts() {
 
         {/* شبكة المنتجات */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {products.data.results.map((product) => (
             <CardProduct
-            key={product.id}
+              key={product.id}
               id={product.id}
-              title={product.title}
+              title={product.name }
               image={product.image}
               price={product.price}
+              model={product.model}
+              images={product.images}
             />
           ))}
         </div>

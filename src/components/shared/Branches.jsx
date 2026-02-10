@@ -7,17 +7,17 @@ function Branches() {
       name: "فرع صنعاء",
       location: "شارع التحرير - جوار مول سيتي ستار",
       // استبدل المسار بمسار الصورة الحقيقي لديك في مجلد public
-      image: "/images/sanaa-branch.png", 
+      image: "/images/heroStore.jpg", 
     },
     {
       name: "فرع المكلا",
       location: "شارع المستشفى - مقابل برج العرب",
-      image: "/images/mukalla-branch.png",
+      image: "/images/heroStore.jpg",
     },
     {
       name: "فرع القطن",
       location: "السوق العام - بجانب صرافة العمقي",
-      image: "/images/qatn-branch.png",
+      image: "/images/heroStore.jpg",
     },
   ];
 

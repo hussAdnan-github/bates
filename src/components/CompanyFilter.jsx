@@ -25,7 +25,7 @@ export default function CompanyFilter({ companies }) {
     <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
       <Button
         onClick={() => handleFilter("")}
-        className={`whitespace-nowrap rounded-full px-5 py-2 text-sm font-bold transition-all ${
+        className={` whitespace-nowrap rounded-full px-5 py-2 text-sm font-bold transition-all ${
           activeCompany === "" 
           ? "bg-[#F18721] text-white shadow-md" 
           : "bg-gray-100 text-gray-600 hover:bg-orange-50"
@@ -38,10 +38,10 @@ export default function CompanyFilter({ companies }) {
         <Button
           key={com.id}
           onClick={() => handleFilter(com.id.toString())}
-          className={`whitespace-nowrap rounded-full px-5 py-2 text-sm transition-all ${
+          className={`hover:bg-primary whitespace-nowrap rounded-full px-5 py-2 text-sm transition-all ${
             activeCompany === com.id.toString()
-            ? "bg-[#F18721] text-white font-bold"
-            : "bg-gray-100 text-gray-600 hover:bg-orange-50 hover:text-[#F18721]"
+            ? "bg-secondary text-white font-bold"
+            : "bg-gray-100 text-gray-600 hover:bg-orange-50 hover:text-secondary"
           }`}
         >
           {com.name_ar}

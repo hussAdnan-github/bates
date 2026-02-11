@@ -68,6 +68,7 @@ const OrdersDialog = ({ children }) => {
     !max-w-none
     max-h-[90vh]
     overflow-y-auto
+    bg-white
   "
         dir="rtl"
       >
@@ -116,7 +117,7 @@ const OrdersDialog = ({ children }) => {
                   <td className="py-5 font-bold text-gray-700">{order.id}</td>
                   <td className="py-5 text-gray-600 text-sm">{order.date}</td>
                   <td className="py-5">
-                    <span className="bg-[#F18721] text-white px-6 py-2 rounded-full text-sm font-bold shadow-sm">
+                    <span className="bg-secondary text-white px-6 py-2 rounded-full text-sm font-bold shadow-sm">
                       {order.status}
                     </span>
                   </td>

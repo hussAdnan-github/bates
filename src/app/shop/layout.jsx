@@ -5,35 +5,37 @@ import Footer from "@/components/layout/Footer";
 import StoreNavbar from "@/components/layout/StoreNavbar";
 import { QueryClientProvider } from "@tanstack/react-query";
 import ProvidersQuery from "@/provider/QueryClientProvider";
+import { cookies } from "next/headers";
 
-const cairo = Cairo({
-  subsets: ["arabic"],
-  weight: ["300", "400", "500", "700", "900"],
-  variable: "--font-cairo",
-});
+// const cairo = Cairo({
+//   subsets: ["arabic"],
+//   weight: ["300", "400", "500", "700", "900"],
+//   variable: "--font-cairo",
+// });
 
-export const metadata = {
-  title: "BTS - اكسسوارات الجوال",
-  description: "محمد باتيس للتجارة - أفضل واقوى اكسسوارات الجوال في اليمن",
-};
+// export const metadata = {
+//   title: "BTS - اكسسوارات الجوال",
+//   description: "محمد باتيس للتجارة - أفضل واقوى اكسسوارات الجوال في اليمن",
+// };
 
-export default function RootLayout({ children }) {
+export default async function LocalLayout({ children }) {
+  const cookieStore = await cookies();
+
+  const primaryColor = cookieStore.get("primary_color")?.value || "#361d5c";
+  const secondaryColor = cookieStore.get("secondary_color")?.value || "#FFC107";
+
   return (
-    <html lang="ar" dir="rtl">
-      <body
-        className={`${cairo.variable} font-sans antialiased bg-white text-gray-900`}
-      >
-        <StoreNavbar />
-          
-        <main>
-           <ProvidersQuery >
-          {children}
-
-
-          </ProvidersQuery>
-        </main>
-        <Footer />
-      </body>
-    </html>
+    <div
+      style={{
+        "--primary-color": primaryColor,
+        "--secondary-color": secondaryColor,
+      }}
+    >
+      <StoreNavbar />
+      <main>
+        {children}
+       </main>
+      <Footer />
+    </div>
   );
 }

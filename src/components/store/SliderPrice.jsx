@@ -37,13 +37,13 @@ function SliderPrice() {
       {/* العنوان */}
       <div className="flex justify-between items-center gap-2 font-black text-gray-700">
         <span className="flex flex-row gap-2">
-          <Wallet className="h-5 w-5 text-[#F18721]" />
+          <Wallet className="h-5 w-5 text-secondary" />
 
           <h1>تصفية حسب السعر</h1>
         </span>
         <span>
           <Button 
-          className={'bg-[#F18721]'}
+          className={'bg-sectext-secondary'}
           onClick= {restartPrice}>
           <RotateCcw />
 
@@ -54,7 +54,7 @@ function SliderPrice() {
       {/* السعر الحالي */}
       <div className="flex justify-between items-center text-sm">
         <span className="text-gray-500">السعر الأقصى</span>
-        <span className="rounded-full bg-orange-50 px-3 py-1 text-[#F18721] font-bold">
+        <span className="rounded-full bg-orange-50 px-3 py-1 text-secondary font-bold">
           {priceRange[0]} ر.س
         </span>
       </div>
@@ -71,7 +71,7 @@ function SliderPrice() {
       {/* زر التطبيق */}
       <Button
         onClick={handelFillter}
-        className="w-full bg-[#F18721] hover:bg-[#d9771a] font-bold py-5 text-base rounded-xl transition-all"
+        className="w-full bg-secondary hover:bg-secondary-hover cursor-pointer font-bold py-5 text-base rounded-xl transition-all"
       >
         تطبيق الفلتر
       </Button>

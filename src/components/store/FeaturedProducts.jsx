@@ -13,7 +13,7 @@ async function FeaturedProducts() {
     <section className="py-16 bg-white" dir="rtl">
       <div className="container mx-auto px-4">
          <div className="flex items-center justify-between mb-10">
-          <h2 className="text-2xl md:text-3xl font-black text-gray-800 relative after:content-[''] after:absolute after:-bottom-2 after:right-0 after:w-12 after:h-1 after:bg-[#F18721]">
+          <h2 className="text-2xl md:text-3xl font-black text-gray-800 relative after:content-[''] after:absolute after:-bottom-2 after:right-0 after:w-12 after:h-1 after:bg-primary">
             منتجات مميزة
           </h2>
           {/* <Link

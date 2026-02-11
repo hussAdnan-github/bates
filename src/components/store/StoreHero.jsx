@@ -1,5 +1,4 @@
- 
-'use client'
+"use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,11 +15,11 @@ function StoreHero() {
       subtitle: "كل ما تحتاجه من متطلباتك أصبح في مكان واحد",
     },
     {
-       title: "عروض خاصة لفترة محدودة",
+      title: "عروض خاصة لفترة محدودة",
       subtitle: "كل ما تحتاجه من متطلباتك أصبح في مكان واحد",
     },
     {
-         title: "عروض خاصة لفترة محدودة",
+      title: "عروض خاصة لفترة محدودة",
       subtitle: "كل ما تحتاجه من متطلباتك أصبح في مكان واحد",
     },
   ];
@@ -33,15 +32,10 @@ function StoreHero() {
     return () => clearInterval(timer);
   }, []);
 
-    
-
   return (
-    <section
-      className="w-full   min-h-[650px] md:h-[650px]"
-      dir="rtl"
-    >
-       <div className="lg:col-span-8  flex items-center justify-center overflow-hidden">
-         <Image
+    <section className="w-full   min-h-[650px] md:h-[650px]" dir="rtl">
+      <div className="lg:col-span-8  flex items-center justify-center overflow-hidden">
+        <Image
           src="/images/heroStore.jpg"
           alt="Vidvie Store"
           fill
@@ -71,11 +65,9 @@ function StoreHero() {
 
           <Button
             size="lg"
-            className="bg-[#F18721] hover:bg-[#d9771a] text-white px-12 py-8 text-xl font-bold rounded-md shadow-xl"
+            className="bg-secondary hover:bg-secondary-hover text-white px-12 py-8 text-xl font-bold rounded-md shadow-xl"
           >
-           <Link href={'/shop/products'}>
-            اكتشف العروض
-           </Link>
+            <Link href={"/shop/products"}>اكتشف العروض</Link>
           </Button>
 
           {/* نقاط التنقل السفلية */}
@@ -85,16 +77,13 @@ function StoreHero() {
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentSlide === index ? "bg-[#F18721] w-8" : "bg-white/50"
+                  currentSlide === index ? "bg-secondary w-8" : "bg-white/50"
                 }`}
               />
             ))}
           </div>
         </div>
       </div>
-
-       
-      
     </section>
   );
 }

@@ -27,7 +27,7 @@ console.log(products.data.results)
           جميع المنتجات
         </h1>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col-reverse lg:flex-row gap-8">
           <aside className="w-full lg:w-1/4 space-y-8 order-2 lg:order-1">
             <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
               <h3 className="font-black text-xl mb-4">الفئات</h3>

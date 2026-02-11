@@ -11,8 +11,7 @@ export async function getProduts(
   const params = new URLSearchParams();
   if (price) params.append("price", price);
   if (department) params.append("department", department);
-  if (department__company)
-    params.append("department__company", department__company);
+  if (department__company) params.append("department__company", department__company);
   params.append("page", page.toString());
   
   const result = await request(

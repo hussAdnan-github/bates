@@ -6,7 +6,7 @@ function Footer() {
 // const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#2D2D2D] py-8 border-t border-white/5" dir="rtl">
+    <footer className="w-full bg-primary py-8 border-t border-white/5" dir="rtl">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           
@@ -19,7 +19,7 @@ function Footer() {
           <div className="flex items-center gap-4">
             <Link 
               href="#" 
-              className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#2D2D2D] hover:bg-[#FFC107] transition-colors duration-300 shadow-md"
+              className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#2D2D2D] hover:bg-secondary transition-colors duration-300 shadow-md"
               aria-label="Facebook"
             >
               <Facebook size={20} />
@@ -27,7 +27,7 @@ function Footer() {
             
             <Link 
               href="#" 
-              className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#2D2D2D] hover:bg-[#FFC107] transition-colors duration-300 shadow-md"
+              className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#2D2D2D] hover:bg-secondary transition-colors duration-300 shadow-md"
               aria-label="Instagram"
             >
               <Instagram size={20} />
@@ -35,7 +35,7 @@ function Footer() {
 
             <Link 
               href="#" 
-              className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#2D2D2D] hover:bg-[#FFC107] transition-colors duration-300 shadow-md"
+              className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#2D2D2D] hover:bg-secondary transition-colors duration-300 shadow-md"
               aria-label="Twitter"
             >
               <Twitter size={20} />

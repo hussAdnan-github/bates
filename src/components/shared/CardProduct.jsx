@@ -50,8 +50,8 @@ function CardProduct({ id, image, title, price, model, images }) {
               className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all
         ${
           currentIndex === index
-            ? "border-[#F18721] scale-110"
-            : "border-gray-200 hover:border-[#F18721]"
+            ? "border-secondary scale-110"
+            : "border-gray-200 hover:border-secondary-hover"
         }`}
             >
               <Image
@@ -66,15 +66,15 @@ function CardProduct({ id, image, title, price, model, images }) {
       </div>
 
       <div className="p-5 flex flex-col flex-grow text-center items-center">
-        <h3 className="text-lg font-bold text-gray-700 line-clamp-2 h-14 flex items-center mb-2 group-hover:text-[#F18721] transition-colors">
+        <h3 className="text-lg font-bold text-gray-700 line-clamp-2 h-14 flex items-center mb-2 group-hover:text-secondary transition-colors">
           {title}
         </h3>
         <div className="flex items-baseline gap-1 mt-auto">
-          <span className="text-xl font-extrabold text-[#F18721]">{price}</span>
-          <span className="text-sm font-bold text-[#F18721]">ر.س</span>
+          <span className="text-xl font-extrabold text-secondary">{price}</span>
+          <span className="text-sm font-bold text-secondary">ر.س</span>
         </div>
         <div className="flex items-baseline gap-1">
-          <span className="text-xl font-extrabold text-[#F18721]">{model}</span>
+          <span className="text-xl font-extrabold text-secondary">{model}</span>
         </div>
       </div>
     </Link>

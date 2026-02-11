@@ -35,6 +35,7 @@ console.log(baskets.data.results.basketitems)
     !max-w-none
     max-h-[90vh]
     overflow-y-auto
+    bg-white
   "
         dir="rtl"
       >
@@ -88,7 +89,7 @@ console.log(baskets.data.results.basketitems)
                   </button>
                 </div>
               </div> */}
-              <div className="col-span-2  text-[#F18721]">42.00 ر.س</div>
+              <div className="col-span-2  text-secondary">42.00 ر.س</div>
               <div className="col-span-1">
                 <button className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors">
                   <Trash2 size={18} />
@@ -113,7 +114,7 @@ console.log(baskets.data.results.basketitems)
               <Separator />
               <div className="flex justify-between text-xl font-black">
                 <span className="text-gray-800">المجموع الإجمالي</span>
-                <span className="text-[#F18721]">42.00 ر.س</span>
+                <span className="text-secondary">42.00 ر.س</span>
               </div>
             </div>
           </div>
@@ -121,7 +122,7 @@ console.log(baskets.data.results.basketitems)
           {/* أزرار التحكم */}
           <div className="mt-8 flex flex-col md:flex-row justify-between gap-4">
             <OrdersDialog>
-              <Button className="bg-[#F18721] hover:bg-[#d9771a] h-12 px-8 text-lg font-bold rounded-lg order-1 md:order-2">
+              <Button className="bg-secondary hover:bg-secondary-hover h-12 px-8 text-lg font-bold rounded-lg order-1 md:order-2">
                 التقدم لإتمام الشراء
                 <ArrowLeft className="mr-2 h-5 w-5" />
               </Button>

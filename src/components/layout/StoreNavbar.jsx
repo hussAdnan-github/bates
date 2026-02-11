@@ -1,5 +1,3 @@
- 
-
 import React from "react";
 import Link from "next/link";
 import { Search, ShoppingCart, LogOut, Menu } from "lucide-react";
@@ -12,84 +10,60 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import SearchBar from "../store/SearchBar";
- 
-import BasketsDialog from "../store/BasketsDialog";
 
-function StoreNavbar() {
+import BasketsDialog from "../store/BasketsDialog";
+import { cookies } from "next/headers";
+
+async function StoreNavbar() {
+  const cookieStore = await cookies();
+  const basketcountNumber = cookieStore.get("basket_count")?.value || 0;
+
   const navLinks = [
     { title: "الرئيسية", href: "/" },
     { title: "المنتجات", href: "/shop/products" },
     { title: "الطلبات", href: "/orders" },
   ];
- 
+
   return (
     <nav
       className="w-full bg-white border-b sticky top-0 z-50 shadow-sm"
       dir="rtl"
     >
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        {/* جهة اليمين: الروابط الأساسية (Desktop) */}
         <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <Link
               key={link.title}
               href={link.href}
-              className="text-lg font-bold text-gray-700 hover:text-[#2D1B50] transition-colors"
+              // تم التغيير من hover:text-[#2D1B50] إلى hover:text-primary
+              className="text-lg font-bold text-gray-700 hover:text-primary transition-colors"
             >
               {link.title}
             </Link>
           ))}
         </div>
 
-        {/* الموبايل: زر القائمة الجانبية */}
-        <div className="md:hidden flex items-center">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-64" dir="rtl">
-              <SheetTitle>القائمة الرئيسية</SheetTitle>
-              <div className="flex flex-col gap-6 mt-10">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.title}
-                    href={link.href}
-                    className="text-xl font-bold text-gray-800"
-                  >
-                    {link.title}
-                  </Link>
-                ))}
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+        {/* ... باقي الكود (الموبايل) ... */}
 
-        {/* جهة اليسار: أيقونات العمليات (البحث، السلة، الخروج) */}
         <div className="flex items-center gap-2 md:gap-5">
-          {/* أيقونة البحث */}
-
           <SearchBar />
-          {/* <Search className="h-6 w-6" /> */}
 
-          {/* استبدال الـ Link بمكون السلة المنبثقة */}
           <BasketsDialog>
             <div className="relative p-2 cursor-pointer hover:bg-gray-100 rounded-full transition-colors group">
-              {/* أيقونة السلة */}
-              <ShoppingCart className="h-7 w-7 text-gray-700 group-hover:text-[#F18721] transition-colors" />
+              {/* تم التغيير من group-hover:text-[#F18721] إلى group-hover:text-primary */}
+              <ShoppingCart className="h-7 w-7 text-gray-700 group-hover:text-secondary transition-colors" />
 
-              {/* عداد المنتجات (Badge) */}
               <Badge className="absolute -top-1 -right-1 bg-red-500 text-white w-5 h-5 flex items-center justify-center p-0 text-[10px] rounded-full border-2 border-white">
-                0
+                {basketcountNumber}
               </Badge>
             </div>
           </BasketsDialog>
+
           {/* أيقونة تسجيل الخروج */}
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-700 hover:text-red-600 transition-colors"
+            className="text-gray-700 hover:text-secondary transition-colors cursor-pointer"
           >
             <LogOut className="h-6 w-6 rotate-180" />{" "}
             {/* تدوير الأيقونة لتناسب الاتجاه العربي */}

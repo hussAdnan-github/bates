@@ -58,8 +58,8 @@ function CategoryItem({ children, active, onClick }) {
         text-sm transition-all duration-200
         ${
           active
-            ? "bg-orange-50 text-[#F18721] font-bold shadow-sm"
-            : "text-gray-600 hover:bg-gray-50 hover:text-[#F18721]"
+            ? "bg-orange-50 text-secondary font-bold shadow-sm"
+            : "text-gray-600 hover:bg-gray-50 hover:text-secondary"
         }
       `}
     >

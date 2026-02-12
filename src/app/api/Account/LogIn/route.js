@@ -9,7 +9,7 @@ export async function POST(req) {
       username,
       password,
     });
- 
+    console.log("dfdsfsdfsdf ", res.data.data);
     const { token, basket_count, primary_color, secondary_color } =
       res.data.data;
 
@@ -21,21 +21,20 @@ export async function POST(req) {
       secondary_color,
     });
 
-     response.cookies.set("auth_token", token, {
+    response.cookies.set("auth_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
     });
 
-     response.cookies.set("basket_count", String(basket_count), {
+    response.cookies.set("basket_count", String(basket_count), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
     });
 
- 
     response.cookies.set("primary_color", primary_color, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

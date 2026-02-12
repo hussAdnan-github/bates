@@ -1,6 +1,6 @@
 import React from "react";
 import { getCompanies } from "@/actions/companies";
-import CompanyFilter from "../CompanyFilter";
+import CompanyFilter from "../shared/CompanyFilter";
  
 async function Companies() {
   const companies = await getCompanies();

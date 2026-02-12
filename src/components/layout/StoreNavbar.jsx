@@ -13,6 +13,7 @@ import SearchBar from "../store/SearchBar";
 
 import BasketsDialog from "../store/BasketsDialog";
 import { cookies } from "next/headers";
+import LogoutButton from "../store/LogoutButton";
 
 async function StoreNavbar() {
   const cookieStore = await cookies();
@@ -58,16 +59,11 @@ async function StoreNavbar() {
               </Badge>
             </div>
           </BasketsDialog>
+<div>
+           <LogoutButton />
 
-          {/* أيقونة تسجيل الخروج */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-gray-700 hover:text-secondary transition-colors cursor-pointer"
-          >
-            <LogOut className="h-6 w-6 rotate-180" />{" "}
-            {/* تدوير الأيقونة لتناسب الاتجاه العربي */}
-          </Button>
+</div>
+
         </div>
       </div>
     </nav>

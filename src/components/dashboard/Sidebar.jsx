@@ -32,7 +32,9 @@ const Sidebar = () => {
   return (
     <aside className="fixed  right-0 top-0 w-64 bg-white h-screen border-l border-gray-200 flex flex-col z-50">
       <div className="p-6 text-2xl font-bold text-purple-900 border-b mb-4">
+       <Link href={'/dashboard'}>
         BTS Dashboard
+       </Link>
       </div>
       
       <nav className="flex-1 pr-4">  

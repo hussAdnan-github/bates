@@ -3,14 +3,13 @@ import { Users, ShoppingCart, Box, FileText } from "lucide-react";
 import DashboardNavbar from "@/components/layout/DashboardNavbar";
 import StatsCard from "@/components/dashboard/StatsCard";
 import Sidebar from "@/components/dashboard/Sidebar";
+import RecentUsersList from "@/components/dashboard/RecentUsersList";
+import OrdersChart from "@/components/dashboard/OrdersChart";
 
 function page() {
   return (
-    <div
-      className="flex flex-col min-h-screen bg-gray-50 text-right"
-      dir="rtl"
-    >
-      <main className="p-8 mt-12">
+    <div className="flex flex-col min-h-screen bg-gray-50 text-right" dir="rtl">
+      <main className="  mt-12">
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">نظرة عامة</h1>
           <p className="text-gray-500 mt-1">
@@ -18,7 +17,7 @@ function page() {
           </p>
         </header>
 
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <StatsCard
             title="إجمالي الفواتير"
             value="1"
@@ -46,8 +45,17 @@ function page() {
             iconBgColor="bg-green-500"
           />
         </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6  ">
+          {/* الرسم البياني يأخذ مساحة 2 من 3 على الشاشات الكبيرة */}
+          <div className="lg:col-span-2">
+            <OrdersChart />
+          </div>
 
-         
+          {/* قائمة المستخدمين تأخذ مساحة 1 من 3 */}
+          <div className="lg:col-span-1">
+            <RecentUsersList />
+          </div>
+        </div>
       </main>
     </div>
   );

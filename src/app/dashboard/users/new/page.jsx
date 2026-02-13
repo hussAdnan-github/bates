@@ -10,9 +10,10 @@ function page() {
       {/* Form Card */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Section Title */}
-        <div className="p-6 border-b border-gray-50 flex items-center justify-end gap-2 text-purple-900">
-          <span className="font-bold text-lg">تفاصيل الحساب</span>
+        <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900">
           <UserCircle2 size={24} />
+         
+          <span className="font-bold text-lg">تفاصيل  الحساب</span>
         </div>
 
         <div className="p-8">
@@ -32,9 +33,11 @@ function page() {
                 نوع المستخدم
               </label>
               <select className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 appearance-none">
-                <option>تاجر تجزئة</option>
+                 <option>تاجر جملة الجملة</option>
                 <option>تاجر جملة</option>
-                <option>مشرف</option>
+                <option>تاجر تجزئة</option>
+ 
+ 
               </select>
             </div>
 

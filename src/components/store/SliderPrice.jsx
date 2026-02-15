@@ -20,11 +20,11 @@ function SliderPrice() {
   const restartPrice = ()=>{
      const params = new URLSearchParams(searchParams.toString());
     params.delete("price");
-    params.delete("page"); // مهم مع pagination
+    params.delete("page"); 
 
     router.push(`?${params.toString()}`);
   }
-  const handelFillter = () => {
+  const handelFillter = () => { 
     const params = new URLSearchParams(searchParams.toString());
     params.set("price", priceRange[0].toString());
     params.delete("page"); // مهم مع pagination

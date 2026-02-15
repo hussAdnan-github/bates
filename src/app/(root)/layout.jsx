@@ -1,6 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
-import { Cairo } from "next/font/google";  
-import '../globals.css'
+import { Cairo } from "next/font/google";
+import "../globals.css";
 import Footer from "@/components/layout/Footer";
 
 // إعداد الخط العربي
@@ -17,17 +17,10 @@ import Footer from "@/components/layout/Footer";
 
 export default function LocalLayout({ children }) {
   return (
- 
-    < >
-   
-      
-        <Navbar />
-        <main>
-          {children}
-        </main>
-        <Footer />
-
-
+    <>
+      <Navbar />
+      <main>{children}</main>
+      <Footer />
     </>
   );
 }

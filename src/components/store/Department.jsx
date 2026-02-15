@@ -12,7 +12,7 @@ export default function Department({ department }) {
 
   const handelDepartment = (id) => {
     const params = new URLSearchParams(searchParams.toString());
-
+ 
     if (id === "") {
       params.delete("department");
     } else {

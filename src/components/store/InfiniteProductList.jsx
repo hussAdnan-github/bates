@@ -7,7 +7,7 @@ import { getProduts } from "@/actions/product";
 function InfiniteProductList({
   initialData,
   price = "",
-  department = "",
+  department = "", 
   department__company = "",
 }) {
   const [products, setProducts] = useState(initialData.results);

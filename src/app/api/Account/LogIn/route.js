@@ -9,7 +9,7 @@ export async function POST(req) {
       username,
       password,
     });
-    console.log("dfdsfsdfsdf ", res.data.data);
+    
     const { token, basket_count, primary_color, secondary_color } =
       res.data.data;
 

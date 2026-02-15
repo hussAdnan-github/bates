@@ -12,7 +12,7 @@ function page() {
         {/* Section Title */}
         <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900">
           <Bookmark size={24} />
-          <span className="font-bold text-lg">اضافة قسم</span>
+          <span className="font-bold text-lg">تفاصيل  قسم</span>
         </div>
 
         <div className="p-8">

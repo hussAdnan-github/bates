@@ -6,10 +6,10 @@ export async function getDepartment(company) {
   const params = new URLSearchParams();
 
   if (company) params.append("company", company);
-  console.log(
-    "first ",
-    `departments/departments/?pagination=false&${params.toString()}`,
-  );
+  // console.log(
+  //   "first ",
+  //   `departments/departments/?pagination=false&${params.toString()}`,
+  // );
   const result = await request(
     `departments/departments/?pagination=false&${params.toString()}`,
     "GET",

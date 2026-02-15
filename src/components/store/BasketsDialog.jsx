@@ -22,8 +22,8 @@ import { getBaskets } from "@/actions/baskets";
 
 const BasketsDialog =async ({ children }) => {
   // const [quantity, setQuantity] = useState(1);
-  const baskets = await getBaskets();
-console.log(baskets.data.results.basketitems)
+  // const baskets = await getBaskets();
+// console.log(baskets.data.results.basketitems)
   return (
     <Dialog className="w-[10000px]">
       {/* الـ Trigger هو أي عنصر نمرره للمكون (مثل أيقونة السلة في النافبار) */}

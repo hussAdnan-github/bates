@@ -13,13 +13,12 @@ import InfiniteProductList from "@/components/store/InfiniteProductList";
 async function page({ searchParams }) {
   const { price, department, department__company } = await searchParams;
 
-  
-  console.log(price, department, department__company);
+ 
   const [products, departmentData] = await Promise.all([
     getProduts(price, department, department__company),
     getDepartment(department__company),
   ]);
-console.log(products.data.results)
+  console.log(products.data.results);
   return (
     <div className="bg-gray-50/50 min-h-screen py-10" dir="rtl">
       <div className="container mx-auto px-4">
@@ -32,7 +31,7 @@ console.log(products.data.results)
             <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
               <h3 className="font-black text-xl mb-4">الفئات</h3>
               <Separator className="mb-4" />
-              <Department department={departmentData}  />
+              <Department department={departmentData} />
               <h3 className="font-black text-xl mt-10 mb-4">السعر</h3>
               <Separator className="mb-4" />
               <SliderPrice />
@@ -55,7 +54,7 @@ console.log(products.data.results)
                 />
               ))}
             </div> */}
-            <InfiniteProductList
+            <InfiniteProductList 
               initialData={products.data}
               price={price}
               department={department}

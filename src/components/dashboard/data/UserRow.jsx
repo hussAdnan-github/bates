@@ -27,7 +27,7 @@ function UserRow({ user }) {
 
       {/* 4. نوع التاجر */}
       <div className="w-[20%] text-center text-gray-600 font-medium">
-        {user.merchantType}
+        {user.taype_custom}
       </div>
 
       {/* 5. رقم الهاتف */}
@@ -37,11 +37,17 @@ function UserRow({ user }) {
 
       {/* 6. المستخدم (الصورة والاسم) */}
       <div className="flex flex-row-reverse items-center gap-3 w-[20%] justify-end">
-        <span className="font-bold text-gray-800">{user.name}</span>
+        <span className="font-bold text-gray-800">
+          
+          {/* {`${user.first_name}  ${user.last_name}`} */}
+{user.username}
+
+        </span>
         <div className="w-10 h-10 rounded-full border overflow-hidden bg-gray-50 flex items-center justify-center">
           <img
-            src={user.avatar}
-            alt={user.name}
+            src={user.profile_picture}
+            alt={user.first_name + " " +user.last_name}
+        
             className="w-8 h-8 object-contain"
           />
         </div>

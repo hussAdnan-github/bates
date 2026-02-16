@@ -17,7 +17,7 @@ function DepartmentsRow({ department }) {
 
       {/* 4. نوع التاجر */}
       <div className="w-[20%] text-center text-gray-600 font-medium">
-        {department.numberUse}
+        {department.company}
       </div>
 
       {/* 5. رقم الهاتف */}

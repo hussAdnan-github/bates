@@ -19,21 +19,21 @@ function CompaniesRow({company}) {
 
       {/* 4. نوع التاجر */}
       <div className="w-[20%] text-center text-gray-600 font-medium">
-        {company.numberUse}
+        {company.custom_user.length}
       </div>
 
       {/* 5. رقم الهاتف */}
       <div className="w-[25%] text-center text-gray-500 font-medium" dir="ltr">
-        {company.email}
+        {company.website}
       </div>
 
       {/* 6. المستخدم (الصورة والاسم) */}
       <div className="flex flex-row-reverse items-center gap-3 w-[20%] justify-end">
-        <span className="font-bold text-gray-800">{company.name}</span>
+        <span className="font-bold text-gray-800">{company.name_ar}</span>
         <div className="w-10 h-10 rounded-full border overflow-hidden bg-gray-50 flex items-center justify-center">
           <img
-            src={company.avatar}
-            alt={company.name}
+            src={company.logo}
+            alt={company.name_ar}
             className="w-8 h-8 object-contain"
           />
         </div>

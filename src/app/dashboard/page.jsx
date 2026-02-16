@@ -46,13 +46,11 @@ function page() {
           />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6  ">
-          {/* الرسم البياني يأخذ مساحة 2 من 3 على الشاشات الكبيرة */}
-          <div className="lg:col-span-2">
+           <div className="lg:col-span-2">
             <OrdersChart />
           </div>
 
-          {/* قائمة المستخدمين تأخذ مساحة 1 من 3 */}
-          <div className="lg:col-span-1">
+           <div className="lg:col-span-1">
             <RecentUsersList />
           </div>
         </div>

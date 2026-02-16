@@ -10,12 +10,14 @@ export async function POST(req) {
       password,
     });
     
-    const { token, basket_count, primary_color, secondary_color } =
+    const { token, basket_count ,primary_color, secondary_color } =
       res.data.data;
-
+    const user = res.data.data.user.username;
+   
     const response = NextResponse.json({
       success: true,
       token,
+      user,
       basket_count,
       primary_color,
       secondary_color,
@@ -27,7 +29,12 @@ export async function POST(req) {
       sameSite: "lax",
       path: "/",
     });
-
+  response.cookies.set("username", user, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    });
     response.cookies.set("basket_count", String(basket_count), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -48,7 +55,7 @@ export async function POST(req) {
       sameSite: "lax",
       path: "/",
     });
-
+     console.log("response" , response)
     return response;
   } catch (err) {
     console.error("Login error:", err.response?.data || err.message);

@@ -6,35 +6,47 @@ import Link from "next/link";
 import SearchInput from "@/components/dashboard/SearchInput";
 import FiltersDropdown from "@/components/dashboard/FiltersDropdown";
 import CompaniesRow from "@/components/dashboard/data/CompaniesRow";
+import { useQuery } from "@tanstack/react-query";
+import { getCompanies } from "@/actions/companies";
+import { useSearchParams } from "next/navigation";
+import Pagination from "@/components/dashboard/Pagination";
+
+const ITEMS_PER_PAGE = 21;
 
 function page() {
-  const handleSearch = (val) => console.log("بحث عن:", val);
-  const handleRoleChange = (val) => console.log("تغيير النوع إلى:", val);
-  const handleStatusChange = (val) => console.log("تغيير الحالة إلى:", val);
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
 
-  const companies = [
-    {
-      id: 1,
-      name: "فيدفي يم",
-      email: "https://vidvie.com/",
-      numberUse: "21",
-      avatar: "/path-to-avatar.png",
-    },
-    {
-      id: 2,
-      name: "يوقرين مستلزمات جوالات",
-      email: "https://vidvie.com/",
-      numberUse: "21",
-      avatar: "/path-to-avatar.png",
-    },
-    {
-      id: 3,
-      name: "يوقرين مستلزمات كمبيوتر وشبكات",
-      email: "https://vidvie.com/",
-      numberUse: "21",
-      avatar: "/path-to-avatar.png",
-    },
-  ];
+  const handleSearch = (val) => console.log("بحث عن:", val);
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["Company", currentPage],
+    queryFn: () => getCompanies(currentPage),
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    placeholderData: (previousData) => previousData,
+  });
+
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-[#145463] text-lg animate-pulse">
+          جارٍ تحميل البيانات...
+        </p>
+      </div>
+    );
+
+  if (error)
+    return (
+      <p className="text-center p-10 text-red-500">حدث خطأ: {error.message}</p>
+    );
+  const companies = data?.data?.results || [];
+  const totalCount = data?.data?.count || 0;
+
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+  const hasNextPage = data?.data?.next;
+  const hasPrevPage = data?.data?.previous;
   return (
     <div className="p-6 " dir="rtl">
       <div className="flex flex-row justify-between mb-6">
@@ -68,11 +80,27 @@ function page() {
 
         {/* قائمة المستخدمين */}
         <div className="flex flex-col">
-          {companies.map((company) => (
-            <CompaniesRow key={company.id} company={company} />
-          ))}
+          {companies.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-40 bg-white rounded-lg shadow-md text-gray-500 text-center">
+              <p className="text-lg">🚫 لا توجد فروع متاحة حاليًا</p>
+            </div>
+          ) : (
+            companies.map((company) => (
+              <CompaniesRow key={company.id} company={company} />
+            ))
+          )}
         </div>
       </div>
+       <div className="flex justify-between items-center flex-row-reverse mt-8">
+              <Pagination
+                nameApi="/dashboard/users"
+                currentPage={currentPage}
+                totalPages={totalPages}
+                hasNextPage={hasNextPage}
+                hasPrevPage={hasPrevPage}
+              />
+              <div>{`عرض 1 - ${ITEMS_PER_PAGE} من إجمالي ${totalCount} نتيجة`}</div>
+            </div>
     </div>
   );
 }

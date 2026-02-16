@@ -16,12 +16,12 @@ function page() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit =async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-     setError("");
+    setError("");
     setLoading(true);
-console.log(username , password)
-      try {
+    console.log(username, password);
+    try {
       const res = await fetch("/api/Account/LogIn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -32,10 +32,13 @@ console.log(username , password)
       const data = await res.json();
       console.log("📥 Response from API:", data);
 
-      if (data.success) {
+    if (data.success) {
+         if (data.user === "admin") {
+           return router.replace("/dashboard");
+        } 
+        
         router.replace("/shop");
-        router.refresh();
-
+         router.refresh(); 
       } else {
         setError(data.error || "حدث خطأ أثناء تسجيل الدخول.");
       }
@@ -113,12 +116,12 @@ console.log(username , password)
           {/* زر تسجيل الدخول */}
           <Button
             type="submit"
-             disabled={loading}
-            className={`w-full bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold text-lg h-12 rounded-lg shadow-sm transition-transform active:scale-[0.98] mt-4 ${loading ? "opacity-50 cursor-not-allowed" : ""
+            disabled={loading}
+            className={`w-full bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold text-lg h-12 rounded-lg shadow-sm transition-transform active:scale-[0.98] mt-4 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-                    {loading ? "جاري تسجيل الدخول" : "تسجيل الدخول"}
-
+            {loading ? "جاري تسجيل الدخول" : "تسجيل الدخول"}
           </Button>
 
           {/* رابط إنشاء حساب */}

@@ -2,32 +2,21 @@
 
 import request from "@/lib/apiService";
 
-export async function getDepartment(company) {
-  const params = new URLSearchParams();
+ 
 
-  if (company) params.append("company", company);
-  // console.log(
-  //   "first ",
-  //   `departments/departments/?pagination=false&${params.toString()}`,
-  // );
+export async function getUsers(page = 1) {
   const result = await request(
-    `departments/departments/?pagination=false&${params.toString()}`,
+    `users/?page=${page}`,
     "GET",
   );
-
+console.log("fdsfdsf" , result.data)
   if (!result.success) {
     throw new Error(result.errors || "Failed to fetch data");
   }
+  
+  return result.data;
+}
 
-  return result.data;
-}
-export async function getDepartmentDashboard(page = 1) {
-  const result = await request(`departments/departments/?page=${page}`, "GET");
-  if (!result.success) {
-    throw new Error(result.errors || "Failed to fetch data");
-  }
-  return result.data;
-}
 // export async function getId(id) {
 //   const result = await request(`Branch/GetBranchById?id=${id}`, "GET");
 

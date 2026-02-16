@@ -11,19 +11,22 @@ export async function getProduts(
   const params = new URLSearchParams();
   if (price) params.append("price", price);
   if (department) params.append("department", department);
-  if (department__company) params.append("department__company", department__company);
+  if (department__company)
+    params.append("department__company", department__company);
   params.append("page", page.toString());
-  
+console.log("dsfdf",`products/products/?${params.toString()}`)
   const result = await request(
     `products/products/?${params.toString()}`,
     "GET",
   );
+console.log("dsfdf",result)
 
   if (!result.success) {
     throw new Error(result.errors || "Failed to fetch data");
   }
   return result.data;
 }
+
 export async function getProdutsId(id) {
   const result = await request(`products/products/${id}`, "GET");
 
@@ -31,6 +34,15 @@ export async function getProdutsId(id) {
     throw new Error(result.errors || "Failed to fetch branch data");
   }
 
+  return result.data;
+}
+
+export async function getProdutsDash(page = 1) {
+  const result = await request(`products/products/?page=${page}`, "GET");
+
+  if (!result.success) {
+    throw new Error(result.errors || "Failed to fetch data");
+  }
   return result.data;
 }
 // export async function post(formData) {

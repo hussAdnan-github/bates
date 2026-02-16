@@ -1,28 +1,29 @@
 import { NextResponse, NextRequest } from "next/server";
 // default
-export  function middleware(request) {
-
-    console.log("🔥 Middleware is running");
- 
+export function middleware(request) {
   const token = request.cookies.get("auth_token")?.value;
   const pathname = request.nextUrl.pathname;
 
-  // حماية shop
-  if (pathname.startsWith("/shop")) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-    return NextResponse.next();
-  }
+  // قائمة المسارات المحمية
+  const isProtectedRoute =
+    pathname.startsWith("/shop") || pathname.startsWith("/dashboard");
 
-  // منع الدخول لصفحة login لو المستخدم مسجل
-  if (pathname === "/login" && token) {
-    return NextResponse.redirect(new URL("/shop", request.url));
+  if (isProtectedRoute) {
+    if (!token) {
+      // حفظ المسار الذي كان يحاول المستخدم دخوله لإعادته إليه لاحقاً (اختياري)
+      const loginUrl = new URL("/login", request.url);
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
   return NextResponse.next();
 }
 
+// تحديث الـ matcher ليشمل كل المسارات المحمية
 export const config = {
-  matcher: ["/shop/:path*", "/login"],
+  matcher: [
+    "/shop/:path*",
+    "/dashboard/:path*", // أضفنا هذا
+    "/login",
+  ],
 };

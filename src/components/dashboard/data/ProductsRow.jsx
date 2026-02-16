@@ -28,12 +28,18 @@ function ProductsRow({product}) {
       </div>
 
       {/* 6. المستخدم (الصورة والاسم) */}
-      <div className="flex flex-row-reverse items-center gap-3 w-[40%] justify-end">
+       <div className="flex flex-row-reverse items-center gap-3 w-[20%] justify-end">
         <span className="font-bold text-gray-800">{product.name}</span>
-         
+        <div className="w-10 h-10 rounded-full border overflow-hidden bg-gray-50 flex items-center justify-center">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-8 h-8 object-contain"
+          />
+        </div>
       </div>
     </div>
- )
+ ) 
     
 } 
 

@@ -4,11 +4,11 @@ import request from "@/lib/apiService";
 
  
 
-export async function getCompanies() {
+export async function getCompanies(page = 1) {
   const result = await request(
-    `companies/companies/`,
+    `companies/companies/?page=${page}`,
     "GET",
-  );
+  ); 
 
   if (!result.success) {
     throw new Error(result.errors || "Failed to fetch data");

@@ -7,35 +7,47 @@ import SearchInput from "@/components/dashboard/SearchInput";
 import FiltersDropdown from "@/components/dashboard/FiltersDropdown";
 import CompaniesRow from "@/components/dashboard/data/CompaniesRow";
 import ProductsRow from "@/components/dashboard/data/ProductsRow";
+import { useQuery } from "@tanstack/react-query";
+import { getProduts, getProdutsDash } from "@/actions/product";
+import { useSearchParams } from "next/navigation";
+import Pagination from "@/components/dashboard/Pagination";
+const ITEMS_PER_PAGE = 21;
 
 function page() {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
   const handleSearch = (val) => console.log("بحث عن:", val);
   const handleRoleChange = (val) => console.log("تغيير النوع إلى:", val);
   const handleStatusChange = (val) => console.log("تغيير الحالة إلى:", val);
 
-  const products = [
-    {
-      id: 1,
-      name: "كابل قماش شحن سريع من USB-C إلى Lightning PD، بقوة 3 أمبير كحد أقصى، أسود، طوله 1 متر",
-      department: "كيبلات",
-      price: "10.00ر.س",
-     
-    },
-    {
-      id: 2,
-      name: "كابل قماش شحن سريع من USB-C إلى Lightning PD، بقوة 3 أمبير كحد أقصى، أسود، طوله 1 متر",
-      department: "كيبلات",
-      price: "10.00ر.س",
-     
-    },
-    {
-      id: 3,
-      name: "كابل قماش شحن سريع من USB-C إلى Lightning PD، بقوة 3 أمبير كحد أقصى، أسود، طوله 1 متر",
-      department: "كيبلات",
-      price: "10.00ر.س",
-     
-    },
-  ];
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["Product", currentPage],
+    queryFn: () => getProdutsDash(currentPage),
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    placeholderData: (previousData) => previousData,
+  });
+
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-[#145463] text-lg animate-pulse">
+          جارٍ تحميل البيانات...
+        </p>
+      </div>
+    );
+
+  if (error)
+    return (
+      <p className="text-center p-10 text-red-500">حدث خطأ: {error.message}</p>
+    );
+  const products = data?.data?.results || [];
+  const totalCount = data?.data?.count || 0;
+
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+  const hasNextPage = data?.data?.next;
+  const hasPrevPage = data?.data?.previous;
   return (
     <div className="p-6 " dir="rtl">
       <div className="flex flex-row justify-between mb-6">
@@ -46,7 +58,7 @@ function page() {
         <SearchInput
           placeholder="البحث بالاسم او الموديل  ..."
           onSearch={handleSearch}
-        /> 
+        />
         <FiltersDropdown
           placeholder="كل الأقسام"
           options={[
@@ -77,7 +89,7 @@ function page() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="flex items-center justify-between bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-400 text-sm font-bold">
           <div className="w-[40%] text-right pl-10">المنتج</div>
-          <div className="w-[20%] text-center">  القسم</div>
+          <div className="w-[20%] text-center"> القسم</div>
           <div className="w-[20%] text-center"> السعر</div>
           <div className="w-[20%] text-center pr-2">إجراءات</div>
         </div>
@@ -88,6 +100,16 @@ function page() {
             <ProductsRow key={product.id} product={product} />
           ))}
         </div>
+      </div>
+           <div className="flex justify-between items-center flex-row-reverse mt-8">
+        <Pagination
+          nameApi="/dashboard/products"
+          currentPage={currentPage}
+          totalPages={totalPages}
+          hasNextPage={hasNextPage}
+          hasPrevPage={hasPrevPage}
+        />
+        <div>{`عرض 1 - ${ITEMS_PER_PAGE} من إجمالي ${totalCount} نتيجة`}</div>
       </div>
     </div>
   );

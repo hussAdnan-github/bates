@@ -2,7 +2,19 @@
 
 import request from "@/lib/apiService";
 
- 
+//  export async function getCompanies() {
+//   const result = await request(
+//     `companies/companies/`,
+//     "GET",
+//   );
+
+//   if (!result.success) {
+//     throw new Error(result.errors || "Failed to fetch data");
+//   }
+  
+//   return result.data;
+// }
+
 
 export async function getCompanies(page = 1) {
   const result = await request(

@@ -28,31 +28,33 @@ export async function getDepartmentDashboard(page = 1) {
   }
   return result.data;
 }
-// export async function getId(id) {
-//   const result = await request(`Branch/GetBranchById?id=${id}`, "GET");
+export async function getDepartmentId(id) {
+  const result = await request(`departments/departments/${id}`, "GET");
 
-//   if (!result.success) {
-//     throw new Error(result.errors || "Failed to fetch branch data");
-//   }
+  if (!result.success) {
+    throw new Error(result.errors || "Failed to fetch branch data");
+  }
 
-//   return result.data;
-// }
-// export async function post(formData) {
-//   const result = await request(`Branch`, "POST", formData, false);
+  return result.data;
+}
+export async function postDepartment(formData) {
+  console.log(formData)
+  const result = await request(`departments/departments/`, "POST", formData, false);
+  console.log(result)
+  return result;
+}
+export async function editeDepartment(formData, id) {
+  const result = await request(`departments/departments/${id}/`, "PUT", formData, false);
+  console.log(result)
 
-//   return result;
-// }
-// export async function put(formData, id) {
-//   const result = await request(`Branch/id?id=${id}`, "PUT", formData, false);
+  return result; 
+}
+export async function deleteDepartment(id) {
+  const result = await request(`departments/departments/${id}/`, "DELETE");
 
-//   return result;
-// }
-// export async function deleteId(id) {
-//   const result = await request(`Branch/id?id=${id}`, "DELETE");
+  if (!result.success) {
+    throw new Error(result.errors || "Failed to fetch branch data");
+  }
 
-//   if (!result.success) {
-//     throw new Error(result.errors || "Failed to fetch branch data");
-//   }
-
-//   return result.data;
-// }
+  return result.data;
+}

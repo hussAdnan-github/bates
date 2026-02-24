@@ -20,7 +20,7 @@ async function StoreNavbar() {
   const basketcountNumber = cookieStore.get("basket_count")?.value || 0;
 
   const navLinks = [
-    { title: "الرئيسية", href: "/" },
+    { title: "الرئيسية", href: "/shop" },
     { title: "المنتجات", href: "/shop/products" },
     { title: "الطلبات", href: "/orders" },
   ];
@@ -50,7 +50,7 @@ async function StoreNavbar() {
           <SearchBar />
 
           <BasketsDialog>
-            <div className="relative p-2 cursor-pointer hover:bg-gray-100 rounded-full transition-colors group">
+            <div className="relative me-8 p-2 cursor-pointer hover:bg-gray-100 rounded-full transition-colors group">
               {/* تم التغيير من group-hover:text-[#F18721] إلى group-hover:text-primary */}
               <ShoppingCart className="h-7 w-7 text-gray-700 group-hover:text-secondary transition-colors" />
 
@@ -59,11 +59,9 @@ async function StoreNavbar() {
               </Badge>
             </div>
           </BasketsDialog>
-<div>
-           <LogoutButton />
-
-</div>
-
+          <div>
+            <LogoutButton />
+          </div>
         </div>
       </div>
     </nav>

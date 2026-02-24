@@ -1,13 +1,28 @@
 import React from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { deleteProdut } from "@/actions/product";
+import { toast } from "sonner";
  
-function ProductsRow({product}) {
+function ProductsRow({product , onDelete}) {
+  const handelDelete =async ()=>{
+       const results = await deleteProdut(product.id);
+
+       onDelete();
+       toast.success (
+        <div style={{ direction: "rtl", textAlign: "right" }}>
+          <strong>تمت حذف المنتج بنجاح ✅</strong>
+        </div>,
+        { duration: 4000 },
+      );
+     }
  return (
     <div className="flex flex-row-reverse items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-right">
       {/* 1. إجراءات */}
       <div className="flex items-center justify-center gap-3 w-[20%]">
-        <button className="text-gray-400 hover:text-red-600 transition-colors">
+        <button
+        onClick={handelDelete}
+        className="text-gray-400 hover:text-red-600 transition-colors">
           <Trash2 size={18} />
         </button>
         <Link href={`products/${product.id}`} className="text-gray-400 hover:text-blue-600 transition-colors">

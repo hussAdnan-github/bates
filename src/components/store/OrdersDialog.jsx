@@ -17,9 +17,14 @@ import {
 } from "@/components/ui/select";
 import { Eye, Pencil } from "lucide-react";
 import OrderDetailsDialog from "./OrderDetailsDialog";
+import { getProduts } from "@/actions/product";
+import { useQuery } from "@tanstack/react-query";
+ 
+import { getBaskets } from "@/actions/baskets";
 
 const OrdersDialog = ({ children }) => {
-  const orders = [
+
+   const orders = [
     {
       id: "#18",
       date: "05-02-2026",
@@ -56,7 +61,7 @@ const OrdersDialog = ({ children }) => {
       status: "جاري معالجة طلبك",
       total: "42.00 ر.س",
     },
-  ];
+  ]; 
 
   return (
     <Dialog>
@@ -78,7 +83,6 @@ const OrdersDialog = ({ children }) => {
           </DialogTitle>
         </DialogHeader>
 
-        {/* قسم الفلترة */}
         <div className="bg-gray-50/50 p-6 rounded-xl border border-gray-100 mb-6 flex flex-col items-end gap-3">
           <label className="font-bold text-gray-700 text-sm">
             فلترة حسب حالة الطلب:
@@ -96,7 +100,6 @@ const OrdersDialog = ({ children }) => {
           </Select>
         </div>
 
-        {/* جدول الطلبات */}
         <div className="overflow-x-auto">
           <table className="w-full text-center border-collapse">
             <thead>
@@ -126,13 +129,11 @@ const OrdersDialog = ({ children }) => {
                   </td>
                   <td className="py-5">
                     <div className="flex justify-center gap-2">
-                      {/* أيقونة التفاصيل */}
                       <OrderDetailsDialog>
                         <button className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-50 text-blue-500 hover:bg-blue-100 transition-colors shadow-sm border border-blue-100 cursor-pointer">
                           <Eye size={18} />
                         </button>
                       </OrderDetailsDialog>
-                      {/* أيقونة التعديل */}
                       <button className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-50 text-gray-400 hover:bg-gray-100 transition-colors shadow-sm border border-gray-100">
                         <Pencil size={18} />
                       </button>

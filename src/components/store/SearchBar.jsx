@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { getSearchProduts } from "@/actions/product";
 
 const SearchBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,23 +31,16 @@ const SearchBar = () => {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    const delayDebounce = setTimeout(
-      async () => {
+    const delayDebounce = setTimeout(async () => {
       try {
         setLoading(true);
-        const res = await fetch(
-          `https://bts.pythonanywhere.com/api/products/products/?search=${query}`,
-          { signal }, // 2. تمرير الإشارة للـ fetch
-        );
 
-        const data = await res.json();
-
+        const data = await getSearchProduts(query);
         if (data.success) {
           setResults(data.data.results || []);
         }
       } catch (err) {
         if (err.name === "AbortError") {
-          // تم إلغاء الطلب بنجاح، لا تفعل شيئاً
         } else {
           console.error("خطأ في البحث:", err);
         }

@@ -1,70 +1,237 @@
-import React from "react";
-import { ArrowRight, UserCircle2 } from "lucide-react";
+"use client";
+import React, { useRef, useState } from "react";
+import { Image, PercentDiamondIcon, Shield, UserCircle2 } from "lucide-react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import InputField from "@/components/dashboard/InputField";
 import BackPage from "@/components/dashboard/BackPage";
-function page() {
+import { postUser } from "@/actions/users";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
+
+const userSchema = z
+  .object({
+    username: z.string().min(3, "اسم المستخدم يجب أن يكون 3 أحرف على الأقل"),
+    phone: z.string().min(9, "رقم الهاتف غير صحيح"),
+    ext: z.string().optional(),
+    userType: z.enum(["1", "2", "3"], {
+      errorMap: () => ({ message: "يرجى اختيار نوع المستخدم" }),
+    }),
+    password: z.string().min(4, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
+    confirmPassword: z.string().min(4, "يرجى تأكيد كلمة المرور"),
+    isActive: z.boolean().default(true),
+    isStaff: z.boolean().default(false),
+    image: z.any().optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "كلمات المرور غير متطابقة",
+    path: ["confirmPassword"],
+  });
+
+function Page() {
+  const route = useRouter();
+  const queryClient = useQueryClient();
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      username: "",
+      phone: "",
+      ext: "",
+      userType: "1",
+      password: "",
+      confirmPassword: "",
+      isActive: false,
+      isStaff: false,
+      image: null,
+    },
+  });
+
+  const onSubmit = async (data) => {
+    const result = await postUser(data);
+    if (!result.success) {
+      if (result.errors) {
+        setErrorsApi(result.errors);
+      } else {
+        setGeneralError(result.message);
+      }
+    } else {
+      toast.success(
+        <div style={{ direction: "rtl", textAlign: "right" }}>
+          <strong>تمت اضافة مستخدم بنجاح ✅</strong>
+        </div>,
+        { duration: 4000 },
+      );
+      queryClient.invalidateQueries({ queryKey: ["Users"] });
+
+      route.back();
+    }
+  };
+
   return (
     <div className="p-6 max-w-5xl mx-auto" dir="rtl">
-        
-      <BackPage title={`إضافة مستخدم جديد`}/>
-      {/* Form Card */}
+      <BackPage title={`إضافة مستخدم جديد`} />
+
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        {/* Section Title */}
         <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900">
           <UserCircle2 size={24} />
-         
-          <span className="font-bold text-lg">تفاصيل  الحساب</span>
+          <span className="font-bold text-lg">تفاصيل الحساب</span>
         </div>
 
         <div className="p-8">
-          <form className="space-y-2">
-            {/* اسم المستخدم */}
-            <InputField label="اسم المستخدم" placeholder="مثال: mohammed_ali" />
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <InputField
+              label="اسم المستخدم"
+              placeholder="مثال: mohammed_ali"
+              {...register("username")}
+              error={errors.username?.message}
+            />
 
-            {/* رقم الهاتف */}
-            <InputField label="رقم الهاتف" placeholder="+967 XXX XXX XXX" />
+            <InputField
+              label="رقم الهاتف"
+              placeholder="+967 XXX XXX XXX"
+              {...register("phone")}
+              error={errors.phone?.message}
+            />
 
-            {/* .ext حقل إضافي */}
-            <InputField label=".ext" placeholder="+967 XXX XXX XXX" />
+            <InputField
+              label=".ext"
+              placeholder="إضافة ملحق"
+              {...register("ext")}
+            />
 
-            {/* نوع المستخدم - Select */}
-            <div className="flex flex-col gap-2 w-full mb-4 text-right">
+            <div className="flex flex-col gap-2 w-full text-right">
               <label className="text-gray-600 text-sm font-medium">
                 نوع المستخدم
               </label>
-              <select className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 appearance-none">
-                 <option>تاجر جملة الجملة</option>
-                <option>تاجر جملة</option>
-                <option>تاجر تجزئة</option>
- 
- 
+              <select
+                {...register("userType")}
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 appearance-none"
+              >
+                <option value="1">تاجر جملة الجملة</option>
+                <option value="2">تاجر جملة</option>
+                <option value="3">تاجر تجزئة</option>
               </select>
+              {errors.userType && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.userType?.message}
+                </p>
+              )}
             </div>
 
-            {/* كلمة المرور */}
             <InputField
               label="كلمة المرور"
               placeholder="ادخل كلمة مرور قوية"
               type="password"
+              {...register("password")}
+              error={errors.password?.message}
             />
 
-            {/* تأكيد كلمة المرور */}
             <InputField
               label="تأكيد كلمة المرور"
               placeholder="تأكيد كلمة المرور"
               type="password"
+              {...register("confirmPassword")}
+              error={errors.confirmPassword?.message}
             />
 
-            {/* ملحوظة */}
             <p className="text-xs text-gray-400 mt-4 text-right">
               يرجى تعيين كلمة مرور قوية للمستخدم الجديد.
             </p>
 
-            {/* زر الحفظ (إضافي من عندي ليكتمل النموذج) */}
-            <div className="mt-8 pt-6 border-t border-gray-50 flex justify-end">
-              <button className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200">
-                حفظ البيانات
+            <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900 mt-10">
+              <Image size={24} />
+              <span className="font-bold text-lg">صورة الملف الشخصي</span>
+            </div>
+
+            <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900">
+              <Shield size={24} />
+              <span className="font-bold text-lg"> الصلاحيات</span>
+            </div>
+            <div className="px-6">
+              <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-gray-300   transition-all">
+                <div className="flex flex-col gap-0.5">
+                  <label
+                    htmlFor="active-status"
+                    className="text-slate-700 font-semibold text-sm cursor-pointer"
+                  >
+                    حالة النشاط
+                  </label>
+                  {/* <span className="text-slate-400 text-xs">تفعيل أو تعطيل هذا المستخدم</span> */}
+                </div>
+
+                <Controller
+                  name="isStaff"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch
+                      id="active-status"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      className="
+          data-[state=checked]:bg-purple-900 
+          data-[state=unchecked]:bg-slate-200
+          transition-colors
+        "
+                    />
+                  )}
+                />
+              </div>
+              <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-gray-300   transition-all">
+                <div className="flex flex-col gap-0.5">
+                  <label
+                    htmlFor="active-status"
+                    className="text-slate-700 font-semibold text-sm cursor-pointer"
+                  >
+                    فريق العمل؟
+                  </label>
+                  {/* <span className="text-slate-400 text-xs">تفعيل أو تعطيل هذا المستخدم</span> */}
+                </div>
+
+                <Controller
+                  name="isActive"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch
+                      id="active-status"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      className="
+          data-[state=checked]:bg-purple-900 
+          data-[state=unchecked]:bg-slate-200
+          transition-colors
+        "
+                    />
+                  )}
+                />
+              </div>
+            </div>
+            {/* زر الحفظ */}
+            <div className="mt-8 pt-6 gap-2 border-t border-gray-50 flex justify-end">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200 disabled:bg-gray-400"
+              >
+                {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
               </button>
+              <Link
+                href={"/dashboard/users"}
+                className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
+              >
+                الغاء
+              </Link>
             </div>
           </form>
         </div>
@@ -73,4 +240,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

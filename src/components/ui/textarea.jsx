@@ -4,9 +4,11 @@ import { cn } from "@/lib/utils"
 
 function Textarea({
   className,
+  error,
   ...props
-}) {
+}) { 
   return (
+    <>
     <textarea
       data-slot="textarea"
       className={cn(
@@ -14,6 +16,13 @@ function Textarea({
         className
       )}
       {...props} />
+      {error && (
+        <span className="text-red-500 text-xs mt-1 mr-1 animate-in fade-in slide-in-from-top-1">
+          {error}
+        </span>
+      )}
+    </>
+    
   );
 }
 

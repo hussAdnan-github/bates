@@ -1,13 +1,29 @@
+'use client'
 import React from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { deleteCompany } from "@/actions/companies";
+import { toast } from "sonner";
  
-function CompaniesRow({company}) {
+function CompaniesRow({company , onDelete}) {
+    const handelDelete =async ()=>{
+    const results = await deleteCompany(company.id);
+    toast.success(
+        <div style={{ direction: "rtl", textAlign: "right" }}>
+          <strong>تمت الحذف بنجاح ✅</strong>
+        </div>,
+        { duration: 4000 },
+      );
+    onDelete();
+  }
  return (
     <div className="flex flex-row-reverse items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-right">
       {/* 1. إجراءات */}
       <div className="flex items-center gap-3 w-[10%]">
-        <button className="text-gray-400 hover:text-red-600 transition-colors">
+        <button
+                onClick={handelDelete}
+
+        className="text-gray-400 hover:text-red-600 transition-colors">
           <Trash2 size={18} />
         </button>
         <Link href={`companies/${company.id}`} className="text-gray-400 hover:text-blue-600 transition-colors">

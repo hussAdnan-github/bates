@@ -1,16 +1,35 @@
+'use client'
 import React from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import StatusBadge from "../StatusBadge";
 import Link from "next/link";
-function UserRow({ user }) {
+import { deleteUser } from "@/actions/users";
+import { toast } from "sonner";
+function UserRow({ user  , onDelete}) {
+  const handelDelete =async ()=>{
+    const results = await deleteUser(user.id);
+    onDelete();
+    toast.success(
+      
+            <div   style={{ direction: "rtl", textAlign: "right" }}>
+              <strong>تمت الحذف بنجاح ✅</strong>
+            </div>,
+            { duration: 4000 },
+          );
+  }
   return (
     <div className="flex flex-row-reverse items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-right">
       {/* 1. إجراءات */}
       <div className="flex items-center gap-3 w-[10%]">
-        <button className="text-gray-400 hover:text-red-600 transition-colors">
+        <button
+        onClick={handelDelete}
+        className="text-gray-400 hover:text-red-600 transition-colors">
           <Trash2 size={18} />
         </button>
-        <Link href={`users/${user.id}`} className="text-gray-400 hover:text-blue-600 transition-colors">
+        <Link
+          href={`users/${user.id}`}
+          className="text-gray-400 hover:text-blue-600 transition-colors"
+        >
           <Pencil size={18} />
         </Link>
       </div>
@@ -38,16 +57,13 @@ function UserRow({ user }) {
       {/* 6. المستخدم (الصورة والاسم) */}
       <div className="flex flex-row-reverse items-center gap-3 w-[20%] justify-end">
         <span className="font-bold text-gray-800">
-          
           {/* {`${user.first_name}  ${user.last_name}`} */}
-{user.username}
-
+          {user.username}
         </span>
         <div className="w-10 h-10 rounded-full border overflow-hidden bg-gray-50 flex items-center justify-center">
           <img
             src={user.profile_picture}
-            alt={user.first_name + " " +user.last_name}
-        
+            alt={user.first_name + " " + user.last_name}
             className="w-8 h-8 object-contain"
           />
         </div>

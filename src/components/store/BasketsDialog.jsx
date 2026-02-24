@@ -1,5 +1,4 @@
- 
- import Image from "next/image";
+import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -19,19 +18,18 @@ import {
 } from "lucide-react";
 import OrdersDialog from "./OrdersDialog";
 import { getBaskets } from "@/actions/baskets";
+import QuantityBasket from "./QuantityBasket";
 
-const BasketsDialog =async ({ children }) => {
-  // const [quantity, setQuantity] = useState(1);
-  // const baskets = await getBaskets();
-// console.log(baskets.data.results.basketitems)
+const BasketsDialog = async ({ children }) => {
+  const orders = await getBaskets();
+ 
   return (
     <Dialog className="w-[10000px]">
-      {/* الـ Trigger هو أي عنصر نمرره للمكون (مثل أيقونة السلة في النافبار) */}
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent
         className="
-    w-[55vw]
+    w-[75vw]
     !max-w-none
     max-h-[90vh]
     overflow-y-auto
@@ -49,53 +47,41 @@ const BasketsDialog =async ({ children }) => {
           {/* جدول المنتجات (Desktop) */}
           <div className="hidden md:block">
             <div className="grid grid-cols-12 gap-4 bg-gray-50 p-4 rounded-t-lg text-sm font-bold text-gray-500 text-center">
-              <div className="col-span-5 text-right">المنتج</div>
+              <div className="col-span-4 text-right">المنتج</div>
               <div className="col-span-2">السعر</div>
               <div className="col-span-2">الكمية</div>
+              <div className="col-span-2">الموديل</div>
               <div className="col-span-2">الإجمالي</div>
-              <div className="col-span-1"></div>
+              <div className="col-span-2"></div>
             </div>
-
+            {orders.data.results.map((order, index) => (
+                order.basketitems.map((item)=>
+                  <div key={item.id} className="grid grid-cols-12 gap-4 items-center p-4 border-b border-gray-100 text-center">
+                <div className="col-span-4 flex items-center gap-4 text-right">
+                  <div className="relative w-16 h-16 border rounded-md overflow-hidden bg-white shrink-0">
+                    <Image
+                      src={item.products_image}
+                      alt="product"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <span className=" text-gray-800 text-sm">
+                 {item.products_name}
+                  </span>
+                </div>
+                <div className="col-span-2  text-gray-700">{item.products_price} ر.س</div>
+              <QuantityBasket number = {item.quantity}/>
+                <div className="col-span-2  text-secondary">{item.products_model} ر.س</div>
+                <div className="col-span-1">
+                  <button className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors">
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              </div>
+                )
+            ))}
             {/* صف المنتج */}
-            <div className="grid grid-cols-12 gap-4 items-center p-4 border-b border-gray-100 text-center">
-              <div className="col-span-5 flex items-center gap-4 text-right">
-                <div className="relative w-16 h-16 border rounded-md overflow-hidden bg-white shrink-0">
-                  <Image
-                    src="/p1.jpg"
-                    alt="product"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-                <span className=" text-gray-800 text-sm">
-                  شنطة لابتوب 16 انش
-                </span>
-              </div>
-              <div className="col-span-2  text-gray-700">42.00 ر.س</div>
-              {/* <div className="col-span-2">
-                <div className="flex items-center justify-center border rounded-md overflow-hidden h-9">
-                  <button
-                    onClick={() => setQuantity((q) => q + 1)}
-                    className="px-2 hover:bg-gray-100"
-                  >
-                    <Plus size={14} />
-                  </button>
-                  <span className="w-8 border-x text-sm ">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity((q) => (q > 1 ? q - 1 : 1))}
-                    className="px-2 hover:bg-gray-100"
-                  >
-                    <Minus size={14} />
-                  </button>
-                </div>
-              </div> */}
-              <div className="col-span-2  text-secondary">42.00 ر.س</div>
-              <div className="col-span-1">
-                <button className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors">
-                  <Trash2 size={18} />
-                </button>
-              </div>
-            </div>
           </div>
 
           {/* ملخص الطلب */}

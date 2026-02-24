@@ -10,9 +10,10 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronDown, ChevronUp, LogOut } from "lucide-react";
 import { useState } from "react";
+import LogoutButton from "../store/LogoutButton";
 
 export default function UserMenu() {
-      const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
       <DropdownMenuTrigger asChild>
@@ -33,16 +34,10 @@ export default function UserMenu() {
         </button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-44">
-        <DropdownMenuItem
-          className="text-red-600 cursor-pointer flex gap-2 focus:text-red-600"
-          onClick={() => {
-            console.log("logout");
-          }}
-        >
-          <LogOut className="h-4 w-4" />
-          تسجيل الخروج
-        </DropdownMenuItem>
+      <DropdownMenuContent className={"w-36  "}>
+       <DropdownMenuItem>
+         <LogoutButton />
+       </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

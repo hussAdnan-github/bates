@@ -5,6 +5,7 @@ import ImagesProduct from "@/components/store/ImagesProduct";
 import { getProdutsId } from "@/actions/product";
 import QuantityProduct from "@/components/store/QuantityProduct";
 import { Button } from "@/components/ui/button";
+import ButtonCart from "@/components/store/ButtonCart";
 async function page({ params }) {
  
   
@@ -60,10 +61,7 @@ async function page({ params }) {
 
             <QuantityProduct/>
 
-             <Button className="bg-[#F18721] hover:bg-[#d9771a] h-14 text-xl font-bold rounded-xl shadow-lg shadow-orange-100 flex gap-3 w-full md:w-fit px-12">
-              <ShoppingCart size={24} />
-              الاضافة الى السلة
-             </Button>
+            <ButtonCart id={product.data.id}/>
 
              <div className="space-y-3 pt-6 border-t border-gray-100">
               <p className="text-gray-600 font-medium">

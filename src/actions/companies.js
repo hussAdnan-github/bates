@@ -21,7 +21,6 @@ export async function getCompanies(page = 1) {
     `companies/companies/?page=${page}`,
     "GET",
   ); 
-
   if (!result.success) {
     throw new Error(result.errors || "Failed to fetch data");
   }
@@ -29,31 +28,33 @@ export async function getCompanies(page = 1) {
   return result.data;
 }
 
-// export async function getId(id) {
-//   const result = await request(`Branch/GetBranchById?id=${id}`, "GET");
+export async function getCompaniesId(id) {
+  const result = await request(`companies/companies/${id}`, "GET");
 
-//   if (!result.success) {
-//     throw new Error(result.errors || "Failed to fetch branch data");
-//   }
+  if (!result.success) {
+    throw new Error(result.errors || "Failed to fetch branch data");
+  }
 
-//   return result.data;
-// }
-// export async function post(formData) {
-//   const result = await request(`Branch`, "POST", formData, false);
+  return result.data;
+}
+export async function postcCompany(formData) {
+   console.log(formData)
+  const result = await request(`companies/companies/`, "POST", formData, false);
+ console.log(result)
 
-//   return result;
-// }
-// export async function put(formData, id) {
-//   const result = await request(`Branch/id?id=${id}`, "PUT", formData, false);
+  return result;
+}
+export async function editeCompany(formData, id) {
+  const result = await request(`companies/companies/${id}/`, "PUT", formData, false);
 
-//   return result;
-// }
-// export async function deleteId(id) {
-//   const result = await request(`Branch/id?id=${id}`, "DELETE");
+  return result;
+}
+export async function deleteCompany(id) {
+  const result = await request(`companies/companies/${id}/`, "DELETE");
 
-//   if (!result.success) {
-//     throw new Error(result.errors || "Failed to fetch branch data");
-//   }
+  if (!result.success) {
+    throw new Error(result.errors || "Failed to fetch branch data");
+  }
 
-//   return result.data;
-// }
+  return result.data;
+}

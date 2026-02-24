@@ -1,60 +1,48 @@
 "use client";
 
-import { LogOut } from "lucide-react";
+import { LogOut, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { useState } from "react";
 
 function LogoutButton() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
-    await fetch("/api/Account/logout", {
-      method: "POST",
-    });
+    if (loading) return;
 
-    router.push("/login");
-    router.refresh();
+    setLoading(true);
+
+    try {
+      await fetch("/api/Account/logout", {
+        method: "POST",
+      });
+
+      router.replace("/login");
+    } catch (error) {
+      console.error("Logout failed", error);
+      setLoading(false);
+    }
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-gray-700 hover:text-secondary transition-colors cursor-pointer"
-        >
+    <Button
+      onClick={handleLogout}
+      variant="ghost"
+      size="icon"
+      disabled={loading}
+      className="text-gray-700 hover:text-secondary transition-colors cursor-pointer w-full"
+    >
+      {loading ? (
+        <Loader2 className="h-6 w-6 animate-spin text-secondary" />
+      ) : (
+        <div className="flex justify-center items-center gap-2">
+          تسجيل الخروج
           <LogOut className="h-6 w-6 rotate-180" />
-        </Button>
-      </AlertDialogTrigger>
-
-      <AlertDialogContent dir="rtl" className={'bg-white'}>
-        <AlertDialogHeader>
-          <AlertDialogTitle>تأكيد تسجيل الخروج</AlertDialogTitle>
-          <AlertDialogDescription>
-            هل أنت متأكد أنك تريد تسجيل الخروج من حسابك؟
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-
-        <AlertDialogFooter className="gap-2">
-          <AlertDialogCancel>إلغاء</AlertDialogCancel>
-          <AlertDialogAction className={'bg-secondary'} onClick={handleLogout}>
-            تسجيل الخروج
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+        </div>
+      )}
+    </Button>
   );
 }
 

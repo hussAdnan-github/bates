@@ -8,8 +8,7 @@ import Link from "next/link";
 function StoreHero() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // مصفوفة النصوص المتغيرة
-  const slides = [
+   const slides = [
     {
       title: "عروض خاصة لفترة محدودة",
       subtitle: "كل ما تحتاجه من متطلباتك أصبح في مكان واحد",
@@ -24,8 +23,7 @@ function StoreHero() {
     },
   ];
 
-  // تبديل النصوص تلقائياً كل 4 ثوانٍ
-  useEffect(() => {
+   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 4000);

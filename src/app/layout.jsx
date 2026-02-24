@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import StoreNavbar from "@/components/layout/StoreNavbar";
 import { QueryClientProvider } from "@tanstack/react-query";
 import ProvidersQuery from "@/provider/QueryClientProvider";
+import { Toaster } from "sonner";
 
 const cairo = Cairo({
   subsets: ["arabic"],
@@ -25,6 +26,8 @@ export default function RootLayout({ children }) {
       >
         <main>
           <ProvidersQuery>{children}</ProvidersQuery>
+          <Toaster />
+
         </main>
       </body>
     </html>

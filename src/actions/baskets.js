@@ -1,19 +1,14 @@
 "use server";
 
 import request from "@/lib/apiService";
-
- 
+import { cookies } from "next/headers";
 
 export async function getBaskets() {
-  const result = await request(
-    `baskets/baskets/`,
-    "GET",
-  );
-
+  const result = await request(`baskets/baskets/`, "GET");
   if (!result.success) {
     throw new Error(result.errors || "Failed to fetch data");
   }
-  
+
   return result.data;
 }
 
@@ -26,16 +21,22 @@ export async function getBaskets() {
 
 //   return result.data;
 // }
-// export async function post(formData) {
-//   const result = await request(`Branch`, "POST", formData, false);
+export async function postProductBasket(formData) {
+    const cookieStore = await cookies();
+  
+  console.log("sadsad", formData);
+  const result = await request(`baskets/basketItem/`, "POST", formData, true);
+  const currentCount = Number(cookieStore.get("basket_count")?.value || 0);
+  cookieStore.set("basket_count", (currentCount + 1).toString());
 
-//   return result;
-// }
-// export async function put(formData, id) {
-//   const result = await request(`Branch/id?id=${id}`, "PUT", formData, false);
+  
+  return result;
+}
+export async function put(formData, id) {
+  const result = await request(`Branch/id?id=${id}`, "PUT", formData, false);
 
-//   return result;
-// }
+  return result;
+}
 // export async function deleteId(id) {
 //   const result = await request(`Branch/id?id=${id}`, "DELETE");
 

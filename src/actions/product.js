@@ -14,12 +14,24 @@ export async function getProduts(
   if (department__company)
     params.append("department__company", department__company);
   params.append("page", page.toString());
-console.log("dsfdf",`products/products/?${params.toString()}`)
+  console.log("dsfdf", `products/products/?${params.toString()}`);
   const result = await request(
     `products/products/?${params.toString()}`,
     "GET",
   );
-console.log("dsfdf",result)
+
+  if (!result.success) {
+    throw new Error(result.errors || "Failed to fetch data");
+  }
+  return result.data;
+}
+export async function getSearchProduts(search) {
+  const params = new URLSearchParams();
+   params.append("search", search);
+  const result = await request(
+    `products/products/?${params.toString()}`,
+    "GET",
+  );
 
   if (!result.success) {
     throw new Error(result.errors || "Failed to fetch data");
@@ -45,22 +57,22 @@ export async function getProdutsDash(page = 1) {
   }
   return result.data;
 }
-// export async function post(formData) {
-//   const result = await request(`Branch`, "POST", formData, false);
+export async function postProdut(formData) {
+  console.log(formData)
+  const result = await request(`products/products/`, "POST", formData, true);
+console.log(result)
+  return result;
+}
+export async function putProdut(formData, id) {
+  console.log(formData)
+      const result = await request(`products/products/${id}/`, "PUT", formData, true);
+console.log(result)
+  return result;
+}
+export async function deleteProdut(id) {
+  const result = await request(`products/products/${id}/`, "DELETE");
 
-//   return result;
-// }
-// export async function put(formData, id) {
-//   const result = await request(`Branch/id?id=${id}`, "PUT", formData, false);
+   
 
-//   return result;
-// }
-// export async function deleteId(id) {
-//   const result = await request(`Branch/id?id=${id}`, "DELETE");
-
-//   if (!result.success) {
-//     throw new Error(result.errors || "Failed to fetch branch data");
-//   }
-
-//   return result.data;
-// }
+  return result.data;
+}

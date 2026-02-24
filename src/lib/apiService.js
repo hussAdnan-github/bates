@@ -12,17 +12,17 @@ async function request(
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
-    // console.log("first  " ,token)
+    
     const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
     const fullUrl = `${BASE_URL}${cleanEndpoint}`;
 
     const headers = {};
 
     if (token) {
-      console.log("tokent find");
-      headers["Authorization"] = `Token  ${token}`;
+      headers["Authorization"] = `Token ${token}`;
     }
 
+    // إذا لم تكن البيانات FormData، نرسل Content-Type كـ JSON
     if (!isFormData) {
       headers["Content-Type"] = "application/json";
     }
@@ -33,44 +33,66 @@ async function request(
       cache: "no-store",
       body: data ? (isFormData ? data : JSON.stringify(data)) : null,
     };
-    console.log("first   ", options);
+
     const response = await fetch(fullUrl, options);
-
     const text = await response.text();
+    
     let resultData = null;
-
     if (text) {
       try {
         resultData = JSON.parse(text);
       } catch (e) {
-        resultData = text; // إذا لم يكن JSON، نحتفظ به كنص
+        resultData = text;
       }
     }
 
-    // التحقق من نجاح الطلب (Status 200-299)
+    // --- معالجة حالة الخطأ (Response not OK) ---
     if (!response.ok) {
-      let serverMessage = "حدث خطأ في الاتصال بالخادم";
+      let serverGeneralMessage = "حدث خطأ في الاتصال بالخادم";
+      let fieldErrors = null;
 
-      if (resultData) {
-        if (typeof resultData === "string") serverMessage = resultData;
-        else if (resultData.message) serverMessage = resultData.message;
-        else if (resultData.error) serverMessage = resultData.error;
-        else if (resultData.errors)
-          serverMessage = Object.values(resultData.errors).flat().join(" ، ");
-        else if (Array.isArray(resultData[""]))
-          serverMessage = resultData[""].join(" ، ");
+      if (resultData && typeof resultData === "object") {
+        // 1. إذا كان الخادم يرسل كائن errors (مثل مثالك)
+        if (resultData.errors) {
+          fieldErrors = resultData.errors;
+          serverGeneralMessage = resultData.message || "يرجى التحقق من البيانات المدخلة";
+        } 
+        // 2. إذا كانت الرسالة مباشرة في message
+        else if (resultData.message) {
+          serverGeneralMessage = resultData.message;
+        }
+        // 3. إذا كانت الرسالة في error
+        else if (resultData.error) {
+          serverGeneralMessage = resultData.error;
+        }
+        // 4. إذا كان الكائن نفسه يمثل الأخطاء (أحياناً في Django REST)
+        else {
+          fieldErrors = resultData;
+        }
+      } else if (typeof resultData === "string") {
+        serverGeneralMessage = resultData;
       }
 
-      return { success: false, errors: serverMessage, status: response.status };
+      return {
+        success: false,
+        message: serverGeneralMessage, // الرسالة العامة "لقد حصل خطاء"
+        errors: fieldErrors,           // كائن الأخطاء التفصيلي { name_ar: "...", ... }
+        status: response.status,
+      };
     }
 
-    return { success: true, data: resultData };
+    // --- حالة النجاح ---
+    return { 
+      success: true, 
+      data: resultData 
+    };
+
   } catch (error) {
     console.error(`Fetch Error (${endpoint}):`, error.message);
     return {
       success: false,
-      errors:
-        "تعذر الاتصال بالخادم، يرجى التحقق من اتصال الإنترنت أو الرابط الأساسي.",
+      message: "تعذر الاتصال بالخادم، يرجى التحقق من اتصال الإنترنت.",
+      errors: null,
     };
   }
 }

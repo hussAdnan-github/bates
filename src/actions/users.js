@@ -17,31 +17,31 @@ console.log("fdsfdsf" , result.data)
   return result.data;
 }
 
-// export async function getId(id) {
-//   const result = await request(`Branch/GetBranchById?id=${id}`, "GET");
+export async function getUserId(id) {
+  const result = await request(`users/${id}`, "GET");
 
-//   if (!result.success) {
-//     throw new Error(result.errors || "Failed to fetch branch data");
-//   }
+  if (!result.success) {
+    throw new Error(result.errors || "Failed to fetch branch data");
+  }
 
-//   return result.data;
-// }
-// export async function post(formData) {
-//   const result = await request(`Branch`, "POST", formData, false);
+  return result.data;
+}
+export async function postUser(formData) {
+  const result = await request(`users/`, "POST", formData, false);
+  return result;
+}
+export async function editeUser(formData, id) {
+  const result = await request(`users/${id}/`, "PUT", formData, false);
+ 
+  return result;
+}
+export async function deleteUser(id) {
+  console.log(id)
+  const result = await request(`users/${id}/`, "DELETE");
 
-//   return result;
-// }
-// export async function put(formData, id) {
-//   const result = await request(`Branch/id?id=${id}`, "PUT", formData, false);
+  if (!result.success) {
+    throw new Error(result.errors || "Failed to fetch branch data");
+  }
 
-//   return result;
-// }
-// export async function deleteId(id) {
-//   const result = await request(`Branch/id?id=${id}`, "DELETE");
-
-//   if (!result.success) {
-//     throw new Error(result.errors || "Failed to fetch branch data");
-//   }
-
-//   return result.data;
-// }
+  return result.data;
+}

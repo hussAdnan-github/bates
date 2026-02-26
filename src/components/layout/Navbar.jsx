@@ -74,7 +74,7 @@ function Navbar() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[250px]" dir="rtl">
+<SheetContent side="right" className="w-[250px] bg-white px-4 md:mx-0" dir="rtl">
               {/* <VisuallyHidden> */}
               <SheetTitle>القائمة الرئيسية</SheetTitle>
               {/* </VisuallyHidden> */}

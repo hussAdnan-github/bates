@@ -197,7 +197,7 @@ function CompaniesList() {
             ))
           )}
         </div>
-      </div>
+      </div> 
       
       <div className="flex justify-between items-center flex-row-reverse mt-8">
         <Pagination

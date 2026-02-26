@@ -1,48 +1,48 @@
 "use client";
-import React from "react";
-import { Building2, Plus, Users } from "lucide-react";
-import UserRow from "@/components/dashboard/data/UserRow";
-import Link from "next/link";
+import React, { Suspense } from "react"; // 1. استيراد Suspense
+import { Building2 } from "lucide-react";
 import SearchInput from "@/components/dashboard/SearchInput";
 import FiltersDropdown from "@/components/dashboard/FiltersDropdown";
-import CompaniesRow from "@/components/dashboard/data/CompaniesRow";
-import ProductsRow from "@/components/dashboard/data/ProductsRow";
 import BasketsRow from "@/components/dashboard/data/BasketsRow";
+import { useQuery } from "@tanstack/react-query";
+import { getBaskets } from "@/actions/baskets";
+import { useSearchParams } from "next/navigation";
+import Pagination from "@/components/dashboard/Pagination";
 
-function page() {
+const ITEMS_PER_PAGE = 21;
+
+// 2. انقل المنطق كله إلى مكون داخلي
+function BasketsList() {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+
   const handleSearch = (val) => console.log("بحث عن:", val);
-  const handleRoleChange = (val) => console.log("تغيير النوع إلى:", val);
   const handleStatusChange = (val) => console.log("تغيير الحالة إلى:", val);
 
-  const baskets = [
-    {
-      id: 1,
-      number: 20,
-      customer: "test",
-      department: "كيبلات",
-      price: "10.00ر.س",
-      type: "كيبلات",
-      date: "29 Oct, 2025",
-    },
-    {
-      id: 2,
-      number: 20,
-      customer: "test",
-      department: "كيبلات",
-      price: "10.00ر.س",
-      type: "كيبلات",
-      date: "29 Oct, 2025",
-    },
-    {
-      id: 3,
-      number: 20,
-      customer: "test",
-      department: "كيبلات",
-      price: "10.00ر.س",
-      type: "كيبلات",
-      date: "29 Oct, 2025",
-    },
-  ];
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["Company", currentPage],
+    queryFn: () => getBaskets(currentPage),
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    placeholderData: (previousData) => previousData,
+  });
+
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-[#145463] text-lg animate-pulse">جارٍ تحميل البيانات...</p>
+      </div>
+    );
+
+  if (error)
+    return <p className="text-center p-10 text-red-500">حدث خطأ: {error.message}</p>;
+
+  const baskets = data?.data?.results || [];
+  const totalCount = data?.data?.count || 0;
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+  const hasNextPage = data?.data?.next;
+  const hasPrevPage = data?.data?.previous;
+
   return (
     <div className="p-6 " dir="rtl">
       <div className="flex flex-row justify-between mb-6">
@@ -50,10 +50,7 @@ function page() {
           <Building2 />
           <h1 className="text-3xl font-bold">إدارة الطلبات</h1>
         </div>
-        <SearchInput
-          placeholder="البحث برقم الطلب او العميل  ..."
-          onSearch={handleSearch}
-        />
+        <SearchInput placeholder="البحث برقم الطلب او العميل  ..." onSearch={handleSearch} />
         <FiltersDropdown
           placeholder="كل الحالات"
           options={[
@@ -74,16 +71,37 @@ function page() {
           <div className="w-[20%] text-center pr-2">تاريخ الطلب</div>
           <div className="w-[10%] text-center pr-2">إجراءات</div>
         </div>
-
-        {/* قائمة المستخدمين */}
         <div className="flex flex-col">
-          {baskets.map((bask) => (
-            <BasketsRow key={bask.id} basket={bask} />
-          ))}
+          {baskets.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-40 bg-white rounded-lg shadow-md text-gray-500 text-center">
+              <p className="text-lg">🚫 لا توجد فروع متاحة حاليًا</p>
+            </div>
+          ) : (
+            baskets.map((bask) => <BasketsRow key={bask.id} basket={bask} />)
+          )}
         </div>
+      </div>
+
+      <div className="flex justify-between items-center flex-row-reverse mt-8">
+        <Pagination
+          nameApi="/dashboard/users"
+          currentPage={currentPage}
+          totalPages={totalPages}
+          hasNextPage={hasNextPage}
+          hasPrevPage={hasPrevPage}
+        />
+        <div>{`عرض 1 - ${ITEMS_PER_PAGE} من إجمالي ${totalCount} نتيجة`}</div>
       </div>
     </div>
   );
 }
 
-export default page;
+// 3. الصفحة الأساسية التي يتم تصديرها
+export default function BasketsPage() {
+  return (
+    // تغليف المكون بـ Suspense لحل مشكلة الـ Build
+    <Suspense fallback={<div className="p-10 text-center">Loading...</div>}>
+      <BasketsList />
+    </Suspense>
+  );
+}

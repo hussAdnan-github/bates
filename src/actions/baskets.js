@@ -3,12 +3,12 @@
 import request from "@/lib/apiService";
 import { cookies } from "next/headers";
 
-export async function getBaskets() {
-  const result = await request(`baskets/baskets/`, "GET");
+export async function getBaskets(page = 1) {
+  const result = await request(`baskets/baskets/?page=${page}`, "GET");
   if (!result.success) {
     throw new Error(result.errors || "Failed to fetch data");
   }
-
+ 
   return result.data;
 }
 

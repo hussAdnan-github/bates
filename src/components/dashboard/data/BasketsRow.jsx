@@ -2,6 +2,14 @@ import React from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import StatusBadge from "../StatusBadge";
 function BasketsRow({ basket }) {
+  const statusMap = {
+    1: { text: "جاري معالجة طلبك", type: "active" },
+    2: { text: "تم شحن طلبك", type: "success" },
+    3: { text: "تم إلغاء طلبك", type: "danger" },
+    4: { text: "تم تعديل الطلب", type: "warning" },
+    5: { text: "تم قبول طلبك", type: "success" },
+    6: { text: "تم رفض طلبك", type: "danger" },
+  };
   return (
     <div className="flex flex-row-reverse items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-right">
       {/* 1. إجراءات */}
@@ -19,7 +27,10 @@ function BasketsRow({ basket }) {
       </div>
 
       <div className="w-[20%] text-center">
-        <StatusBadge text="جاري معالجة طلبك" type="active" />
+        <StatusBadge
+          text={statusMap[basket.status]?.text}
+          type={statusMap[basket.status]?.type}
+        />
       </div>
 
       {/* 4. نوع التاجر */}

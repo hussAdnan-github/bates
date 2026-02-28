@@ -1,7 +1,7 @@
 "use server";
 
 import request from "@/lib/apiService";
-
+import { revalidatePath } from "next/cache";
 export async function getProduts(
   price,
   department,
@@ -20,31 +20,25 @@ export async function getProduts(
     "GET",
   );
 
-  if (!result.success) {
-    throw new Error(result.errors || "Failed to fetch data");
-  }
+ 
   return result.data;
 }
 export async function getSearchProduts(search) {
   const params = new URLSearchParams();
-   params.append("search", search);
+  params.append("search", search);
   const result = await request(
     `products/products/?${params.toString()}`,
     "GET",
   );
 
-  if (!result.success) {
-    throw new Error(result.errors || "Failed to fetch data");
-  }
+ 
   return result.data;
 }
 
 export async function getProdutsId(id) {
   const result = await request(`products/products/${id}`, "GET");
 
-  if (!result.success) {
-    throw new Error(result.errors || "Failed to fetch branch data");
-  }
+
 
   return result.data;
 }
@@ -58,21 +52,30 @@ export async function getProdutsDash(page = 1) {
   return result.data;
 }
 export async function postProdut(formData) {
-  console.log(formData)
+  console.log(formData);
   const result = await request(`products/products/`, "POST", formData, true);
-console.log(result)
+
+   if (result.success) {
+    revalidatePath("/dashboard/products");  
+  }
   return result;
 }
 export async function putProdut(formData, id) {
-  console.log(formData)
-      const result = await request(`products/products/${id}/`, "PUT", formData, true);
-console.log(result)
+  console.log(formData);
+  const result = await request(
+    `products/products/${id}/`,
+    "PUT",
+    formData,
+    true,
+  );
+      if (result.success) {
+    revalidatePath("/dashboard/products");
+    revalidatePath(`/dashboard/products/${id}`);  
+  }
   return result;
 }
 export async function deleteProdut(id) {
   const result = await request(`products/products/${id}/`, "DELETE");
-
-   
-
+  revalidatePath("/dashboard/products");
   return result.data;
 }

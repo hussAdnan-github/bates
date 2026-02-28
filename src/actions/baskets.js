@@ -5,10 +5,6 @@ import { cookies } from "next/headers";
 
 export async function getBaskets(page = 1) {
   const result = await request(`baskets/baskets/?page=${page}`, "GET");
-  if (!result.success) {
-    throw new Error(result.errors || "Failed to fetch data");
-  }
- 
   return result.data;
 }
 
@@ -28,8 +24,9 @@ export async function postProductBasket(formData) {
   const result = await request(`baskets/basketItem/`, "POST", formData, true);
   const currentCount = Number(cookieStore.get("basket_count")?.value || 0);
   cookieStore.set("basket_count", (currentCount + 1).toString());
-
-  
+ if (result.success) {
+    revalidatePath("/dashboard/baskets");  
+  }
   return result;
 }
 export async function put(formData, id) {

@@ -74,9 +74,17 @@ function Navbar() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-<SheetContent side="right" className="w-[250px] bg-white px-4 md:mx-0" dir="rtl">
+            <SheetContent
+              side="right"
+              className="w-[250px] bg-white px-4 md:mx-0"
+              dir="rtl"
+            >
               {/* <VisuallyHidden> */}
-              <SheetTitle>القائمة الرئيسية</SheetTitle>
+              <SheetTitle className={'flex justify-end'}>
+                <Link href="/" className="text-3xl font-bold text-[#2D1B50]">
+                  BTS
+                </Link>
+              </SheetTitle>
               {/* </VisuallyHidden> */}
               <div className="flex flex-col gap-6 mt-10">
                 {navLinks.map((link) => (
@@ -89,15 +97,19 @@ function Navbar() {
                   </Link>
                 ))}
                 <hr />
-                <Button
-                  variant="outline"
-                  className="border-[#2D1B50] text-[#2D1B50] w-full"
-                >
-                  تسجيل الدخول
-                </Button>
-                <Button className="bg-[#FFC107] text-[#2D1B50] font-bold w-full">
-                  إنشاء حساب
-                </Button>
+                <Link
+            href="/login"
+            className="inline-flex items-center justify-center border border-[#2D1B50] text-[#2D1B50] hover:bg-[#2D1B50] hover:text-white px-6 py-2 rounded-md transition-colors"
+          >
+            تسجيل الدخول
+          </Link>
+
+          <Link
+            href="/signUp"
+            className="inline-flex items-center justify-center bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold px-6 py-2 rounded-md transition-colors"
+          >
+            إنشاء حساب
+          </Link>
               </div>
             </SheetContent>
           </Sheet>

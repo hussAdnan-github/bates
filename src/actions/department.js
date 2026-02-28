@@ -15,17 +15,12 @@ export async function getDepartment(company) {
     "GET",
   );
 
-  if (!result.success) {
-    throw new Error(result.errors || "Failed to fetch data");
-  }
 
   return result.data;
 }
 export async function getDepartmentDashboard(page = 1) {
   const result = await request(`departments/departments/?page=${page}`, "GET");
-  if (!result.success) {
-    throw new Error(result.errors || "Failed to fetch data");
-  }
+
   return result.data;
 }
 export async function getDepartmentId(id) {
@@ -40,21 +35,25 @@ export async function getDepartmentId(id) {
 export async function postDepartment(formData) {
   console.log(formData)
   const result = await request(`departments/departments/`, "POST", formData, false);
-  console.log(result)
+  if (result.success) {
+    revalidatePath("/dashboard/departments");  
+  }
   return result;
 }
 export async function editeDepartment(formData, id) {
   const result = await request(`departments/departments/${id}/`, "PUT", formData, false);
-  console.log(result)
 
-  return result; 
+  if (result.success) {
+    revalidatePath("/dashboard/departments");
+    revalidatePath(`/dashboard/departments/${id}`); 
+  }
+  return result;  
 }
 export async function deleteDepartment(id) {
   const result = await request(`departments/departments/${id}/`, "DELETE");
 
-  if (!result.success) {
-    throw new Error(result.errors || "Failed to fetch branch data");
+ if (result.success) {
+    revalidatePath("/dashboard/departments");  
   }
-
   return result.data;
 }

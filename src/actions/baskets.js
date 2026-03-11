@@ -5,9 +5,10 @@ import { cookies } from "next/headers";
 
 export async function getBaskets(page = 1) {
   const result = await request(`baskets/baskets/?page=${page}`, "GET");
+   
   return result.data;
 }
-
+  
 // export async function getId(id) {
 //   const result = await request(`Branch/GetBranchById?id=${id}`, "GET");
 

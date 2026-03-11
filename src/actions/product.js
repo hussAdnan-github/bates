@@ -19,7 +19,7 @@ export async function getProduts(
     `products/products/?${params.toString()}`,
     "GET",
   );
-
+ 
  
   return result.data;
 }

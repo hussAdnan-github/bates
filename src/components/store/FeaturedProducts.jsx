@@ -50,6 +50,7 @@
 
 // export default FeaturedProducts;
 
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -57,20 +58,20 @@ import CardProduct from "../shared/CardProduct";
 import { getProduts } from "@/actions/product";
 import InfiniteProductList from "./InfiniteProductList";
 
-async function FeaturedProducts() {
-  // 1. جلب البيانات مع معالجة الخطأ الأساسية
-  const products = await getProduts().catch((err) => {
-    console.error("Error fetching products:", err);
-    return null;
-  });
+// 1. إضافة هذا السطر لمنع الخطأ أثناء الـ Build (يجعل المكون ديناميكي)
+export const dynamic = 'force-dynamic';
 
-  // 2. التحقق من وجود البيانات قبل عرض المكونات
-  // هذا يمنع خطأ "Cannot read properties of undefined (reading 'data')"
+async function FeaturedProducts() {
+  // 2. استخدام try/catch أو التحقق من البيانات لتجنب TypeError
+  const products = await getProduts();
+
+  // 3. التحقق من وجود البيانات قبل تمريرها للمكون
   if (!products || !products.data) {
+    console.error("Failed to fetch products or products.data is missing");
     return (
       <section className="py-16 bg-white" dir="rtl">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-gray-500">لا توجد منتجات مميزة حالياً.</p>
+          <p>عذراً، لم نتمكن من تحميل المنتجات حالياً.</p>
         </div>
       </section>
     );
@@ -79,16 +80,16 @@ async function FeaturedProducts() {
   return (
     <section className="py-16 bg-white" dir="rtl">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-10">
+         <div className="flex items-center justify-between mb-10">
           <h2 className="text-2xl md:text-3xl font-black text-gray-800 relative after:content-[''] after:absolute after:-bottom-2 after:right-0 after:w-12 after:h-1 after:bg-primary">
             منتجات مميزة
           </h2>
         </div>
 
-        {/* 3. تمرير البيانات بأمان */}
+        {/* شبكة المنتجات */}
         <InfiniteProductList 
-          initialData={products.data} 
-        />
+              initialData={products.data} 
+            />
       </div>
     </section>
   );

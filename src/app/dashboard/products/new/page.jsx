@@ -35,8 +35,8 @@ const userSchema = z.object({
 });
 
 function page() {
-    const queryClient = useQueryClient();
-    const router = useRouter();
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const [extraImages, setExtraImages] = useState({});
 
   const [DepartmentList, setDepartmentList] = useState([]);
@@ -94,9 +94,21 @@ function page() {
 
     if (!result.success) {
       if (result.errors) {
-        setErrorsApi(result.errors);
+        Object.entries(result.errors).map(([field, message]) =>
+          toast.error(
+            <div style={{ direction: "rtl", textAlign: "right" }}>
+              <strong>{message}</strong>
+            </div>,
+            { duration: 4000 },
+          ),
+        );
       } else {
-        setGeneralError(result.message);
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}>
+            <strong>حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى</strong>
+          </div>,
+          { duration: 4000 },
+        );
       }
     } else {
       queryClient.invalidateQueries({ queryKey: ["Product"] });
@@ -227,9 +239,12 @@ function page() {
               >
                 {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
               </button>
-              <Link href={'/dashboard/products'} className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200">
+              <Link
+                href={"/dashboard/products"}
+                className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
+              >
                 الغاء
-              </Link  >
+              </Link>
             </div>
           </form>
         </div>

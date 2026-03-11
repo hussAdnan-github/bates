@@ -41,6 +41,7 @@ function Page() {
   const {
     register,
     handleSubmit,
+    setError,
     control,
     formState: { errors, isSubmitting },
   } = useForm({
@@ -62,9 +63,21 @@ function Page() {
     const result = await postUser(data);
     if (!result.success) {
       if (result.errors) {
-        setErrorsApi(result.errors);
+        Object.entries(result.errors).map(([field, message]) =>
+          toast.error(
+            <div style={{ direction: "rtl", textAlign: "right" }}>
+              <strong>{message}</strong>
+            </div>,
+            { duration: 4000 },
+          ),
+        );
       } else {
-        setGeneralError(result.message);
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}>
+            <strong>حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى</strong>
+          </div>,
+          { duration: 4000 },
+        );
       }
     } else {
       toast.success(
@@ -176,7 +189,7 @@ function Page() {
                   control={control}
                   render={({ field }) => (
                     <Switch
-                      id="active-status"
+                      id="isActive"
                       checked={field.value}
                       onCheckedChange={field.onChange}
                       className="
@@ -204,7 +217,7 @@ function Page() {
                   control={control}
                   render={({ field }) => (
                     <Switch
-                      id="active-status"
+                      id="isStaff"
                       checked={field.value}
                       onCheckedChange={field.onChange}
                       className="

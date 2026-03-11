@@ -1,6 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { Building2, Check, Image, PersonStanding, UserCircle2 } from "lucide-react";
+import {
+  Building2,
+  Check,
+  Image,
+  PersonStanding,
+  UserCircle2,
+} from "lucide-react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -15,22 +21,22 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
- 
+
 const userSchema = z.object({
   name_ar: z.string().min(3, "اسم بالعربي يجب أن يكون 3 أحرف على الأقل"),
   name_en: z.string().min(3, "اسم بالانجليزي يجب أن يكون 3 أحرف على الأقل"),
   description: z.string().min(3, "اسم بالعربي يجب أن يكون 3 أحرف على الأقل"),
   custom_user: z.array(z.number()).min(1, "يجب اختيار  واحدة على الأقل"),
-}); 
+});
 function page() {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
-   const [errorsApi, setErrorsApi] = useState({});
+  const [errorsApi, setErrorsApi] = useState({});
   const [generalError, setGeneralError] = useState("");
-    const route = useRouter();
-    const queryClient = useQueryClient();
+  const route = useRouter();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -42,7 +48,7 @@ function page() {
     defaultValues: {
       name_ar: "",
       name_en: "",
-      
+
       description: "",
       custom_user: [],
     },
@@ -72,21 +78,33 @@ function page() {
       console.log(key, value);
     }
     const result = await postcCompany(data);
- 
-     if (!result.success) {
+
+    if (!result.success) {
       if (result.errors) {
-         setErrorsApi(result.errors); 
+        Object.entries(result.errors).map(([field, message]) =>
+          toast.error(
+            <div style={{ direction: "rtl", textAlign: "right" }}>
+              <strong>{message}</strong>
+            </div>,
+            { duration: 4000 },
+          ),
+        );
       } else {
-         setGeneralError(result.message);
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}>
+            <strong>حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى</strong>
+          </div>,
+          { duration: 4000 },
+        );
       }
     } else {
-     toast.success(
+      toast.success(
         <div style={{ direction: "rtl", textAlign: "right" }}>
           <strong>تمت اضافة شركة بنجاح ✅</strong>
         </div>,
         { duration: 4000 },
       );
-       queryClient.invalidateQueries({ queryKey: ["Users"] });
+      queryClient.invalidateQueries({ queryKey: ["Users"] });
 
       route.back();
     }
@@ -175,7 +193,7 @@ function page() {
                 )}
               />
             </div>
-  <div className="flex flex-col items-center py-10 gap-4">
+            <div className="flex flex-col items-center py-10 gap-4">
               <Controller
                 name="image"
                 control={control}
@@ -217,14 +235,15 @@ function page() {
                 className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200 disabled:bg-gray-400"
               >
                 {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
-              </button>   <Link
-                              href={"/dashboard/companies"}
-                              className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
-                            >
-                              الغاء
-                            </Link>
+              </button>{" "}
+              <Link
+                href={"/dashboard/companies"}
+                className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
+              >
+                الغاء
+              </Link>
             </div>
-          </form> 
+          </form>
         </div>
       </div>
     </div>

@@ -91,9 +91,21 @@ function page() {
 
     if (!result.success) {
       if (result.errors) {
-        setErrorsApi(result.errors);
+        Object.entries(result.errors).map(([field, message]) =>
+          toast.error(
+            <div style={{ direction: "rtl", textAlign: "right" }}>
+              <strong>{message}</strong>
+            </div>,
+            { duration: 4000 },
+          ),
+        );
       } else {
-        setGeneralError(result.message);
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}>
+            <strong>حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى</strong>
+          </div>,
+          { duration: 4000 },
+        );
       }
     } else {
       queryClient.invalidateQueries({ queryKey: ["Users"] });
@@ -176,17 +188,18 @@ function page() {
             <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900">
               <Image size={24} />
               <span className="font-bold text-lg">شعار الشركة</span>
-            </div> 
+            </div>
 
             <div className="mt-8 pt-6 gap-2 border-t border-gray-50 flex justify-end">
               <button className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200">
                 حفظ البيانات
-              </button><Link
-                              href={"/dashboard/companies"}
-                              className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
-                            >
-                              الغاء
-                            </Link>
+              </button>
+              <Link
+                href={"/dashboard/companies"}
+                className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
+              >
+                الغاء
+              </Link>
             </div>
           </form>
         </div>

@@ -70,9 +70,21 @@ function page() {
 
     if (!result.success) {
       if (result.errors) {
-        setErrorsApi(result.errors);
+        Object.entries(result.errors).map(([field, message]) =>
+          toast.error(
+            <div style={{ direction: "rtl", textAlign: "right" }}>
+              <strong>{message}</strong>
+            </div>,
+            { duration: 4000 },
+          ),
+        );
       } else {
-        setGeneralError(result.message);
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}>
+            <strong>حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى</strong>
+          </div>,
+          { duration: 4000 },
+        );
       }
     } else {
       queryClient.invalidateQueries({ queryKey: ["Departments"] });
@@ -150,15 +162,15 @@ function page() {
               >
                 {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
               </button>
-               <Link
-                              href={"/dashboard/departments"}
-                              className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
-                            >
-                              الغاء
-                            </Link>
+              <Link
+                href={"/dashboard/departments"}
+                className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
+              >
+                الغاء
+              </Link>
             </div>
           </form>
-        </div> 
+        </div>
       </div>
     </div>
   );

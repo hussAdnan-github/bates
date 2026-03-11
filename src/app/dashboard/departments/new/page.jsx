@@ -17,14 +17,14 @@ const userSchema = z.object({
   name: z.string().min(3, "اسم المستخدم يجب أن يكون 3 أحرف على الأقل"),
   company: z.array(z.number()).min(1, "يجب اختيار  واحدة على الأقل"),
 });
-  
+
 function page() {
   const [comaniesList, setComaniesList] = useState([]);
   const [loading, setLoading] = useState(true);
   const queryClient = useQueryClient();
   const router = useRouter();
   const {
-    register, 
+    register,
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
@@ -51,25 +51,35 @@ function page() {
     fetchUser();
   }, []);
   const onSubmit = async (data) => {
- 
     const result = await postDepartment(data);
-    
 
-     if (!result.success) {
+    if (!result.success) {
       if (result.errors) {
-         setErrorsApi(result.errors); 
+        Object.entries(result.errors).map(([field, message]) =>
+          toast.error(
+            <div style={{ direction: "rtl", textAlign: "right" }}>
+              <strong>{message}</strong>
+            </div>,
+            { duration: 4000 },
+          ),
+        );
       } else {
-         setGeneralError(result.message);
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}>
+            <strong>حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى</strong>
+          </div>,
+          { duration: 4000 },
+        );
       }
     } else {
-  queryClient.invalidateQueries({queryKey : ['Departments']})
-    toast.success(
-      <div style={{ direction: "rtl", textAlign: "right" }}>
-        <strong>تمت اضافة قسم بنجاح ✅</strong>
-      </div>,
-      { duration: 4000 },
-    );
-    router.back();
+      queryClient.invalidateQueries({ queryKey: ["Departments"] });
+      toast.success(
+        <div style={{ direction: "rtl", textAlign: "right" }}>
+          <strong>تمت اضافة قسم بنجاح ✅</strong>
+        </div>,
+        { duration: 4000 },
+      );
+      router.back();
     }
   };
   return (
@@ -119,7 +129,7 @@ function page() {
                       ) : (
                         comaniesList.map((company) => (
                           <option key={company.id} value={company.id}>
-                            {company.name_ar + " " + company.name_en} 
+                            {company.name_ar + " " + company.name_en}
                           </option>
                         ))
                       )}
@@ -131,21 +141,22 @@ function page() {
 
             {/* زر الحفظ (إضافي من عندي ليكتمل النموذج) */}
             <div className="mt-8 pt-6 gap-2 border-t border-gray-50 flex justify-end">
-               <button
+              <button
                 type="submit"
                 disabled={isSubmitting}
                 className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200 disabled:bg-gray-400"
               >
                 {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
-              </button>   <Link
-                              href={"/dashboard/departments"}
-                              className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
-                            >
-                              الغاء
-                            </Link>
+              </button>{" "}
+              <Link
+                href={"/dashboard/departments"}
+                className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
+              >
+                الغاء
+              </Link>
             </div>
           </form>
-        </div> 
+        </div>
       </div>
     </div>
   );

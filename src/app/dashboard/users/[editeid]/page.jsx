@@ -10,6 +10,8 @@ import * as z from "zod";
 import { useParams, useRouter } from "next/navigation";
 import { Switch } from "@/components/ui/switch";
 import { useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
+import { toast } from "sonner";
 const userSchema = z
   .object({
     username: z.string().min(3, "اسم المستخدم يجب أن يكون 3 أحرف على الأقل"),
@@ -82,9 +84,21 @@ function page() {
 
     if (!result.success) {
       if (result.errors) {
-        setErrorsApi(result.errors);
+        Object.entries(result.errors).map(([field, message]) =>
+          toast.error(
+            <div style={{ direction: "rtl", textAlign: "right" }}>
+              <strong>{message}</strong>
+            </div>,
+            { duration: 4000 },
+          ),
+        );
       } else {
-        setGeneralError(result.message);
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}>
+            <strong>حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى</strong>
+          </div>,
+          { duration: 4000 },
+        );
       }
     } else {
       queryClient.invalidateQueries({ queryKey: ["Users"] });
@@ -269,8 +283,12 @@ function page() {
             </div> */}
             {/* زر الحفظ (إضافي من عندي ليكتمل النموذج) */}
             <div className="mt-8 pt-6 gap-2 border-t border-gray-50 flex justify-end">
-              <button className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200">
-                حفظ البيانات
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200 disabled:bg-gray-400"
+              >
+                {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
               </button>
               <Link
                 href={"/dashboard/users"}

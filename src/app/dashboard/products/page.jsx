@@ -1,5 +1,5 @@
 "use client";
-import React, { use } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Building2, Plus, Users } from "lucide-react";
 import UserRow from "@/components/dashboard/data/UserRow";
 import Link from "next/link";
@@ -11,12 +11,31 @@ import { useQuery } from "@tanstack/react-query";
 import { getProduts, getProdutsDash } from "@/actions/product";
 import { useSearchParams } from "next/navigation";
 import Pagination from "@/components/dashboard/Pagination";
+import { getDepartmentDashboard } from "@/actions/department";
 const ITEMS_PER_PAGE = 21;
 
 function page({ searchParams: searchParamsPage }) {
-const searchParams = use(searchParamsPage);
+  const [DepartmentList, setDepartmentList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const currentPage = Number(searchParams.page) || 1;;
+  useEffect(() => {
+    async function fetchDepartment() {
+      try {
+        const res = await getDepartmentDashboard();
+
+        setDepartmentList(res?.data?.results || []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchDepartment();
+  }, []);
+  const searchParams = use(searchParamsPage);
+
+  const currentPage = Number(searchParams.page) || 1;
   const handleSearch = (val) => console.log("بحث عن:", val);
   const handleRoleChange = (val) => console.log("تغيير النوع إلى:", val);
   const handleStatusChange = (val) => console.log("تغيير الحالة إلى:", val);
@@ -61,18 +80,20 @@ const searchParams = use(searchParamsPage);
           onSearch={handleSearch}
         />
         <FiltersDropdown
+        // department__company
           placeholder="كل الأقسام"
-          options={[
-            { label: "تاجر", value: "merchant" },
-            { label: "عميل", value: "customer" },
-          ]}
+          options={DepartmentList.map((dep) => ({
+            label: dep.name,
+            value: dep.id,
+          }))}
           onChange={handleRoleChange}
         />
         <FiltersDropdown
+        // status
           placeholder="كل الحالات"
           options={[
-            { label: "تاجر", value: "merchant" },
-            { label: "عميل", value: "customer" },
+            { label: "نشط", value: "merchant" },
+            { label: "غير نشط", value: "customer" },
           ]}
           onChange={handleStatusChange}
         />
@@ -98,11 +119,11 @@ const searchParams = use(searchParamsPage);
         {/* قائمة المستخدمين */}
         <div className="flex flex-col">
           {products.map((product) => (
-            <ProductsRow key={product.id} product={product} onDelte={refetch}/>
+            <ProductsRow key={product.id} product={product} onDelte={refetch} />
           ))}
         </div>
       </div>
-           <div className="flex justify-between items-center flex-row-reverse mt-8">
+      <div className="flex justify-between items-center flex-row-reverse mt-8">
         <Pagination
           nameApi="/dashboard/products"
           currentPage={currentPage}
@@ -220,7 +241,7 @@ export default page;
 //           ))}
 //         </div>
 //       </div>
-      
+
 //       <div className="flex justify-between items-center flex-row-reverse mt-8">
 //         <Pagination
 //           nameApi="/dashboard/products"

@@ -1,84 +1,3 @@
-// "use client";
-
-// import { ChevronsLeft, ChevronsRight } from "lucide-react";
-// import Link from "next/link";
-// import { useRouter } from "next/navigation";
-
-// export default function Pagination({
-//   nameApi,
-//   currentPage,
-//   totalPages,
-//   hasPrevPage,
-//   hasNextPage,
-// }) {
-//   const router = useRouter();
-
-//   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-//   console.log(`${nameApi}page=${currentPage - 1}`);
-//   return (
-//     <nav className="flex justify-center items-center gap-4 mt-8">
-//       {hasPrevPage == null ? (
-//         ``
-//       ) : (
-//         <button
-//           className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded-full shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105"
-//           disabled={!hasPrevPage}
-//           onClick={() => router.push(`${nameApi}?page=${0}`)}
-//           aria-label="الصفحة التالية"
-//         >
-//           <ChevronsRight />
-//         </button>
-//       )}
-//       <button
-//         className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded-full shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105"
-//         disabled={!hasPrevPage}
-//         onClick={() => router.push(`${nameApi}?page=${currentPage - 1}`)}
-//         aria-label="الصفحة السابقة"
-//       >
-//         <ChevronsRight />
-//       </button>
-
-//       <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow border border-gray-200">
-//         {pageNumbers.map((pageNumber) => (
-//           <Link
-//             key={pageNumber}
-//             href={`${nameApi}?page=${pageNumber}`}
-//             className={`w-9 h-9 flex items-center justify-center text-sm font-bold rounded-full transition-all duration-200 border-2 ${
-//               currentPage === pageNumber
-//                 ? "bg-blue-600 text-white border-blue-600 shadow-lg scale-110"
-//                 : "text-blue-600 bg-white border-blue-200 hover:bg-blue-50 hover:scale-105"
-//             }`}
-//             aria-current={currentPage === pageNumber ? "page" : undefined}
-//           >
-//             {pageNumber}
-//           </Link>
-//         ))}
-//       </div>
-
-//       <button
-//         className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded-full shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105"
-//         disabled={!hasNextPage}
-//         onClick={() => router.push(`${nameApi}?page=${currentPage + 1}`)}
-//         aria-label="الصفحة التالية"
-//       >
-//         <ChevronsLeft />
-//       </button>
-//       {hasNextPage == null ? (
-//         ``
-//       ) : (
-//         <button
-//           className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded-full shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105"
-//           disabled={!hasNextPage}
-//           onClick={() => router.push(`${nameApi}?page=${totalPages}`)}
-//           aria-label="الصفحة التالية"
-//         >
-//           <ChevronsLeft />
-//         </button>
-//       )}
-//     </nav>
-//   );
-// }
-
 "use client";
 
 import {
@@ -88,45 +7,56 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Pagination({
-  nameApi,
   currentPage,
   totalPages,
   hasPrevPage,
   hasNextPage,
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+   const createPageURL = (pageNumber) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", pageNumber.toString());
+    return `?${params.toString()}`;
+  };
+
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-   const baseUrl = nameApi.endsWith("/") ? nameApi.slice(0, -1) : nameApi;
+   if (totalPages <= 1) return null;
 
   return (
     <nav className="flex justify-center items-center gap-2" dir="ltr">
+      {/* الانتقال لآخر صفحة */}
       <button
         className="w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         disabled={!hasNextPage}
-        onClick={() => router.push(`${baseUrl}?page=${totalPages}`)}
+        onClick={() => router.push(createPageURL(totalPages))}
         aria-label="الصفحة الأخيرة"
       >
         <ChevronsLeft size={18} />
       </button>
 
+      {/* الصفحة التالية */}
       <button
         className="w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         disabled={!hasNextPage}
-        onClick={() => router.push(`${baseUrl}?page=${currentPage + 1}`)}
+        onClick={() => router.push(createPageURL(currentPage + 1))}
         aria-label="الصفحة التالية"
       >
         <ChevronLeft size={18} />
       </button>
+
       {/* أرقام الصفحات */}
       <div className="flex items-center gap-2">
-        {pageNumbers.reverse().map((pageNumber) => (
+        {/* ملحوظة: تم إزالة .reverse() إلا إذا كنت تريد عرض الأرقام من الأكبر للأصغر فعلياً */}
+        {pageNumbers.map((pageNumber) => (
           <Link
             key={pageNumber}
-            href={`${baseUrl}?page=${pageNumber}`}
+            href={createPageURL(pageNumber)}
             className={`w-10 h-10 flex items-center justify-center text-sm font-bold rounded-xl transition-all border shadow-sm ${
               currentPage === pageNumber
                 ? "bg-[#2D1B54] text-white border-[#2D1B54] shadow-indigo-200"
@@ -137,18 +67,22 @@ export default function Pagination({
           </Link>
         ))}
       </div>
+
+      {/* الصفحة السابقة */}
       <button
         className="w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         disabled={!hasPrevPage}
-        onClick={() => router.push(`${baseUrl}?page=${currentPage - 1}`)}
+        onClick={() => router.push(createPageURL(currentPage - 1))}
         aria-label="الصفحة السابقة"
       >
         <ChevronRight size={18} />
       </button>
+
+      {/* الانتقال لأول صفحة */}
       <button
         className="w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         disabled={!hasPrevPage}
-        onClick={() => router.push(`${baseUrl}?page=1`)}
+        onClick={() => router.push(createPageURL(1))}
         aria-label="الصفحة الأولى"
       >
         <ChevronsRight size={18} />

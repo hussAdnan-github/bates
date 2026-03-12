@@ -196,8 +196,8 @@ function page() {
                 control={control}
                 render={({ field }) => (
                   <select
-                    {...field} // يربط value و onChange تلقائياً
-                    onChange={(e) => field.onChange(Number(e.target.value))} // تحويل القيمة لرقم
+                    {...field}  
+                    onChange={(e) => field.onChange(Number(e.target.value))}  
                     className={`w-full border rounded-lg p-3 bg-gray-50 ${
                       errors.department ? "border-red-500" : "border-gray-200"
                     }`}

@@ -2,11 +2,20 @@
 
 import request from "@/lib/apiService";
 import { revalidatePath } from "next/cache";
-export async function getUsers(page = 1) {
-  const result = await request(`users/?page=${page}`, "GET");
-  return result.data;
-}
+ export async function getUsers(page = 1, isActive, typeCustom, searchQuery) {
+  const params = new URLSearchParams();
+  
+  if (page) params.append("page", page);
+  if (isActive) params.append("is_active", isActive);
+  if (typeCustom) params.append("type_custom", typeCustom);
+  if (searchQuery) params.append("search", searchQuery);
 
+ 
+  
+  const result = await request(`users/?${params.toString()}`, "GET");
+ console.log(result.data)
+   return result.data; 
+}
 export async function getUserId(id) {
   const result = await request(`users/${id}`, "GET");
   return result.data;

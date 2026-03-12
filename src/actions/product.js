@@ -14,13 +14,12 @@ export async function getProduts(
   if (department__company)
     params.append("department__company", department__company);
   params.append("page", page.toString());
-  console.log("dsfdf", `products/products/?${params.toString()}`);
+
   const result = await request(
     `products/products/?${params.toString()}`,
     "GET",
   );
- 
- 
+
   return result.data;
 }
 export async function getSearchProduts(search) {
@@ -31,20 +30,33 @@ export async function getSearchProduts(search) {
     "GET",
   );
 
- 
   return result.data;
 }
 
 export async function getProdutsId(id) {
   const result = await request(`products/products/${id}`, "GET");
 
-
-
   return result.data;
 }
 
-export async function getProdutsDash(page = 1) {
-  const result = await request(`products/products/?page=${page}`, "GET");
+export async function getProdutsDash(
+  page = 1,
+  department__company,
+  status,
+  searchTerm,
+) {
+  const params = new URLSearchParams();
+
+  if (page) params.append("page", page);
+  if (department__company)
+    params.append("department", department__company);
+  if (status) params.append("status", status);
+  if (searchTerm) params.append("search", searchTerm);
+
+  const result = await request(
+    `products/products/?${params.toString()}`,
+    "GET",
+  );
 
   if (!result.success) {
     throw new Error(result.errors || "Failed to fetch data");
@@ -55,8 +67,8 @@ export async function postProdut(formData) {
   console.log(formData);
   const result = await request(`products/products/`, "POST", formData, true);
 
-   if (result.success) {
-    revalidatePath("/dashboard/products");  
+  if (result.success) {
+    revalidatePath("/dashboard/products");
   }
   return result;
 }
@@ -68,9 +80,9 @@ export async function putProdut(formData, id) {
     formData,
     true,
   );
-      if (result.success) {
+  if (result.success) {
     revalidatePath("/dashboard/products");
-    revalidatePath(`/dashboard/products/${id}`);  
+    revalidatePath(`/dashboard/products/${id}`);
   }
   return result;
 }

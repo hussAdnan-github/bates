@@ -2,7 +2,7 @@
 import React from "react";
 import { ChevronDown } from "lucide-react";
 
-function  FiltersDropdown({ options = [], placeholder, onChange, className = "" }) {
+function  FiltersDropdown({ options = [], placeholder, onChange}) {
   return (
     <div className={`relative ${className}`}>
       <select

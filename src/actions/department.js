@@ -2,7 +2,7 @@
 
 import request from "@/lib/apiService";
 
-export async function getDepartment(company) {
+export async function getDepartment(company) { 
   const params = new URLSearchParams();
 
   if (company) params.append("company", company);
@@ -18,10 +18,16 @@ export async function getDepartment(company) {
 
   return result.data;
 }
-export async function getDepartmentDashboard(page = 1) {
-  const result = await request(`departments/departments/?page=${page}`, "GET");
+export async function getDepartmentDashboard(page = 1 , company , search) {
+  const params = new URLSearchParams();
 
-  return result.data;
+  if (page) params.append("page", page);
+  if (company) params.append("company", company);
+  if (search) params.append("search", search);
+
+  const result = await request(`departments/departments/?${params.toString()}`, "GET");
+
+  return result.data; 
 }
 export async function getDepartmentId(id) {
   const result = await request(`departments/departments/${id}`, "GET");

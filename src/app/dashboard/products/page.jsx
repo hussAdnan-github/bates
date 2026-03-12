@@ -9,7 +9,7 @@ import CompaniesRow from "@/components/dashboard/data/CompaniesRow";
 import ProductsRow from "@/components/dashboard/data/ProductsRow";
 import { useQuery } from "@tanstack/react-query";
 import { getProduts, getProdutsDash } from "@/actions/product";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "@/components/dashboard/Pagination";
 import { getDepartmentDashboard } from "@/actions/department";
 const ITEMS_PER_PAGE = 21;
@@ -17,7 +17,36 @@ const ITEMS_PER_PAGE = 21;
 function page({ searchParams: searchParamsPage }) {
   const [DepartmentList, setDepartmentList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const searchParamsQuery = useSearchParams();
 
+  const department__company =
+    searchParamsQuery.get("department__company") || "";
+  const status = searchParamsQuery.get("status") || "";
+
+  const searchQuery = searchParamsQuery.get("search") || "";
+  const [searchTerm, setSearchTerm] = useState(searchQuery);
+
+  const updateFilters = (key, value) => {
+    const params = new URLSearchParams(searchParamsQuery.toString());
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    params.set("page", "1");
+    router.push(`?${params.toString()}`);
+  };
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchTerm !== searchQuery) {
+        updateFilters("search", searchTerm);
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
   useEffect(() => {
     async function fetchDepartment() {
       try {
@@ -36,13 +65,14 @@ function page({ searchParams: searchParamsPage }) {
   const searchParams = use(searchParamsPage);
 
   const currentPage = Number(searchParams.page) || 1;
-  const handleSearch = (val) => console.log("بحث عن:", val);
-  const handleRoleChange = (val) => console.log("تغيير النوع إلى:", val);
-  const handleStatusChange = (val) => console.log("تغيير الحالة إلى:", val);
+  const handleSearch = (val) => setSearchTerm(val);
+  const handleRoleChange = (val) => updateFilters("department__company", val);
+  const handleStatusChange = (val) => updateFilters("status", val);
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["Product", currentPage],
-    queryFn: () => getProdutsDash(currentPage),
+    queryKey: ["Product", currentPage, department__company, status, searchTerm],
+    queryFn: () =>
+      getProdutsDash(currentPage, department__company, status, searchTerm),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
     placeholderData: (previousData) => previousData,
@@ -79,8 +109,18 @@ function page({ searchParams: searchParamsPage }) {
           placeholder="البحث بالاسم او الموديل  ..."
           onSearch={handleSearch}
         />
+        {/* <FiltersDropdown
+          // department__company
+
+          placeholder="كل الأقسام"
+          options={DepartmentList.map((dep) => ({
+            label: dep.name,
+            value: dep.id,
+          }))}
+          onChange={handleRoleChange}
+        /> */}
         <FiltersDropdown
-        // department__company
+          // department
           placeholder="كل الأقسام"
           options={DepartmentList.map((dep) => ({
             label: dep.name,
@@ -89,11 +129,11 @@ function page({ searchParams: searchParamsPage }) {
           onChange={handleRoleChange}
         />
         <FiltersDropdown
-        // status
+          // status
           placeholder="كل الحالات"
           options={[
-            { label: "نشط", value: "merchant" },
-            { label: "غير نشط", value: "customer" },
+            { label: "نشط", value: 1 },
+            { label: "غير نشط", value: 2 },
           ]}
           onChange={handleStatusChange}
         />

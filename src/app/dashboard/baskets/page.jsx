@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, use } from "react";
+import React, { Suspense, use, useEffect, useState } from "react";
 import { Building2 } from "lucide-react";
 import SearchInput from "@/components/dashboard/SearchInput";
 import FiltersDropdown from "@/components/dashboard/FiltersDropdown";
@@ -11,32 +11,45 @@ import Pagination from "@/components/dashboard/Pagination";
 
 const ITEMS_PER_PAGE = 21;
 
-// 1. المكون الذي يعرض البيانات
 function BasketsList({ searchParamsPromise }) {
-  // استخدام use لفك الـ Promise الخاص بـ searchParams (نمط Next.js 15)
   const searchParams = use(searchParamsPromise);
   const router = useRouter();
   const pathname = usePathname();
+  const searchParamsQuery = useSearchParams();
+
+  const status = searchParamsQuery.get("status") || "";
+  const searchQuery = searchParamsQuery.get("search") || "";
+
+  const [searchTerm, setSearchTerm] = useState(searchQuery);
 
   const currentPage = Number(searchParams.page) || 1;
-  const query = searchParams.query || "";
-  const status = searchParams.status || "";
 
-  // دالة لتحديث الرابط عند البحث أو الفلترة
-  const updateUrl = (key, value) => {
-    const params = new URLSearchParams(searchParams);
+  const updateFilters = (key, value) => {
+    
+    const params = new URLSearchParams(searchParamsQuery.toString());
     if (value) {
       params.set(key, value);
     } else {
       params.delete(key);
     }
-    params.set("page", "1"); // العودة للصفحة الأولى عند التغيير
-    router.push(`${pathname}?${params.toString()}`);
+    params.set("page", "1");
+    router.push(`?${params.toString()}`);
   };
 
+   useEffect(() => {
+      const delayDebounceFn = setTimeout(() => {
+        if (searchTerm !== searchQuery) {
+          updateFilters("search", searchTerm);
+        }
+      }, 500);
+  
+      return () => clearTimeout(delayDebounceFn);
+    }, [searchTerm]);
+  const handleRoleChange = (val) => updateFilters("status", val);
+  const handleSearch = (val) => setSearchTerm(val);
   const { data, isLoading, error } = useQuery({
-    queryKey: ["baskets", currentPage, query, status], // إضافة query و status للمفتاح لتحديث البيانات
-    queryFn: () => getBaskets(currentPage), // تأكد أن الأكشن getBaskets يستقبل الفلاتر إذا أردت
+    queryKey: ["baskets", currentPage, status, searchTerm],
+    queryFn: () => getBaskets(currentPage, status, searchTerm),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
     placeholderData: (previousData) => previousData,
@@ -45,12 +58,16 @@ function BasketsList({ searchParamsPromise }) {
   if (isLoading)
     return (
       <div className="flex justify-center items-center h-64">
-        <p className="text-[#145463] text-lg animate-pulse">جارٍ تحميل البيانات...</p>
+        <p className="text-[#145463] text-lg animate-pulse">
+          جارٍ تحميل البيانات...
+        </p>
       </div>
     );
 
   if (error)
-    return <p className="text-center p-10 text-red-500">حدث خطأ: {error.message}</p>;
+    return (
+      <p className="text-center p-10 text-red-500">حدث خطأ: {error.message}</p>
+    );
 
   const baskets = data?.data?.results || [];
   const totalCount = data?.data?.count || 0;
@@ -65,17 +82,22 @@ function BasketsList({ searchParamsPromise }) {
           <Building2 />
           <h1 className="text-3xl font-bold mr-2">إدارة الطلبات</h1>
         </div>
-        <SearchInput 
-          placeholder="البحث برقم الطلب او العميل..." 
-          onSearch={(val) => updateUrl("query", val)} 
+        <SearchInput
+          placeholder="البحث برقم الطلب او ال عميل..."
+          onSearch={handleSearch}
         />
         <FiltersDropdown
+          // taype_custom
           placeholder="كل الحالات"
           options={[
-            { label: "تاجر", value: "merchant" },
-            { label: "عميل", value: "customer" },
+            { label: "جاري معالجة طلبك", value: 1 },
+            { label: "تم شحن طلبك", value: 2 },
+            { label: "تم إلغاء طلبك", value: 3 },
+            { label: "تم تعديل الطلب", value: 4 },
+            { label: "تم قبول طلبك", value: 5 },
+            { label: "تم رفض طلبك", value: 6 },
           ]}
-          onChange={(val) => updateUrl("status", val)}
+          onChange={handleRoleChange}
         />
       </div>
 
@@ -102,7 +124,7 @@ function BasketsList({ searchParamsPromise }) {
 
       <div className="flex justify-between items-center flex-row-reverse mt-8">
         <Pagination
-          nameApi="/dashboard/baskets" // تأكد أن المسار يطابق صفحتك
+          nameApi="/dashboard/baskets"
           currentPage={currentPage}
           totalPages={totalPages}
           hasNextPage={hasNextPage}
@@ -116,10 +138,11 @@ function BasketsList({ searchParamsPromise }) {
   );
 }
 
-// 2. الصفحة الأساسية (تستقبل searchParams كـ Promise في Next.js 15)
 export default function BasketsPage({ searchParams }) {
   return (
-    <Suspense fallback={<div className="p-20 text-center">جارٍ التحميل...</div>}>
+    <Suspense
+      fallback={<div className="p-20 text-center">جارٍ التحميل...</div>}
+    >
       <BasketsList searchParamsPromise={searchParams} />
     </Suspense>
   );

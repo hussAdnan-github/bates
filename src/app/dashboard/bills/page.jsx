@@ -11,7 +11,7 @@ import BasketsRow from "@/components/dashboard/data/BillsRowRow";
 import BillsRowRow from "@/components/dashboard/data/BillsRowRow";
 
 function page() {
-  const handleSearch = (val) => console.log("بحث عن:", val);
+  // const handleSearch = (val) => console.log("بحث عن:", val);
   const handleRoleChange = (val) => console.log("تغيير النوع إلى:", val);
   const handleStatusChange = (val) => console.log("تغيير الحالة إلى:", val);
 
@@ -51,10 +51,10 @@ function page() {
           <Building2 />
           <h1 className="text-3xl font-bold">إدارة الفواتير</h1>
         </div>
-        <SearchInput
+        {/* <SearchInput
           placeholder="البحث برقم الفاتورة او العميل  ..."
           onSearch={handleSearch}
-        />
+        /> */}
         <FiltersDropdown
           placeholder="كل الأنواع"
           options={[

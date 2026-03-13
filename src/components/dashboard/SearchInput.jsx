@@ -2,10 +2,10 @@
 import React from 'react'
 import { Search } from 'lucide-react';
 
-function SearchInput({ placeholder = "ابحث هنا...", onSearch, className = "" }) {
+function SearchInput({ placeholder = "ابحث هنا...", onSearch  }) {
   console.log(`search ${onSearch}`)
 return (
-    <div className={`relative w-full max-w-xs ${className}`}>
+    <div className={`relative w-full max-w-xs  `}>
       <input
         type="text"
         placeholder={placeholder}

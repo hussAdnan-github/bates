@@ -1,61 +1,66 @@
-// import { NextResponse, NextRequest } from "next/server";
-// // default
-// export function middleware(request) {
+
+// import { NextResponse } from "next/server";
+
+//  export function proxy(request) {
 //   const token = request.cookies.get("auth_token")?.value;
 //   const pathname = request.nextUrl.pathname;
 
-//   // قائمة المسارات المحمية
-//   const isProtectedRoute =
+//    const isProtectedRoute =
 //     pathname.startsWith("/shop") || pathname.startsWith("/dashboard");
 
 //   if (isProtectedRoute) {
 //     if (!token) {
-//       // حفظ المسار الذي كان يحاول المستخدم دخوله لإعادته إليه لاحقاً (اختياري)
-//       const loginUrl = new URL("/login", request.url);
+//        const loginUrl = new URL("/login", request.url);
 //       return NextResponse.redirect(loginUrl);
 //     }
+//   }
+
+//    if (pathname === "/login" && token) {
+//     return NextResponse.redirect(new URL("/dashboard", request.url));
 //   }
 
 //   return NextResponse.next();
 // }
 
-// // تحديث الـ matcher ليشمل كل المسارات المحمية
-// export const config = {
+//  export const config = {
 //   matcher: [
 //     "/shop/:path*",
-//     "/dashboard/:path*", // أضفنا هذا
+//     "/dashboard/:path*",
 //     "/login",
 //   ],
 // };
 
 
+
+
 import { NextResponse } from "next/server";
 
- export function proxy(request) {
+export function proxy(request) {
   const token = request.cookies.get("auth_token")?.value;
-  const pathname = request.nextUrl.pathname;
+  const { pathname } = request.nextUrl;
 
-  // قائمة المسارات المحمية
-  const isProtectedRoute =
-    pathname.startsWith("/shop") || pathname.startsWith("/dashboard");
+  // 1. تحديد أنواع المسارات
+  const isProtectedRoute = pathname.startsWith("/shop") || pathname.startsWith("/dashboard");
+  const isLoginPage = pathname === "/login";
 
-  if (isProtectedRoute) {
-    if (!token) {
-      // إعادة التوجيه لصفحة تسجيل الدخول إذا لم يوجد توكن
-      const loginUrl = new URL("/login", request.url);
-      return NextResponse.redirect(loginUrl);
-    }
+  // 2. إذا كان المستخدم يحاول دخول صفحة محمية وهو غير مسجل دخول
+  if (isProtectedRoute && !token) {
+    const loginUrl = new URL("/login", request.url);
+    // إضافة پارامتر ليعرف النظام أين كان يريد المستخدم الذهاب (اختياري ومفيد)
+    // loginUrl.searchParams.set("from", pathname); 
+    return NextResponse.redirect(loginUrl);
   }
 
-  // اختياري: إذا كان المستخدم مسجل دخول ويحاول دخول صفحة /login، وجهه للرئيسية
-  if (pathname === "/login" && token) {
+  // 3. إذا كان المستخدم مسجل دخول ويحاول دخول صفحة تسجيل الدخول
+  if (isLoginPage && token) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
+  // 4. السماح بمرور الطلب إذا لم تتحقق الشروط أعلاه
   return NextResponse.next();
 }
 
-// الـ matcher يبقى كما هو بدون تغيير
+// 5. الـ matcher لتحديد المسارات التي يعمل عليها الـ middleware
 export const config = {
   matcher: [
     "/shop/:path*",

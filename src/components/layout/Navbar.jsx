@@ -19,97 +19,119 @@ function Navbar() {
     { title: "تواصل معنا", href: "#contact" },
   ];
   const [mounted, setMounted] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // إذا لم يتم التحميل بعد على المتصفح، لا تظهر الـ Navbar أو أظهر نسخة مبسطة
-  if (!mounted) return null; // أو أظهر الهيكل فقط بدون الـ Sheet
+  if (!mounted) return null;
 
   return (
-    <nav className="w-full border-b bg-white py-4 sticky top-0 z-50" dir="rtl">
-      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        {/* جهة اليمين: اللوجو والروابط (للشاشات الكبيرة) */}
-        <div className="flex items-center gap-10">
-          <Link href="/" className="text-3xl font-bold text-[#2D1B50]">
+    <nav 
+      className={`w-full sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? "bg-white/80 backdrop-blur-md shadow-sm py-3" 
+          : "bg-white py-5"
+      }`} 
+      dir="rtl"
+    >
+      <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
+        
+        {/* جهة اليمين: اللوجو والروابط */}
+        <div className="flex items-center gap-12">
+          <Link 
+            href="/" 
+            className="text-3xl font-black tracking-tighter text-[#2D1B50] hover:opacity-80 transition-opacity"
+          >
             BTS
           </Link>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.title}
                 href={link.href}
-                className="text-sm font-medium text-gray-700 hover:text-[#2D1B50] transition-colors"
+                className="text-[15px] font-medium text-gray-600 hover:text-[#2D1B50] relative group transition-colors"
               >
                 {link.title}
+                {/* خط انيميشن تحت الرابط عند الهوفر */}
+                <span className="absolute -bottom-1 right-0 w-0 h-0.5 bg-[#FFC107] transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
           </div>
         </div>
 
-        {/* جهة اليسار: الأزرار (للشاشات الكبيرة) */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* جهة اليسار: الأزرار */}
+        <div className="hidden md:flex items-center gap-4">
           <Link
             href="/login"
-            className="inline-flex items-center justify-center border border-[#2D1B50] text-[#2D1B50] hover:bg-[#2D1B50] hover:text-white px-6 py-2 rounded-md transition-colors"
+            className="text-[#2D1B50] font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-gray-50 transition-all active:scale-95"
           >
             تسجيل الدخول
           </Link>
 
           <Link
             href="/signUp"
-            className="inline-flex items-center justify-center bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold px-6 py-2 rounded-md transition-colors"
+            className="bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold text-sm px-7 py-2.5 rounded-xl shadow-lg shadow-yellow-200/50 transition-all hover:shadow-yellow-200/80 active:scale-95"
           >
             إنشاء حساب
           </Link>
         </div>
 
-        {/* قائمة الموبايل (Responsive Mobile Menu) */}
-        <div className="md:hidden">
+        {/* قائمة الموبايل */}
+        <div className="lg:hidden flex items-center gap-2">
+           {/* زر الموبايل المحسن */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
+              <Button variant="ghost" size="icon" className="hover:bg-gray-100 rounded-full">
+                <Menu className="h-6 w-6 text-[#2D1B50]" />
               </Button>
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[250px] bg-white px-4 md:mx-0"
+              className="w-[300px] bg-white border-l-0"
               dir="rtl"
             >
-              {/* <VisuallyHidden> */}
-              <SheetTitle className={'flex justify-end'}>
-                <Link href="/" className="text-3xl font-bold text-[#2D1B50]">
-                  BTS
-                </Link>
-              </SheetTitle>
-              {/* </VisuallyHidden> */}
-              <div className="flex flex-col gap-6 mt-10">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.title}
-                    href={link.href}
-                    className="text-lg font-medium text-gray-700"
-                  >
-                    {link.title}
+              <div className="flex flex-col h-full">
+                <SheetTitle className="flex justify-start pt-4 pb-8 border-b">
+                  <Link href="/" className="text-3xl font-black text-[#2D1B50]">
+                    BTS
                   </Link>
-                ))}
-                <hr />
-                <Link
-            href="/login"
-            className="inline-flex items-center justify-center border border-[#2D1B50] text-[#2D1B50] hover:bg-[#2D1B50] hover:text-white px-6 py-2 rounded-md transition-colors"
-          >
-            تسجيل الدخول
-          </Link>
+                </SheetTitle>
+                
+                <div className="flex flex-col gap-2 mt-8">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.title}
+                      href={link.href}
+                      className="text-lg font-semibold text-gray-700 p-3 rounded-lg hover:bg-gray-50 hover:text-[#2D1B50] transition-all"
+                    >
+                      {link.title}
+                    </Link>
+                  ))}
+                </div>
 
-          <Link
-            href="/signUp"
-            className="inline-flex items-center justify-center bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold px-6 py-2 rounded-md transition-colors"
-          >
-            إنشاء حساب
-          </Link>
+                <div className="mt-auto flex flex-col gap-3 pb-8">
+                  <hr className="mb-4" />
+                  <Link
+                    href="/login"
+                    className="w-full text-center py-3 font-bold text-[#2D1B50] border-2 border-[#2D1B50] rounded-xl"
+                  >
+                    تسجيل الدخول
+                  </Link>
+                  <Link
+                    href="/signUp"
+                    className="w-full text-center py-3 font-bold bg-[#FFC107] text-[#2D1B50] rounded-xl shadow-md"
+                  >
+                    إنشاء حساب
+                  </Link>
+                </div>
               </div>
             </SheetContent>
           </Sheet>

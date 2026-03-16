@@ -3,8 +3,7 @@ import { Minus, Plus } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 
-function QuantityProduct() {
-   const [quantity, setQuantity] = useState(1);
+function QuantityProduct(  { quantity, setQuantity }) {
 
   return (
     <div className="flex items-center gap-4">

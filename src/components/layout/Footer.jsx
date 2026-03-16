@@ -72,7 +72,7 @@ function Footer() {
             <p className="text-gray-400 text-sm leading-relaxed">
               نحن في شركة محمد باتيس للتجارة نسعى لتوفير أفضل مستلزمات الهواتف الذكية والتقنيات الحديثة بجودة عالية وأسعار تنافسية.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-center md:justify-start">
               <SocialLink href="#" icon={<Facebook size={20} />} />
               <SocialLink href="#" icon={<Instagram size={20} />} />
               <SocialLink href="#" icon={<Twitter size={20} />} />
@@ -80,7 +80,7 @@ function Footer() {
           </div>
 
           {/* العمود 2: روابط سريعة */}
-          <div>
+          <div className='flex flex-col  items-center md:items-start'>
             <h4 className="text-lg font-bold mb-6 text-[#FFC107]">روابط سريعة</h4>
             <ul className="space-y-4">
               <FooterLink href="/shop">المتجر الرئيسي</FooterLink>
@@ -91,7 +91,7 @@ function Footer() {
           </div>
 
           {/* العمود 3: الدعم والمساعدة */}
-          <div>
+          <div className='flex flex-col  items-center md:items-start'>
             <h4 className="text-lg font-bold mb-6 text-[#FFC107]">الدعم والمساعدة</h4>
             <ul className="space-y-4">
               <FooterLink href="/terms">الشروط والأحكام</FooterLink>

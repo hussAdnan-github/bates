@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import { getProduts } from "@/actions/product";
 
 function InfiniteProductList({
+  show = 3 ,
   initialData,
   price = "",
   department = "", 
@@ -52,7 +53,7 @@ function InfiniteProductList({
           <p className="ms-4 font-bold text-primary">{price}</p>
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className={show === 4 ? `grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-6` : `grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-6`}>
         {products.map((product) => (
           <CardProduct
             key={product.id}

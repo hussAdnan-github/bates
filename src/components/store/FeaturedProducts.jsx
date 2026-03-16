@@ -8,7 +8,6 @@
 // async function FeaturedProducts() {
 //   const products = await getProduts();
 
-
 //   return (
 //     <section className="py-16 bg-white" dir="rtl">
 //       <div className="container mx-auto px-4">
@@ -25,10 +24,10 @@
 //         </div>
 
 //         {/* شبكة المنتجات */}
-//         <InfiniteProductList 
-//               initialData={products.data} 
-//               // price={price} 
-//               // department={department} 
+//         <InfiniteProductList
+//               initialData={products.data}
+//               // price={price}
+//               // department={department}
 //             />
 //         {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 //           {products.data.results.map((product) => (
@@ -50,7 +49,6 @@
 
 // export default FeaturedProducts;
 
-
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -59,7 +57,7 @@ import { getProduts } from "@/actions/product";
 import InfiniteProductList from "./InfiniteProductList";
 
 // 1. إضافة هذا السطر لمنع الخطأ أثناء الـ Build (يجعل المكون ديناميكي)
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 async function FeaturedProducts() {
   // 2. استخدام try/catch أو التحقق من البيانات لتجنب TypeError
@@ -80,16 +78,14 @@ async function FeaturedProducts() {
   return (
     <section className="py-16 bg-white" dir="rtl">
       <div className="container mx-auto px-4">
-         <div className="flex items-center justify-between mb-10">
+        <div className="flex items-center justify-between mb-10">
           <h2 className="text-2xl md:text-3xl font-black text-gray-800 relative after:content-[''] after:absolute after:-bottom-2 after:right-0 after:w-12 after:h-1 after:bg-primary">
             منتجات مميزة
           </h2>
         </div>
 
         {/* شبكة المنتجات */}
-        <InfiniteProductList 
-              initialData={products.data} 
-            />
+        <InfiniteProductList show={4} initialData={products.data} />
       </div>
     </section>
   );

@@ -9,11 +9,14 @@ export async function POST(req) {
       username,
       password,
     });
-    
+   console.log(`color ${res.data.data.primary_color}`)
+   console.log(`color ${res.data.data.secondary_color}`)
+
     const { token, basket_count ,primary_color, secondary_color } =
       res.data.data;
+  console.log(`color ${primary_color}`)
+   console.log(`color ${secondary_color}`)
     const user = res.data.data.user.username;
-   
     const response = NextResponse.json({
       success: true,
       token,

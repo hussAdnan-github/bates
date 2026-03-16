@@ -6,15 +6,18 @@
   --color-primary-hover: color-mix(in srgb, var(--primary-color), black 15%);
 
   --color-secondary: var(--secondary-color);
-  /* هذا السطر يخلط لون السكندري مع 15% أسود لإنتاج درجة أغمق */
-  --color-secondary-hover: color-mix(in srgb, var(--secondary-color), black 15%);
+   --color-secondary-hover: color-mix(in srgb, var(--secondary-color), black 15%);
 }
 
 :root {
-  /* الألوان الافتراضية في حال لم يسجل المستخدم دخوله */
-  --primary-color: #361d5c;
+   --primary-color: #361d5c;
   --secondary-color: #ffc107;
   scroll-behavior: smooth;
+}
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
 @custom-variant dark (&:is(.dark *));

@@ -6,10 +6,8 @@ import { getProdutsId } from "@/actions/product";
 import QuantityProduct from "@/components/store/QuantityProduct";
 import { Button } from "@/components/ui/button";
 import ButtonCart from "@/components/store/ButtonCart";
+import ProductActionSection from "@/components/store/ProductActionSection";
 async function page({ params }) {
- 
-  
-
   const breadcrumbs = ["الرئيسية", "شنط فيدفي", "شنطة لابتوب 16 انش"];
 
   const Productid = (await params).productid;
@@ -58,15 +56,14 @@ async function page({ params }) {
             <div className="text-3xl font-black text-[#F18721]">
               {product.data.price} <span className="text-xl">ر.س</span>
             </div>
+            <ProductActionSection productId={product.data.id} />
 
-            <QuantityProduct/>
-
-            <ButtonCart id={product.data.id}/>
-
-             <div className="space-y-3 pt-6 border-t border-gray-100">
+            <div className="space-y-3 pt-6 border-t border-gray-100">
               <p className="text-gray-600 font-medium">
                 رمز المنتج (model):{" "}
-                <span className="text-gray-900 font-bold">{product.data.model}</span>
+                <span className="text-gray-900 font-bold">
+                  {product.data.model}
+                </span>
               </p>
               <p className="text-gray-600 font-medium">
                 التوفر:{" "}

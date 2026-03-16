@@ -9,11 +9,20 @@ import Categories from "@/components/store/Department";
 import Department from "@/components/store/Department";
 import { getDepartment } from "@/actions/department";
 import InfiniteProductList from "@/components/store/InfiniteProductList";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Filter, SlidersHorizontal } from "lucide-react";
+import FilterContent from "@/components/store/FilterContent";
 
 async function page({ searchParams }) {
   const { price, department, department__company } = await searchParams;
 
- 
   const [products, departmentData] = await Promise.all([
     getProduts(price, department, department__company),
     getDepartment(department__company),
@@ -27,7 +36,7 @@ async function page({ searchParams }) {
         </h1>
 
         <div className="flex flex-col-reverse lg:flex-row gap-8">
-          <aside className="w-full lg:w-1/4 space-y-8 order-2 lg:order-1">
+          {/* <aside className="w-full lg:w-1/4 space-y-8 order-2 lg:order-1">
             <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
               <h3 className="font-black text-xl mb-4">الفئات</h3>
               <Separator className="mb-4" />
@@ -35,6 +44,45 @@ async function page({ searchParams }) {
               <h3 className="font-black text-xl mt-10 mb-4">السعر</h3>
               <Separator className="mb-4" />
               <SliderPrice />
+            </div>
+          </aside> */}
+
+          <div className="lg:hidden w-full mb-4 px-2">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-full flex justify-between items-center py-7 border-2 border-gray-100 rounded-2xl shadow-sm bg-white"
+                >
+                  <div className="flex items-center gap-2 font-bold text-[#2D1B50]">
+                    <SlidersHorizontal className="w-5 h-5 text-[#FFC107]" />
+                    تصفية النتائج
+                  </div>
+                  <span className="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-500">
+                    تعديل
+                  </span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="w-[300px] overflow-y-auto bg-white"
+                dir="rtl"
+              >
+                <SheetHeader className="text-right border-b pb-4 mb-6">
+                  <SheetTitle className="flex items-center gap-2 text-[#2D1B50]">
+                    <Filter className="w-5 h-5 text-[#FFC107]" />
+                    خيارات التصفية
+                  </SheetTitle>
+                </SheetHeader>
+                <FilterContent departmentData={departmentData} />
+              </SheetContent>
+            </Sheet>
+          </div>
+
+          {/* --- 2. نسخة الديسكتوب (Sidebar) - تختفي في الموبايل وتظهر في lg:block --- */}
+          <aside className="hidden lg:block lg:w-1/4">
+            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm sticky top-24">
+              <FilterContent departmentData={departmentData} />
             </div>
           </aside>
 
@@ -54,7 +102,8 @@ async function page({ searchParams }) {
                 />
               ))}
             </div> */}
-            <InfiniteProductList 
+            <InfiniteProductList
+              show={3}
               initialData={products.data}
               price={price}
               department={department}

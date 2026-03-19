@@ -19,5 +19,14 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
-
+@media print {
+  @page {
+    margin: 0;  
+    size: auto;
+  }
+  body {
+    margin: 0;  
+    -webkit-print-color-adjust: exact;  
+  }
+}
 @custom-variant dark (&:is(.dark *));

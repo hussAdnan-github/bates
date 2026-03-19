@@ -4,59 +4,51 @@ import { Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function DeleteBasketItem({ id }) {
-  const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
-  const handleDelete = async () => {
-    setLoading(true);
-
-    const result = await deleteBasket(id);
-
-    if (result.success) {
-      toast.success(
-        <div>
-          <strong>تمت الإضافة الى السلة ✅</strong>
-        </div>,
-        {
-          duration: 4000,
-          style: {
-            backgroundColor: "green",
-            color: "#145463",
-            padding: "12px",
-            borderRadius: "8px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-          },
-        },
-      );
-    } else {
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
+      const result = await deleteBasket(id);
+      if (!result.success) {
+        throw new Error(result.message || "فشل في الحذف");
+      }
+      return result;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["basketShow"] });
+      toast.success("تمت حذف المنتج من السلة", { position: "top-center" });
+    },
+    onError: (error) => {
       toast.error(
         <div>
           <strong>حدث خطأ!</strong> <br />
-          <span style={{ color: "white" }}>{result.errors}</span> <br />
-          <small>فشل في الإضافة، يرجى المحاولة مرة أخرى.</small>
+          <small>{error.message}</small>
         </div>,
         {
-          duration: 5000,
           style: {
-            backgroundColor: "red",
-            color: "#000000",
-
-            padding: "12px",
-            borderRadius: "8px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+            backgroundColor: "#ef4444",
+            color: "#fff",
+            direction: "rtl",
           },
         },
       );
-    }
-    setLoading(false);
-  };
+    },
+  });
+
   return (
     <Button
-      onClick={handleDelete}
+      disabled={isPending}
+      onClick={() => mutate()}
       className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors"
     >
-      <Trash2 size={18} />
+      {isPending ? (
+        <span className="animate-pulse text-sm">جارٍ الحذف...</span>
+      ) : (
+        <Trash2 className="h-5 w-5" />
+      )}
     </Button>
   );
 }

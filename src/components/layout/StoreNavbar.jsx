@@ -143,7 +143,7 @@ function StoreNavbar() {
             <div className="flex items-center gap-8">
                <Link href="/shop" className="font-bold text-gray-500">الرئيسية</Link>
                <Link href="/shop/products" className="font-bold text-gray-500">المنتجات</Link>
-               <Link href="/orders" className="font-bold text-gray-500">الطلبات</Link>
+               <Link href="/shop/orders" className="font-bold text-gray-500">الطلبات</Link>
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -175,13 +175,13 @@ function StoreNavbar() {
         <div className="flex justify-around items-center h-16 px-2 relative" dir="rtl">
           
           {/* الرئيسية */}
-          <Link href="/shop" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop' ? "text-[#2D1B50]" : "text-gray-400"}`}>
+          <Link href="/shop" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop' ? "text-white bg-[#2D1B50] py-1 rounded-xl" : "text-gray-400"}`}>
             <Home className="w-6 h-6" />
             <span className="text-[10px] font-bold">الرئيسية</span>
           </Link>
 
           {/* المنتجات */}
-          <Link href="/shop/products" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop/products' ? "text-[#2D1B50]" : "text-gray-400"}`}>
+          <Link href="/shop/products" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop/products' ? "text-white bg-[#2D1B50] py-1 rounded-xl" : "text-gray-400"}`}>
             <LayoutGrid className="w-6 h-6" />
             <span className="text-[10px] font-bold">المنتجات</span>
           </Link>
@@ -196,7 +196,7 @@ function StoreNavbar() {
           </div>
 
           {/* الطلبات */}
-          <Link href="/orders" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/orders' ? "text-[#2D1B50]" : "text-gray-400"}`}>
+          <Link href="/shop/orders" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop/orders' ? "text-white bg-[#2D1B50] py-1 rounded-xl" : "text-gray-400"}`}>
             <Package className="w-6 h-6" />
             <span className="text-[10px] font-bold">طلباتي</span>
           </Link>

@@ -25,7 +25,6 @@ function BasketsList({ searchParamsPromise }) {
   const currentPage = Number(searchParams.page) || 1;
 
   const updateFilters = (key, value) => {
-    
     const params = new URLSearchParams(searchParamsQuery.toString());
     if (value) {
       params.set(key, value);
@@ -36,15 +35,15 @@ function BasketsList({ searchParamsPromise }) {
     router.push(`?${params.toString()}`);
   };
 
-   useEffect(() => {
-      const delayDebounceFn = setTimeout(() => {
-        if (searchTerm !== searchQuery) {
-          updateFilters("search", searchTerm);
-        }
-      }, 500);
-  
-      return () => clearTimeout(delayDebounceFn);
-    }, [searchTerm]);
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchTerm !== searchQuery) {
+        updateFilters("search", searchTerm);
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
   const handleRoleChange = (val) => updateFilters("status", val);
   const handleSearch = (val) => setSearchTerm(val);
   const { data, isLoading, error } = useQuery({
@@ -70,6 +69,7 @@ function BasketsList({ searchParamsPromise }) {
     );
 
   const baskets = data?.data?.results || [];
+  console.log(baskets);
   const totalCount = data?.data?.count || 0;
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   const hasNextPage = data?.data?.next;

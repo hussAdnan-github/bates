@@ -13,7 +13,7 @@ import { revalidatePath } from "next/cache";
  
   
   const result = await request(`users/?${params.toString()}`, "GET");
- console.log(result.data)
+ 
    return result.data; 
 }
 export async function getUserId(id) {

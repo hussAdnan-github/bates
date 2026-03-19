@@ -2,6 +2,13 @@
 
 import request from "@/lib/apiService";
 import { revalidatePath } from "next/cache";
+export async function getAllProduts() {
+  const result = await request(`products/products/?pagination=false`, "GET");
+ 
+
+  
+  return result.data;
+}
 export async function getProduts(
   price,
   department,
@@ -41,15 +48,14 @@ export async function getProdutsId(id) {
 
 export async function getProdutsDash(
   page = 1,
-  department__company,
-  status,
-  searchTerm,
+  department__company = "",
+  status = "",
+  searchTerm = "",
 ) {
   const params = new URLSearchParams();
 
   if (page) params.append("page", page);
-  if (department__company)
-    params.append("department", department__company);
+  if (department__company) params.append("department", department__company);
   if (status) params.append("status", status);
   if (searchTerm) params.append("search", searchTerm);
 

@@ -181,7 +181,7 @@ function StoreHero() {
               size="lg"
               className="border-white text-white hover:bg-white hover:text-[#2D1B50] px-10 py-7 text-xl font-bold rounded-xl backdrop-blur-sm transition-all"
             >
-              <Link href="/orders">طلباتي</Link>
+              <Link href="/shop/orders">طلباتي</Link>
             </Button>
           </div>
 

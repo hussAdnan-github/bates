@@ -1,19 +1,3 @@
-// import { ChevronDown, Search } from "lucide-react";
-// import React from "react";
-// import UserMenu from "../dashboard/UserMenu";
-
-// function DashboardNavbar() {
-//   return (
-//     <div className="fixed z-50 flex-row-reverse w-[81%] h-16 bg-white border-b border-gray-100 flex items-center justify-between px-8">
-      
-//       <UserMenu />
-      
-//     </div>
-//   );
-// }
-
-// export default DashboardNavbar;
-
 
 "use client";
 import React from "react";
@@ -22,7 +6,7 @@ import UserMenu from "../dashboard/UserMenu";
 
 function DashboardNavbar() {
   return (
-    <nav className="fixed top-0 left-0 right-72 h-20 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-8 z-40" dir="rtl">
+    <nav className="print:hidden fixed top-0 left-0 right-72 h-20 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-8 z-40" dir="rtl">
       
       {/* الجهة اليمنى: البحث السريع أو المسار */}
       <div className="hidden md:flex items-center gap-4 flex-1">
@@ -43,10 +27,10 @@ function DashboardNavbar() {
       {/* الجهة اليسرى: التنبيهات ومنطقة المستخدم */}
       <div className="flex items-center gap-3 md:gap-6">
         {/* أيقونة التنبيهات */}
-        <button className="relative p-2.5 text-gray-400 hover:bg-gray-50 hover:text-[#2D1B50] rounded-xl transition-all">
+        {/* <button className="relative p-2.5 text-gray-400 hover:bg-gray-50 hover:text-[#2D1B50] rounded-xl transition-all">
           <Bell size={20} />
           <span className="absolute top-2.5 left-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-        </button>
+        </button> */}
 
         {/* فاصل رأسي */}
         <div className="w-[1px] h-8 bg-gray-100 hidden sm:block"></div>

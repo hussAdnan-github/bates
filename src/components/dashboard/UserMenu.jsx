@@ -66,8 +66,7 @@ export default function UserMenu() {
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-3 pl-2 pr-1 py-1 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group">
           
-          {/* النصوص (الاسم والرتبة) */}
-          <div className="hidden sm:flex flex-col text-right">
+           <div className="hidden sm:flex flex-col text-right">
             <span className="text-sm font-black text-[#2D1B50]">محمد باتيس</span>
             <span className="text-[10px] font-bold text-green-500 uppercase tracking-wider">المدير العام</span>
           </div>
@@ -85,18 +84,18 @@ export default function UserMenu() {
         </button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-56 mt-2 p-2 rounded-2xl shadow-xl border-gray-100" align="start">
+      <DropdownMenuContent className="w-56 mt-2 p-2 rounded-2xl shadow-xl border-gray-100 bg-white" align="start">
         <DropdownMenuLabel className="text-right px-3 py-2 text-xs font-bold text-gray-400 uppercase">حساب الآدمن</DropdownMenuLabel>
         
-        <DropdownMenuItem className="flex items-center justify-end gap-3 p-3 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+        {/* <DropdownMenuItem className="flex items-center justify-end gap-3 p-3 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
           <span className="font-bold text-sm">الملف الشخصي</span>
           <User size={18} className="text-gray-400" />
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
 
-        <DropdownMenuItem className="flex items-center justify-end gap-3 p-3 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+        {/* <DropdownMenuItem className="flex items-center justify-end gap-3 p-3 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
           <span className="font-bold text-sm">إعدادات النظام</span>
           <Settings size={18} className="text-gray-400" />
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
 
         <DropdownMenuSeparator className="my-2 bg-gray-100" />
         

@@ -44,39 +44,41 @@ async function page({ params }) {
             images={product.data.images}
             title={product.data.name}
           />
-          {/* --- الجانب الأيسر: تفاصيل المنتج --- */}
-          <div className="flex flex-col space-y-6 text-right">
-            <h1 className="text-3xl md:text-4xl font-black text-gray-800 leading-tight">
-              {product.data.name}
-            </h1>
-            <p className="text-xl leading-relaxed text-gray-700">
+          <div className="flex flex-col space-y-8 text-right max-w-2xl">
+            {/* العنوان والفئة */}
+            <div className="space-y-2">
+              <h1 className="text-3xl md:text-5xl font-black text-gray-900 leading-tight">
+                {product.data.name}
+              </h1>
+            </div>
+
+            {/* الوصف */}
+            <p className="text-lg leading-relaxed text-gray-600 border-r-4 border-gray-100 pr-4">
               {product.data.description}
             </p>
 
-            <div className="text-3xl font-black text-[#F18721]">
-              {product.data.price} <span className="text-xl">ر.س</span>
+            {/* السعر */}
+            <div className="flex items-baseline gap-2">
+              <span className="text-4xl font-black text-[#145463]">
+                {product.data.price}
+              </span>
+              <span className="text-xl font-bold text-gray-400">ر.س</span>
             </div>
-            <ProductActionSection productId={product.data.id} />
 
-            <div className="space-y-3 pt-6 border-t border-gray-100">
-              <p className="text-gray-600 font-medium">
-                رمز المنتج (model):{" "}
-                <span className="text-gray-900 font-bold">
+            {/* قسم الأكشن المطور */}
+            <div className="bg-gray-50/50 p-6 rounded-3xl border border-gray-100">
+              <ProductActionSection productId={product.data.id} />
+            </div>
+
+            {/* تفاصيل إضافية */}
+            <div className="grid grid-cols-2 gap-4 pt-6 text-sm">
+              <div className="flex items-center gap-2 text-gray-500">
+                <span className="font-medium">رمز المنتج:</span>
+                <span className="font-bold text-gray-900 bg-gray-100 px-2 py-0.5 rounded">
                   {product.data.model}
                 </span>
-              </p>
-              <p className="text-gray-600 font-medium">
-                التوفر:{" "}
-                <span className="text-green-600 font-bold">
-                  متوفر في المخزون
-                </span>
-              </p>
-              <p className="text-gray-600 font-medium">
-                الفئة:{" "}
-                <span className="text-[#F18721] font-bold cursor-pointer hover:underline">
-                  {product.data.name_department}
-                </span>
-              </p>
+              </div>
+              {/* يمكنك إضافة ميزات أخرى هنا مثل شحن سريع أو أصلي 100% */}
             </div>
           </div>
         </div>

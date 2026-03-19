@@ -111,7 +111,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="fixed right-0 top-0 w-72 bg-white h-screen border-l border-gray-100 flex flex-col z-50 shadow-sm" dir="rtl">
+    <aside className="fixed right-0 top-0 w-72 bg-white h-screen border-l border-gray-100 flex flex-col z-50 shadow-sm print:hidden" dir="rtl">
       
       {/* اللوجو بتصميم احترافي */}
       <div className="p-8 mb-4">

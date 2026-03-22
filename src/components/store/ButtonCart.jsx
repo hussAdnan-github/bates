@@ -15,6 +15,7 @@ function ButtonCart({ id, quantity, show = 1 }) {
       dataForm.append("product", id);
       dataForm.append("quantity", quantity);
       const result = await postProductBasket(dataForm);
+      console.log(result)
       if (!result.success) throw new Error(result.message);
       return result;
     },

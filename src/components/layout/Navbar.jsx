@@ -95,7 +95,7 @@ function Navbar() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[300px] bg-white border-l-0"
+              className="w-[300px] bg-white border-l-0 px-3"
               dir="rtl"
             >
               <div className="flex flex-col h-full">

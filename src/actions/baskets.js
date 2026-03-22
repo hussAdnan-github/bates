@@ -28,16 +28,13 @@ export async function getBasketsId(id) {
   return result.data;
 }
 export async function postProductBasket(formData) {
- 
-
-  const result = await request(`baskets/basketItem/`, "POST", formData, true);
-  // const currentCount = Number(cookieStore.get("basket_count")?.value || 0);
-  // cookieStore.set("basket_count", (currentCount + 1).toString());
+   const result = await request(`baskets/basketItem/`, "POST", formData, true);
   if (result.success) {
     revalidatePath("/dashboard/baskets");
   }
   return result;
 }
+ 
 
 export async function editProductBasket(formData, id) {
   console.log(id);
@@ -51,11 +48,20 @@ export async function editProductBasket(formData, id) {
 
   return result;
 }
-// export async function put(formData, id) {
-//   const result = await request(`Branch/id?id=${id}`, "PUT", formData, false);
+export async function putBasket(formData, id) {
+  console.log(formData , id)
+  const result = await request(`baskets/baskets/${id}/`, "PATCH", formData, true);
+  console.log(result)
 
-//   return result;
-// }
+  return result;
+}
+export async function deleteProductBasket(id) {
+  console.log(`baskets/basketItem/${id}/` );
+  const result = await request(`baskets/basketItem/${id}/`, formData, "DELETE" , true);
+  console.log(result);
+
+  return result;
+}
 export async function deleteBasket(id) {
   console.log(`baskets/basketItem/${id}/` );
   const result = await request(`baskets/basketItem/${id}/`, "DELETE");
@@ -71,7 +77,7 @@ export async function editOrderBasket(formData, id) {
     formData,
     true,
   );
-  console.log(result);
+   
 
   return result;
 }

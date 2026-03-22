@@ -9,6 +9,7 @@ export async function getOrdsers(status) {
 
   if (status) params.append("status", status);
   const result = await request(`/baskets/orders/?${params.toString()}`, "GET");
+  console.log(result)
   return result.data;
 }
 
@@ -41,11 +42,12 @@ export async function editProductBasket(formData, id) {
 
   return result;
 }
-// export async function put(formData, id) {
-//   const result = await request(`Branch/id?id=${id}`, "PUT", formData, false);
-
-//   return result;
-// }
+export async function putOrder(formData, id) {
+  console.log(formData , id)
+  const result = await request(`baskets/orders/${id}/`, "PATCH", formData, false);
+console.log(result)
+  return result;
+}
 export async function deleteBasket(id) {
   console.log(`baskets/basketItem/${id}/`);
   const result = await request(`baskets/basketItem/${id}/`, "DELETE");

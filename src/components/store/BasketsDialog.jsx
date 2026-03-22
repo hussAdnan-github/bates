@@ -155,7 +155,7 @@ const BasketsDialog = () => {
                         {item.products_model}
                       </div>
                       <div className="col-span-2">
-                        <DeleteBasketItem id={item.id} />
+                        <DeleteBasketItem id={item.id} refresh={"basketShow"}/>
                       </div>
                     </div>
                   )),

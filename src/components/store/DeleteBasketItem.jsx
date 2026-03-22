@@ -1,12 +1,13 @@
 "use client";
 import { deleteBasket } from "@/actions/baskets";
-import { Trash2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-function DeleteBasketItem({ id }) {
+function DeleteBasketItem({ id, refresh }) {
+  console.log(refresh);
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
@@ -18,7 +19,7 @@ function DeleteBasketItem({ id }) {
       return result;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["basketShow"] });
+      queryClient.invalidateQueries({ queryKey: [refresh] });
       toast.success("تمت حذف المنتج من السلة", { position: "top-center" });
     },
     onError: (error) => {
@@ -42,10 +43,10 @@ function DeleteBasketItem({ id }) {
     <Button
       disabled={isPending}
       onClick={() => mutate()}
-      className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors"
+      className="text-gray-900 hover:text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors bg-gray-200"
     >
       {isPending ? (
-        <span className="animate-pulse text-sm">جارٍ الحذف...</span>
+        <Loader2 className="animate-spin" size={24} />
       ) : (
         <Trash2 className="h-5 w-5" />
       )}

@@ -12,16 +12,20 @@ import {
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../ui/button";
-import { Plus, Loader2 } from "lucide-react";
+import { Plus, Loader2, ShoppingCart } from "lucide-react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { getAllProduts } from "@/actions/product";
 import { postProductBasket } from "@/actions/baskets";
+import { toast } from "sonner";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-export default function AddItemDialog() {
+export default function AddItemDialog({ id }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [productsList, setProductsList] = useState([]);
+  const [loading2, setloading2] = useState(false);
+  // const [productsList, setProductsList] = useState([]);
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -36,32 +40,50 @@ export default function AddItemDialog() {
     },
   });
 
-  useEffect(() => {
-    async function fetchProducts() {
-      setLoading(true);
-      try {
-        const res = await getAllProduts();
-
-        setProductsList(res?.data || []);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (open) {
-      fetchProducts();
-    }
-  }, [open]);
-
+  const { data: productsList = [], isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: getAllProduts,
+    enabled: open,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
   const onSubmit = async (data) => {
+    setloading2(true);
     const dataForm = new FormData();
-    console.log(data.productId)
+
+    dataForm.append("basket", id);
     dataForm.append("product", data.productId);
     dataForm.append("quantity", data.quantity);
     const result = await postProductBasket(dataForm);
-    console.log(result)
+    if (!result.success) {
+      if (result.errors) {
+        Object.entries(result.errors).map(([field, message]) =>
+          toast.error(
+            <div style={{ direction: "rtl", textAlign: "right" }}>
+              <strong>{message}</strong>
+            </div>,
+            { duration: 4000 },
+          ),
+        );
+      } else {
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}>
+            <strong>حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى</strong>
+          </div>,
+          { duration: 4000 },
+        );
+      }
+    } else {
+      setloading2(false);
+      queryClient.invalidateQueries({ queryKey: ["basketsId"] });
+
+      toast.success(
+        <div style={{ direction: "rtl", textAlign: "right" }}>
+          <strong>تمت تعديل الطلب بنجاح ✅</strong>
+        </div>,
+        { duration: 4000 },
+      );
+    }
   };
 
   return (
@@ -100,13 +122,16 @@ export default function AddItemDialog() {
                 render={({ field }) => (
                   <select
                     {...field}
-                    className={`w-full border ${errors.productId ? "border-red-500" : "border-gray-200"} rounded-lg p-3 bg-gray-50 focus:ring-2 focus:ring-[#2D1B4D] outline-none transition-all`}
+                    className={`w-full border ${
+                      errors.productId ? "border-red-500" : "border-gray-200"
+                    } rounded-lg p-3 bg-gray-50`}
                   >
                     <option value="">--- اختر المنتج ---</option>
-                    {loading ? (
+
+                    {isLoading ? (
                       <option disabled>جاري التحميل...</option>
                     ) : (
-                      productsList.map((product) => (
+                      productsList?.data?.map((product) => (
                         <option key={product.id} value={product.id}>
                           {product.name} ({product.model}) - {product.price} ر.س
                         </option>
@@ -140,10 +165,14 @@ export default function AddItemDialog() {
           <DialogFooter className="gap-2 sm:gap-0 flex-row-reverse">
             <Button
               type="submit"
-              disabled={loading}
+              disabled={loading2}
               className="bg-[#2D1B4D] hover:bg-[#3d2568] w-full py-6 text-lg font-bold rounded-xl transition-all"
             >
-              {loading ? <Loader2 className="animate-spin" /> : "إضافة للطلب"}
+              {loading2 ? (
+                <Loader2 className="animate-spin text-white" size={24} />
+              ) : (
+                <div className="text-white">اضافة منتج</div>
+              )}
             </Button>
           </DialogFooter>
         </form>

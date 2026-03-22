@@ -65,14 +65,24 @@ const SearchBar = () => {
 
   return (
     <div className="relative flex items-center justify-end" dir="rtl">
-      <div className="w-[250px] md:w-[400px] relative">
+      {!isOpen && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleSearch}
+          className="text-gray-700 hover:bg-gray-100 rounded-full"
+        >
+          <Search className="h-6 w-6" />
+        </Button>
+      )}
+      <div className="w-full   lg:w-[400px] relative">
         <Input
           ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="ما الذي تبحث عنه؟"
-          className={`h-10 pr-10 pl-10 rounded-full bg-gray-50 transition-all duration-300
+          className={`h-10 pr-10 pl-10 rounded-full bg-gray-50 transition-all duration-300 
           ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         />
 
@@ -135,17 +145,6 @@ const SearchBar = () => {
           </div>
         )}
       </div>
-
-      {!isOpen && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={toggleSearch}
-          className="text-gray-700 hover:bg-gray-100 rounded-full"
-        >
-          <Search className="h-6 w-6" />
-        </Button>
-      )}
     </div>
   );
 };

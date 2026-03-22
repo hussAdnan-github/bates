@@ -1,25 +1,26 @@
+ 
+
 
 // import { NextResponse } from "next/server";
 
-//  export function proxy(request) {
+// export function proxy(request) {
 //   const token = request.cookies.get("auth_token")?.value;
-//   const pathname = request.nextUrl.pathname;
+//   const { pathname } = request.nextUrl;
 
-//    const isProtectedRoute =
-//     pathname.startsWith("/shop") || pathname.startsWith("/dashboard");
+//    const isProtectedRoute = pathname.startsWith("/shop") || pathname.startsWith("/dashboard");
+//   const isLoginPage = pathname === "/login";
 
-//   if (isProtectedRoute) {
-//     if (!token) {
-//        const loginUrl = new URL("/login", request.url);
-//       return NextResponse.redirect(loginUrl);
-//     }
+//    if (isProtectedRoute && !token) {
+//     const loginUrl = new URL("/login", request.url);
+    
+//     return NextResponse.redirect(loginUrl);
 //   }
 
-//    if (pathname === "/login" && token) {
+//    if (isLoginPage && token) {
 //     return NextResponse.redirect(new URL("/dashboard", request.url));
 //   }
 
-//   return NextResponse.next();
+//    return NextResponse.next();
 // }
 
 //  export const config = {
@@ -30,41 +31,51 @@
 //   ],
 // };
 
-
-
-
 import { NextResponse } from "next/server";
 
 export function proxy(request) {
   const token = request.cookies.get("auth_token")?.value;
+  const role = request.cookies.get("role")?.value; // تأكد أن اسم الكوكي هو role أو حسب ما تسميه
   const { pathname } = request.nextUrl;
 
-  // 1. تحديد أنواع المسارات
-  const isProtectedRoute = pathname.startsWith("/shop") || pathname.startsWith("/dashboard");
   const isLoginPage = pathname === "/login";
 
-  // 2. إذا كان المستخدم يحاول دخول صفحة محمية وهو غير مسجل دخول
-  if (isProtectedRoute && !token) {
-    const loginUrl = new URL("/login", request.url);
-    // إضافة پارامتر ليعرف النظام أين كان يريد المستخدم الذهاب (اختياري ومفيد)
-    // loginUrl.searchParams.set("from", pathname); 
-    return NextResponse.redirect(loginUrl);
+  // 1. إذا لم يكن هناك توكن، وجهه لصفحة تسجيل الدخول (إلا إذا كان فيها بالفعل)
+  if (!token) {
+    if (!isLoginPage) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+    return NextResponse.next();
   }
 
-  // 3. إذا كان المستخدم مسجل دخول ويحاول دخول صفحة تسجيل الدخول
-  if (isLoginPage && token) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  // 2. إذا كان المستخدم مسجل دخوله (يوجد توكن)
+  if (token) {
+    // منع الوصول لصفحة اللوجن إذا كان مسجل دخول بالفعل
+    if (isLoginPage) {
+      const target = role === "admin" ? "/dashboard" : "/shop";
+      return NextResponse.redirect(new URL(target, request.url));
+    }
+
+    // منطق الأدمن: يُسمح له بكل شيء (لا نحتاج لوضع قيود)
+    if (role === "admin") {
+      return NextResponse.next();
+    } 
+    
+    // منطق المستخدم العادي (غير الأدمن)
+    else {
+      // إذا حاول الوصول لأي مسار لا يبدأ بـ /shop، وجهه إجبارياً للمتجر
+      if (!pathname.startsWith("/shop")) {
+        return NextResponse.redirect(new URL("/shop", request.url));
+      }
+    }
   }
 
-  // 4. السماح بمرور الطلب إذا لم تتحقق الشروط أعلاه
   return NextResponse.next();
 }
 
-// 5. الـ matcher لتحديد المسارات التي يعمل عليها الـ middleware
+// المسارات التي يعمل عليها الـ Middleware
 export const config = {
   matcher: [
-    "/shop/:path*",
-    "/dashboard/:path*",
-    "/login",
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
 };

@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import FiltersDropdown from "@/components/dashboard/FiltersDropdown";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
- const formatDate = (dateString) => {
+const formatDate = (dateString) => {
   if (!dateString) return "---";
   return new Date(dateString).toLocaleDateString("ar-SA", {
     year: "numeric",
@@ -17,8 +17,8 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
     day: "2-digit",
   });
 };
- 
- const statusMap = {
+
+const statusMap = {
   1: { text: "جاري معالجة طلبك", type: "active" },
   2: { text: "تم شحن طلبك", type: "success" },
   3: { text: "تم إلغاء طلبك", type: "danger" },
@@ -31,10 +31,10 @@ function Page() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
-   const currentStatus = searchParams.get("status") || "all";
 
-   const handleFilterChange = (val) => {
+  const currentStatus = searchParams.get("status") || "all";
+
+  const handleFilterChange = (val) => {
     const params = new URLSearchParams(searchParams.toString());
     if (val === "all") {
       params.delete("status");
@@ -45,7 +45,6 @@ function Page() {
     router.push(`${pathname}?${params.toString()}`);
   };
 
- 
   const {
     data: allOrders,
     isLoading,
@@ -58,19 +57,20 @@ function Page() {
     refetchOnWindowFocus: false,
   });
 
-   if (isLoading)
+  if (isLoading)
     return (
       <div className="flex flex-col justify-center items-center h-96 gap-4">
         <Loader2 className="h-10 w-10 animate-spin text-secondary" />
-        <p className="text-gray-500 animate-pulse text-lg">جارٍ تحميل طلباتك...</p>
+        <p className="text-gray-500 animate-pulse text-lg">
+          جارٍ تحميل طلباتك...
+        </p>
       </div>
     );
 
-   if (isError)
+  if (isError)
     return (
       <div className="text-center p-20 bg-red-50 rounded-2xl border border-red-100 m-4">
         <p className="text-red-600 font-bold">حدث خطأ أثناء جلب البيانات</p>
-         
       </div>
     );
 
@@ -78,7 +78,7 @@ function Page() {
 
   return (
     <div className="p-4 md:p-6 space-y-6">
-       <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="text-right w-full md:w-auto">
           <h1 className="text-xl font-black text-gray-800">قائمة الطلبات</h1>
           <p className="text-gray-400 text-xs">إدارة ومتابعة الطلبات </p>
@@ -92,7 +92,6 @@ function Page() {
             placeholder="كل الحالات"
             defaultValue={currentStatus}
             options={[
-            
               { label: "جاري معالجة طلبك", value: "1" },
               { label: "تم شحن طلبك", value: "2" },
               { label: "تم إلغاء طلبك", value: "3" },
@@ -121,8 +120,13 @@ function Page() {
             <tbody className="divide-y divide-gray-50">
               {orders.length > 0 ? (
                 orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50/30 transition-colors group">
-                    <td className="py-5 px-4 text-right font-bold text-gray-700">#{order.id}</td>
+                  <tr
+                    key={order.id}
+                    className="hover:bg-gray-50/30 transition-colors group"
+                  >
+                    <td className="py-5 px-4 text-right font-bold text-gray-700">
+                      #{order.id}
+                    </td>
                     <td className="py-5 text-gray-600 text-sm">
                       {formatDate(order.created_at)}
                     </td>
@@ -143,12 +147,14 @@ function Page() {
                         >
                           <Eye size={18} />
                         </Link>
-                        <Link
-                          href={`/shop/orders/edit/${order.id}`}
-                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-400 hover:bg-gray-800 hover:text-white transition-all border border-gray-100 shadow-sm"
-                        >
-                          <Pencil size={18} />
-                        </Link>
+                        {order.status === 4 && (
+                          <Link
+                            href={`/shop/orders/edit/${order.id}`}
+                            className="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-400 hover:bg-gray-800 hover:text-white transition-all border border-gray-100 shadow-sm"
+                          >
+                            <Pencil size={18} />
+                          </Link>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -158,7 +164,9 @@ function Page() {
                   <td colSpan={5} className="py-20 text-gray-400">
                     <div className="flex flex-col items-center gap-3">
                       <SearchX size={40} className="text-gray-200" />
-                      <p className="italic">لا توجد طلبات متاحة لهذا التصنيف حالياً.</p>
+                      <p className="italic">
+                        لا توجد طلبات متاحة لهذا التصنيف حالياً.
+                      </p>
                     </div>
                   </td>
                 </tr>

@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/button";
 import ButtonCart from "@/components/store/ButtonCart";
 import ProductActionSection from "@/components/store/ProductActionSection";
 async function page({ params }) {
-  const breadcrumbs = ["الرئيسية", "شنط فيدفي", "شنطة لابتوب 16 انش"];
 
   const Productid = (await params).productid;
 
   const product = await getProdutsId(Productid);
+  const breadcrumbs = ["الرئيسية", `${product.data.name_department}`  ,`${product.data.name}` ];
 
   return (
     <div className="bg-white min-h-screen pb-20" dir="rtl">
@@ -26,7 +26,7 @@ async function page({ params }) {
                   ? "text-gray-800 font-bold"
                   : "hover:text-[#F18721] cursor-pointer"
               }
-            >
+            >   
               {item}
             </span>
             {index < breadcrumbs.length - 1 && (
@@ -51,7 +51,15 @@ async function page({ params }) {
                 {product.data.name}
               </h1>
             </div>
-
+ <div className="grid grid-cols-2 gap-4 pt-6 text-sm">
+              <div className="flex items-center gap-2 text-gray-500">
+                <span className="font-medium">موديل المنتج:</span>
+                <span className="font-bold text-gray-900 bg-gray-100 px-2 py-0.5 rounded">
+                  {product.data.model}
+                </span>
+              </div>
+             
+            </div>
             {/* الوصف */}
             <p className="text-lg leading-relaxed text-gray-600 border-r-4 border-gray-100 pr-4">
               {product.data.description}
@@ -71,15 +79,7 @@ async function page({ params }) {
             </div>
 
             {/* تفاصيل إضافية */}
-            <div className="grid grid-cols-2 gap-4 pt-6 text-sm">
-              <div className="flex items-center gap-2 text-gray-500">
-                <span className="font-medium">رمز المنتج:</span>
-                <span className="font-bold text-gray-900 bg-gray-100 px-2 py-0.5 rounded">
-                  {product.data.model}
-                </span>
-              </div>
-              {/* يمكنك إضافة ميزات أخرى هنا مثل شحن سريع أو أصلي 100% */}
-            </div>
+           
           </div>
         </div>
       </div>

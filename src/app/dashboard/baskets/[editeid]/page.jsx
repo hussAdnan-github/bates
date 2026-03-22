@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
- 
   Trash2,
   User,
   Package,
@@ -12,6 +11,7 @@ import {
   FileText,
   Save,
   X,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,16 +26,26 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-
 import FiltersDropdown from "@/components/dashboard/FiltersDropdown";
-import { useParams } from "next/navigation";
-import { getBasketsId } from "@/actions/baskets";
+import { useParams, useRouter } from "next/navigation";
+import {
+  deleteProductBasket,
+  getBasketsId,
+  putBasket,
+} from "@/actions/baskets";
 import { useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { getProduts } from "@/actions/product";
 import AddItemDialog from "@/components/dashboard/AddItemDialog";
+import { toast } from "sonner";
+import QuantityBasket from "@/components/store/QuantityBasket";
+import DeleteBasketItem from "@/components/store/DeleteBasketItem";
 
 const OrderEditPage = () => {
+  const [Loading, setLoading] = useState(false);
+  const router = useRouter();
+  const [status, setStatus] = useState("");
+  const [PaymentType, setPaymentType] = useState("");
   const { editeid } = useParams();
   const [items, setItems] = useState([
     { id: 1, name: "منتج تجريبي 1", quantity: 2, price: 50, total: 100 },
@@ -44,10 +54,15 @@ const OrderEditPage = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["basketsId"],
     queryFn: () => getBasketsId(editeid),
-    staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
     placeholderData: (previousData) => previousData,
   });
+  useEffect(() => {
+    if (data?.data) {
+      setStatus(data.data.status?.toString() || "");
+      setPaymentType(data.data.type_payment?.toString() || "");
+    }
+  }, [data]);
   if (isLoading)
     return (
       <div className="flex justify-center items-center h-64">
@@ -62,23 +77,62 @@ const OrderEditPage = () => {
       <p className="text-center p-10 text-red-500">حدث خطأ: {error.message}</p>
     );
   const products = data?.data?.basketitems;
-   
 
-  const removeItem = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+  const removeItem = async (id) => {
+    const dataForm = new FormData();
+
+    dataForm.append("basket", id);
+    const result = await deleteProductBasket(dataForm);
+    console.log(result);
   };
-  const updateFilters = (key, value) => {
-    // const params = new URLSearchParams(searchParamsQuery.toString());
-    // if (value) {
-    //   params.set(key, value);
-    // } else {
-    //   params.delete(key);
-    // }
-    // params.set("page", "1");
-    // router.push(`?${params.toString()}`);
+
+  const updateFilters = async (key, value) => {
+    //  const dataForm = new FormData();
+    //    dataForm.append("status", data.productId);
+    //    dataForm.append("quantity", data.quantity);
+    //    const result = await postProductBasket(dataForm);
+    //    console.log(result)
   };
-  const handleRoleChange = (val) => updateFilters("status", val);
-  const handleTypeChange = (val) => updateFilters("status", val);
+  const handleStatusChange = (val) => {
+    setStatus(val);
+  };
+  const handleTypeChange = (val) => {
+    setPaymentType(val);
+  };
+  const handelPatchData = async () => {
+    setLoading(true);
+    const dataForm = new FormData();
+    dataForm.append("status", status);
+    dataForm.append("type_payment", PaymentType);
+    const result = await putBasket(dataForm, editeid);
+    if (!result.success) {
+      if (result.errors) {
+        Object.entries(result.errors).map(([field, message]) =>
+          toast.error(
+            <div style={{ direction: "rtl", textAlign: "right" }}>
+              <strong>{message}</strong>
+            </div>,
+            { duration: 4000 },
+          ),
+        );
+      } else {
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}>
+            <strong>حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى</strong>
+          </div>,
+          { duration: 4000 },
+        );
+      }
+    } else {
+      setLoading(false);
+      toast.success(
+        <div style={{ direction: "rtl", textAlign: "right" }}>
+          <strong>تمت تعديل الطلب بنجاح ✅</strong>
+        </div>,
+        { duration: 4000 },
+      );
+    }
+  };
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen space-y-6" dir="rtl">
@@ -86,7 +140,7 @@ const OrderEditPage = () => {
       <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
         <h1 className="text-2xl font-black text-[#2D1B4D] flex items-center gap-2">
           <FileText className="text-[#2D1B4D]" />
-          تعديل الطلب #1024
+          تعديل الطلب #{data?.data?.id}
         </h1>
         <Button
           variant="outline"
@@ -136,7 +190,7 @@ const OrderEditPage = () => {
                         {item.products_name}
                       </TableCell>
                       <TableCell className="text-center">
-                        {item.quantity}
+                        <QuantityBasket number={item.quantity} id={item.id} />
                       </TableCell>
                       <TableCell className="text-center font-mono">
                         {item.products_price}
@@ -145,14 +199,9 @@ const OrderEditPage = () => {
                         {item.subtotal} ر.س
                       </TableCell>
                       <TableCell className="text-left">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => removeItem(item.id)}
-                          className="text-red-500 hover:bg-red-50 hover:text-red-600"
-                        >
-                          <Trash2 size={18} />
-                        </Button>
+                        <DeleteBasketItem id={item.id} refresh = {"basketsId"}/>
+                          {/* <Trash2 size={18} /> */}
+                        
                       </TableCell>
                     </TableRow>
                   ))}
@@ -194,8 +243,8 @@ const OrderEditPage = () => {
             </CardHeader>
             <CardContent className="p-6 space-y-4">
               <FiltersDropdown
-                // taype_custom
                 placeholder="كل الحالات"
+                value={status}
                 options={[
                   { label: "جاري معالجة طلبك", value: 1 },
                   { label: "تم شحن طلبك", value: 2 },
@@ -204,12 +253,13 @@ const OrderEditPage = () => {
                   { label: "تم قبول طلبك", value: 5 },
                   { label: "تم رفض طلبك", value: 6 },
                 ]}
-                onChange={handleRoleChange}
+                onChange={handleStatusChange}
               />
 
               <FiltersDropdown
                 // taype_custom
                 placeholder="نوع الدفع"
+                value={PaymentType}
                 options={[
                   { label: "الدفع عند الاستلام", value: 1 },
                   { label: "تحويل المبلغ", value: 2 },
@@ -233,16 +283,25 @@ const OrderEditPage = () => {
             <CardContent className="p-6 space-y-4">
               <div className="flex justify-between items-center text-xl font-black">
                 <span>الإجمالي الكلي:</span>
-                <span>
-                 {data?.data?.total_price}
-                </span>
+                <span>{data?.data?.total_price}</span>
               </div>
               <div className="pt-4 flex gap-2">
-                <Button className="flex-1 bg-[#FFC107] text-black hover:bg-[#e0ab06] font-bold gap-2">
-                  <Save size={18} />
-                  حفظ التغييرات
+                <Button
+                  onClick={handelPatchData}
+                  className="flex-1 bg-[#FFC107] text-black hover:bg-[#e0ab06] font-bold gap-2"
+                >
+                  {Loading ? (
+                    <Loader2 className="animate-spin" size={24} />
+                  ) : (
+                    <div>
+                      {" "}
+                      حفظ التغييرات
+                      <Save size={18} />
+                    </div>
+                  )}
                 </Button>
                 <Button
+                  onClick={() => router.back()}
                   variant="secondary"
                   className="bg-white/10 hover:bg-white/20 text-white border-none gap-2"
                 >
@@ -257,6 +316,5 @@ const OrderEditPage = () => {
     </div>
   );
 };
-
 
 export default OrderEditPage;

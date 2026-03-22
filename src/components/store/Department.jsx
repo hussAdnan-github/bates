@@ -139,13 +139,13 @@ function CategoryItem({ children, active, onClick, icon }) {
         text-[14px] transition-all duration-300 ease-in-out
         ${
           active
-            ? "bg-[#2D1B50] text-[#FFC107] shadow-md translate-x-[-4px]"
-            : "text-gray-500 hover:bg-gray-100 hover:text-[#2D1B50]"
+            ? "bg-[var(--secondary_color)] text-[var(--primary_color)] shadow-md translate-x-[-4px]"
+            : "text-gray-500 hover:bg-gray-100 hover:text-[var(--secondary_color)]"
         }
       `}
     >
       <div className="flex items-center gap-3">
-        <span className={`${active ? "text-[#FFC107]" : "text-gray-400 group-hover:text-[#2D1B50]"}`}>
+        <span className={`${active ? "text-[var(--primary_color)]" : "text-gray-400 group-hover:text-[var(--secondary_color)]"}`}>
           {icon}
         </span>
         <span className={`font-bold transition-colors ${active ? "font-black" : ""}`}>

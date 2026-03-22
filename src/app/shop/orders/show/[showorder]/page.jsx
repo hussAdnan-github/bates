@@ -7,11 +7,11 @@ import Link from "next/link";
 const InfoItem = ({ icon: Icon, label, value, className = "" } ) => (
   <div className={`flex items-start gap-3 p-4 rounded-xl bg-gray-50/50 border border-gray-100 ${className}`}>
     <div className="p-2 bg-white rounded-lg shadow-sm text-primary">
-      <Icon size={20} className="text-secondary" />
+      <Icon size={20} className="text-[var(--primary_color)]" />
     </div>
     <div>
       <p className="text-xs text-gray-500 mb-1">{label}</p>
-      <p className="text-sm font-bold text-gray-800">{value}</p>
+      <p className="text-sm font-bold text-[var(--primary_color)]">{value}</p>
     </div>
   </div>
 );
@@ -46,14 +46,14 @@ const OrderDetails = async ({ params }) => {
       {/* الرأس: العنوان وزر العودة */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-black text-gray-800 flex items-center gap-2">
+          <h1 className="text-2xl font-black text-[var(--primary_color)] flex items-center gap-2">
             تفاصيل الطلب <span className="text-secondary">#{allOrders.data.id}</span>
           </h1>
           <p className="text-gray-500 text-sm mt-1">
             عرض حالة وتفاصيل مشترياتك
           </p>
         </div>
-        <Link href={`/shop/orders`} className="flex items-center gap-2 px-5 py-2.5 bg-gray-800 text-white rounded-xl hover:bg-gray-700 transition-all text-sm font-medium shadow-lg shadow-gray-200">
+        <Link href={`/shop/orders`} className="flex items-center gap-2 px-5 py-2.5 bg-[var(--primary_color)] text-white rounded-xl hover:bg-gray-700 transition-all text-sm font-medium shadow-lg shadow-gray-200">
           <ArrowRight size={18} />
           العودة للطلبات
         </Link>
@@ -82,7 +82,7 @@ const OrderDetails = async ({ params }) => {
       {/* محتويات الطلب */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
         <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-          <h2 className="font-bold text-gray-700 flex items-center gap-2">
+          <h2 className="font-bold text-[var(--primary_color)] flex items-center gap-2">
             <Package size={18} />
             محتويات الطلب
           </h2>
@@ -128,7 +128,7 @@ const OrderDetails = async ({ params }) => {
                       {item.quantity}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-left font-black text-gray-800">
+                  <td className="px-6 py-4 text-left font-black text-[var(--primary_color)]">
                     {item.subtotal} ر.س
                   </td>
                 </tr>
@@ -139,7 +139,7 @@ const OrderDetails = async ({ params }) => {
       </div>
 
       {/* ملخص الإجمالي */}
-      <div className="bg-secondary/5 border-2 border-dashed border-secondary/20 rounded-2xl p-6 flex justify-between items-center">
+      <div className="bg-[var(--secondary_color)]/5 border-2 border-dashed border-[var(--primary_color)] rounded-2xl p-6 flex justify-between items-center">
         <div>
           <p className="text-secondary font-bold text-lg mb-1">
             المجموع الإجمالي

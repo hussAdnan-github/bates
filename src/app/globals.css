@@ -8,12 +8,7 @@
   --color-secondary: var(--secondary-color);
    --color-secondary-hover: color-mix(in srgb, var(--secondary-color), black 15%);
 }
-
-:root {
-   --primary-color: #361d5c;
-  --secondary-color: #ffc107;
-  scroll-behavior: smooth;
-}
+ 
 @layer utilities {
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);

@@ -27,7 +27,7 @@ function ImagesProduct({ mainImage, images, title }) {
             onClick={() => setSelectedImage(index)}
             className={`relative aspect-square rounded-lg border-2 overflow-hidden bg-gray-50 transition-all ${
               selectedImage === index
-                ? "border-[#F18721]"
+                ? "border-[var(--primary_color)]"
                 : "border-gray-100 hover:border-gray-300"
             }`}
           >

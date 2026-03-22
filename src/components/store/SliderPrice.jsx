@@ -140,16 +140,16 @@ function SliderPrice() {
       </div>
 
       {/* عرض السعر المختار بتصميم جذاب */}
-      <div className="bg-[#2D1B50] rounded-2xl p-4 text-center shadow-inner relative overflow-hidden group">
+      <div className="bg-[var(--secondary_color)] rounded-2xl p-4 text-center shadow-inner relative overflow-hidden group">
         {/* خلفية زخرفية خفيفة */}
         <div className="absolute -right-2 -top-2 opacity-10 group-hover:scale-110 transition-transform">
             <Wallet className="w-12 h-12 text-white" />
         </div>
         
-        <p className="text-[#FFC107]/70 text-[10px] mb-1 font-bold">السعر الأقصى المحدد</p>
+        <p className="text-[var(--primary_color)]/70 text-[10px] mb-1 font-bold">السعر الأقصى المحدد</p>
         <div className="flex items-center justify-center gap-1">
           <span className="text-2xl font-black text-white">{priceRange[0]}</span>
-          <span className="text-[#FFC107] font-bold text-xs">ر.س</span>
+          <span className="text-[var(--primary_color)] font-bold text-xs">ر.س</span>
         </div>
       </div>
 
@@ -172,7 +172,7 @@ function SliderPrice() {
       {/* زر التطبيق */}
       <Button
         onClick={handelFillter}
-        className="w-full bg-[#FFC107] hover:bg-[#e6ae06] text-[#2D1B50] font-black py-6 text-sm rounded-xl shadow-lg shadow-yellow-500/20 transition-all active:scale-95"
+        className="w-full bg-[var(--primary_color)] hover:bg-[var(--primary_color)] text-[var(--secondary_color)] font-black py-6 text-sm rounded-xl shadow-lg shadow-yellow-500/20 transition-all active:scale-95"
       >
         تطبيق الفلتر
       </Button>

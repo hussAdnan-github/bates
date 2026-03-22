@@ -151,7 +151,7 @@ function StoreHero() {
               <motion.span 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="inline-block bg-[#FFC107] text-[#2D1B50] px-4 py-1 rounded-full text-sm font-bold mb-4"
+                className="inline-block bg-[var(--primary_color)] text-[var(--secondary_color)] px-4 py-1 rounded-full text-sm font-bold mb-4"
               >
                 وصل حديثاً
               </motion.span>
@@ -170,7 +170,7 @@ function StoreHero() {
             <Button
               asChild
               size="lg"
-              className="bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] px-10 py-7 text-xl font-bold rounded-xl shadow-2xl shadow-yellow-500/20 transition-all hover:scale-105 active:scale-95"
+              className="bg-[var(--primary_color)] hover:bg-[var(--primary_color)]/60 text-[var(--secondary_color)] px-10 py-7 text-xl font-bold rounded-xl shadow-2xl shadow-yellow-500/20 transition-all hover:scale-105 active:scale-95"
             >
               <Link href="/shop/products">اكتشف العروض</Link>
             </Button>
@@ -179,7 +179,7 @@ function StoreHero() {
               asChild
               variant="outline"
               size="lg"
-              className="border-white text-white hover:bg-white hover:text-[#2D1B50] px-10 py-7 text-xl font-bold rounded-xl backdrop-blur-sm transition-all"
+              className="border-white text-white hover:bg-white hover:text-[var(--secondary_color)] px-10 py-7 text-xl font-bold rounded-xl backdrop-blur-sm transition-all"
             >
               <Link href="/shop/orders">طلباتي</Link>
             </Button>
@@ -193,7 +193,7 @@ function StoreHero() {
                 onClick={() => setCurrentSlide(index)}
                 className={`transition-all duration-500 rounded-full ${
                   currentSlide === index 
-                  ? "bg-[#FFC107] w-10 h-2" 
+                  ? "bg-[var(--primary_color)] w-10 h-2" 
                   : "bg-white/30 w-2 h-2 hover:bg-white/60"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}

@@ -6,6 +6,7 @@ import StoreNavbar from "@/components/layout/StoreNavbar";
 import { QueryClientProvider } from "@tanstack/react-query";
 import ProvidersQuery from "@/provider/QueryClientProvider";
 import { Toaster } from "sonner";
+import { cookies } from "next/headers";
 
 const cairo = Cairo({
   subsets: ["arabic"],
@@ -18,10 +19,19 @@ export const metadata = {
   description: "محمد باتيس للتجارة - أفضل واقوى اكسسوارات الجوال في اليمن",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+
+    const cookieStore = await cookies();
+  const primaryColor = cookieStore.get("primary_color")?.value || "#2D1B4D"; 
+  const secondaryColor = cookieStore.get("secondary_color")?.value || "#FFC107";  
+console.log(primaryColor)
   return (
     <html lang="ar" dir="rtl">
       <body
+       style={{
+           "--primary_color": primaryColor,
+          "--secondary_color": secondaryColor,
+        }}
         className={`${cairo.variable} font-sans antialiased bg-white text-gray-900`}
       >
         <main>

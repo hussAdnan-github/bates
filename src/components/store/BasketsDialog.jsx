@@ -79,7 +79,7 @@ const BasketsDialog = () => {
         >
           <ShoppingCart className="h-6 w-6 text-white md:text-gray-700 group-hover:text-primary transition-colors" />
           {basketcountNumber > 0 && (
-            <span className="absolute -top-1 -right-1 bg-primary text-white w-5 h-5 flex items-center justify-center text-[11px] font-bold rounded-full border-2 border-white shadow-sm">
+            <span className="absolute -top-1 -right-1 bg-primary text-white lg:text-[var(--primary_color)] w-5 h-5 flex items-center justify-center text-[11px] font-bold rounded-full border-2 border-[var(--secondary_color)]  lg:border-[var(--secondary_color)] shadow-sm">
               {basketcountNumber}
             </span>
           )}
@@ -217,7 +217,7 @@ const BasketsDialog = () => {
 
                 <Button
                   onClick={() => createOrder(orders?.data?.results[0].id)}
-                  className="bg-primary hover:bg-primary/90 h-12 px-8 text-lg font-bold rounded-lg w-full md:w-auto order-1 md:order-2"
+                  className="bg-[var(--primary_color)] hover:bg-[var(--primary_color)]/90 h-12 px-8 text-lg font-bold rounded-lg w-full md:w-auto order-1 md:order-2"
                 >
                   التقدم لإتمام الشراء
                   <ArrowLeft className="mr-2 h-5 w-5" />
@@ -229,8 +229,7 @@ const BasketsDialog = () => {
                     className="bg-slate-500 hover:bg-slate-600 text-white h-12 px-8 text-lg font-bold rounded-lg w-full md:w-auto order-2 md:order-1 border-none"
                   >
                     متابعة التسوق
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
+                   </Button>
                 </DialogTrigger>
               </div>
             </>

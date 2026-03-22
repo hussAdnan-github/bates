@@ -39,13 +39,13 @@
 //            <div className="lg:hidden">
 //             <Sheet>
 //               <SheetTrigger asChild>
-//                 <Button variant="ghost" size="icon" className="text-[#2D1B50] ">
+//                 <Button variant="ghost" size="icon" className="text-[var(--secondary_color)] ">
 //                   <Menu className="h-6 w-6" />
 //                 </Button>
 //               </SheetTrigger>
 //               <SheetContent side="right" className="w-[300px] bg-white" dir="rtl">
 //                 <SheetHeader className="text-right border-b pb-4">
-//                   <SheetTitle className="text-2xl font-black text-[#2D1B50]">
+//                   <SheetTitle className="text-2xl font-black text-[var(--secondary_color)]">
 //                     BTS <span className="text-[#FFC107] text-sm">STORE</span>
 //                   </SheetTitle>
 //                 </SheetHeader>
@@ -55,7 +55,7 @@
 //                     <Link
 //                       key={link.title}
 //                       href={link.href}
-//                       className="flex items-center gap-4 p-3 text-lg font-bold text-gray-600 hover:bg-gray-50 hover:text-[#2D1B50] rounded-xl transition-all"
+//                       className="flex items-center gap-4 p-3 text-lg font-bold text-gray-600 hover:bg-gray-50 hover:text-[var(--secondary_color)] rounded-xl transition-all"
 //                     >
 //                       <span className="text-[#FFC107]">{link.icon}</span>
 //                       {link.title}
@@ -70,7 +70,7 @@
 //             </Sheet>
 //           </div>
 
-//            <Link href="/shop" className="text-2xl font-black text-[#2D1B50] tracking-tighter">
+//            <Link href="/shop" className="text-2xl font-black text-[var(--secondary_color)] tracking-tighter">
 //             BTS <span className="text-[#FFC107] text-sm">STORE</span>
 //           </Link>
 
@@ -79,7 +79,7 @@
 //               <Link
 //                 key={link.title}
 //                 href={link.href}
-//                 className="flex items-center gap-2 text-[15px] font-bold text-gray-500 hover:text-[#2D1B50] transition-all duration-200 group"
+//                 className="flex items-center gap-2 text-[15px] font-bold text-gray-500 hover:text-[var(--secondary_color)] transition-all duration-200 group"
 //               >
 //                 <span className="text-gray-400 group-hover:text-[#FFC107] transition-colors">
 //                   {link.icon}
@@ -137,7 +137,7 @@ function StoreNavbar() {
       <nav className="hidden lg:block w-full bg-white/95 backdrop-blur-md border-b sticky top-0 z-50 shadow-sm" dir="rtl">
         <div className="container mx-auto px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-12">
-            <Link href="/shop" className="text-2xl font-black text-[#2D1B50] tracking-tighter">
+            <Link href="/shop" className="text-2xl font-black text-[var(--secondary_color)] tracking-tighter">
               BTS <span className="text-[#FFC107] text-sm">STORE</span>
             </Link>
             <div className="flex items-center gap-8">
@@ -159,7 +159,7 @@ function StoreNavbar() {
       {/* --- الموبايل: الهيدر (لوجو فقط لأن الخروج نزل تحت) --- */}
       <nav className="lg:hidden w-full bg-white border-b sticky top-0 z-50" dir="rtl">
         <div className="px-4 h-14 flex items-center justify-center">
-          <Link href="/shop" className="text-xl font-black text-[#2D1B50]">
+          <Link href="/shop" className="text-xl font-black text-[var(--secondary_color)]">
             BTS <span className="text-[#FFC107] text-xs">STORE</span>
           </Link>
         </div>
@@ -175,13 +175,13 @@ function StoreNavbar() {
         <div className="flex justify-around items-center h-16 px-2 relative" dir="rtl">
           
           {/* الرئيسية */}
-          <Link href="/shop" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop' ? "text-white bg-[#2D1B50] py-1 rounded-xl" : "text-gray-400"}`}>
+          <Link href="/shop" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop' ? "text-white bg-[var(--secondary_color)] py-1 rounded-xl" : "text-gray-400"}`}>
             <Home className="w-6 h-6" />
             <span className="text-[10px] font-bold">الرئيسية</span>
           </Link>
 
           {/* المنتجات */}
-          <Link href="/shop/products" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop/products' ? "text-white bg-[#2D1B50] py-1 rounded-xl" : "text-gray-400"}`}>
+          <Link href="/shop/products" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop/products' ? "text-white bg-[var(--secondary_color)] py-1 rounded-xl" : "text-gray-400"}`}>
             <LayoutGrid className="w-6 h-6" />
             <span className="text-[10px] font-bold">المنتجات</span>
           </Link>
@@ -189,14 +189,14 @@ function StoreNavbar() {
           {/* السلة في المنتصف (تصميم بارز) */}
           <div className="flex-none w-16 h-16 relative -top-5">
             <div className="absolute inset-0 bg-white rounded-full p-1.5 shadow-md">
-              <div className="w-full h-full bg-[#2D1B50] rounded-full flex items-center justify-center text-white">
+              <div className="w-full h-full bg-[var(--secondary_color)] rounded-full flex items-center justify-center text-white">
                 <BasketsDialog />
               </div>
             </div>
           </div>
 
           {/* الطلبات */}
-          <Link href="/shop/orders" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop/orders' ? "text-white bg-[#2D1B50] py-1 rounded-xl" : "text-gray-400"}`}>
+          <Link href="/shop/orders" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop/orders' ? "text-white bg-[var(--secondary_color)] py-1 rounded-xl" : "text-gray-400"}`}>
             <Package className="w-6 h-6" />
             <span className="text-[10px] font-bold">طلباتي</span>
           </Link>

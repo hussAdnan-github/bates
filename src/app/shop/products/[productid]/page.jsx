@@ -24,7 +24,7 @@ async function page({ params }) {
               className={
                 index === breadcrumbs.length - 1
                   ? "text-gray-800 font-bold"
-                  : "hover:text-[#F18721] cursor-pointer"
+                  : "hover:text-[var(--primary_color)] cursor-pointer"
               }
             >   
               {item}

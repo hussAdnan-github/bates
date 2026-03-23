@@ -74,7 +74,7 @@ async function page({ searchParams }) {
                 </SheetTrigger>
                 <SheetContent
                   side="right"
-                  className="w-[300px] overflow-y-auto bg-white"
+                  className="w-[300px] overflow-y-auto bg-white px-4"
                   dir="rtl"
                 >
                   <SheetHeader className="text-right border-b pb-4 mb-6">

@@ -145,7 +145,7 @@ export default function CompanyFilter({ companies }) {
   return (
     <div className="relative w-full">
       {/* حاوية التمرير بتنسيق احترافي */}
-      <div className="flex items-center gap-4 overflow-x-auto pb-6 pt-2 px-1 scrollbar-hide">
+      <div className="flex items-center gap-4 overflow-x-auto pb-6 pt-5 px-1 scrollbar-hide">
         {/* زر "كل الشركات" - تصميم ملكي */}
         <button
           onClick={() => handleFilter("")}

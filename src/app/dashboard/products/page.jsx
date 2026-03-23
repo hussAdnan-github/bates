@@ -121,17 +121,25 @@ function page({ searchParams: searchParamsPage }) {
         /> */}
         <FiltersDropdown
           // department
-          placeholder="كل الأقسام"
-          options={DepartmentList.map((dep) => ({
-            label: dep.name,
-            value: dep.id,
-          }))}
+          value={department__company}
+          options={[
+            { label: "كل الاقسام", value: "" },
+            ...DepartmentList.map((dep) => ({
+              label: dep.name,
+              value: dep.id.toString(),
+            })),
+          ]}
+          // options={DepartmentList.map((dep) => ({
+          //   label: dep.name,
+          //   value: dep.id,
+          // }))}
           onChange={handleRoleChange}
         />
         <FiltersDropdown
           // status
-          placeholder="كل الحالات"
+          value={status}
           options={[
+            { label: "كل الحالات", value: "" },
             { label: "نشط", value: 1 },
             { label: "غير نشط", value: 2 },
           ]}

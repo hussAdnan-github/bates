@@ -18,7 +18,7 @@ function DeleteBasketItem({ id, refresh }) {
       }
       return result;
     },
-    onSuccess: () => {
+    onSuccess: () => { 
       queryClient.invalidateQueries({ queryKey: [refresh] });
       toast.success("تمت حذف المنتج من السلة", { position: "top-center" });
     },

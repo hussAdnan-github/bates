@@ -88,8 +88,9 @@ function BasketsList({ searchParamsPromise }) {
         />
         <FiltersDropdown
           // taype_custom
-          placeholder="كل الحالات"
-          options={[
+          value={status}
+           options={[
+            { label: "كل الحالات", value: "" },
             { label: "جاري معالجة طلبك", value: 1 },
             { label: "تم شحن طلبك", value: 2 },
             { label: "تم إلغاء طلبك", value: 3 },

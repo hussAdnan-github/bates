@@ -2,11 +2,15 @@
 @import "tw-animate-css";
 
 @theme {
- --color-primary: var(--primary-color);
+  --color-primary: var(--primary-color);
   --color-primary-hover: color-mix(in srgb, var(--primary-color), black 15%);
 
   --color-secondary: var(--secondary-color);
-   --color-secondary-hover: color-mix(in srgb, var(--secondary-color), black 15%);
+  --color-secondary-hover: color-mix(in srgb, var(--secondary-color), black 15%);
+
+  --font-sans: var(--font-ibm-plex), var(--font-cairo), ui-sans-serif, system-ui,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
 }
  
 @layer utilities {

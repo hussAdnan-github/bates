@@ -183,7 +183,7 @@ const BasketsDialog = () => {
                         </p>
                         <div className="flex justify-between items-center mt-2">
                           <QuantityBasket number={item.quantity} id={item.id} />
-                          <DeleteBasketItem id={item.id} />
+                          <DeleteBasketItem id={item.id} refresh={"basketShow"}/>
                         </div>
                       </div>
                     </div>

@@ -119,11 +119,10 @@ function SliderPrice() {
 
   return (
     <div className="space-y-6">
-      {/* الرأس: العنوان وزر الإعادة */}
-      <div className="flex justify-between items-center">
+       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <div className="p-2 bg-[#2D1B50]/5 rounded-lg">
-            <Banknote className="h-5 w-5 text-[#2D1B50]" />
+          <div className="p-2 bg-[var(--secondary_color)] rounded-lg">
+            <Banknote className="h-5 w-5 text-[var(--primary_color)]" />
           </div>
           <h1 className="font-bold text-[#2D1B50] text-sm">تصفية حسب السعر</h1>
         </div>
@@ -132,7 +131,7 @@ function SliderPrice() {
           variant="ghost" 
           size="icon"
           onClick={restartPrice}
-          className="h-8 w-8 text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+          className="h-8 w-8 bg-[var(--primary_color)] text-gray-900 hover:text-red-500 hover:bg-red-50 transition-colors"
           title="إعادة ضبط"
         >
           <RotateCcw className="h-4 w-4" />
@@ -157,15 +156,17 @@ function SliderPrice() {
       <div className="px-2">
         <Slider
           value={priceRange}
-          max={2000} // زدنا المدى ليعطي مرونة أكثر
+          max={2000}  
           min={0}
           step={10}
           onValueChange={setPriceRange}
-          className="cursor-pointer"
+          className="cursor-pointer bg-[var(--primary_color)] rounded-2xl"
+    
         />
         <div className="flex justify-between mt-2 text-[10px] text-gray-400 font-bold">
-          <span>0 ر.س</span>
           <span>2000 ر.س</span>
+        
+          <span>0 ر.س</span>
         </div>
       </div>
 

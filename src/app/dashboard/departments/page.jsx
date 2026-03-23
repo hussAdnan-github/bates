@@ -52,7 +52,7 @@ function page({ searchParams: searchParamsPage }) {
 
     fetchDepartment();
   }, []);
-   useEffect(() => {
+  useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm !== searchQuery) {
         updateFilters("search", searchTerm);
@@ -68,8 +68,9 @@ function page({ searchParams: searchParamsPage }) {
   const handleRoleChange = (val) => updateFilters("company", val);
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["Departments", currentPage, companyParmeter , searchTerm],
-    queryFn: () => getDepartmentDashboard(currentPage, companyParmeter , searchTerm),
+    queryKey: ["Departments", currentPage, companyParmeter, searchTerm],
+    queryFn: () =>
+      getDepartmentDashboard(currentPage, companyParmeter, searchTerm),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
     placeholderData: (previousData) => previousData,
@@ -107,14 +108,17 @@ function page({ searchParams: searchParamsPage }) {
           placeholder="البحث بأسم القسم  ..."
           onSearch={handleSearch}
         />
+   
         <FiltersDropdown
-          placeholder="كل الشركات"
-          // company
-          options={CompaniestList.map((comp) => ({
-            label: comp.name_ar,
-            value: comp.id,
-          }))}
-          onChange={handleRoleChange}
+          value={companyParmeter}
+          options={[
+            { label: "كل الشركات", value: "" },
+            ...CompaniestList.map((comp) => ({
+              label: comp.name_ar,
+              value: comp.id.toString(),
+            })),
+          ]}
+           onChange={handleRoleChange}
         />
       </div>
       <div className="flex justify-start mb-6">

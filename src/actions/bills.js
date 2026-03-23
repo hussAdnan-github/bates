@@ -21,11 +21,10 @@ export async function getBillsId(id) {
   return result.data;
 }
 export async function postProductBasket(formData) {
-  const cookieStore = await cookies();
+
 
   const result = await request(`baskets/basketItem/`, "POST", formData, true);
-  // const currentCount = Number(cookieStore.get("basket_count")?.value || 0);
-  // cookieStore.set("basket_count", (currentCount + 1).toString());
+  
   if (result.success) {
     revalidatePath("/dashboard/baskets");
   }

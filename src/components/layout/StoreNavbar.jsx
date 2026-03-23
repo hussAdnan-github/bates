@@ -137,7 +137,7 @@ function StoreNavbar() {
       <nav className="hidden lg:block w-full bg-white/95 backdrop-blur-md border-b sticky top-0 z-50 shadow-sm" dir="rtl">
         <div className="container mx-auto px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-12">
-            <Link href="/shop" className="text-2xl font-black text-[var(--secondary_color)] tracking-tighter">
+            <Link href="/shop" className="text-2xl font-black text-[#2D1B50] tracking-tighter">
               BTS <span className="text-[#FFC107] text-sm">STORE</span>
             </Link>
             <div className="flex items-center gap-8">
@@ -159,7 +159,7 @@ function StoreNavbar() {
       {/* --- الموبايل: الهيدر (لوجو فقط لأن الخروج نزل تحت) --- */}
       <nav className="lg:hidden w-full bg-white border-b sticky top-0 z-50" dir="rtl">
         <div className="px-4 h-14 flex items-center justify-center">
-          <Link href="/shop" className="text-xl font-black text-[var(--secondary_color)]">
+          <Link href="/shop" className="text-xl font-black text-[#2D1B50]">
             BTS <span className="text-[#FFC107] text-xs">STORE</span>
           </Link>
         </div>

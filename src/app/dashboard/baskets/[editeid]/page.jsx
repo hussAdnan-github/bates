@@ -243,7 +243,7 @@ const OrderEditPage = () => {
             </CardHeader>
             <CardContent className="p-6 space-y-4">
               <FiltersDropdown
-                placeholder="كل الحالات"
+         
                 value={status}
                 options={[
                   { label: "جاري معالجة طلبك", value: 1 },

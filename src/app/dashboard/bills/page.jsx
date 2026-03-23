@@ -18,7 +18,7 @@ const ITEMS_PER_PAGE = 21;
 
 function BillsList() {
   const searchParamsQuery = useSearchParams();
-const router = useRouter();
+  const router = useRouter();
   const type = searchParamsQuery.get("type") || "";
   const searchQuery = searchParamsQuery.get("search") || "";
 
@@ -75,6 +75,8 @@ const router = useRouter();
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   const hasNextPage = data?.data?.next;
   const hasPrevPage = data?.data?.previous;
+
+  console.log(bills)
   // const bills = [
   //   {
   //     id: 1,
@@ -117,11 +119,12 @@ const router = useRouter();
         />
         <FiltersDropdown
           // taype_custom
-          placeholder="كل الحالات"
+          value={type}
           options={[
+            { label: "كل الأنواع", value: "" },
+
             { label: "نقد", value: 1 },
             { label: "أجل", value: 2 },
- 
           ]}
           onChange={handleTypeChange}
         />
@@ -144,17 +147,17 @@ const router = useRouter();
           ))}
         </div>
         <div className="flex justify-between items-center flex-row-reverse mt-8">
-                <Pagination
-                  nameApi="/dashboard/baskets"
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  hasNextPage={hasNextPage}
-                  hasPrevPage={hasPrevPage}
-                />
-                <div className="text-sm text-gray-500">
-                  {`عرض 1 - ${bills.length} من إجمالي ${totalCount} نتيجة`}
-                </div>
-              </div>
+          <Pagination
+            nameApi="/dashboard/baskets"
+            currentPage={currentPage}
+            totalPages={totalPages}
+            hasNextPage={hasNextPage}
+            hasPrevPage={hasPrevPage}
+          />
+          <div className="text-sm text-gray-500">
+            {`عرض 1 - ${bills.length} من إجمالي ${totalCount} نتيجة`}
+          </div>
+        </div>
       </div>
     </div>
   );

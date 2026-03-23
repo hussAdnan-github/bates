@@ -17,12 +17,10 @@ function page({ searchParams: searchParamsPage }) {
   const router = useRouter();
   const searchParamsQuery = useSearchParams();
 
-
-
   const isActive = searchParamsQuery.get("is_active") || "";
   const typeCustom = searchParamsQuery.get("type_custom") || "";
   const searchQuery = searchParamsQuery.get("search") || "";
- const [searchTerm, setSearchTerm] = useState(searchQuery);
+  const [searchTerm, setSearchTerm] = useState(searchQuery);
   const searchParams = use(searchParamsPage);
 
   const currentPage = Number(searchParams.page) || 1;
@@ -38,7 +36,7 @@ function page({ searchParams: searchParamsPage }) {
     router.push(`?${params.toString()}`);
   };
 
-    useEffect(() => {
+  useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm !== searchQuery) {
         updateFilters("search", searchTerm);
@@ -53,7 +51,7 @@ function page({ searchParams: searchParamsPage }) {
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["Users", currentPage, isActive, typeCustom, searchQuery],
-    queryFn: () => getUsers (currentPage, isActive, typeCustom , searchQuery),
+    queryFn: () => getUsers(currentPage, isActive, typeCustom, searchQuery),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
     placeholderData: (previousData) => previousData,
@@ -72,7 +70,7 @@ function page({ searchParams: searchParamsPage }) {
     return (
       <p className="text-center p-10 text-red-500">حدث خطأ: {error.message}</p>
     );
-    if (!data) return null; 
+  if (!data) return null;
 
   const users = data?.data?.results || [];
   const totalCount = data?.data?.count || 0;
@@ -94,9 +92,9 @@ function page({ searchParams: searchParamsPage }) {
           onSearch={handleSearch}
         />
         <FiltersDropdown
-          // taype_custom
-          placeholder="كل الأنواع"
+          value={typeCustom}
           options={[
+            { label: "كل الانواع", value: "" },
             { label: "تاجر جملة الجملة", value: 1 },
             { label: "تاجر جملة", value: 2 },
             { label: "تاجر تجزئة", value: 3 },
@@ -105,8 +103,11 @@ function page({ searchParams: searchParamsPage }) {
         />
         <FiltersDropdown
           // is_active=true
-          placeholder="كل الحالات"
+          value={isActive}
+
           options={[
+            { label: "كل الحالات", value: "" },
+
             { label: "نشط", value: "true" },
             { label: "غير نشط", value: "false" },
           ]}
@@ -161,4 +162,3 @@ function page({ searchParams: searchParamsPage }) {
 }
 
 export default page;
- 

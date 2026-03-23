@@ -28,9 +28,9 @@ async function Companies() {
     <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-100 shadow-sm space-y-5">
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 rounded-lg bg-[#FFC107]/10 flex items-center justify-center">
-          <Building2 className="w-4 h-4 text-[#2D1B50]" />
+          <Building2 className="w-4 h-4 text-[var(--secondary_color)]" />
         </div>
-        <h3 className="font-black text-[#2D1B50] text-sm md:text-base">تصفية حسب الشركة</h3>
+        <h3 className="font-black text-[var(--secondary_color)] text-sm md:text-base">تصفية حسب الشركة</h3>
       </div>
       
       <CompanyFilter companies={companies?.data?.results || []} />

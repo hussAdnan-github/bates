@@ -75,7 +75,5 @@ export function proxy(request) {
 
 // المسارات التي يعمل عليها الـ Middleware
 export const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
-  ],
+  matcher: ["/shop/:path*", "/dashboard/:path*", "/login"],
 };

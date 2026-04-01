@@ -13,8 +13,8 @@ function BasketsRow({ basket }) {
     6: { text: "تم رفض طلبك", type: "danger" },
   };
   const typeMap = {
-    1: { text: "الدفع عند الاستلام", type: "warning" },
-    2: { text: "تحويل المبلغ", type: "danger" },
+    1: { text: "الدفع عند الاستلام", type: "success" },
+    2: { text: "تحويل المبلغ", type: "active" },
      
   };
   return (

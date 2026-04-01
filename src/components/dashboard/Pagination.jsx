@@ -32,7 +32,7 @@ export default function Pagination({
     <nav className="flex justify-center items-center gap-2" dir="ltr">
       {/* الانتقال لآخر صفحة */}
       <button
-        className="w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        className="cursor-pointer w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         disabled={!hasNextPage}
         onClick={() => router.push(createPageURL(totalPages))}
         aria-label="الصفحة الأخيرة"
@@ -42,7 +42,7 @@ export default function Pagination({
 
       {/* الصفحة التالية */}
       <button
-        className="w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        className="cursor-pointer w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         disabled={!hasNextPage}
         onClick={() => router.push(createPageURL(currentPage + 1))}
         aria-label="الصفحة التالية"
@@ -53,7 +53,7 @@ export default function Pagination({
       {/* أرقام الصفحات */}
       <div className="flex items-center gap-2">
         {/* ملحوظة: تم إزالة .reverse() إلا إذا كنت تريد عرض الأرقام من الأكبر للأصغر فعلياً */}
-        {pageNumbers.map((pageNumber) => (
+        {pageNumbers.reverse().map((pageNumber) => (
           <Link
             key={pageNumber}
             href={createPageURL(pageNumber)}
@@ -70,7 +70,7 @@ export default function Pagination({
 
       {/* الصفحة السابقة */}
       <button
-        className="w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        className="cursor-pointer w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         disabled={!hasPrevPage}
         onClick={() => router.push(createPageURL(currentPage - 1))}
         aria-label="الصفحة السابقة"
@@ -80,7 +80,7 @@ export default function Pagination({
 
       {/* الانتقال لأول صفحة */}
       <button
-        className="w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        className="cursor-pointer w-10 h-10 flex items-center justify-center bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         disabled={!hasPrevPage}
         onClick={() => router.push(createPageURL(1))}
         aria-label="الصفحة الأولى"

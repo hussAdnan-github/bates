@@ -38,13 +38,16 @@ function Branches() {
             >
               {/* حاوية الصورة - تحسين الأداء باستخدام next/image */}
               <div className="relative w-full h-32 mb-6 transition-transform duration-300 group-hover:scale-105">
-                <Image
+                {/* <Image
                   src={branch.image}
                   alt={branch.name}
                   fill
                   className="object-contain" // لتظهر الصور (اللغويات) كاملة بدون قص
                   sizes="(max-width: 768px) 100vw, 33vw"
-                />
+                /> */}
+                <h1 className='text-5xl font-bold text-[#2D1B50] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-75'>
+                  BTS
+                </h1>
               </div>
 
               {/* تفاصيل الفرع */}

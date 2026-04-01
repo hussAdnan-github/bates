@@ -111,6 +111,7 @@
 
 // export default CardProduct;
 
+ 
 
 "use client";
 import Image from "next/image";
@@ -122,6 +123,32 @@ import ButtonCart from "../store/ButtonCart";
 function CardProduct({ id, image, title, price, model, images }) {
   const allImages = [image, ...images.map((img) => img.image)];
   const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // 1. إدارة حالة الكمية كعدد (أو نص فارغ للسماح بالمسح والكتابة)
+  const [quantity, setQuantity] = useState(1);
+
+  // وظيفة التعامل مع التغيير في الإدخال
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    
+    // منع القيم السالبة أو غير الرقمية
+    if (value === "") {
+      setQuantity(""); // السماح بمسح الخانة للكتابة من جديد
+      return;
+    }
+
+    const numValue = parseInt(value);
+    if (numValue > 0) {
+      setQuantity(numValue);
+    }
+  };
+
+  // وظيفة للتأكد من أن القيمة ليست فارغة عند خروج المستخدم من الحقل
+  const handleBlur = () => {
+    if (quantity === "" || quantity < 1) {
+      setQuantity(1);
+    }
+  };
 
   return (
     <div className="group bg-white rounded-[1.5rem] md:rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full overflow-hidden relative">
@@ -129,19 +156,15 @@ function CardProduct({ id, image, title, price, model, images }) {
       {/* 1. منطقة الصورة */}
       <div className="relative aspect-square overflow-hidden bg-[#FBFBFB] p-2 md:p-4">
         
-        {/* قائمة الصور الجانبية (ذكية التفاعل) */}
+        {/* قائمة الصور الجانبية */}
         <div className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-1.5 md:gap-2 bg-white/40 backdrop-blur-md p-1 md:p-1.5 rounded-full border border-white/50 transition-all duration-500
-          /* في الجوال: ظاهرة دائماً */
           opacity-100 translate-x-0 
-          /* في الديسكتوب: تختفي وتظهر فقط عند هوفر الكرت */
           md:opacity-0 md:group-hover:opacity-100 md:translate-x-5 md:group-hover:translate-x-0">
           
           {allImages.slice(0, 4).map((imgSrc, index) => (
             <button
               key={index}
-              // التحويم للديسكتوب
               onMouseEnter={() => setCurrentIndex(index)}
-              // النقر للجوال (مع منع الانتقال لصفحة المنتج)
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -196,17 +219,40 @@ function CardProduct({ id, image, title, price, model, images }) {
           </h3>
         </Link>
         
-        <div className="flex items-center justify-between mt-auto pt-2">
-          <div className="flex flex-col">
-            <div className="flex items-center gap-0.5">
-               <span className="text-sm md:text-xl lg:text-2xl font-black text-[var(--secondary_color)]">
-                {price}
-              </span>
-              <span className="text-[8px] md:text-xs font-bold text-gray-400">ر.س</span>
+        <div className="flex flex-col gap-3 mt-auto pt-2">
+          {/* منطقة السعر وإدخال العدد */}
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col">
+              <div className="flex items-center gap-0.5">
+                <span className="text-sm md:text-xl lg:text-2xl font-black text-[var(--secondary_color)]">
+                  {price}
+                </span>
+                <span className="text-[8px] md:text-xs font-bold text-gray-400">ر.س</span>
+              </div>
+            </div>
+
+            {/* 2. حقل إدخال العدد (Quantity Input) */}
+            <div className="flex items-center gap-2">
+              <label className="hidden md:block text-[10px] font-bold text-gray-400">الكمية:</label>
+              <input
+                type="number"
+                value={quantity}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+                onClick={(e) => {
+                   e.preventDefault();
+                   e.stopPropagation(); // منع الانتقال لصفحة المنتج عند النقر للكتابة
+                }}
+                min="1"
+                className="w-12 h-8 md:w-16 md:h-10 bg-gray-50 border border-gray-200 rounded-lg text-center text-xs md:text-sm font-bold text-gray-700 focus:outline-none focus:border-[var(--primary_color)] focus:ring-1 focus:ring-[var(--primary_color)] transition-all"
+              />
             </div>
           </div>
 
-          <ButtonCart id={id} quantity={1} show={1}/>
+          {/* زر السلة - نمرر له الكمية المدخلة */}
+          <div className="w-full">
+            <ButtonCart id={id} quantity={Number(quantity)} show={1}/>
+          </div>
         </div>
       </div>
     </div>

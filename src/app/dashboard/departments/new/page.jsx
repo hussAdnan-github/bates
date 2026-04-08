@@ -13,10 +13,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";
-const userSchema = z.object({
-  name: z.string().min(3, "اسم المستخدم يجب أن يكون 3 أحرف على الأقل"),
-  company: z.array(z.number()).min(1, "يجب اختيار  واحدة على الأقل"),
-});
+import { departmentSchema } from "@/lib/validations/departmentSchema";
+ 
 
 function page() {
   const [comaniesList, setComaniesList] = useState([]);
@@ -29,7 +27,7 @@ function page() {
     control,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(userSchema),
+    resolver: zodResolver(departmentSchema),
     defaultValues: {
       name: "",
       company: [],

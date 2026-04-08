@@ -21,13 +21,9 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { companySchema } from "@/lib/validations/companySchema";
 
-const userSchema = z.object({
-  name_ar: z.string().min(3, "اسم بالعربي يجب أن يكون 3 أحرف على الأقل"),
-  name_en: z.string().min(3, "اسم بالانجليزي يجب أن يكون 3 أحرف على الأقل"),
-  description: z.string().min(3, "اسم بالعربي يجب أن يكون 3 أحرف على الأقل"),
-  custom_user: z.array(z.number()).min(1, "يجب اختيار  واحدة على الأقل"),
-});
+ 
 function page() {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,7 +40,7 @@ function page() {
     control,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(userSchema),
+    resolver: zodResolver(companySchema),
     defaultValues: {
       name_ar: "",
       name_en: "",

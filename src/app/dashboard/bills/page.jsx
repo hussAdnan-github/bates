@@ -14,39 +14,28 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getBills } from "@/actions/bills";
 import Pagination from "@/components/dashboard/Pagination";
+import { useFiltter } from "@/hooks/useFiltter";
+import { set } from "zod";
 const ITEMS_PER_PAGE = 21;
 
-function BillsList() {
-  const searchParamsQuery = useSearchParams();
-  const router = useRouter();
-  const type = searchParamsQuery.get("type") || "";
-  const searchQuery = searchParamsQuery.get("search") || "";
+function BillsList({ searchParams: searchParamsPage }) {
+  const {
+    searchTerm,
+    setSearchTerm,
+    currentPage,
+    updateFilters, 
+    getQueryParam,
+  } = useFiltter(searchParamsPage);
 
-  const [searchTerm, setSearchTerm] = useState(searchQuery);
+  const type = getQueryParam("type") || "";
+ 
 
-  const currentPage = Number(searchParamsQuery.page) || 1;
+ 
 
-  const updateFilters = (key, value) => {
-    const params = new URLSearchParams(searchParamsQuery.toString());
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
-    params.set("page", "1");
-    router.push(`?${params.toString()}`);
-  };
+ 
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchTerm !== searchQuery) {
-        updateFilters("search", searchTerm);
-      }
-    }, 500);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
-  const handleTypeChange = (val) => updateFilters("type", val);
+ 
+  const handleTypeChange = (val) => updateFilters({type: val});
   const handleSearch = (val) => setSearchTerm(val);
   const { data, isLoading, error } = useQuery({
     queryKey: ["baskets", currentPage, type, searchTerm],
@@ -115,7 +104,8 @@ function BillsList() {
         </div>
         <SearchInput
           placeholder="البحث برقم الطلب او ال عميل..."
-          onSearch={handleSearch}
+          value={searchTerm}
+          onSearch={setSearchTerm}
         />
         <FiltersDropdown
           // taype_custom

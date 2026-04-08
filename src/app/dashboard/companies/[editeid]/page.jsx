@@ -13,12 +13,8 @@ import { getUsers } from "@/actions/users";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import Link from "next/link";
-const userSchema = z.object({
-  nameAr: z.string().min(3, "اسم بالعربي يجب أن يكون 3 أحرف على الأقل"),
-  nameEn: z.string().min(3, "اسم بالانجليزي يجب أن يكون 3 أحرف على الأقل"),
-  description: z.string().min(3, "اسم بالعربي يجب أن يكون 3 أحرف على الأقل"),
-  custom_user: z.array(z.number()).min(1, "يجب اختيار  واحدة على الأقل"),
-});
+import { companySchema } from "@/lib/validations/companySchema";
+ 
 function page() {
   const { editeid } = useParams();
   const [usersList, setUsersList] = useState([]);
@@ -54,7 +50,7 @@ function page() {
     control,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(userSchema),
+    resolver: zodResolver(companySchema),
     defaultValues: {
       nameAr: "",
       nameEn: "",

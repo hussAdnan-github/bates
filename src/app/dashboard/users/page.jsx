@@ -9,49 +9,29 @@ import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "@/actions/users";
 
 import Pagination from "@/components/dashboard/Pagination";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useFiltter } from "@/hooks/useFiltter";
+
 
 const ITEMS_PER_PAGE = 21;
 
 function page({ searchParams: searchParamsPage }) {
-  const router = useRouter();
-  const searchParamsQuery = useSearchParams();
+  const {
+    searchTerm,
+    setSearchTerm,
+    currentPage,
+    updateFilters,
+    getQueryParam,
+  } = useFiltter(searchParamsPage);
 
-  const isActive = searchParamsQuery.get("is_active") || "";
-  const typeCustom = searchParamsQuery.get("type_custom") || "";
-  const searchQuery = searchParamsQuery.get("search") || "";
-  const [searchTerm, setSearchTerm] = useState(searchQuery);
-  const searchParams = use(searchParamsPage);
+  const isActive = getQueryParam("is_active") || "";
+  const typeCustom = getQueryParam("type_custom") || "";
 
-  const currentPage = Number(searchParams.page) || 1;
-
-  const updateFilters = (key, value) => {
-    const params = new URLSearchParams(searchParamsQuery.toString());
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
-    params.set("page", "1");
-    router.push(`?${params.toString()}`);
-  };
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchTerm !== searchQuery) {
-        updateFilters("search", searchTerm);
-      }
-    }, 500);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
-  const handleStatusChange = (val) => updateFilters("is_active", val);
-  const handleRoleChange = (val) => updateFilters("type_custom", val);
-  const handleSearch = (val) => setSearchTerm(val);
+  const handleStatusChange = (val) => updateFilters({ is_active: val });
+  const handleRoleChange = (val) => updateFilters({ type_custom: val });
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["Users", currentPage, isActive, typeCustom, searchQuery],
-    queryFn: () => getUsers(currentPage, isActive, typeCustom, searchQuery),
+    queryKey: ["Users", currentPage, isActive, typeCustom, searchTerm],
+    queryFn: () => getUsers(currentPage, isActive, typeCustom, searchTerm),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
     placeholderData: (previousData) => previousData,
@@ -89,7 +69,8 @@ function page({ searchParams: searchParamsPage }) {
         </div>
         <SearchInput
           placeholder="البحث لاأسم او البريد..."
-          onSearch={handleSearch}
+          value={searchTerm}
+          onSearch={setSearchTerm}
         />
         <FiltersDropdown
           value={typeCustom}
@@ -104,7 +85,6 @@ function page({ searchParams: searchParamsPage }) {
         <FiltersDropdown
           // is_active=true
           value={isActive}
-
           options={[
             { label: "كل الحالات", value: "" },
 

@@ -11,31 +11,27 @@ import { getDepartmentDashboard } from "@/actions/department";
 import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "@/components/dashboard/Pagination";
 import { getCompanies } from "@/actions/companies";
+import { useFiltter } from "@/hooks/useFiltter";
 
 const ITEMS_PER_PAGE = 21;
 
 function page({ searchParams: searchParamsPage }) {
   const [CompaniestList, setCompaniestList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const searchParamsQuery = useSearchParams();
+  const {
+    searchTerm,
+    setSearchTerm,
+    currentPage,
+    updateFilters,
+    getQueryParam,
+  } = useFiltter(searchParamsPage);
 
-  const router = useRouter();
 
-  const companyParmeter = searchParamsQuery.get("company") || "";
+  const companyParmeter = getQueryParam("company") || "";
 
-  const searchQuery = searchParamsQuery.get("search") || "";
-  const [searchTerm, setSearchTerm] = useState(searchQuery);
 
-  const updateFilters = (key, value) => {
-    const params = new URLSearchParams(searchParamsQuery.toString());
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
-    params.set("page", "1");
-    router.push(`?${params.toString()}`);
-  };
+
+
 
   useEffect(() => {
     async function fetchDepartment() {
@@ -52,20 +48,12 @@ function page({ searchParams: searchParamsPage }) {
 
     fetchDepartment();
   }, []);
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchTerm !== searchQuery) {
-        updateFilters("search", searchTerm);
-      }
-    }, 500);
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
-  const searchParams = use(searchParamsPage);
 
-  const currentPage = Number(searchParams.page) || 1;
-  const handleSearch = (val) => setSearchTerm(val);
-  const handleRoleChange = (val) => updateFilters("company", val);
+
+
+
+  const handleRoleChange = (val) => updateFilters({ company: val });
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["Departments", currentPage, companyParmeter, searchTerm],
@@ -106,9 +94,10 @@ function page({ searchParams: searchParamsPage }) {
         </div>
         <SearchInput
           placeholder="البحث بأسم القسم  ..."
-          onSearch={handleSearch}
+          value={searchTerm}
+          onSearch={setSearchTerm}
         />
-   
+
         <FiltersDropdown
           value={companyParmeter}
           options={[
@@ -118,7 +107,7 @@ function page({ searchParams: searchParamsPage }) {
               value: comp.id.toString(),
             })),
           ]}
-           onChange={handleRoleChange}
+          onChange={handleRoleChange}
         />
       </div>
       <div className="flex justify-start mb-6">

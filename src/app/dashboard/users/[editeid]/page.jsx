@@ -12,29 +12,15 @@ import { Switch } from "@/components/ui/switch";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { toast } from "sonner";
-const userSchema = z
-  .object({
-    username: z.string().min(3, "اسم المستخدم يجب أن يكون 3 أحرف على الأقل"),
-    phone: z.string().min(9, "رقم الهاتف غير صحيح"),
-    ext: z.string().optional(),
-    userType: z.enum(["1", "2", "3"]).optional(),
-    password: z.string().optional(),
-    confirmPassword: z.string().optional(),
-    isActive: z.boolean().default(true).optional(),
-    isStaff: z.boolean().default(false).optional(),
-    // avatar: z.any().optional(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "كلمات المرور غير متطابقة",
-    path: ["confirmPassword"],
-  });
+import { userSchema } from "@/lib/validations/userSchema";
+ 
 
 function page() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { editeid } = useParams();
 
-  const [loading, setLoading] = useState(true);
+ 
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -52,14 +38,14 @@ function page() {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false);
+        
       }
     }
 
     fetchUser();
   }, [editeid]);
 
-  // if (loading) return <p>Loading...</p>;
+ 
 
   const {
     register,
@@ -246,42 +232,7 @@ function page() {
                 />
               </div>
             </div>
-            {/* <div className="flex flex-col items-center py-10 gap-4">
-              <Controller
-                name="avatar"
-                control={control}
-                render={({ field }) => (
-                  <>
-                    <div className="relative w-36 h-36 rounded-full border-[5px] border-gray-100 shadow-xl overflow-hidden bg-white flex items-center justify-center transition-all hover:scale-105">
-                      {preview ? (
-                        <img
-                          src={preview}
-                          alt="Avatar"
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <UserCircle2 size={80} className="text-gray-200" />
-                      )}
-                    </div>
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      className="hidden"
-                      accept="image/*"
-                      onChange={(e) => handleImageChange(e, field.onChange)}
-                    />
-                    <Button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="bg-[#FFC107] hover:bg-[#e0ac00] text-[#2D1B50] font-bold px-8 py-5 rounded-xl shadow-md"
-                    >
-                      تغيير الصورة
-                    </Button>
-                  </>
-                )}
-              />
-            </div> */}
-            {/* زر الحفظ (إضافي من عندي ليكتمل النموذج) */}
+         
             <div className="mt-8 pt-6 gap-2 border-t border-gray-50 flex justify-end">
               <button
                 type="submit"

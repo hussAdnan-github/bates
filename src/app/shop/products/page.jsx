@@ -88,19 +88,7 @@ async function page({ searchParams }) {
               </Sheet>
             </div>
 
-            {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products.data.results.map((product) => (
-                <CardProduct
-                  key={product.id}
-                  id={product.id}
-                  title={product.name}
-                  image={product.image}
-                  price={product.price}
-                  model={product.model}
-                  images={product.images}
-                />
-              ))}
-            </div> */}
+
             <InfiniteProductList
               show={3}
               initialData={products.data}

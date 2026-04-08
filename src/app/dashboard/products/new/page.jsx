@@ -13,26 +13,8 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-const userSchema = z.object({
-  name: z.string().min(3, "اسم المستخدم يجب أن يكون 3 أحرف على الأقل"),
-  price: z.preprocess(
-    (val) => Number(val),
-    z.number({ invalid_type_error: "رقم السعر غير صحيح" }),
-  ),
-  wholesale_price: z.preprocess(
-    (val) => Number(val),
-    z.number({ invalid_type_error: "رقم السعر غير صحيح" }),
-  ),
-  retail_price: z.preprocess(
-    (val) => Number(val),
-    z.number({ invalid_type_error: "رقم السعر غير صحيح" }),
-  ),
-  model: z.string().optional(),
-  department: z.coerce.number().min(1, "يرجى اختيار القسم"),
-
-  serial_number: z.string().optional(),
-  image: z.any().optional(),
-});
+import { productSchema } from "@/lib/validations/productSchema";
+ 
 
 function page() {
   const queryClient = useQueryClient();
@@ -62,7 +44,7 @@ function page() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(userSchema),
+    resolver: zodResolver(productSchema),
     defaultValues: {
       name: "",
       price: 0,

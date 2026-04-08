@@ -14,25 +14,9 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { userSchema } from "@/lib/validations/userSchema";
 
-const userSchema = z
-  .object({
-    username: z.string().min(3, "اسم المستخدم يجب أن يكون 3 أحرف على الأقل"),
-    phone: z.string().min(9, "رقم الهاتف غير صحيح"),
-    ext: z.string().optional(),
-    userType: z.enum(["1", "2", "3"], {
-      errorMap: () => ({ message: "يرجى اختيار نوع المستخدم" }),
-    }),
-    password: z.string().min(4, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
-    confirmPassword: z.string().min(4, "يرجى تأكيد كلمة المرور"),
-    isActive: z.boolean().default(true),
-    isStaff: z.boolean().default(false),
-    image: z.any().optional(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "كلمات المرور غير متطابقة",
-    path: ["confirmPassword"],
-  });
+ 
 
 function Page() {
   const route = useRouter();

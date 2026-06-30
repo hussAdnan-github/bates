@@ -24,6 +24,8 @@ const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
 export const metadata = {
   title: "BTS - اكسسوارات الجوال",
   description: "محمد باتيس للتجارة - أفضل واقوى اكسسوارات الجوال في اليمن",
+  manifest: "/manifest.json",
+  themeColor: "#000000",
 };
 
 export default async function RootLayout({ children }) {

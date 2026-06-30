@@ -7,9 +7,9 @@ export default function Loading() {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white" dir="rtl">
       
-      {/* حاوية الأيقونة المتحركة */}
+    
       <div className="relative mb-8">
-        {/* حلقات النبض الخلفية */}
+     
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1.5, opacity: [0, 0.2, 0] }}

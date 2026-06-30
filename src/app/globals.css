@@ -4,7 +4,6 @@
 @theme {
   --color-primary: var(--primary-color);
   --color-primary-hover: color-mix(in srgb, var(--primary-color), black 15%);
-
   --color-secondary: var(--secondary-color);
   --color-secondary-hover: color-mix(in srgb, var(--secondary-color), black 15%);
 

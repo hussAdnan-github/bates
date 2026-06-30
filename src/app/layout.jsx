@@ -25,6 +25,9 @@ export const metadata = {
   title: "BTS - اكسسوارات الجوال",
   description: "محمد باتيس للتجارة - أفضل واقوى اكسسوارات الجوال في اليمن",
   manifest: "/manifest.json",
+};
+
+export const viewport = {
   themeColor: "#000000",
 };
 

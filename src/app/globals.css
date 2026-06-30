@@ -11,7 +11,6 @@
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 }
- 
 @layer utilities {
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);

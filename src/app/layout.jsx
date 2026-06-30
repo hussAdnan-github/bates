@@ -39,7 +39,6 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
       <body
-      
         style={{
           "--primary_color": primaryColor,
           "--secondary_color": secondaryColor,

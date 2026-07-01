@@ -2,7 +2,7 @@
   "name": "Bates",
   "short_name": "Bates",
   "description": "Bates Application",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",

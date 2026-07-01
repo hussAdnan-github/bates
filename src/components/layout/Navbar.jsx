@@ -20,6 +20,7 @@ function Navbar() {
   ];
   const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isPwa, setIsPwa] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -27,6 +28,11 @@ function Navbar() {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
+
+    if (window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone) {
+      setIsPwa(true);
+    }
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -85,57 +91,59 @@ function Navbar() {
         </div>
 
         {/* قائمة الموبايل */}
-        <div className="lg:hidden flex items-center gap-2">
-           {/* زر الموبايل المحسن */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="hover:bg-gray-100 rounded-full">
-                <Menu className="h-6 w-6 text-[#2D1B50]" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent
-              side="right"
-              className="w-[300px] bg-white border-l-0 px-3"
-              dir="rtl"
-            >
-              <div className="flex flex-col h-full">
-                <SheetTitle className="flex justify-start pt-4 pb-8 border-b">
-                  <Link href="/" className="text-3xl font-black text-[#2D1B50]">
-                    BTS
-                  </Link>
-                </SheetTitle>
-                
-                <div className="flex flex-col gap-2 mt-8">
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.title}
-                      href={link.href}
-                      className="text-lg font-semibold text-gray-700 p-3 rounded-lg hover:bg-gray-50 hover:text-[#2D1B50] transition-all"
-                    >
-                      {link.title}
+        {!isPwa && (
+          <div className="lg:hidden flex items-center gap-2">
+            {/* زر الموبايل المحسن */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="hover:bg-gray-100 rounded-full">
+                  <Menu className="h-6 w-6 text-[#2D1B50]" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="w-[300px] bg-white border-l-0 px-3"
+                dir="rtl"
+              >
+                <div className="flex flex-col h-full">
+                  <SheetTitle className="flex justify-start pt-4 pb-8 border-b">
+                    <Link href="/" className="text-3xl font-black text-[#2D1B50]">
+                      BTS
                     </Link>
-                  ))}
-                </div>
+                  </SheetTitle>
+                  
+                  <div className="flex flex-col gap-2 mt-8">
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.title}
+                        href={link.href}
+                        className="text-lg font-semibold text-gray-700 p-3 rounded-lg hover:bg-gray-50 hover:text-[#2D1B50] transition-all"
+                      >
+                        {link.title}
+                      </Link>
+                    ))}
+                  </div>
 
-                <div className="mt-auto flex flex-col gap-3 pb-8">
-                  <hr className="mb-4" />
-                  <Link
-                    href="/login"
-                    className="w-full text-center py-3 font-bold text-[#2D1B50] border-2 border-[#2D1B50] rounded-xl"
-                  >
-                    تسجيل الدخول
-                  </Link>
-                  <Link
-                    href="/signUp"
-                    className="w-full text-center py-3 font-bold bg-[#FFC107] text-[#2D1B50] rounded-xl shadow-md"
-                  >
-                    إنشاء حساب
-                  </Link>
+                  <div className="mt-auto flex flex-col gap-3 pb-8">
+                    <hr className="mb-4" />
+                    <Link
+                      href="/login"
+                      className="w-full text-center py-3 font-bold text-[#2D1B50] border-2 border-[#2D1B50] rounded-xl"
+                    >
+                      تسجيل الدخول
+                    </Link>
+                    <Link
+                      href="/signUp"
+                      className="w-full text-center py-3 font-bold bg-[#FFC107] text-[#2D1B50] rounded-xl shadow-md"
+                    >
+                      إنشاء حساب
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        )}
       </div>
     </nav>
   );

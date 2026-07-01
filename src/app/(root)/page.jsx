@@ -5,11 +5,7 @@ import Hero from "@/components/shared/Hero";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 
-export default async function Home({ searchParams }) {
-  const params = await searchParams;
-  if (params?.source === "pwa") {
-    redirect("/login");
-  }
+export default function Home() {
   return (
     <>
       <Hero />

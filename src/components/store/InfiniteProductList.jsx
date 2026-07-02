@@ -60,7 +60,7 @@ function InfiniteProductList({
             id={product.id}
             title={product.name}
             image={product.image}
-            price={product.price}
+            prices={product.prices}
             model={product.model}
             images={product.images}
           />

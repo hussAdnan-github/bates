@@ -1,36 +1,3 @@
- 
-
-
-// import { NextResponse } from "next/server";
-
-// export function proxy(request) {
-//   const token = request.cookies.get("auth_token")?.value;
-//   const { pathname } = request.nextUrl;
-
-//    const isProtectedRoute = pathname.startsWith("/shop") || pathname.startsWith("/dashboard");
-//   const isLoginPage = pathname === "/login";
-
-//    if (isProtectedRoute && !token) {
-//     const loginUrl = new URL("/login", request.url);
-    
-//     return NextResponse.redirect(loginUrl);
-//   }
-
-//    if (isLoginPage && token) {
-//     return NextResponse.redirect(new URL("/dashboard", request.url));
-//   }
-
-//    return NextResponse.next();
-// }
-
-//  export const config = {
-//   matcher: [
-//     "/shop/:path*",
-//     "/dashboard/:path*",
-//     "/login",
-//   ],
-// };
-
 import { NextResponse } from "next/server";
 
 export function proxy(request) {

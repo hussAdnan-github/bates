@@ -9,7 +9,7 @@ export async function getAllProduts() {
   
   return result.data;
 }
-export async function getProduts(
+export async function getProduts( 
   price,
   department,
   department__company,

@@ -10,6 +10,7 @@ function InfiniteProductList({
   price = "",
   department = "", 
   department__company = "",
+  type_money = "1",
 }) {
   const [products, setProducts] = useState(initialData.results);
   const [nextPage, setNextPage] = useState(initialData.next);
@@ -63,6 +64,7 @@ function InfiniteProductList({
             prices={product.prices}
             model={product.model}
             images={product.images}
+            type_money={type_money}
           />
         ))}
       </div>

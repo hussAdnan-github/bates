@@ -28,7 +28,7 @@ export async function postUser(formData) {
   return result;
 }
 export async function editeUser(formData, id) {
-  const result = await request(`users/${id}/`, "PUT", formData, false);
+  const result = await request(`users/${id}/`, "PATCH", formData, false);
     if (result.success) {
     revalidatePath("/dashboard/users");
     revalidatePath(`/dashboard/users/${id}`);  
@@ -39,4 +39,19 @@ export async function deleteUser(id) {
   const result = await request(`users/${id}/`, "DELETE");
   revalidatePath("/dashboard/users");
   return result.data;
+}
+
+import { cookies } from "next/headers";
+
+export async function changeCurrency(formData) {
+  const result = await request(`change_mony/`, "PATCH", formData, true);
+  if (result.success) {
+    const type_money = formData.get("type_money");
+    const cookieStore = await cookies();
+    cookieStore.set("type_money", type_money, {
+      path: "/",
+    });
+    revalidatePath("/shop");
+  }
+  return result;
 }

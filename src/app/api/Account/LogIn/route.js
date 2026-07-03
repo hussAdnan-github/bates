@@ -15,6 +15,7 @@ export async function POST(req) {
       res.data.data;
  
     const user = res.data.data.user.username;
+    const taype_custom = res.data.data.user.taype_custom;
     const response = NextResponse.json({
       success: true,
       token,
@@ -22,6 +23,7 @@ export async function POST(req) {
       basket_count,
       primary_color,
       secondary_color,
+      taype_custom,
     });
 
     response.cookies.set("auth_token", token, {
@@ -42,6 +44,14 @@ export async function POST(req) {
       sameSite: "lax",
       path: "/",
     });
+    if (taype_custom !== undefined) {
+      response.cookies.set("taype_custom", String(taype_custom), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+      });
+    }
 
     response.cookies.set("primary_color", primary_color, {
       httpOnly: true,

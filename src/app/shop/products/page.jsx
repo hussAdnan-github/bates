@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Filter, SlidersHorizontal } from "lucide-react";
 import FilterContent from "@/components/store/FilterContent";
+import { cookies } from "next/headers";
 
 async function page({ searchParams }) {
   const { price, department, department__company } = await searchParams;
@@ -27,7 +28,10 @@ async function page({ searchParams }) {
     getProduts(price, department, department__company),
     getDepartment(department__company),
   ]);
-  console.log(products.data.results);
+  
+  const cookieStore = await cookies();
+  const type_money = cookieStore.get("type_money")?.value || "1";
+
   return (
     <div className="bg-gray-50/50 min-h-screen py-10" dir="rtl">
       <div className="container mx-auto px-4">
@@ -36,18 +40,6 @@ async function page({ searchParams }) {
         </h1>
 
         <div className="flex flex-col-reverse lg:flex-row gap-8">
-          {/* <aside className="w-full lg:w-1/4 space-y-8 order-2 lg:order-1">
-            <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-              <h3 className="font-black text-xl mb-4">الفئات</h3>
-              <Separator className="mb-4" />
-              <Department department={departmentData} />
-              <h3 className="font-black text-xl mt-10 mb-4">السعر</h3>
-              <Separator className="mb-4" />
-              <SliderPrice />
-            </div>
-          </aside> */}
-
-          {/* --- 2. نسخة الديسكتوب (Sidebar) - تختفي في الموبايل وتظهر في lg:block --- */}
           <aside className="hidden lg:block lg:w-1/4">
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm sticky top-24">
               <FilterContent departmentData={departmentData} />
@@ -88,13 +80,13 @@ async function page({ searchParams }) {
               </Sheet>
             </div>
 
-
             <InfiniteProductList
               show={3}
               initialData={products.data}
               price={price}
               department={department}
               department__company={department__company}
+              type_money={type_money}
             />
           </main>
         </div>

@@ -1,123 +1,6 @@
 
 
-// import React from "react";
-// import Link from "next/link";
-// import { ShoppingCart, LogOut, Package, Home, LayoutGrid, Menu } from "lucide-react"; // أضفنا Menu
-// import { Badge } from "@/components/ui/badge";
-// import SearchBar from "../store/SearchBar";
-// import BasketsDialog from "../store/BasketsDialog";
-// import { cookies } from "next/headers";
-// import LogoutButton from "../store/LogoutButton";
-// import {
-//   Sheet,
-//   SheetContent,
-//   SheetHeader,
-//   SheetTitle,
-//   SheetTrigger,
-// } from "@/components/ui/sheet"; 
-// import { Button } from "@/components/ui/button";
-// import { getBaskets } from "@/actions/baskets";
-
-//  function StoreNavbar() {
-  
-
-//   const navLinks = [
-//     { title: "الرئيسية", href: "/shop", icon: <Home className="w-4 h-4" /> },
-//     { title: "المنتجات", href: "/shop/products", icon: <LayoutGrid className="w-4 h-4" /> },
-//     { title: "الطلبات", href: "/orders", icon: <Package className="w-4 h-4" /> },
-//   ];
-
-//   return (
-//     <nav
-//       className="w-full bg-white/95 backdrop-blur-md border-b sticky top-0 z-50 shadow-sm"
-//       dir="rtl"
-//     >
-//       <div className="container mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
-        
-//          <div className="flex items-center gap-4 lg:gap-12">
-          
-//            <div className="lg:hidden">
-//             <Sheet>
-//               <SheetTrigger asChild>
-//                 <Button variant="ghost" size="icon" className="text-[var(--secondary_color)] ">
-//                   <Menu className="h-6 w-6" />
-//                 </Button>
-//               </SheetTrigger>
-//               <SheetContent side="right" className="w-[300px] bg-white" dir="rtl">
-//                 <SheetHeader className="text-right border-b pb-4">
-//                   <SheetTitle className="text-2xl font-black text-[var(--secondary_color)]">
-//                     BTS <span className="text-[#FFC107] text-sm">STORE</span>
-//                   </SheetTitle>
-//                 </SheetHeader>
-                
-//                 <div className="flex flex-col gap-4 mt-8">
-//                   {navLinks.map((link) => (
-//                     <Link
-//                       key={link.title}
-//                       href={link.href}
-//                       className="flex items-center gap-4 p-3 text-lg font-bold text-gray-600 hover:bg-gray-50 hover:text-[var(--secondary_color)] rounded-xl transition-all"
-//                     >
-//                       <span className="text-[#FFC107]">{link.icon}</span>
-//                       {link.title}
-//                     </Link>
-//                   ))}
-//                 </div>
-
-//                 <div className="absolute bottom-8 left-4 right-4 border-t pt-4">
-//                    <p className="text-xs text-gray-400 text-center">جميع الحقوق محفوظة &copy; 2024</p>
-//                 </div>
-//               </SheetContent>
-//             </Sheet>
-//           </div>
-
-//            <Link href="/shop" className="text-2xl font-black text-[var(--secondary_color)] tracking-tighter">
-//             BTS <span className="text-[#FFC107] text-sm">STORE</span>
-//           </Link>
-
-//            <div className="hidden lg:flex items-center gap-8">
-//             {navLinks.map((link) => (
-//               <Link
-//                 key={link.title}
-//                 href={link.href}
-//                 className="flex items-center gap-2 text-[15px] font-bold text-gray-500 hover:text-[var(--secondary_color)] transition-all duration-200 group"
-//               >
-//                 <span className="text-gray-400 group-hover:text-[#FFC107] transition-colors">
-//                   {link.icon}
-//                 </span>
-//                 {link.title}
-//               </Link>
-//             ))}
-//           </div>
-//         </div>
-
-//          <div className="flex items-center gap-2 md:gap-6">
-          
-//           <div className="hidden sm:block">
-//             <SearchBar />
-//           </div>
-
-//           <div className="flex items-center border-r pr-2 md:pr-6 gap-2 md:gap-4">
-            
-//             <BasketsDialog / >
-             
-          
-
-//             <div className="flex items-center">
-//                <LogoutButton />
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-      
-//        <div className="sm:hidden px-4 pb-3">
-//          <SearchBar />
-//       </div>
-//     </nav>
-//   );
-// }
-
-// export default StoreNavbar;
-
+ 
 "use client";
 
 import React from "react";
@@ -128,7 +11,7 @@ import SearchBar from "../store/SearchBar";
 import BasketsDialog from "../store/BasketsDialog";
 import LogoutButton from "../store/LogoutButton";
 
-function StoreNavbar() {
+function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile }) {
   const pathname = usePathname();
 
   return (
@@ -149,6 +32,7 @@ function StoreNavbar() {
           <div className="flex items-center gap-6">
             <SearchBar />
             <div className="flex items-center border-r pr-6 gap-4">
+              {currencyButtonDesktop}
               <BasketsDialog />
               <LogoutButton />
             </div>
@@ -185,6 +69,8 @@ function StoreNavbar() {
             <LayoutGrid className="w-6 h-6" />
             <span className="text-[10px] font-bold">المنتجات</span>
           </Link>
+
+          {currencyButtonMobile}
 
           {/* السلة في المنتصف (تصميم بارز) */}
           <div className="flex-none w-16 h-16 relative -top-5">

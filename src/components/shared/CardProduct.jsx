@@ -7,12 +7,15 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ButtonCart from "../store/ButtonCart";
 
-function CardProduct({ id, image, title, prices, model, images }) {
+function CardProduct({ id, image, title, prices, model, images, type_money = "1" }) {
 
   const allImages = [image, ...images.map((img) => img.image)];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [quantity, setQuantity] = useState(1);
+
+  // تحديث اسم العملة حسب نوع التحويل
+  const currencyName = type_money === "3" ? "يمني قديم" : type_money === "2" ? "يمني جديد" : "ر.س";
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -111,13 +114,13 @@ function CardProduct({ id, image, title, prices, model, images }) {
                 <span className="text-sm md:text-xl lg:text-2xl font-black text-[var(--secondary_color)]">
                   {prices.price}
                 </span>
-                <span className="text-[8px] md:text-xs font-bold text-gray-400">ر.س</span>
+                <span className="text-[8px] md:text-xs font-bold text-gray-400">{currencyName}</span>
               </div>
               <div className="flex items-center gap-0.5">
                 <span className="text-sm md:text-xl lg:text-sm font-black text-gray-500">
                   {prices.wholesale_price}
                 </span>
-                <span className="text-[8px] md:text-xs font-bold text-gray-400">ر.س</span>
+                <span className="text-[8px] md:text-xs font-bold text-gray-400">{currencyName}</span>
               </div>
             </div>
 

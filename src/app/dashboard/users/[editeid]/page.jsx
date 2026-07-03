@@ -27,13 +27,14 @@ function page() {
         const data = await getUserId(editeid);
 
         console.log(data);
+        const userData = data?.data?.results ? data?.data?.results[0] : (data?.data || data);
         reset({
-          username: data?.data?.username,
-          phone: data?.data?.phone,
-          ext: data?.data?.ext,
-          userType: data?.data?.taype_custom,
-          isActive: data?.data?.is_active ?? true,
-          isStaff: data?.data?.is_staff ?? false,
+          username: userData?.username,
+          phone: userData?.phone,
+          ext: userData?.ext,
+          userType: userData?.taype_custom?.toString(),
+          isActive: userData?.is_active ?? true,
+          isStaff: userData?.is_staff ?? false,
         });
       } catch (error) {
         console.error(error);
@@ -57,7 +58,18 @@ function page() {
     resolver: zodResolver(userSchema),
   });
   const onSubmit = async (data) => {
-    const filteredData = Object.entries(data).reduce((acc, [key, value]) => {
+    const payload = {
+      ...data,
+      taype_custom: data.userType !== undefined ? Number(data.userType) : undefined,
+      is_active: data.isActive,
+      is_staff: data.isStaff,
+    };
+    
+    delete payload.userType;
+    delete payload.isActive;
+    delete payload.isStaff;
+
+    const filteredData = Object.entries(payload).reduce((acc, [key, value]) => {
       if (value !== "" && value !== undefined && value !== null) {
         if (key !== "confirmPassword") {
           acc[key] = value;
@@ -65,7 +77,7 @@ function page() {
       }
       return acc;
     }, {});
-
+    console.log("filteredData" , filteredData)
     const result = await editeUser(filteredData, editeid);
 
     if (!result.success) {
@@ -94,7 +106,7 @@ function page() {
         </div>,
         { duration: 4000 },
       );
-      router.back();
+      // router.back();
     }
   };
   return (
@@ -187,7 +199,7 @@ function page() {
                 </div>
 
                 <Controller
-                  name="isStaff"
+                  name="isActive"
                   control={control}
                   render={({ field }) => (
                     <Switch
@@ -215,11 +227,11 @@ function page() {
                 </div>
 
                 <Controller
-                  name="isActive"
+                  name="isStaff"
                   control={control}
                   render={({ field }) => (
                     <Switch
-                      id="active-status"
+                      id="staff-status"
                       checked={field.value}
                       onCheckedChange={field.onChange}
                       className="

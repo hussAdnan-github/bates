@@ -54,6 +54,11 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile }) {
         </div>
       </nav>
 
+      {/* --- الموبايل: زر تغيير العملة العائم --- */}
+      <div className="lg:hidden fixed bottom-20 left-4 z-50 drop-shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+        {currencyButtonMobile}
+      </div>
+
       {/* --- الموبايل: البار السفلي --- */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-100 shadow-[0_-4px_15px_rgba(0,0,0,0.08)]">
         <div className="flex justify-around items-center h-16 px-2 relative" dir="rtl">
@@ -69,8 +74,6 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile }) {
             <LayoutGrid className="w-6 h-6" />
             <span className="text-[10px] font-bold">المنتجات</span>
           </Link>
-
-          {currencyButtonMobile}
 
           {/* السلة في المنتصف (تصميم بارز) */}
           <div className="flex-none w-16 h-16 relative -top-5">

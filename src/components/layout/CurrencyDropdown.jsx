@@ -39,11 +39,11 @@ export default function CurrencyDropdown({ isMobile }) {
   };
 
   const trigger = isMobile ? (
-    <div className="flex flex-col items-center gap-1 flex-1 text-gray-400 cursor-pointer w-full transition-all hover:text-[var(--primary_color)]">
+    <div className="flex items-center gap-1.5 bg-[var(--primary_color)] text-white px-3 py-2 rounded-full shadow-lg cursor-pointer hover:scale-105 active:scale-95 transition-all border border-white/20">
       {isPending ? (
-        <Loader2 className="w-6 h-6 animate-spin text-[var(--primary_color)]" />
+        <Loader2 className="w-3.5 h-3.5 animate-spin text-[var(--secondary_color)]" />
       ) : (
-        <ArrowRightLeft className="w-6 h-6" />
+        <ArrowRightLeft className="w-3.5 h-3.5 text-[var(--secondary_color)]" />
       )}
       <span className="text-[10px] font-bold">العملة</span>
     </div>
@@ -64,40 +64,40 @@ export default function CurrencyDropdown({ isMobile }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent 
         align="end" 
-        className="w-56 font-cairo bg-white p-2 rounded-2xl shadow-xl border border-gray-100/50"
+        className="w-48 md:w-56 font-cairo bg-white p-1.5 md:p-2 rounded-2xl shadow-xl border border-gray-100/50"
       >
-        <DropdownMenuLabel className="text-gray-400 text-xs text-center font-bold pb-2 pt-1">
+        <DropdownMenuLabel className="text-gray-400 text-[10px] md:text-xs text-center font-bold pb-1.5 md:pb-2 pt-1">
           اختر العملة المفضلة
         </DropdownMenuLabel>
         
-        <DropdownMenuSeparator className="bg-gray-100/80 mb-2" />
+        <DropdownMenuSeparator className="bg-gray-100/80 mb-1.5 md:mb-2" />
         
         <DropdownMenuItem 
           onClick={() => handleCurrencyChange(1)} 
-          className="flex items-center gap-3 font-bold cursor-pointer rounded-xl p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 group"
+          className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold cursor-pointer rounded-xl p-2 md:p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 group"
         >
-          <div className="bg-green-50 text-green-600 p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">
-            <DollarSign className="w-4 h-4" />
+          <div className="bg-green-50 text-green-600 p-1.5 md:p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">
+            <DollarSign className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </div>
           ريال سعودي
         </DropdownMenuItem>
 
         <DropdownMenuItem 
           onClick={() => handleCurrencyChange(2)} 
-          className="flex items-center gap-3 font-bold cursor-pointer rounded-xl p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 mt-1 group"
+          className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold cursor-pointer rounded-xl p-2 md:p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 mt-1 group"
         >
-          <div className="bg-blue-50 text-blue-600 p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">
-            <Banknote className="w-4 h-4" />
+          <div className="bg-blue-50 text-blue-600 p-1.5 md:p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">
+            <Banknote className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </div>
           ريال يمني (جديد)
         </DropdownMenuItem>
 
         <DropdownMenuItem 
           onClick={() => handleCurrencyChange(3)} 
-          className="flex items-center gap-3 font-bold cursor-pointer rounded-xl p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 mt-1 group"
+          className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold cursor-pointer rounded-xl p-2 md:p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 mt-1 group"
         >
-          <div className="bg-amber-50 text-amber-600 p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">
-            <Coins className="w-4 h-4" />
+          <div className="bg-amber-50 text-amber-600 p-1.5 md:p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">
+            <Coins className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </div>
           ريال يمني (قديم)
         </DropdownMenuItem>

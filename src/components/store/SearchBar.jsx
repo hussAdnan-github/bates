@@ -120,7 +120,7 @@ const SearchBar = () => {
             {results.map((item) => (
               <Link
                 key={item.id}
-                href={`/shop/products/${item.id}`}
+                href={`/products/${item.id}`}
                 className="flex items-center gap-3 p-3 hover:bg-gray-50 transition"
                 onClick={() => setIsOpen(false)}
               >

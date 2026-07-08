@@ -51,7 +51,7 @@ export async function changeCurrency(formData) {
     cookieStore.set("type_money", type_money, {
       path: "/",
     });
-    revalidatePath("/shop");
+    revalidatePath("/");
   }
   return result;
 }

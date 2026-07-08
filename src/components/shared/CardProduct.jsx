@@ -69,7 +69,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "1"
         </div>
 
         {/* الصورة الأساسية */}
-        <Link href={`/shop/products/${id}`} className="relative block w-full h-full">
+        <Link href={`/products/${id}`} className="relative block w-full h-full">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -100,7 +100,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "1"
 
       {/* 2. منطقة المعلومات */}
       <div className="p-3 md:p-5 flex flex-col flex-grow bg-white">
-        <Link href={`/shop/products/${id}`}>
+        <Link href={`/products/${id}`}>
           <h3 className="text-xs md:text-base lg:text-lg font-bold text-gray-800 line-clamp-2 mb-1 md:mb-2 group-hover:text-[var(--primary_color)] transition-colors leading-tight min-h-[32px] md:min-h-[48px]">
             {title}
           </h3>

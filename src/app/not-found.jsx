@@ -80,7 +80,7 @@ export default function NotFound() {
         </Link>
         
         <Link 
-          href="/shop" 
+          href="/" 
           className="flex items-center gap-2 bg-white border-2 border-slate-200 hover:border-blue-600 text-slate-700 hover:text-blue-600 px-8 py-3 rounded-2xl font-bold transition-all"
         >
           <ShoppingBag size={20} />

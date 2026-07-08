@@ -51,7 +51,7 @@ function LoginPage() {
         }
 
         if (data.user === "admin") return router.replace("/dashboard");
-        router.replace("/shop");
+        router.replace("/");
         router.refresh();
       } else {
         setError(data.error || "اسم المستخدم أو كلمة المرور غير صحيحة");

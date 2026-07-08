@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 async function FeaturedProducts() {
   const products = await getProduts();
   const cookieStore = await cookies();
-  const type_money = cookieStore.get("type_money")?.value || "1";
+  const type_money = cookieStore.get("type_money")?.value || "3";
 
   if (!products || !products.data) {
     console.error("Failed to fetch products or products.data is missing");

@@ -188,7 +188,7 @@ export default function CompanyFilter({ companies, activeCompanyId }) {
               key={com.id}
               onClick={() => handleFilter(com.id.toString())}
               className={`
-                relative flex-shrink-0 flex flex-col items-center p-3 w-28 h-32 rounded-3xl border-2 transition-all duration-500 group
+                relative flex-shrink-0 flex flex-col items-center p-2 w-20 h-24 rounded-2xl border-2 transition-all duration-500 group
                 ${
                   isActive
                     ? "bg-white border-[var(--primary_color)] shadow-2xl shadow-yellow-500/20 -translate-y-2"
@@ -198,7 +198,7 @@ export default function CompanyFilter({ companies, activeCompanyId }) {
             >
                <div
                 className={`
-                w-16 h-16 rounded-2xl overflow-hidden border mb-3 flex items-center justify-center p-2 bg-white transition-all duration-500
+                w-12 h-12 rounded-xl overflow-hidden border mb-2 flex items-center justify-center p-1.5 bg-white transition-all duration-500
                 ${isActive ? "border-[var(--primary_color)] shadow-inner scale-110" : "border-gray-50 group-hover:scale-105"}
               `}
               >
@@ -206,18 +206,18 @@ export default function CompanyFilter({ companies, activeCompanyId }) {
                   <Image
                     src={com.logo}
                     alt={com.name_ar}
-                    width={60}
-                    height={60}
+                    width={40}
+                    height={40}
                     className="object-contain transition-transform group-hover:scale-110"
                   />
                 ) : (
-                  <Globe className="text-gray-200 w-8 h-8" />
+                  <Globe className="text-gray-200 w-6 h-6" />
                 )}
               </div>
 
-               <div className="text-center w-full">
+               <div className="text-center w-full mt-1">
                 <p
-                  className={`text-[12px] font-black truncate px-1 transition-colors ${isActive ? "text-[var(--secondary_color)]" : "text-gray-600"}`}
+                  className={`text-[11px] font-black truncate px-1 transition-colors ${isActive ? "text-[var(--secondary_color)]" : "text-gray-600"}`}
                 >
                   {com.name_ar}
                 </p>

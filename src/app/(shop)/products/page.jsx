@@ -44,7 +44,7 @@ async function page({ searchParams }) {
   ]);
   
   const cookieStore = await cookies();
-  const type_money = cookieStore.get("type_money")?.value || "1";
+  const type_money = cookieStore.get("type_money")?.value || "3";
 
   return (
     <div className="bg-gray-50/50 min-h-screen py-10" dir="rtl">
@@ -66,7 +66,7 @@ async function page({ searchParams }) {
                <Department department={departmentData} />
             </div>
             <div className="lg:hidden w-full mb-4 px-2">
-              <Sheet>
+              {/* <Sheet>
                 <SheetTrigger asChild>
                   <Button
                     variant="outline"
@@ -94,7 +94,7 @@ async function page({ searchParams }) {
                   </SheetHeader>
                   <FilterContent departmentData={departmentData} />
                 </SheetContent>
-              </Sheet>
+              </Sheet> */}
             </div>
 
             <InfiniteProductList

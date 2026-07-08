@@ -117,7 +117,7 @@ export default function Department({ department }) {
             key={dep.id}
             active={currentDepartment === dep.id.toString()}
             onClick={() => handelDepartment(dep.id)}
-            icon={<Grid2X2 className="w-4 h-4" />}
+            icon={<Grid2X2 className="w-5 h-5" />}
           >
             {dep.name}
           </CategoryItem>
@@ -136,7 +136,7 @@ function CategoryItem({ children, active, onClick, icon }) {
     <button
       onClick={onClick}
       className={`
-        relative group flex-shrink-0 flex items-center gap-2 pr-1 pl-5 py-1 rounded-full
+        relative group flex-shrink-0 flex items-center gap-3 pr-2 pl-6 py-2 rounded-full
         font-bold transition-all duration-500 ease-out border-2
         ${
           active
@@ -145,16 +145,16 @@ function CategoryItem({ children, active, onClick, icon }) {
         }
       `}
     >
-      {/* حاوية الأيقونة الدائرية المصغرة */}
+      {/* حاوية الأيقونة الدائرية */}
       <div className={`
-        flex items-center justify-center w-8 h-8 rounded-full transition-all duration-500
+        flex items-center justify-center w-10 h-10 rounded-full transition-all duration-500
         ${active ? "bg-[var(--primary_color)] text-[var(--secondary_color)] shadow-inner" : "bg-gray-50 text-gray-400 group-hover:bg-[#FFC107]/20 group-hover:text-[var(--primary_color)]"}
       `}>
-        {active ? <Sparkles className="w-4 h-4 animate-pulse" /> : icon}
+        {active ? <Sparkles className="w-5 h-5 animate-pulse" /> : icon}
       </div>
 
-      {/* النص المنسق والمصغر */}
-      <span className="text-[12px] md:text-[13px] whitespace-nowrap tracking-wide">
+      {/* النص المنسق والمكبر */}
+      <span className="text-[14px] md:text-[15px] whitespace-nowrap tracking-wide">
         {children}
       </span>
     </button>

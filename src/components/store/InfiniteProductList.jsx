@@ -10,7 +10,7 @@ function InfiniteProductList({
   price = "",
   department = "", 
   department__company = "",
-  type_money = "1",
+  type_money = "3",
 }) {
   const [products, setProducts] = useState(initialData.results);
   const [nextPage, setNextPage] = useState(initialData.next);

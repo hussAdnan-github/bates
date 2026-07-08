@@ -5,9 +5,7 @@ import Footer from "@/components/layout/Footer";
 export default function LocalLayout({ children }) {
   return (
     <>
-      <Navbar />
       <main>{children}</main>
-      <Footer />
     </>
   );
 }

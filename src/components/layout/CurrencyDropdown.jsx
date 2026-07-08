@@ -73,7 +73,7 @@ export default function CurrencyDropdown({ isMobile }) {
         <DropdownMenuSeparator className="bg-gray-100/80 mb-1.5 md:mb-2" />
         
         <DropdownMenuItem 
-          onClick={() => handleCurrencyChange(1)} 
+          onClick={() => handleCurrencyChange(3)} 
           className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold cursor-pointer rounded-xl p-2 md:p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 group"
         >
           <div className="bg-green-50 text-green-600 p-1.5 md:p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">
@@ -83,17 +83,7 @@ export default function CurrencyDropdown({ isMobile }) {
         </DropdownMenuItem>
 
         <DropdownMenuItem 
-          onClick={() => handleCurrencyChange(2)} 
-          className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold cursor-pointer rounded-xl p-2 md:p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 mt-1 group"
-        >
-          <div className="bg-blue-50 text-blue-600 p-1.5 md:p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">
-            <Banknote className="w-3.5 h-3.5 md:w-4 md:h-4" />
-          </div>
-          ريال يمني (جديد)
-        </DropdownMenuItem>
-
-        <DropdownMenuItem 
-          onClick={() => handleCurrencyChange(3)} 
+          onClick={() => handleCurrencyChange(1)} 
           className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold cursor-pointer rounded-xl p-2 md:p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 mt-1 group"
         >
           <div className="bg-amber-50 text-amber-600 p-1.5 md:p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">

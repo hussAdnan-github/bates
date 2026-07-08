@@ -59,7 +59,7 @@ export default function AboutUs() {
             
             <p className="text-lg text-gray-600 leading-relaxed mb-10 font-medium">
               نحن منصة رائدة متخصصة في تقديم أفضل المنتجات التقنية والإلكترونية بأعلى معايير الجودة. 
-              نسعى دائماً لتوفير أحدث التقنيات لعملائنا، بالتعاون مع كبرى الشركات العالمية مثل <strong className="text-[#2D1B50]">UGREEN</strong> وغيرها لضمان توفير منتجات أصلية ومضمونة تلبي كافة احتياجاتك.
+              نسعى دائماً لتوفير أحدث التقنيات لعملائنا، بالتعاون مع كبرى الشركات العالمية مثل <strong className="text-[#2D1B50]">UGREEN</strong> و<strong className="text-[#2D1B50]">VIDVE</strong> لضمان توفير منتجات أصلية ومضمونة تلبي كافة احتياجاتك.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">

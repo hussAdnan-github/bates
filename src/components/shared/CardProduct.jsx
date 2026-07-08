@@ -144,7 +144,18 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "1"
 
           {/* زر السلة - نمرر له الكمية المدخلة */}
           <div className="w-full">
-            <ButtonCart id={id} quantity={Number(quantity)} show={1} />
+            <ButtonCart 
+              id={id} 
+              quantity={Number(quantity)} 
+              show={1} 
+              product={{
+                id,
+                products_name: title,
+                products_price: prices.price,
+                products_image: image,
+                products_model: model,
+              }}
+            />
           </div>
         </div>
       </div>

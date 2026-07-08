@@ -21,7 +21,7 @@ import { getCompanies } from "@/actions/companies";
 import CompanyFilter from "../shared/CompanyFilter";
 import { Building2 } from "lucide-react"; // أيقونة الشركة
 
-async function Companies() {
+async function Companies({ activeCompanyId }) {
   const companies = await getCompanies();
 
   return (
@@ -32,8 +32,8 @@ async function Companies() {
         </div>
         <h3 className="font-black text-[var(--secondary_color)] text-sm md:text-base">تصفية حسب الشركة</h3>
       </div>
-      
-      <CompanyFilter companies={companies?.data?.results || []} />
+       
+      <CompanyFilter companies={companies?.data?.results || []} activeCompanyId={activeCompanyId} />
     </div>
   );
 }

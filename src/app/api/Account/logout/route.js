@@ -11,13 +11,13 @@ export async function POST() {
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
- 
   };
 
-  response.cookies.set("auth_token", "", cookieOptions);
-  response.cookies.set("basket_count", "", cookieOptions);
-  response.cookies.set("primary_color", "", cookieOptions);
-  response.cookies.set("secondary_color", "", cookieOptions);
+  response.cookies.delete("auth_token");
+  response.cookies.delete("basket_count");
+  response.cookies.delete("primary_color");
+  response.cookies.delete("secondary_color");
+  response.cookies.delete("username");
 
   return response;
 }

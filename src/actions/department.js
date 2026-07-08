@@ -14,7 +14,7 @@ export async function getDepartment(company) {
     `departments/departments/?pagination=false&${params.toString()}`,
     "GET",
   );
-
+ 
 
   return result.data;
 }

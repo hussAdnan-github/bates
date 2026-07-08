@@ -5,9 +5,11 @@ import { Loader2, Plus, ShoppingCart } from "lucide-react";
 import { postProductBasket } from "@/actions/baskets";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCartStore } from "@/store/useCartStore";
 
-function ButtonCart({ id, quantity, show = 1 }) {
+function ButtonCart({ id, quantity, show = 1, product }) {
  const queryClient = useQueryClient();
+ const addItemLocal = useCartStore((state) => state.addItem);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
@@ -15,15 +17,22 @@ function ButtonCart({ id, quantity, show = 1 }) {
       dataForm.append("product", id);
       dataForm.append("quantity", quantity);
       const result = await postProductBasket(dataForm);
-      console.log(result)
-      if (!result.success) throw new Error(result.message);
+      if (!result.success) throw new Error("unauthorized");
       return result;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["basketShow"] });
       toast.success("تمت الإضافة للسلة بنجاح", { position: "top-center" });
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => {
+      // إذا فشل الطلب (بسبب عدم تسجيل الدخول مثلاً)، نضيف للسلة المحلية
+      if (product) {
+        addItemLocal(product, quantity);
+        toast.success("تمت الإضافة للسلة بنجاح", { position: "top-center" });
+      } else {
+        toast.error("يرجى تسجيل الدخول أولاً");
+      }
+    },
   });
 
   return (

@@ -12,22 +12,26 @@ import { Separator } from "@/components/ui/separator";
 import {
   ShoppingCart,
   ArrowLeft,
-  ArrowRight,
-  Loader2,
   ShoppingBag,
+  Loader2,
 } from "lucide-react";
-import OrdersDialog from "./OrdersDialog";
 import { editOrderBasket, getBaskets } from "@/actions/baskets";
 import QuantityBasket from "./QuantityBasket";
 import DeleteBasketItem from "./DeleteBasketItem";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useCartStore } from "@/store/useCartStore";
 
 const BasketsDialog = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  const localCart = useCartStore((state) => state.localCart);
+  const getCartCount = useCartStore((state) => state.getCartCount);
+  const getCartTotal = useCartStore((state) => state.getCartTotal);
+
   const {
     data: orders,
     isLoading,
@@ -37,22 +41,23 @@ const BasketsDialog = () => {
     queryFn: () => getBaskets(),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
+    retry: 1, // لا تحاول كثيراً إذا كان غير مسجل الدخول
   });
 
-  const basketcountNumber =
-    orders?.data?.results?.reduce((total, order) => {
-      return total + (order.basketitems?.length || 0);
-    }, 0) || 0;
+  // التحقق من حالة السلة في السيرفر
+  const isServerEmpty = !orders?.data?.results || orders.data.results.length === 0 || orders.data.results[0]?.basketitems?.length === 0;
 
-  const subtotal =
-    orders?.data?.results?.reduce((acc, order) => {
-      return (
-        acc +
-        order.basketitems.reduce((itemAcc, item) => {
-          return itemAcc + Number(item.products_price) * item.quantity;
-        }, 0)
-      );
-    }, 0) || 0;
+  const serverCartItems = orders?.data?.results?.[0]?.basketitems || [];
+
+  // نعرض المنتجات المحلية إذا كانت سلة السيرفر فارغة (للزوار)، غير ذلك نعرض سلة السيرفر
+  const isLocal = isServerEmpty && localCart.length > 0;
+  const displayItems = isLocal ? localCart : serverCartItems;
+
+  const displayCount = isLocal ? getCartCount() : (
+    orders?.data?.results?.reduce((total, order) => total + (order.basketitems?.length || 0), 0) || 0
+  );
+
+  const displayTotal = isLocal ? getCartTotal() : (orders?.data?.results?.[0]?.total_price || 0);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (id) => {
@@ -67,9 +72,17 @@ const BasketsDialog = () => {
     },
   });
 
-  const createOrder = (id) => {
-    mutate(id);
+  const handleCheckout = () => {
+    if (isLocal || isServerEmpty) {
+      // غير مسجل دخول، نوجهه لصفحة الدخول ليتم دمج السلة بعدها
+      setOpen(false);
+      router.push("/login");
+    } else {
+      // مسجل دخول ولديه سلة سيرفر
+      mutate(orders?.data?.results[0].id);
+    }
   };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -78,9 +91,9 @@ const BasketsDialog = () => {
           className="relative p-2.5 cursor-pointer hover:bg-gray-50 rounded-xl transition-all group"
         >
           <ShoppingCart className="h-6 w-6 text-white md:text-gray-700 group-hover:text-primary transition-colors" />
-          {basketcountNumber > 0 && (
+          {displayCount > 0 && (
             <span className="absolute -top-1 -right-1 bg-primary text-white lg:text-[var(--primary_color)] w-5 h-5 flex items-center justify-center text-[11px] font-bold rounded-full border-2 border-[var(--secondary_color)]  lg:border-[var(--secondary_color)] shadow-sm">
-              {basketcountNumber}
+              {displayCount}
             </span>
           )}
         </div>
@@ -97,12 +110,12 @@ const BasketsDialog = () => {
             </DialogTitle>
           </DialogHeader>
 
-          {isLoading ? (
+          {isLoading && !isLocal ? (
             <div className="flex flex-col justify-center items-center py-20 gap-4">
               <Loader2 className="h-10 w-10 animate-spin text-primary" />
               <p className="text-gray-500 animate-pulse">جارٍ جلب سلتك...</p>
             </div>
-          ) : basketcountNumber === 0 ? (
+          ) : displayCount === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <div className="bg-gray-100 p-6 rounded-full mb-6">
                 <ShoppingBag className="h-16 w-16 text-gray-400" />
@@ -126,97 +139,85 @@ const BasketsDialog = () => {
                   <div className="col-span-2">الإجراء</div>
                 </div>
 
-                {orders.data.results.map((order) =>
-                  order.basketitems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="grid grid-cols-12 gap-4 items-center p-4 border-b border-gray-100 text-center"
-                    >
-                      <div className="col-span-4 flex items-center gap-4 text-right">
-                        <div className="relative w-16 h-16 border rounded-md overflow-hidden bg-white shrink-0">
-                          <Image
-                            src={item.products_image}
-                            alt="product"
-                            fill
-                            className="object-contain"
-                          />
-                        </div>
-                        <span className="text-gray-800 text-sm font-medium">
-                          {item.products_name}
-                        </span>
+                {displayItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="grid grid-cols-12 gap-4 items-center p-4 border-b border-gray-100 text-center"
+                  >
+                    <div className="col-span-4 flex items-center gap-4 text-right">
+                      <div className="relative w-16 h-16 border rounded-md overflow-hidden bg-white shrink-0">
+                        <Image
+                          src={item.products_image}
+                          alt="product"
+                          fill
+                          className="object-contain"
+                        />
                       </div>
-                      <div className="col-span-2 text-gray-700">
-                        {item.products_price} ر.س
-                      </div>
-                      <div className="col-span-2 flex justify-center">
-                        <QuantityBasket number={item.quantity} id={item.id} />
-                      </div>
-                      <div className="col-span-2 text-gray-500">
-                        {item.products_model}
-                      </div>
-                      <div className="col-span-2">
-                        <DeleteBasketItem id={item.id} refresh={"basketShow"}/>
-                      </div>
+                      <span className="text-gray-800 text-sm font-medium">
+                        {item.products_name}
+                      </span>
                     </div>
-                  )),
-                )}
+                    <div className="col-span-2 text-gray-700">
+                      {item.products_price} ر.س
+                    </div>
+                    <div className="col-span-2 flex justify-center">
+                      <QuantityBasket number={item.quantity} id={item.id} isLocal={isLocal} />
+                    </div>
+                    <div className="col-span-2 text-gray-500">
+                      {item.products_model}
+                    </div>
+                    <div className="col-span-2">
+                      <DeleteBasketItem id={item.id} refresh={"basketShow"} isLocal={isLocal} />
+                    </div>
+                  </div>
+                ))}
               </div>
 
               <div className="md:hidden space-y-4">
-                {orders.data.results
-                  .flatMap((o) => o.basketitems)
-                  .map((item) => (
-                    <div key={item.id} className="flex gap-4 border-b pb-4">
-                      <Image
-                        src={item.products_image}
-                        alt=""
-                        width={60}
-                        height={60}
-                        className="rounded object-contain"
-                      />
-                      <div className="flex-1">
-                        <p className="font-bold text-sm">
-                          {item.products_name}
-                        </p>
-                        <p className="text-primary text-sm">
-                          {item.products_price} ر.س
-                        </p>
-                        <div className="flex justify-between items-center mt-2">
-                          <QuantityBasket number={item.quantity} id={item.id} />
-                          <DeleteBasketItem id={item.id} refresh={"basketShow"}/>
-                        </div>
+                {displayItems.map((item) => (
+                  <div key={item.id} className="flex gap-4 border-b pb-4">
+                    <Image
+                      src={item.products_image}
+                      alt=""
+                      width={60}
+                      height={60}
+                      className="rounded object-contain"
+                    />
+                    <div className="flex-1">
+                      <p className="font-bold text-sm">
+                        {item.products_name}
+                      </p>
+                      <p className="text-primary text-sm">
+                        {item.products_price} ر.س
+                      </p>
+                      <div className="flex justify-between items-center mt-2">
+                        <QuantityBasket number={item.quantity} id={item.id} isLocal={isLocal} />
+                        <DeleteBasketItem id={item.id} refresh={"basketShow"} isLocal={isLocal} />
                       </div>
                     </div>
-                  ))}
+                  </div>
+                ))}
               </div>
 
               <div className="mt-8 bg-gray-50/50 border rounded-xl p-6">
                 <div className="space-y-4">
                   <div className="flex justify-between text-gray-600 font-bold">
                     <span>المجموع الفرعي</span>
-                    {/* <span>{subtotal.toFixed(2)} ر.س</span> */}
                   </div>
                   <Separator />
                   <div className="flex justify-between text-xl font-black">
                     <span className="text-gray-800">المجموع الإجمالي</span>
                     <span className="text-primary">
-                      {orders?.data?.results[0].total_price} ر.س
+                      {displayTotal} ر.س
                     </span>
                   </div>
                 </div>
               </div>
 
               <div className="mt-8 flex flex-col md:flex-row justify-between gap-4">
-                {/* <Link
-                  className="flex items-center justify-center bg-primary hover:bg-primary/90 text-white h-12 px-8 text-lg font-bold rounded-lg w-full md:w-auto order-1 md:order-2 text-center"
-                  href={`/shop/orders`}
-                  onClick={() => setOpen(false)} // 4. الإغلاق عند الضغط
-                >
-                  التقدم لإتمام الشراء
-                </Link> */}
-
                 <Button
-                  onClick={() => createOrder(orders?.data?.results[0].id)}
+                  onClick={handleCheckout}
+                  disabled={isPending}
                   className="bg-[var(--primary_color)] hover:bg-[var(--primary_color)]/90 h-12 px-8 text-lg font-bold rounded-lg w-full md:w-auto order-1 md:order-2"
                 >
                   التقدم لإتمام الشراء
@@ -229,7 +230,7 @@ const BasketsDialog = () => {
                     className="bg-slate-500 hover:bg-slate-600 text-white h-12 px-8 text-lg font-bold rounded-lg w-full md:w-auto order-2 md:order-1 border-none"
                   >
                     متابعة التسوق
-                   </Button>
+                  </Button>
                 </DialogTrigger>
               </div>
             </>

@@ -126,10 +126,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Check, Building2, Globe } from "lucide-react";
 import Image from "next/image";
 
-export default function CompanyFilter({ companies }) {
+export default function CompanyFilter({ companies, activeCompanyId }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const activeCompany = searchParams.get("department__company") || "";
+  const activeCompany = searchParams.get("department__company") || activeCompanyId || "";
 
   const handleFilter = (id) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -147,7 +147,7 @@ export default function CompanyFilter({ companies }) {
       {/* حاوية التمرير بتنسيق احترافي */}
       <div className="flex items-center gap-4 overflow-x-auto pb-6 pt-5 px-1 scrollbar-hide">
         {/* زر "كل الشركات" - تصميم ملكي */}
-        <button
+        {/* <button
           onClick={() => handleFilter("")}
           className={`
             relative flex-shrink-0 flex flex-col items-center justify-center w-24 h-28 rounded-3xl border-2 transition-all duration-500
@@ -178,10 +178,10 @@ export default function CompanyFilter({ companies }) {
               <Check className="w-3 h-3" />
             </div>
           )}
-        </button>
+        </button> */}
 
         {/* قائمة الشركات */}
-        {companies.length > 1 && companies.map((com) => {
+        {companies.length > 0 && companies.map((com) => {
           const isActive = activeCompany === com.id.toString();
           return (
             <button

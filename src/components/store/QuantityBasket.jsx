@@ -4,11 +4,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { Plus, Minus, Loader2 } from "lucide-react";
 import { editProductBasket } from "@/actions/baskets";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useCartStore } from "@/store/useCartStore";
 
-function QuantityBasket({ number, id }) {
+function QuantityBasket({ number, id, isLocal = false }) {
   const [quantity, setQuantity] = useState(number);
   const queryClient = useQueryClient();
   const timerRef = useRef(null);  
+  const updateQuantityLocal = useCartStore((state) => state.updateQuantity);
 
    useEffect(() => {
     setQuantity(number);
@@ -29,6 +31,11 @@ function QuantityBasket({ number, id }) {
     if (newQty < 1) return;  
 
      setQuantity(newQty);
+
+     if (isLocal) {
+       updateQuantityLocal(id, newQty);
+       return;
+     }
 
      if (timerRef.current) clearTimeout(timerRef.current);
 

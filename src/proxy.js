@@ -6,12 +6,15 @@ export function proxy(request) {
   const { pathname } = request.nextUrl;
 
   const isLoginPage = pathname === "/login";
+  const isDashboard = pathname.startsWith("/dashboard");
+  const isCheckout = pathname.startsWith("/shop/orders");
 
-  // 1. إذا لم يكن هناك توكن، وجهه لصفحة تسجيل الدخول (إلا إذا كان فيها بالفعل)
+  // 1. إذا لم يكن هناك توكن، نوجهه لصفحة تسجيل الدخول فقط إذا حاول الوصول لصفحات محمية
   if (!token) {
-    if (!isLoginPage) {
+    if (isDashboard || isCheckout) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
+    // السماح بالوصول لصفحات التسوق والصفحات الأخرى للزوار
     return NextResponse.next();
   }
 

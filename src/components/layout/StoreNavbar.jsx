@@ -6,12 +6,12 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Package, Home, LayoutGrid } from "lucide-react";
+import { Package, Home, LayoutGrid, LogIn } from "lucide-react";
 import SearchBar from "../store/SearchBar";
 import BasketsDialog from "../store/BasketsDialog";
 import LogoutButton from "../store/LogoutButton";
 
-function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile }) {
+function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }) {
   const pathname = usePathname();
 
   return (
@@ -34,7 +34,24 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile }) {
             <div className="flex items-center border-r pr-6 gap-4">
               {currencyButtonDesktop}
               <BasketsDialog />
-              <LogoutButton />
+              {isLoggedIn ? (
+                <LogoutButton />
+              ) : (
+                <div className="hidden md:flex items-center gap-2">
+                  <Link
+                    href="/login"
+                    className="text-[#2D1B50] font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-gray-50 transition-all active:scale-95"
+                  >
+                    تسجيل الدخول
+                  </Link>
+                  <Link
+                    href="/signUp"
+                    className="bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-yellow-200/50 transition-all hover:shadow-yellow-200/80 active:scale-95"
+                  >
+                    إنشاء حساب
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -90,9 +107,16 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile }) {
             <span className="text-[10px] font-bold">طلباتي</span>
           </Link>
 
-          {/* تسجيل الخروج بدل "المزيد" */}
+          {/* تسجيل الخروج أو الدخول بدل "المزيد" */}
           <div className="flex-1 flex justify-center">
-             <LogoutButton isMobile={true} />
+             {isLoggedIn ? (
+               <LogoutButton isMobile={true} />
+             ) : (
+               <Link href="/login" className="flex flex-col items-center gap-1 text-gray-400 hover:text-[var(--primary_color)]">
+                 <LogIn className="w-6 h-6" />
+                 <span className="text-[10px] font-bold">دخول</span>
+               </Link>
+             )}
           </div>
 
         </div>

@@ -31,6 +31,25 @@ function LoginPage() {
 
       const data = await res.json();
       if (data.success) {
+        // دمج السلة المحلية مع حساب المستخدم
+        const { useCartStore } = await import("@/store/useCartStore");
+        const { postProductBasket } = await import("@/actions/baskets");
+        
+        const localCart = useCartStore.getState().localCart;
+        if (localCart.length > 0 && data.user !== "admin") {
+          try {
+            for (const item of localCart) {
+              const formData = new FormData();
+              formData.append("product", item.id);
+              formData.append("quantity", item.quantity);
+              await postProductBasket(formData);
+            }
+            useCartStore.getState().clearCart();
+          } catch (err) {
+            console.error("Failed to merge cart", err);
+          }
+        }
+
         if (data.user === "admin") return router.replace("/dashboard");
         router.replace("/shop");
         router.refresh();

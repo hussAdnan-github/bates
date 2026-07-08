@@ -5,10 +5,11 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCartStore } from "@/store/useCartStore";
 
-function DeleteBasketItem({ id, refresh }) {
-  console.log(refresh);
+function DeleteBasketItem({ id, refresh, isLocal = false }) {
   const queryClient = useQueryClient();
+  const removeItemLocal = useCartStore((state) => state.removeItem);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
@@ -39,13 +40,22 @@ function DeleteBasketItem({ id, refresh }) {
     },
   });
 
+  const handleDelete = () => {
+    if (isLocal) {
+      removeItemLocal(id);
+      toast.success("تمت حذف المنتج من السلة", { position: "top-center" });
+    } else {
+      mutate();
+    }
+  };
+
   return (
     <Button
-      disabled={isPending}
-      onClick={() => mutate()}
+      disabled={isPending && !isLocal}
+      onClick={handleDelete}
       className="text-gray-900 hover:text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors bg-gray-200"
     >
-      {isPending ? (
+      {(isPending && !isLocal) ? (
         <Loader2 className="animate-spin" size={24} />
       ) : (
         <Trash2 className="h-5 w-5" />

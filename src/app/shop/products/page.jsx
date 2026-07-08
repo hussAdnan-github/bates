@@ -9,6 +9,7 @@ import Categories from "@/components/store/Department";
 import Department from "@/components/store/Department";
 import { getDepartment } from "@/actions/department";
 import InfiniteProductList from "@/components/store/InfiniteProductList";
+import { getCompanies } from "@/actions/companies";
 import {
   Sheet,
   SheetContent,
@@ -24,9 +25,22 @@ import { cookies } from "next/headers";
 async function page({ searchParams }) {
   const { price, department, department__company } = await searchParams;
 
+  const companiesData = await getCompanies();
+  const ugreenCompany = companiesData?.data?.results?.find(
+    (c) =>
+      c.name_en?.toLowerCase().includes("ugreen") ||
+      c.name_ar?.toLowerCase().includes("ugreen") ||
+      c.name_ar?.includes("يوجرين")
+  );
+
+  let effectiveCompany = department__company;
+  if (!effectiveCompany && ugreenCompany) {
+    effectiveCompany = ugreenCompany.id.toString();
+  }
+
   const [products, departmentData] = await Promise.all([
-    getProduts(price, department, department__company),
-    getDepartment(department__company),
+    getProduts(price, department, effectiveCompany),
+    getDepartment(effectiveCompany),
   ]);
   
   const cookieStore = await cookies();
@@ -40,14 +54,17 @@ async function page({ searchParams }) {
         </h1>
 
         <div className="flex flex-col-reverse lg:flex-row gap-8">
-          <aside className="hidden lg:block lg:w-1/4">
+          {/* <aside className="hidden lg:block lg:w-1/4">
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm sticky top-24">
               <FilterContent departmentData={departmentData} />
             </div>
-          </aside>
+          </aside> */}
 
-          <main className="w-full lg:w-3/4 order-1 lg:order-2 space-y-6">
-            <Companies />
+          <main className="w-full   order-1 lg:order-2 space-y-6">
+            <Companies activeCompanyId={effectiveCompany} />
+            <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-100 shadow-sm">
+               <Department department={departmentData} />
+            </div>
             <div className="lg:hidden w-full mb-4 px-2">
               <Sheet>
                 <SheetTrigger asChild>
@@ -85,7 +102,7 @@ async function page({ searchParams }) {
               initialData={products.data}
               price={price}
               department={department}
-              department__company={department__company}
+              department__company={effectiveCompany}
               type_money={type_money}
             />
           </main>

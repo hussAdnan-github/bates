@@ -33,8 +33,8 @@ function Footer() {
           <div className='flex flex-col  items-center md:items-start'>
             {/* <h4 className="text-lg font-bold mb-6 text-[#FFC107]">روابط سريعة</h4> */}
             <ul className="space-y-4">
-              {/* <FooterLink href="/shop">المتجر الرئيسي</FooterLink>
-              <FooterLink href="/shop/products">أحدث المنتجات</FooterLink>
+              {/* <FooterLink href="/">المتجر الرئيسي</FooterLink>
+              <FooterLink href="/products">أحدث المنتجات</FooterLink>
               <FooterLink href="/orders">تتبع الطلبات</FooterLink>
               <FooterLink href="/offers">العروض الخاصة</FooterLink> */}
             </ul>

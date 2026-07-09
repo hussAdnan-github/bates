@@ -20,13 +20,13 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
       <nav className="hidden lg:block w-full bg-white/95 backdrop-blur-md border-b sticky top-0 z-50 shadow-sm" dir="rtl">
         <div className="container mx-auto px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-12">
-            <Link href="/shop" className="text-2xl font-black text-[#2D1B50] tracking-tighter">
+            <Link href="/" className="text-2xl font-black text-[#2D1B50] tracking-tighter">
               BTS <span className="text-[#FFC107] text-sm">STORE</span>
             </Link>
             <div className="flex items-center gap-8">
-               <Link href="/shop" className="font-bold text-gray-500">الرئيسية</Link>
-               <Link href="/shop/products" className="font-bold text-gray-500">المنتجات</Link>
-               <Link href="/shop/orders" className="font-bold text-gray-500">الطلبات</Link>
+               <Link href="/" className="font-bold text-gray-500">الرئيسية</Link>
+               <Link href="/products" className="font-bold text-gray-500">المنتجات</Link>
+               <Link href="/orders" className="font-bold text-gray-500">الطلبات</Link>
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -60,7 +60,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
       {/* --- الموبايل: الهيدر (لوجو فقط لأن الخروج نزل تحت) --- */}
       <nav className="lg:hidden w-full bg-white   sticky top-0 z-50" dir="rtl">
         <div className="px-4 h-14 flex items-center justify-center">
-          <Link href="/shop" className="text-xl font-black text-[#2D1B50]">
+          <Link href="/" className="text-xl font-black text-[#2D1B50]">
             BTS <span className="text-[#FFC107] text-xs">STORE</span>
           </Link>
         </div>
@@ -81,6 +81,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
         <div className="flex justify-around items-center h-14 px-1 relative" dir="rtl">
           
           {/* الرئيسية */}
+<<<<<<< HEAD
           <Link href="/shop" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/shop' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
             <div className={`transition-transform duration-300 ${pathname === '/shop' ? "-translate-y-0.5" : ""}`}>
               <Home className="w-5 h-5" />
@@ -94,6 +95,17 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
               <LayoutGrid className="w-5 h-5" />
             </div>
             <span className={`text-[9px] transition-all duration-300 ${pathname === '/shop/products' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>المنتجات</span>
+=======
+          <Link href="/" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/' ? "text-white bg-[var(--secondary_color)] py-1 rounded-xl" : "text-gray-400"}`}>
+            <Home className="w-6 h-6" />
+            <span className="text-[10px] font-bold">الرئيسية</span>
+          </Link>
+
+          {/* المنتجات */}
+          <Link href="/products" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/products' ? "text-white bg-[var(--secondary_color)] py-1 rounded-xl" : "text-gray-400"}`}>
+            <LayoutGrid className="w-6 h-6" />
+            <span className="text-[10px] font-bold">المنتجات</span>
+>>>>>>> 41ff083e442b53b271ecad4b3ffea35b0d152514
           </Link>
 
           {/* السلة في المنتصف (تصميم أنعم وأصغر) */}
@@ -106,11 +118,17 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
           </div>
 
           {/* الطلبات */}
+<<<<<<< HEAD
           <Link href="/shop/orders" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/shop/orders' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
             <div className={`transition-transform duration-300 ${pathname === '/shop/orders' ? "-translate-y-0.5" : ""}`}>
               <Package className="w-5 h-5" />
             </div>
             <span className={`text-[9px] transition-all duration-300 ${pathname === '/shop/orders' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>طلباتي</span>
+=======
+          <Link href="/orders" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/orders' ? "text-white bg-[var(--secondary_color)] py-1 rounded-xl" : "text-gray-400"}`}>
+            <Package className="w-6 h-6" />
+            <span className="text-[10px] font-bold">طلباتي</span>
+>>>>>>> 41ff083e442b53b271ecad4b3ffea35b0d152514
           </Link>
 
           {/* تسجيل الدخول / الخروج */}

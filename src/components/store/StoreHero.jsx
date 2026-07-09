@@ -65,7 +65,7 @@
 //             size="lg"
 //             className="bg-secondary hover:bg-secondary-hover text-white px-12 py-8 text-xl font-bold rounded-md shadow-xl"
 //           >
-//             <Link href={"/shop/products"}>اكتشف العروض</Link>
+//             <Link href={"/products"}>اكتشف العروض</Link>
 //           </Button>
 
 //           {/* نقاط التنقل السفلية */}
@@ -172,7 +172,7 @@ function StoreHero() {
               size="lg"
               className="bg-[var(--primary_color)] hover:bg-[var(--primary_color)]/60 text-[var(--secondary_color)] px-10 py-7 text-xl font-bold rounded-xl shadow-2xl shadow-yellow-500/20 transition-all hover:scale-105 active:scale-95"
             >
-              <Link href="/shop/products">اكتشف العروض</Link>
+              <Link href="/products">اكتشف العروض</Link>
             </Button>
             
             <Button
@@ -181,7 +181,7 @@ function StoreHero() {
               size="lg"
               className="border-white text-white hover:bg-white hover:text-[var(--secondary_color)] px-10 py-7 text-xl font-bold rounded-xl backdrop-blur-sm transition-all"
             >
-              <Link href="/shop/orders">طلباتي</Link>
+              <Link href="/orders">طلباتي</Link>
             </Button>
           </div>
 

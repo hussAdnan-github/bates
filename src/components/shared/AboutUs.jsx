@@ -42,7 +42,7 @@ export default function AboutUs() {
 
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/shop/products" className="inline-flex items-center justify-center gap-2 bg-[#2D1B50] text-white px-8 py-4 rounded-xl font-bold hover:bg-[#3a2366] transition-colors shadow-lg shadow-[#2D1B50]/20 group">
+              <Link href="/products" className="inline-flex items-center justify-center gap-2 bg-[#2D1B50] text-white px-8 py-4 rounded-xl font-bold hover:bg-[#3a2366] transition-colors shadow-lg shadow-[#2D1B50]/20 group">
                 تصفح المنتجات
                 <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
               </Link>

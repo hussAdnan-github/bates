@@ -140,7 +140,7 @@ const Sidebar = () => {
 
       {/* الجزء السفلي: العودة للموقع */}
       <div className="p-6 border-t border-gray-50">
-        <Link href="/shop" className="group">
+        <Link href="/" className="group">
           <div className="flex items-center justify-between gap-2 w-full p-4 bg-gray-50 text-[#2D1B50] rounded-2xl hover:bg-[#FFC107] transition-all duration-300 shadow-sm border border-gray-100">
             <div className="flex items-center gap-3">
               <Globe size={18} className="text-gray-400 group-hover:text-[#2D1B50]" />

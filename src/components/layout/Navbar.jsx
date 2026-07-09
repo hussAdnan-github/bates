@@ -14,7 +14,7 @@ import { Menu } from "lucide-react";
 function Navbar() {
   const navLinks = [
     { title: "الرئيسية", href: "/" },
-    { title: "تسوق", href: "/shop" },
+    { title: "تسوق", href: "/" },
     { title: "مميزاتنا", href: "#features" },
     { title: "فروعنا", href: "#branches" },
     { title: "تواصل معنا", href: "#contact" },

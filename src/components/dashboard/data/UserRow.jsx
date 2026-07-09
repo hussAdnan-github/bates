@@ -45,12 +45,12 @@ function UserRow({ user  , onDelete}) {
       </div>
 
       {/* 4. نوع التاجر */}
-      <div className="w-[20%] text-center text-gray-600 font-medium">
-        {user.taype_custom}
+      <div className="w-[20%] text-center text-gray-600  ">
+        {user.taype_custom === 1 ? "تاجر جملة الجملة" : user.taype_custom === 2 ? "تاجر جملة" : user.taype_custom === 3 ? "تاجر تجزئة" : user.taype_custom}
       </div>
 
       {/* 5. رقم الهاتف */}
-      <div className="w-[25%] text-center text-gray-500 font-medium" dir="ltr">
+      <div className="w-[25%] text-center text-gray-500  " dir="ltr">
         {user.phone}
       </div>
 

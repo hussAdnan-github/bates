@@ -105,10 +105,10 @@ function BasketsList({ searchParamsPromise }) {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="flex items-center justify-between bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-400 text-sm font-bold">
           <div className="w-[10%] text-right pl-10">رقم الطلب</div>
-          <div className="w-[10%] text-center"> العميل</div>
-          <div className="w-[20%] text-center"> الإجمالي</div>
-          <div className="w-[20%] text-center"> حالة الطلب</div>
-          <div className="w-[20%] text-center">نوع الدفع</div>
+          <div className="w-[15%] text-center"> العميل</div>
+          <div className="w-[15%] text-center"> الإجمالي</div>
+          <div className="w-[15%] text-center"> حالة الطلب</div>
+          <div className="w-[15%] text-center">نوع الدفع</div>
           <div className="w-[20%] text-center pr-2">تاريخ الطلب</div>
           <div className="w-[10%] text-center pr-2">إجراءات</div>
         </div>

@@ -7,5 +7,5 @@ export const departmentSchema = z.object({
     .array(z.number())
     .min(1, "يجب اختيار شركة واحدة على الأقل")
     .optional()
-    .or(z.literal([])), // يسمح بمصفوفة فارغة إذا لزم الأمر
+    .or(z.array(z.any()).length(0)), // يسمح بمصفوفة فارغة إذا لزم الأمر
 });

@@ -36,11 +36,13 @@ function DepartmentsRow({ department, onDelete }) {
       </div>
 
       <div className="w-[20%] text-center text-gray-600 font-medium">
-        {department.company}
+        {department.product_count || 0}
       </div>
 
-      <div className="w-[25%] text-center text-gray-500 font-medium" dir="ltr">
-        {department.companyRelated}
+      <div className="w-[25%] text-center text-gray-500 font-medium" dir="rtl">
+        {department.name_company 
+          ? Object.values(department.name_company).join(" - ") 
+          : "غير محدد"}
       </div>
 
       <div className="flex flex-row-reverse items-center gap-3 w-[20%] justify-end">

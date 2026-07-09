@@ -56,6 +56,14 @@ function page() {
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(userSchema),
+    defaultValues: {
+      username: "",
+      phone: "",
+      ext: "",
+      userType: "3",
+      isActive: true,
+      isStaff: false,
+    }
   });
   const onSubmit = async (data) => {
     const payload = {

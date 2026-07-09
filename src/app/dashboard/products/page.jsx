@@ -149,10 +149,10 @@ function page({ searchParams: searchParamsPage }) {
           <div className="w-[20%] text-center pr-2">إجراءات</div>
         </div>
 
-        {/* قائمة المستخدمين */}
+        {/* قائمة المنتجات */}
         <div className="flex flex-col">
           {products.map((product) => (
-            <ProductsRow key={product.id} product={product} onDelte={refetch} />
+            <ProductsRow key={product.id} product={product} onDelete={refetch} />
           ))}
         </div>
       </div>

@@ -31,6 +31,7 @@ function page() {
 
         reset({
           name: data?.data?.name,
+          company: data?.data?.company || [],
         });
       } catch (error) {
         console.error(error);

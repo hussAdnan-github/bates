@@ -10,7 +10,7 @@ function DashboardNavbar() {
       
       {/* الجهة اليمنى: البحث السريع أو المسار */}
       <div className="hidden md:flex items-center gap-4 flex-1">
-        <div className="relative max-w-md w-full group">
+        {/* <div className="relative max-w-md w-full group">
           <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#2D1B50] transition-colors" size={18} />
           <input 
             type="text" 
@@ -21,7 +21,7 @@ function DashboardNavbar() {
             <Command size={10} />
             <span>K</span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* الجهة اليسرى: التنبيهات ومنطقة المستخدم */}

@@ -17,7 +17,7 @@ import { revalidatePath } from "next/cache";
    return result.data; 
 }
 export async function getUserId(id) {
-  const result = await request(`users/${id}`, "GET");
+  const result = await request(`users/${id}/`, "GET");
   return result.data;
 }
 export async function postUser(formData) {

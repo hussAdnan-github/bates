@@ -19,41 +19,45 @@ function BasketsRow({ basket }) {
   };
   return (
     <div className="flex flex-row-reverse items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-right">
-      {/* 1. إجراءات */}
+      {/* إجراءات */}
       <div className="flex justify-center gap-3 w-[10%]">
         <Link href={`/dashboard/baskets/${basket.id}`} className="text-gray-400 hover:text-blue-900 transition-colors">
           <Edit size={18} />
-        </Link  >
+        </Link>
       </div>
 
-      <div className="w-[20%] text-center text-gray-600 font-medium">
-        {basket.created_at}
+      {/* تاريخ الطلب */}
+      <div className="w-[20%] text-center text-gray-600 font-medium text-sm">
+        {basket.created_at ? new Date(basket.created_at).toLocaleDateString("ar-EG") : "غير محدد"}
       </div>
-      <div className="w-[20%] text-center text-gray-600 font-medium">
+      
+      {/* نوع الدفع */}
+      <div className="w-[15%] text-center text-gray-600 font-medium">
          <StatusBadge
-          text={typeMap[basket.type_payment]?.text}
-          type={typeMap[basket.type_payment]?.type}
+          text={typeMap[basket.type_payment]?.text || "غير محدد"}
+          type={typeMap[basket.type_payment]?.type || "default"}
         />
       </div>
 
-      <div className="w-[20%] text-center">
+      {/* حالة الطلب */}
+      <div className="w-[15%] text-center">
         <StatusBadge
-          text={statusMap[basket.status]?.text}
-          type={statusMap[basket.status]?.type}
+          text={statusMap[basket.status]?.text || "غير محدد"}
+          type={statusMap[basket.status]?.type || "default"}
         />
       </div>
 
-      {/* 4. نوع التاجر */}
-      <div className="w-[20%] text-center text-gray-600 font-medium">
+      {/* الإجمالي */}
+      <div className="w-[15%] text-center text-gray-600 font-medium">
         {basket.total_price}
       </div>
 
-      {/* 5. رقم الهاتف */}
-      <div className="w-[10%] text-center text-gray-500 font-medium" dir="ltr">
-        {basket.customer}
-      </div>
+      {/* العميل */}
+      {/* <div className="w-[15%] text-center text-gray-500 font-medium" dir="rtl">
+        {basket.customer || "غير متوفر"}
+      </div> */}
 
-      {/* 6. المستخدم (الصورة والاسم) */}
+      {/* رقم الطلب */}
       <div className="flex flex-row-reverse items-center gap-3 w-[10%] justify-end">
         <span className="font-bold text-gray-800">#{basket.id}</span>
       </div>

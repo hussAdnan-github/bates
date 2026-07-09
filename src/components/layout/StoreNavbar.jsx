@@ -24,9 +24,9 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
               BTS <span className="text-[#FFC107] text-sm">STORE</span>
             </Link>
             <div className="flex items-center gap-8">
-               <Link href="/shop" className="font-bold text-gray-500">الرئيسية</Link>
-               <Link href="/shop/products" className="font-bold text-gray-500">المنتجات</Link>
-               <Link href="/shop/orders" className="font-bold text-gray-500">الطلبات</Link>
+               <Link href="/shop" className=" text-gray-500">الرئيسية</Link>
+               <Link href="/shop/products" className=" text-gray-500">المنتجات</Link>
+               <Link href="/shop/orders" className=" text-gray-500">الطلبات</Link>
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -46,7 +46,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
                   </Link>
                   <Link
                     href="/signUp"
-                    className="bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-yellow-200/50 transition-all hover:shadow-yellow-200/80 active:scale-95"
+                    className="bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50]  text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-yellow-200/50 transition-all hover:shadow-yellow-200/80 active:scale-95"
                   >
                     إنشاء حساب
                   </Link>

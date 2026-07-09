@@ -48,17 +48,16 @@ function CategoryItem({ children, active, onClick }) {
       className={`
         relative group flex-shrink-0 flex items-center justify-center gap-1.5 px-4 py-2
         transition-all duration-300 ease-out snap-center outline-none bg-transparent
-        ${
-          active
-            ? "text-[var(--secondary_color)] scale-105"
-            : "text-gray-500 hover:text-[var(--secondary_color)] hover:-translate-y-0.5"
+        ${active
+          ? "text-[var(--secondary_color)] scale-105"
+          : "text-gray-500 hover:text-[var(--secondary_color)] hover:-translate-y-0.5"
         }
       `}
     >
       <span className={`text-[10px] tracking-wide transition-all duration-300 ${active ? "font-black" : "font-bold"}`}>
         {children}
       </span>
-      
+
       {/* علامة الصح مع تأثير حركي احترافي */}
       {active && (
         <span className="flex items-center justify-center text-[var(--primary_color)] animate-in zoom-in slide-in-from-right-2 duration-300 fade-in">

@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 
 import CardProduct from "@/components/shared/CardProduct";
-import { getProduts } from "@/actions/product";
+import { getProduts, getBanners } from "@/actions/product";
 
 import Companies from "@/components/store/Companies";
 import SliderPrice from "@/components/store/SliderPrice";
@@ -39,9 +39,10 @@ async function page({ searchParams }) {
     effectiveCompany = ugreenCompany.id.toString();
   }
 
-  const [products, departmentData] = await Promise.all([
+  const [products, departmentData, bannersData] = await Promise.all([
     getProduts(price, department, effectiveCompany),
     getDepartment(effectiveCompany),
+    getBanners(effectiveCompany),
   ]);
 
   const cookieStore = await cookies();
@@ -51,7 +52,7 @@ async function page({ searchParams }) {
     <div className="bg-gray-50/50 min-h-screen  " dir="rtl">
       {/* السلايدر بعرض الصفحة بالكامل */}
       <div className="w-full mb-6">
-        <HeroCarousel />
+        <HeroCarousel banners={bannersData?.results || (Array.isArray(bannersData) ? bannersData : [])} />
       </div>
 
       <div className="container mx-auto px-4">

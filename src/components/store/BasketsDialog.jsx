@@ -20,13 +20,19 @@ import QuantityBasket from "./QuantityBasket";
 import DeleteBasketItem from "./DeleteBasketItem";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/useCartStore";
 
 const BasketsDialog = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const localCart = useCartStore((state) => state.localCart);
   const getCartCount = useCartStore((state) => state.getCartCount);
@@ -53,11 +59,11 @@ const BasketsDialog = () => {
   const isLocal = isServerEmpty && localCart.length > 0;
   const displayItems = isLocal ? localCart : serverCartItems;
 
-  const displayCount = isLocal ? getCartCount() : (
+  const displayCount = mounted ? (isLocal ? getCartCount() : (
     orders?.data?.results?.reduce((total, order) => total + (order.basketitems?.length || 0), 0) || 0
-  );
+  )) : 0;
 
-  const displayTotal = isLocal ? getCartTotal() : (orders?.data?.results?.[0]?.total_price || 0);
+  const displayTotal = mounted ? (isLocal ? getCartTotal() : (orders?.data?.results?.[0]?.total_price || 0)) : 0;
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (id) => {
@@ -92,7 +98,7 @@ const BasketsDialog = () => {
         >
           <ShoppingCart className="h-6 w-6 text-white md:text-gray-700 group-hover:text-primary transition-colors" />
           {displayCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-primary text-white lg:text-[var(--primary_color)] w-5 h-5 flex items-center justify-center text-[11px] font-bold rounded-full border-2 border-[var(--secondary_color)]  lg:border-[var(--secondary_color)] shadow-sm">
+            <span className="absolute -top-1 -right-1 bg-white text-[var(--primary_color)] w-5 h-5 flex items-center justify-center text-[11px] font-bold rounded-full border-2 border-[var(--primary_color)] md:border-[var(--secondary_color)] shadow-sm">
               {displayCount}
             </span>
           )}

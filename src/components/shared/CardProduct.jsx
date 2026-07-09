@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ButtonCart from "../store/ButtonCart";
 
 function CardProduct({ id, image, title, prices, model, images, type_money = "3" }) {
-console.log(prices.retail_price, "prices")
+ 
   const allImages = [image, ...images.map((img) => img.image)];
   const [currentIndex, setCurrentIndex] = useState(0);
 

@@ -40,20 +40,19 @@ function Navbar() {
   if (!mounted) return null;
 
   return (
-    <nav 
-      className={`w-full sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? "bg-white/80 backdrop-blur-md shadow-sm py-3" 
+    <nav
+      className={`w-full sticky top-0 z-50 transition-all duration-300 ${isScrolled
+          ? "bg-white/80 backdrop-blur-md shadow-sm py-3"
           : "bg-white py-5"
-      }`} 
+        }`}
       dir="rtl"
     >
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
-        
+
         {/* جهة اليمين: اللوجو والروابط */}
         <div className="flex items-center gap-12">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="text-3xl font-black tracking-tighter text-[#2D1B50] hover:opacity-80 transition-opacity"
           >
             BTS
@@ -112,7 +111,7 @@ function Navbar() {
                       BTS
                     </Link>
                   </SheetTitle>
-                  
+
                   <div className="flex flex-col gap-2 mt-8">
                     {navLinks.map((link) => (
                       <Link
@@ -154,4 +153,3 @@ export default Navbar;
 
 
 
- 

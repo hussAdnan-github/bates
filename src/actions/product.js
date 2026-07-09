@@ -97,3 +97,17 @@ export async function deleteProdut(id) {
   revalidatePath("/dashboard/products");
   return result.data;
 }
+
+export async function getBanners(companyId) {
+  const params = new URLSearchParams();
+  if (companyId) {
+    params.append("companies", companyId);
+  }
+  
+  const result = await request(
+    `products/banners/?${params.toString()}`,
+    "GET"
+  );
+  
+  return result.data;
+}

@@ -10,41 +10,28 @@ import "swiper/css";
 import "swiper/css/thumbs";
 import "swiper/css/effect-fade";
 
-const slides = [
+const defaultSlides = [
   {
     id: 1,
     src: "/images/heroStore.jpg",
 
   },
-  {
-    id: 2,
-    src: "/images/product.jpg",
-
-  },
-  {
-    id: 3,
-    src: "/images/heroStore.jpg",
-
-  },
-  {
-    id: 4,
-    src: "/images/product.jpg",
-
-  },
-  {
-    id: 5,
-    src: "/images/heroStore.jpg",
-
-  },
-  {
-    id: 6,
-    src: "/images/product.jpg",
-
-  },
+  
+   
 ];
 
-export default function HeroCarousel() {
+export default function HeroCarousel({ banners = [] }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+  const actualSlides = banners && banners.length > 0 
+    ? banners.map((b) => ({
+        id: b.id,
+        src: b.image,
+        title: b.name || 'صورة العرض',
+      }))
+    : defaultSlides;
+
+  if (actualSlides.length === 0) return null;
 
   return (
     <div className="relative w-full" dir="rtl">
@@ -60,12 +47,12 @@ export default function HeroCarousel() {
           loop={true}
           className="w-full h-full"
         >
-          {slides.map((slide) => (
+          {actualSlides.map((slide) => (
             <SwiperSlide key={`main-${slide.id}`}>
               <div className="relative w-full h-full bg-gray-50">
                 <Image
                   src={slide.src}
-                  alt={slide.title}
+                  alt={slide.title || 'صورة العرض'}
                   fill
                   className="object-cover"
                 />
@@ -92,7 +79,7 @@ export default function HeroCarousel() {
               modules={[Thumbs]}
               className="thumbs-swiper px-2 py-2"
             >
-              {slides.map((slide) => (
+              {actualSlides.map((slide) => (
                 <SwiperSlide
                   key={`thumb-${slide.id}`}
                   className="cursor-pointer flex justify-center group"
@@ -101,7 +88,7 @@ export default function HeroCarousel() {
                   <div className="relative w-8 h-8 md:w-14 md:h-14 rounded-full overflow-hidden border-[2px] md:border-[3px] border-transparent transition-all duration-300 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 group-[.swiper-slide-thumb-active]:border-[var(--primary_color)] group-[.swiper-slide-thumb-active]:opacity-100 group-[.swiper-slide-thumb-active]:grayscale-0 group-[.swiper-slide-thumb-active]:shadow-[0_0_15px_rgba(255,193,7,0.5)] mx-auto">
                     <Image
                       src={slide.src}
-                      alt={`thumbnail ${slide.title}`}
+                      alt={`thumbnail ${slide.title || 'صورة مصغرة'}`}
                       fill
                       className="object-cover"
                     />

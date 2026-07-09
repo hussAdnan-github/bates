@@ -98,7 +98,7 @@ export default function HeroCarousel() {
                   className="cursor-pointer flex justify-center group"
                 >
                   {/* دائرة الصورة المصغرة والتأثيرات عند التفعيل */}
-                  <div className="relative w-8 h-8 md:w-14 md:h-14 rounded-full overflow-hidden border-[2px] md:border-[3px] border-transparent transition-all duration-300 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 group-[.swiper-slide-thumb-active]:border-[var(--primary_color)] group-[.swiper-slide-thumb-active]:opacity-100 group-[.swiper-slide-thumb-active]:grayscale-0 group-[.swiper-slide-thumb-active]:scale-125 group-[.swiper-slide-thumb-active]:shadow-[0_0_15px_rgba(255,193,7,0.5)] mx-auto">
+                  <div className="relative w-8 h-8 md:w-14 md:h-14 rounded-full overflow-hidden border-[2px] md:border-[3px] border-transparent transition-all duration-300 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 group-[.swiper-slide-thumb-active]:border-[var(--primary_color)] group-[.swiper-slide-thumb-active]:opacity-100 group-[.swiper-slide-thumb-active]:grayscale-0 group-[.swiper-slide-thumb-active]:shadow-[0_0_15px_rgba(255,193,7,0.5)] mx-auto">
                     <Image
                       src={slide.src}
                       alt={`thumbnail ${slide.title}`}

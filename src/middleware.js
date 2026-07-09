@@ -8,7 +8,7 @@ export function middleware(request) {
 
   const isLoginPage = pathname === "/login";
   const isDashboard = pathname.startsWith("/dashboard");
-  const isCheckout = pathname.startsWith("/orders");
+  const isCheckout = pathname.startsWith("/orders") || pathname.startsWith("/shop/orders");
 
   let response = NextResponse.next();
 
@@ -61,6 +61,7 @@ export const config = {
     "/",
     "/products/:path*",
     "/orders/:path*",
+    "/shop/orders/:path*",
     "/dashboard/:path*",
     "/login"
   ],

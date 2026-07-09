@@ -75,7 +75,16 @@ async function page({ params }) {
 
             {/* قسم الأكشن المطور */}
             <div className="bg-gray-50/50 p-6 rounded-3xl border border-gray-100">
-              <ProductActionSection productId={product.data.id} />
+              <ProductActionSection 
+                productId={product.data.id} 
+                product={{
+                  id: product.data.id,
+                  products_name: product.data.name,
+                  products_price: product.data.price,
+                  products_image: product.data.image,
+                  products_model: product.data.model,
+                }}
+              />
             </div>
 
             {/* تفاصيل إضافية */}

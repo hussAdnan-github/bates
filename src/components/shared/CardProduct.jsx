@@ -44,9 +44,7 @@ console.log(prices.retail_price, "prices")
       <div className="relative aspect-square overflow-hidden bg-[#FBFBFB] p-2 md:p-4">
 
         {/* قائمة الصور الجانبية */}
-        <div className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-1.5 md:gap-2 bg-white/40 backdrop-blur-md p-1 md:p-1.5 rounded-full border border-white/50 transition-all duration-500
-          opacity-100 translate-x-0 
-          md:opacity-0 md:group-hover:opacity-100 md:translate-x-5 md:group-hover:translate-x-0">
+        <div className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-1.5 md:gap-2 bg-white/40 backdrop-blur-md p-1 md:p-1.5 rounded-full border border-white/50 transition-all duration-500 opacity-100 translate-x-0 md:opacity-0 md:group-hover:opacity-100 md:translate-x-5 md:group-hover:translate-x-0">
 
           {allImages.slice(0, 4).map((imgSrc, index) => (
             <button
@@ -68,7 +66,7 @@ console.log(prices.retail_price, "prices")
         </div>
 
         {/* الصورة الأساسية */}
-        <Link href={`/products/${id}`} className="relative block w-full h-full">
+        <Link href={`/shop/products/${id}`} className="relative block w-full h-full">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}

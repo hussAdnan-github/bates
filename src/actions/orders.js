@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function getOrdsers(status) {
-   const params = new URLSearchParams();
+  const params = new URLSearchParams();
 
   if (status) params.append("status", status);
   const result = await request(`/baskets/orders/?${params.toString()}`, "GET");
@@ -16,7 +16,7 @@ export async function getOrdsers(status) {
 export async function getOrdsersId(id) {
   const result = await request(`/baskets/orders/${id}`, "GET");
 
- 
+
 
   return result.data;
 }
@@ -43,9 +43,9 @@ export async function editProductBasket(formData, id) {
   return result;
 }
 export async function putOrder(formData, id) {
-  console.log(formData , id)
+  console.log(formData, id)
   const result = await request(`baskets/orders/${id}/`, "PATCH", formData, false);
-console.log(result)
+  console.log(result)
   return result;
 }
 export async function deleteBasket(id) {

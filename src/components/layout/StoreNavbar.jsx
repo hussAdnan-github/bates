@@ -24,9 +24,9 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
               BTS <span className="text-[#FFC107] text-sm">STORE</span>
             </Link>
             <div className="flex items-center gap-8">
-               <Link href="/" className="font-bold text-gray-500">الرئيسية</Link>
-               <Link href="/products" className="font-bold text-gray-500">المنتجات</Link>
-               <Link href="/orders" className="font-bold text-gray-500">الطلبات</Link>
+               <Link href="/shop" className="font-bold text-gray-500">الرئيسية</Link>
+               <Link href="/shop/products" className="font-bold text-gray-500">المنتجات</Link>
+               <Link href="/shop/orders" className="font-bold text-gray-500">الطلبات</Link>
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -81,7 +81,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
         <div className="flex justify-around items-center h-14 px-1 relative" dir="rtl">
           
           {/* الرئيسية */}
-          <Link href="/" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
+          <Link href="/shop" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
               <div className={`transition-transform duration-300 ${pathname === '/' ? "-translate-y-0.5" : ""}`}>
               <Home className="w-5 h-5" />
             </div>
@@ -89,7 +89,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
           </Link>
 
           {/* المنتجات */}
-          <Link href="/products" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/products' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
+          <Link href="/shop/products" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/products' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
             <div className={`transition-transform duration-300 ${pathname === '/products' ? "-translate-y-0.5" : ""}`}>
               <LayoutGrid className="w-5 h-5" />
             </div>
@@ -106,7 +106,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
           </div>
 
           {/* الطلبات */}
-          <Link href="/orders" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/orders' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
+          <Link href="/shop/orders" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/orders' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
             <div className={`transition-transform duration-300 ${pathname === '/orders' ? "-translate-y-0.5" : ""}`}>
               <Package className="w-5 h-5" />
             </div>

@@ -22,7 +22,7 @@ import { useState } from "react";
 import QuantityProduct from "./QuantityProduct";
 import ButtonCart from "./ButtonCart";
 
-export default function ProductActionSection({ productId }) {
+export default function ProductActionSection({ productId, product }) {
   const [quantity, setQuantity] = useState(1);
 
   return (
@@ -31,7 +31,7 @@ export default function ProductActionSection({ productId }) {
         <QuantityProduct quantity={quantity} setQuantity={setQuantity} />
       </div>
       <div className="w-full flex-1">
-        <ButtonCart id={productId} quantity={quantity} show={2} />
+        <ButtonCart id={productId} quantity={quantity} show={2} product={product} />
       </div>
     </div>
   );

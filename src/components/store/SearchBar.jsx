@@ -90,56 +90,8 @@ const SearchBar = () => {
             >
               <X className="w-4 h-4 lg:w-[18px] lg:h-[18px]" />
             </button>
-<<<<<<< HEAD
           ) : null}
         </div>
-=======
-          </>
-        )} */}
-
-        {/* نتائج البحث */}
-        {isOpen && query && (
-          <div className="absolute z-50 mt-2 w-full bg-white rounded-xl shadow-lg border max-h-96 overflow-y-auto">
-            {loading && (
-              <p className="p-4 text-center text-sm text-gray-400">
-                جاري البحث...
-              </p>
-            )}
-
-            {!loading && results.length === 0 && (
-              <p className="p-4 text-center text-sm text-gray-400">
-                لا توجد نتائج
-              </p>
-            )}
-
-            {results.map((item) => (
-              <Link
-                key={item.id}
-                href={`/products/${item.id}`}
-                className="flex items-center gap-3 p-3 hover:bg-gray-50 transition"
-                onClick={() => setIsOpen(false)}
-              >
-                <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-gray-700 line-clamp-1">
-                    {item.name}
-                  </p>
-                  <span className="text-xs text-[#F18721] font-semibold">
-                    {item.price} ر.س
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
->>>>>>> 41ff083e442b53b271ecad4b3ffea35b0d152514
       </div>
 
       {/* قائمة النتائج */}
@@ -171,7 +123,7 @@ const SearchBar = () => {
               {results.map((item) => (
                 <Link
                   key={item.id}
-                  href={`/shop/products/${item.id}`}
+                  href={`/products/${item.id}`}
                   className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors group"
                   onClick={() => setIsFocused(false)}
                 >

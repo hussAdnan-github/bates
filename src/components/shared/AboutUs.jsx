@@ -5,29 +5,7 @@ import { ShieldCheck, Cpu, Headset, BadgeCheck, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function AboutUs() {
-  const features = [
-    {
-      icon: <Cpu className="w-6 h-6 text-[#FFC107]" />,
-      title: "أحدث التقنيات",
-      desc: "نوفر لك أحدث الأجهزة والإلكترونيات الذكية لتواكب تطورات العصر",
-    },
-    {
-      icon: <BadgeCheck className="w-6 h-6 text-[#FFC107]" />,
-      title: "أسعار تنافسية",
-      desc: "نضمن لك أفضل قيمة مقابل السعر لجميع منتجاتنا دون التنازل عن الجودة",
-    },
-    {
-      icon: <Headset className="w-6 h-6 text-[#FFC107]" />,
-      title: "خدمة عملاء",
-      desc: "دعم فني متواصل لتجربة تسوق مريحة والإجابة على كافة استفساراتك",
-    },
-    {
-      icon: <ShieldCheck className="w-6 h-6 text-[#FFC107]" />,
-      title: "منتجات أصلية",
-      desc: "ضمان الجودة بالتعاون مع كبرى الشركات العالمية مثل UGREEN",
-    },
-  ];
-
+  
   return (
     <section className="relative py-24 bg-gray-50/50 overflow-hidden" dir="rtl">
       {/* Background Decor */}
@@ -59,30 +37,10 @@ export default function AboutUs() {
             
             <p className="text-lg text-gray-600 leading-relaxed mb-10 font-medium">
               نحن منصة رائدة متخصصة في تقديم أفضل المنتجات التقنية والإلكترونية بأعلى معايير الجودة. 
-              نسعى دائماً لتوفير أحدث التقنيات لعملائنا، بالتعاون مع كبرى الشركات العالمية مثل <strong className="text-[#2D1B50]">UGREEN</strong> و<strong className="text-[#2D1B50]">VIDVE</strong> لضمان توفير منتجات أصلية ومضمونة تلبي كافة احتياجاتك.
+              نسعى دائماً لتوفير أحدث التقنيات لعملائنا، بالتعاون مع كبرى الشركات العالمية مثل <strong className="text-[#2D1B50]">UGREEN</strong> و <strong className="text-[#2D1B50]">VIDVE</strong> لضمان توفير منتجات أصلية ومضمونة تلبي كافة احتياجاتك.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
-              {features.map((feature, idx) => (
-                <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="flex items-start gap-4 p-4 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow group cursor-pointer"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                    {feature.icon}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-[#2D1B50] mb-1">{feature.title}</h4>
-                    <p className="text-xs text-gray-500 leading-relaxed font-medium">{feature.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
+            
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/shop/products" className="inline-flex items-center justify-center gap-2 bg-[#2D1B50] text-white px-8 py-4 rounded-xl font-bold hover:bg-[#3a2366] transition-colors shadow-lg shadow-[#2D1B50]/20 group">
                 تصفح المنتجات

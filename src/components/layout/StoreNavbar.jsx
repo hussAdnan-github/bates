@@ -6,7 +6,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Package, Home, LayoutGrid, LogIn } from "lucide-react";
+import { Package, Home, LayoutGrid, LogIn, User } from "lucide-react";
 import SearchBar from "../store/SearchBar";
 import BasketsDialog from "../store/BasketsDialog";
 import LogoutButton from "../store/LogoutButton";
@@ -58,7 +58,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
       </nav>
 
       {/* --- الموبايل: الهيدر (لوجو فقط لأن الخروج نزل تحت) --- */}
-      <nav className="lg:hidden w-full bg-white border-b sticky top-0 z-50" dir="rtl">
+      <nav className="lg:hidden w-full bg-white   sticky top-0 z-50" dir="rtl">
         <div className="px-4 h-14 flex items-center justify-center">
           <Link href="/shop" className="text-xl font-black text-[#2D1B50]">
             BTS <span className="text-[#FFC107] text-xs">STORE</span>
@@ -72,58 +72,62 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
       </nav>
 
       {/* --- الموبايل: زر تغيير العملة العائم --- */}
-      <div className="lg:hidden fixed bottom-20 left-4 z-50 drop-shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="lg:hidden fixed bottom-20 left-4 z-40 drop-shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
         {currencyButtonMobile}
       </div>
 
       {/* --- الموبايل: البار السفلي --- */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-100 shadow-[0_-4px_15px_rgba(0,0,0,0.08)]">
-        <div className="flex justify-around items-center h-16 px-2 relative" dir="rtl">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-gray-100 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.04)]">
+        <div className="flex justify-around items-center h-14 px-1 relative" dir="rtl">
           
           {/* الرئيسية */}
-          <Link href="/shop" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop' ? "text-white bg-[var(--secondary_color)] py-1 rounded-xl" : "text-gray-400"}`}>
-            <Home className="w-6 h-6" />
-            <span className="text-[10px] font-bold">الرئيسية</span>
+          <Link href="/shop" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/shop' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
+            <div className={`transition-transform duration-300 ${pathname === '/shop' ? "-translate-y-0.5" : ""}`}>
+              <Home className="w-5 h-5" />
+            </div>
+            <span className={`text-[9px] transition-all duration-300 ${pathname === '/shop' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>الرئيسية</span>
           </Link>
 
           {/* المنتجات */}
-          <Link href="/shop/products" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop/products' ? "text-white bg-[var(--secondary_color)] py-1 rounded-xl" : "text-gray-400"}`}>
-            <LayoutGrid className="w-6 h-6" />
-            <span className="text-[10px] font-bold">المنتجات</span>
+          <Link href="/shop/products" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/shop/products' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
+            <div className={`transition-transform duration-300 ${pathname === '/shop/products' ? "-translate-y-0.5" : ""}`}>
+              <LayoutGrid className="w-5 h-5" />
+            </div>
+            <span className={`text-[9px] transition-all duration-300 ${pathname === '/shop/products' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>المنتجات</span>
           </Link>
 
-          {/* السلة في المنتصف (تصميم بارز) */}
-          <div className="flex-none w-16 h-16 relative -top-5">
-            <div className="absolute inset-0 bg-white rounded-full p-1.5 shadow-md">
-              <div className="w-full h-full bg-[var(--secondary_color)] rounded-full flex items-center justify-center text-white">
+          {/* السلة في المنتصف (تصميم أنعم وأصغر) */}
+          <div className="flex-none w-14 h-14 relative -top-5">
+            <div className="absolute inset-0 bg-white rounded-full p-1 shadow-sm border border-gray-100">
+              <div className="w-full h-full bg-[var(--secondary_color)] rounded-full flex items-center justify-center text-white shadow-md shadow-[var(--secondary_color)]/20 hover:scale-105 transition-transform duration-300">
                 <BasketsDialog />
               </div>
             </div>
           </div>
 
           {/* الطلبات */}
-          <Link href="/shop/orders" className={`flex flex-col items-center gap-1 flex-1 ${pathname === '/shop/orders' ? "text-white bg-[var(--secondary_color)] py-1 rounded-xl" : "text-gray-400"}`}>
-            <Package className="w-6 h-6" />
-            <span className="text-[10px] font-bold">طلباتي</span>
+          <Link href="/shop/orders" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/shop/orders' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
+            <div className={`transition-transform duration-300 ${pathname === '/shop/orders' ? "-translate-y-0.5" : ""}`}>
+              <Package className="w-5 h-5" />
+            </div>
+            <span className={`text-[9px] transition-all duration-300 ${pathname === '/shop/orders' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>طلباتي</span>
           </Link>
 
-          {/* تسجيل الخروج أو الدخول بدل "المزيد" */}
-          <div className="flex-1 flex justify-center">
+          {/* تسجيل الدخول / الخروج */}
+          <div className="flex-1 flex justify-center items-center">
              {isLoggedIn ? (
                <LogoutButton isMobile={true} />
              ) : (
-               <Link href="/login" className="flex flex-col items-center gap-1 text-gray-400 hover:text-[var(--primary_color)]">
-                 <LogIn className="w-6 h-6" />
-                 <span className="text-[10px] font-bold">دخول</span>
+               <Link href="/login" className="flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-[var(--secondary_color)] transition-all duration-300">
+                 <User className="w-5 h-5" />
+                 <span className="text-[9px] font-semibold opacity-90">تسجيل</span>
                </Link>
              )}
           </div>
 
         </div>
       </div>
-
-      {/* مساحة تعويضية في الأسفل للموبايل */}
-      <div className="h-20 lg:hidden"></div>
+ 
     </>
   );
 }

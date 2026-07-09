@@ -6,7 +6,7 @@ import StoreHero from "@/components/store/StoreHero";
 export default function Home() {
   return (
    <>
-    <StoreHero/>
+    {/* <StoreHero/> */}
     <AboutUs/>
     {/* <Features/>
     <Branches/> */}

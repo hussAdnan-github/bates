@@ -1,47 +1,34 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Search, X } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Search, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { getSearchProduts } from "@/actions/product";
 
 const SearchBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const inputRef = useRef(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const wrapperRef = useRef(null);
 
-  const toggleSearch = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 100);
-    }
-  };
   useEffect(() => {
     if (query.length < 2) {
       setResults([]);
       return;
     }
 
-    // 1. إنشاء وحدة تحكم للإلغاء
     const controller = new AbortController();
-    const signal = controller.signal;
-
     const delayDebounce = setTimeout(async () => {
       try {
         setLoading(true);
-
         const data = await getSearchProduts(query);
         if (data.success) {
           setResults(data.data.results || []);
         }
       } catch (err) {
-        if (err.name === "AbortError") {
-        } else {
+        if (err.name !== "AbortError") {
           console.error("خطأ في البحث:", err);
         }
       } finally {
@@ -51,100 +38,119 @@ const SearchBar = () => {
 
     return () => {
       clearTimeout(delayDebounce);
-      controller.abort(); // 3. إلغاء الطلب السابق إذا تغيرت الـ query قبل انتهاء الطلب
+      controller.abort();
     };
   }, [query]);
-  // إغلاق عند الضظغط على زر Escape
+
+  // إغلاق النتائج عند النقر خارج المربع
   useEffect(() => {
-    const handleEsc = (e) => {
-      if (e.key === "Escape") setIsOpen(false);
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsFocused(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const clearSearch = () => {
+    setQuery("");
+    setResults([]);
+  };
+
   return (
-    <div className="relative flex items-center justify-end" dir="rtl">
-      {!isOpen && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={toggleSearch}
-          className="text-gray-700 hover:bg-gray-100 rounded-full"
-        >
-          <Search className="h-6 w-6" />
-        </Button>
-      )}
-      <div className="w-full   lg:w-[400px] relative">
-        <Input
-          ref={inputRef}
+    <div ref={wrapperRef} className="relative w-full lg:w-[450px]" dir="rtl">
+      {/* حقل البحث */}
+      <div 
+        className={`relative flex items-center w-full h-10 lg:h-12 rounded-xl lg:rounded-2xl overflow-hidden transition-all duration-300 border-2 
+          ${isFocused 
+            ? "border-[var(--primary_color)] bg-white shadow-[0_4px_20px_rgba(255,193,7,0.15)]" 
+            : "border-gray-100 bg-gray-50 hover:border-gray-200 hover:bg-white"}`}
+      >
+        <div className="flex items-center justify-center pl-2 pr-3 lg:pr-4 text-gray-400">
+          <Search className={`w-4 h-4 lg:w-5 lg:h-5 transition-colors duration-300 ${isFocused ? "text-[var(--primary_color)]" : ""}`} />
+        </div>
+        
+        <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="ما الذي تبحث عنه؟"
-          className={`h-10 pr-10 pl-10 rounded-full bg-gray-50 transition-all duration-300 
-          ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+          onFocus={() => setIsFocused(true)}
+          placeholder="ما الذي تبحث عنه؟..."
+          className="flex-1 bg-transparent border-none outline-none h-full text-xs lg:text-sm text-[var(--secondary_color)] placeholder:text-gray-400 px-1  "
         />
 
-        {/* {isOpen && (
-          <>
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+        <div className="flex items-center justify-center px-2 lg:px-3 min-w-[36px] lg:min-w-[40px]">
+          {loading ? (
+            <Loader2 className="w-4 h-4 lg:w-5 lg:h-5 text-[var(--primary_color)] animate-spin" />
+          ) : query ? (
             <button
-              onClick={() => {
-                setIsOpen(false);
-                setQuery("");
-                setResults([]);
-              }}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500"
+              onClick={clearSearch}
+              className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50"
             >
-              <X size={18} />
+              <X className="w-4 h-4 lg:w-[18px] lg:h-[18px]" />
             </button>
-          </>
-        )} */}
-
-        {/* نتائج البحث */}
-        {isOpen && query && (
-          <div className="absolute z-50 mt-2 w-full bg-white rounded-xl shadow-lg border max-h-96 overflow-y-auto">
-            {loading && (
-              <p className="p-4 text-center text-sm text-gray-400">
-                جاري البحث...
-              </p>
-            )}
-
-            {!loading && results.length === 0 && (
-              <p className="p-4 text-center text-sm text-gray-400">
-                لا توجد نتائج
-              </p>
-            )}
-
-            {results.map((item) => (
-              <Link
-                key={item.id}
-                href={`/shop/products/${item.id}`}
-                className="flex items-center gap-3 p-3 hover:bg-gray-50 transition"
-                onClick={() => setIsOpen(false)}
-              >
-                <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-gray-700 line-clamp-1">
-                    {item.name}
-                  </p>
-                  <span className="text-xs text-[#F18721] font-semibold">
-                    {item.price} ر.س
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+          ) : null}
+        </div>
       </div>
+
+      {/* قائمة النتائج */}
+      {isFocused && query.length >= 2 && (
+        <div className="absolute top-[calc(100%+8px)] left-0 right-0 z-50 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-gray-100 max-h-[400px] overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2 duration-200">
+          
+          {loading && results.length === 0 && (
+            <div className="p-8 text-center text-sm font-bold text-gray-400 flex flex-col items-center gap-3">
+              <Loader2 className="w-7 h-7 text-[var(--primary_color)] animate-spin" />
+              جاري البحث...
+            </div>
+          )}
+
+          {!loading && results.length === 0 && (
+            <div className="p-8 text-center flex flex-col items-center gap-3">
+              <div className="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center mb-1">
+                <Search className="w-6 h-6 text-gray-300" />
+              </div>
+              <p className="text-sm font-bold text-[var(--secondary_color)]">لا توجد نتائج مطابقة لبحثك</p>
+              <p className="text-xs text-gray-400">حاول استخدام كلمات مفتاحية مختلفة</p>
+            </div>
+          )}
+
+          {results.length > 0 && (
+            <div className="p-2 space-y-1">
+              <div className="px-3 py-2 border-b border-gray-50 mb-2">
+                <span className="text-xs font-bold text-gray-400">النتائج المطابقة</span>
+              </div>
+              {results.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/shop/products/${item.id}`}
+                  className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors group"
+                  onClick={() => setIsFocused(false)}
+                >
+                  <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-white border border-gray-100 shadow-sm group-hover:border-[var(--primary_color)]/40 transition-colors">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      className="object-contain p-1"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-[var(--secondary_color)] line-clamp-1 group-hover:text-[var(--primary_color)] transition-colors">
+                      {item.name}
+                    </p>
+                    <div className="mt-1">
+                      <span className="text-xs font-bold text-[var(--secondary_color)] bg-[#FFC107]/10 px-2.5 py-1 rounded-md inline-block">
+                        {item.price} ر.س
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

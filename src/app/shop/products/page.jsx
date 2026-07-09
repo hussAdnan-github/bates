@@ -7,6 +7,7 @@ import Companies from "@/components/store/Companies";
 import SliderPrice from "@/components/store/SliderPrice";
 import Categories from "@/components/store/Department";
 import Department from "@/components/store/Department";
+import HeroCarousel from "@/components/store/HeroCarousel";
 import { getDepartment } from "@/actions/department";
 import InfiniteProductList from "@/components/store/InfiniteProductList";
 import { getCompanies } from "@/actions/companies";
@@ -42,17 +43,18 @@ async function page({ searchParams }) {
     getProduts(price, department, effectiveCompany),
     getDepartment(effectiveCompany),
   ]);
-  
+
   const cookieStore = await cookies();
   const type_money = cookieStore.get("type_money")?.value || "3";
 
   return (
-    <div className="bg-gray-50/50 min-h-screen py-10" dir="rtl">
-      <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-black text-gray-800 mb-8">
-          جميع المنتجات
-        </h1>
+    <div className="bg-gray-50/50 min-h-screen  " dir="rtl">
+      {/* السلايدر بعرض الصفحة بالكامل */}
+      <div className="w-full mb-6">
+        <HeroCarousel />
+      </div>
 
+      <div className="container mx-auto px-4">
         <div className="flex flex-col-reverse lg:flex-row gap-8">
           {/* <aside className="hidden lg:block lg:w-1/4">
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm sticky top-24">
@@ -60,10 +62,10 @@ async function page({ searchParams }) {
             </div>
           </aside> */}
 
-          <main className="w-full   order-1 lg:order-2 space-y-6">
+          <main className="w-full order-1 lg:order-2  ">
             <Companies activeCompanyId={effectiveCompany} />
-            <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-100 shadow-sm">
-               <Department department={departmentData} />
+            <div className="">
+              <Department department={departmentData} />
             </div>
             <div className="lg:hidden w-full mb-4 px-2">
               {/* <Sheet>

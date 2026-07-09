@@ -18,6 +18,26 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/shop/products",
+        permanent: false,
+      },
+      {
+        source: "/login",
+        destination: "/shop/products",
+        has: [
+          {
+            type: "cookie",
+            key: "auth_token",
+          },
+        ],
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default withPWA(nextConfig);

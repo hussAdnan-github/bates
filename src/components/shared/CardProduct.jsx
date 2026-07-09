@@ -108,7 +108,7 @@ console.log(prices.retail_price, "prices")
         <div className="flex flex-col gap-3 mt-auto pt-2">
            <div className="flex items-center justify-between">
             <div className="flex flex-row gap-4">
-              {prices?.retail_price && (
+              {prices?.retail_price !== undefined && prices?.retail_price !== null && (
                 <div className="flex items-center gap-0.5">
                   <span className="text-sm md:text-xl lg:text-2xl font-black text-[var(--secondary_color)]">
                     {prices.retail_price}
@@ -116,7 +116,7 @@ console.log(prices.retail_price, "prices")
                   <span className="text-[8px] md:text-xs font-bold text-gray-400">{currencyName}</span>
                 </div>
               )}
-              {prices?.wholesale_price && (
+              {prices?.wholesale_price !== undefined && prices?.wholesale_price !== null && (
                 <div className="flex items-center gap-0.5">
                   <span className="text-sm md:text-xl lg:text-sm font-black text-gray-500">
                     {prices.wholesale_price}

@@ -88,12 +88,13 @@ function Page() {
   return (
     <div className="p-3 md:p-6 space-y-6 max-w-7xl mx-auto" dir="rtl">
       {/* الهيدر المحسن */}
-      <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div className="text-right">
-          <h1 className="text-xl md:text-2xl font-black text-gray-800">
+      <div className="bg-gradient-to-r from-white to-gray-50/50 p-4 md:p-8 rounded-[2rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--primary_color)]/5 rounded-full blur-3xl -z-10"></div>
+        <div className="text-right z-10">
+          <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-l from-gray-900 to-gray-600 bg-clip-text text-transparent mb-2">
             قائمة الطلبات
           </h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-gray-500 font-medium text-sm">
             إدارة ومتابعة طلباتك بشكل فوري
           </p>
         </div>
@@ -120,15 +121,15 @@ function Page() {
       </div>
 
       {/* عرض البيانات للشاشات الكبيرة (Table) */}
-      <div className="hidden md:block overflow-hidden rounded-2xl border border-gray-100 shadow-sm bg-white">
+      <div className="hidden md:block overflow-hidden rounded-[2rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white">
         <table className="w-full text-center border-collapse">
           <thead>
-            <tr className="bg-gray-50/80 border-b border-gray-100 text-gray-500 font-bold text-sm">
-              <th className="py-4 px-4 text-right">رقم الطلب</th>
-              <th className="py-4 px-2">التاريخ</th>
-              <th className="py-4 px-2">الحالة</th>
-              <th className="py-4 px-2">الإجمالي</th>
-              <th className="py-4 px-4 text-left">الإجراءات</th>
+            <tr className="bg-gradient-to-r from-gray-50 to-white border-b border-gray-100 text-gray-500 font-black text-sm uppercase tracking-wider">
+              <th className="py-5 px-6 text-right">رقم الطلب</th>
+              <th className="py-5 px-4">التاريخ</th>
+              <th className="py-5 px-4">الحالة</th>
+              <th className="py-5 px-4">الإجمالي</th>
+              <th className="py-5 px-6 text-left">الإجراءات</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
@@ -138,10 +139,12 @@ function Page() {
                   key={order.id}
                   className="hover:bg-gray-50/50 transition-colors group"
                 >
-                  <td className="py-5 px-4 text-right font-bold text-gray-800">
-                    #{order.id}
+                  <td className="py-5 px-6 text-right font-black text-gray-800">
+                    <span className="bg-gray-50 text-gray-600 px-3 py-1.5 rounded-lg border border-gray-100">
+                      #{order.id}
+                    </span>
                   </td>
-                  <td className="py-5 text-gray-600 text-sm">
+                  <td className="py-5 px-4 text-gray-600 text-sm font-medium">
                     {formatDate(order.created_at)}
                   </td>
                   <td className="py-5">
@@ -173,10 +176,10 @@ function Page() {
           orders.map((order) => (
             <div
               key={order.id}
-              className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-4"
+              className="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 space-y-5 group"
             >
-              <div className="flex justify-between items-center">
-                <span className="font-black text-gray-800 flex items-center gap-2">
+              <div className="flex justify-between items-center pb-4 border-b border-gray-50">
+                <span className="font-black text-gray-800 flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
                   <Hash size={16} className="text-gray-400" /> #{order.id}
                 </span>
                 <StatusBadge

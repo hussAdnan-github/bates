@@ -224,10 +224,14 @@ const BasketsDialog = () => {
                 <Button
                   onClick={handleCheckout}
                   disabled={isPending}
-                  className="bg-[var(--primary_color)] hover:bg-[var(--primary_color)]/90 h-12 px-8 text-lg font-bold rounded-lg w-full md:w-auto order-1 md:order-2"
+                  className="bg-gradient-to-l from-[var(--primary_color)] to-[#4B2E83] hover:from-[#4B2E83] hover:to-[var(--primary_color)] shadow-lg shadow-[var(--primary_color)]/20 hover:shadow-xl hover:shadow-[var(--primary_color)]/40 transition-all duration-500 hover:-translate-y-0.5 h-14 px-8 text-lg font-black rounded-xl w-full md:w-auto order-1 md:order-2 flex items-center justify-center gap-3 text-white border-none group"
                 >
                   التقدم لإتمام الشراء
-                  <ArrowLeft className="mr-2 h-5 w-5" />
+                  {isPending ? (
+                     <Loader2 className="h-5 w-5 animate-spin" />
+                  ) : (
+                     <ArrowLeft className="h-5 w-5 transition-transform duration-300 group-hover:-translate-x-1" />
+                  )}
                 </Button>
 
                 <DialogTrigger asChild>

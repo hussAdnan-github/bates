@@ -6,10 +6,10 @@ import { Smartphone } from 'lucide-react';
 export default function Loading() {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white" dir="rtl">
-      
-    
+
+
       <div className="relative mb-8">
-     
+
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1.5, opacity: [0, 0.2, 0] }}
@@ -25,13 +25,13 @@ export default function Loading() {
 
         {/* أيقونة الجوال الرئيسية */}
         <motion.div
-          animate={{ 
+          animate={{
             y: [0, -10, 0],
           }}
-          transition={{ 
-            duration: 2, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
           }}
           className="relative z-10 bg-white p-4 rounded-2xl shadow-sm"
         >
@@ -41,7 +41,7 @@ export default function Loading() {
 
       {/* نصوص التحميل الاحترافية */}
       <div className="text-center">
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -49,7 +49,7 @@ export default function Loading() {
         >
           جاري تحضير المتجر
         </motion.h2>
-        
+
         <div className="flex items-center justify-center gap-1">
           <motion.span
             animate={{ opacity: [0, 1, 0] }}
@@ -73,7 +73,7 @@ export default function Loading() {
 
       {/* خط التقدم السفلي (Progress Bar) ناعم جداً */}
       <div className="mt-12 w-48 h-1 bg-slate-100 rounded-full overflow-hidden">
-        <motion.div 
+        <motion.div
           initial={{ x: "-100%" }}
           animate={{ x: "100%" }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
@@ -82,7 +82,7 @@ export default function Loading() {
       </div>
 
       {/* شعار المتجر الصغير في الأسفل (اختياري) */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.5 }}
         transition={{ delay: 1 }}

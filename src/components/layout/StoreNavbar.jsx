@@ -81,19 +81,19 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
         <div className="flex justify-around items-center h-14 px-1 relative" dir="rtl">
           
           {/* الرئيسية */}
-          <Link href="/shop" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
-              <div className={`transition-transform duration-300 ${pathname === '/' ? "-translate-y-0.5" : ""}`}>
+          <Link href="/shop" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/shop' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
+              <div className={`transition-transform duration-300 ${pathname === '/shop' ? "-translate-y-0.5" : ""}`}>
               <Home className="w-5 h-5" />
             </div>
-            <span className={`text-[9px] transition-all duration-300 ${pathname === '/' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>الرئيسية</span>
+            <span className={`text-[9px] transition-all duration-300 ${pathname === '/shop' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>الرئيسية</span>
           </Link>
 
           {/* المنتجات */}
-          <Link href="/shop/products" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/products' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
-            <div className={`transition-transform duration-300 ${pathname === '/products' ? "-translate-y-0.5" : ""}`}>
+          <Link href="/shop/products" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/shop/products' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
+            <div className={`transition-transform duration-300 ${pathname === '/shop/products' ? "-translate-y-0.5" : ""}`}>
               <LayoutGrid className="w-5 h-5" />
             </div>
-            <span className={`text-[9px] transition-all duration-300 ${pathname === '/products' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>المنتجات</span>
+            <span className={`text-[9px] transition-all duration-300 ${pathname === '/shop/products' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>المنتجات</span>
           </Link>
 
           {/* السلة في المنتصف (تصميم أنعم وأصغر) */}
@@ -106,11 +106,11 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
           </div>
 
           {/* الطلبات */}
-          <Link href="/shop/orders" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/orders' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
-            <div className={`transition-transform duration-300 ${pathname === '/orders' ? "-translate-y-0.5" : ""}`}>
+          <Link href="/shop/orders" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/shop/orders' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
+            <div className={`transition-transform duration-300 ${pathname === '/shop/orders' ? "-translate-y-0.5" : ""}`}>
               <Package className="w-5 h-5" />
             </div>
-            <span className={`text-[9px] transition-all duration-300 ${pathname === '/orders' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>طلباتي</span>
+            <span className={`text-[9px] transition-all duration-300 ${pathname === '/shop/orders' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>طلباتي</span>
           </Link>
 
           {/* تسجيل الدخول / الخروج */}

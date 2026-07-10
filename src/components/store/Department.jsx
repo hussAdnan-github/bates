@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Check } from "lucide-react";
 
@@ -7,6 +7,7 @@ export default function Department({ department }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentDepartment = searchParams.get("department") || "";
+  const [isPending, startTransition] = useTransition();
 
   const handelDepartment = (id) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -16,7 +17,9 @@ export default function Department({ department }) {
       params.set("department", id);
     }
     params.delete("page");
-    router.push(`?${params.toString()}`, { scroll: false });
+    startTransition(() => {
+      router.push(`?${params.toString()}`, { scroll: false });
+    });
   };
 
   if (!department?.data || department.data.length === 0) {
@@ -24,9 +27,15 @@ export default function Department({ department }) {
   }
 
   return (
-    <div className="w-full  ">
+    <div className="w-full relative">
+      {isPending && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-white shadow-xl shadow-gray-200/50 border border-gray-100 rounded-full px-5 py-2.5 flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
+           <span className="w-4 h-4 border-2 border-[var(--primary_color)] border-t-transparent rounded-full animate-spin"></span>
+           {/* <span className="text-sm font-black text-[#2D1B50]">جاري تحديث النتائج...</span> */}
+        </div>
+      )}
       {/* Horizontal Scroll Container with elegant visible scrollbar */}
-      <div className="flex items-center gap-1 overflow-x-auto pb-4 pt-2 px-1 styled-scrollbar snap-x">
+      <div className={`flex items-center gap-1 overflow-x-auto pb-4 pt-2 px-1 styled-scrollbar snap-x ${isPending ? "opacity-50 pointer-events-none" : ""}`}>
         {department.data.map((dep) => (
           <CategoryItem
             key={dep.id}
@@ -54,7 +63,7 @@ function CategoryItem({ children, active, onClick }) {
         }
       `}
     >
-      <span className={`text-[10px] tracking-wide transition-all duration-300 ${active ? "font-black" : "font-bold"}`}>
+      <span className={`text-[12px] tracking-wide transition-all duration-300 ${active ? "font-black" : "font-bold"}`}>
         {children}
       </span>
 

@@ -121,9 +121,8 @@ function LoginPage() {
 
             {/* كلمة المرور */}
             <div className="space-y-2">
-              <div className="flex justify-between items-center px-1">
+              <div className="flex justify-between items-center px-1 mb-2">
                 <Label className="text-gray-600 font-bold text-xs uppercase tracking-wider">كلمة المرور</Label>
-                <Link href="/forgot-password" size="sm" className="text-xs font-bold text-gray-400 hover:text-[#2D1B50]">نسيت الكلمة؟</Link>
               </div>
               <div className="relative group">
                 <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#2D1B50] transition-colors">

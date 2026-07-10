@@ -16,8 +16,7 @@ async function page({ params }) {
 
   return (
     <div className="bg-white min-h-screen pb-20" dir="rtl">
-      {/* --- Breadcrumbs (مسار التنقل) --- */}
-      <div className="container mx-auto px-4 py-4 flex items-center gap-2 text-sm text-gray-500">
+       <div className="container mx-auto px-4 py-4 flex items-center gap-2 text-sm text-gray-500">
         {breadcrumbs.map((item, index) => (
           <React.Fragment key={index}>
             <span
@@ -38,8 +37,7 @@ async function page({ params }) {
 
       <div className="container mx-auto px-4 mt-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* --- الجانب الأيمن: معرض الصور --- */}
-          <ImagesProduct
+           <ImagesProduct
             mainImage={product.data.image}
             images={product.data.images}
             title={product.data.name}

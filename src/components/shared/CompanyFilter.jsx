@@ -2,6 +2,7 @@
 
 "use client";
 
+import React, { useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Check, Building2, Globe } from "lucide-react";
 import Image from "next/image";
@@ -10,6 +11,7 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
   const router = useRouter();
   const searchParams = useSearchParams();
   const activeCompany = searchParams.get("department__company") || activeCompanyId || "";
+  const [isPending, startTransition] = useTransition();
 
   const handleFilter = (id) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -19,8 +21,10 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
       params.set("department__company", id);
     }
     params.delete("page");
-    router.push(`?${params.toString()}`, { scroll: false });
-    if (onSelect) onSelect();
+    startTransition(() => {
+      router.push(`?${params.toString()}`, { scroll: false });
+      if (onSelect) onSelect();
+    });
   };
 
   const sortedCompanies = [...(companies || [])].sort((a, b) => {
@@ -34,11 +38,17 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
 
   return (
     <div className="relative w-full">
+      {isPending && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-white shadow-xl shadow-gray-200/50 border border-gray-100 rounded-full px-5 py-2.5 flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
+           <span className="w-4 h-4 border-2 border-[var(--primary_color)] border-t-transparent rounded-full animate-spin"></span>
+           {/* <span className="text-sm font-black text-[#2D1B50]">جاري تحديث النتائج...</span> */}
+        </div>
+      )}
       {/* حاوية القائمة: عمودية في الجوال، وأفقية في الشاشات الكبيرة */}
       <div className={
         inDrawer
-          ? "flex flex-col gap-3 pt-2 pb-6 px-1"
-          : "flex items-center gap-3 overflow-x-auto pb-4 pt-4 px-1 scrollbar-hide"
+          ? `flex flex-col gap-3 pt-2 pb-6 px-1 ${isPending ? "opacity-50 pointer-events-none" : ""}`
+          : `flex items-center gap-3 overflow-x-auto pb-4 pt-4 px-1 scrollbar-hide ${isPending ? "opacity-50 pointer-events-none" : ""}`
       }>
         
        

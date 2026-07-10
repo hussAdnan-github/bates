@@ -6,6 +6,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ButtonCart from "../store/ButtonCart";
+import { Eye } from "lucide-react";
 
 function CardProduct({ id, image, title, prices, model, images, type_money = "3" }) {
  
@@ -37,8 +38,8 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
     }
   };
 
-  return (
-    <div className="group bg-white rounded-[1.5rem] md:rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full overflow-hidden relative">
+  return (  
+    <div  className="group bg-white rounded-[1.5rem] md:rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full overflow-hidden relative">
 
       {/* 1. منطقة الصورة */}
       <div className="relative aspect-square overflow-hidden bg-[#FBFBFB] p-2 md:p-4">
@@ -66,7 +67,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
         </div>
 
         {/* الصورة الأساسية */}
-        <Link href={`/shop/products/${id}`} className="relative block w-full h-full">
+        <Link href={`/shop/products/${id}`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -85,7 +86,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
               />
             </motion.div>
           </AnimatePresence>
-        </Link>
+          </Link>
 
         {/* الموديل / البراند */}
         <div className="absolute top-2 left-2 md:top-4 md:left-4">
@@ -97,11 +98,11 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
 
       {/* 2. منطقة المعلومات */}
       <div className="p-3 md:p-5 flex flex-col flex-grow bg-white">
-        <Link href={`/products/${id}`}>
+    <Link href={`/shop/products/${id}`}>
           <h3 className="text-xs md:text-base lg:text-lg font-bold text-gray-800 line-clamp-2 mb-1 md:mb-2 group-hover:text-[var(--primary_color)] transition-colors leading-tight min-h-[32px] md:min-h-[48px]">
             {title}
           </h3>
-        </Link>
+          </Link>
 
         <div className="flex flex-col gap-3 mt-auto pt-2">
            <div className="flex items-center justify-between">
@@ -142,20 +143,35 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
             </div>
           </div>
 
-          {/* زر السلة - نمرر له الكمية المدخلة */}
-          <div className="w-full">
-            <ButtonCart 
-              id={id} 
-              quantity={Number(quantity)} 
-              show={1} 
-              product={{
-                id,
-                products_name: title,
-                products_price: prices.price,
-                products_image: image,
-                products_model: model,
+          {/* زر السلة مع أيقونة العرض السريع */}
+          <div className="w-full flex items-center gap-2">
+            <div className="flex-1">
+              <ButtonCart 
+                id={id} 
+                quantity={Number(quantity)} 
+                show={1} 
+                product={{
+                  id,
+                  products_name: title,
+                  products_price: prices.price,
+                  products_image: image,
+                  products_model: model,
+                }}
+              />
+            </div>
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // يمكن إضافة منطق العرض السريع هنا مستقبلاً
               }}
-            />
+              className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center bg-gray-50 border border-gray-100 rounded-xl text-gray-400 hover:text-[var(--primary_color)] hover:bg-[#2D1B50]/5 hover:border-[var(--primary_color)]/20 transition-all duration-300 shadow-sm group/eye"
+              aria-label="عرض سريع"
+            >
+              <Link href={`/shop/products/${id}`}>
+                <Eye size={20} className="transition-transform group-hover/eye:scale-110 active:scale-90" />
+              </Link>
+            </button>
           </div>
         </div>
       </div>

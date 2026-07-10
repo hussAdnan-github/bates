@@ -221,7 +221,7 @@ function Page() {
 const ActionButtons = ({ order, mobile = false }) => (
   <>
     <Link
-      href={`/orders/show/${order.id}`}
+      href={`/shop/orders/show/${order.id}`}
       className={`flex items-center justify-center rounded-xl transition-all shadow-sm border
         ${mobile ? "px-4 py-2 gap-2 bg-blue-50 text-blue-600 border-blue-100 text-sm" : "w-10 h-10 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white border-blue-100"}`}
     >
@@ -230,7 +230,7 @@ const ActionButtons = ({ order, mobile = false }) => (
     </Link>
     {order.status === 4 && (
       <Link
-        href={`/orders/edit/${order.id}`}
+        href={`/shop/orders/edit/${order.id}`}
         className={`flex items-center justify-center rounded-xl transition-all shadow-sm border
           ${mobile ? "px-4 py-2 gap-2 bg-gray-50 text-gray-700 border-gray-100 text-sm" : "w-10 h-10 bg-gray-50 text-gray-400 hover:bg-gray-800 hover:text-white border-gray-100"}`}
       >

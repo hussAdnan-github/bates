@@ -74,7 +74,7 @@ const BasketsDialog = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["basketShow"] });
       setOpen(false);
-      router.push("/orders");
+      router.push("/shop/orders");
     },
   });
 

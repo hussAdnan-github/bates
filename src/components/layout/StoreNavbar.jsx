@@ -11,12 +11,14 @@ import SearchBar from "../store/SearchBar";
 import BasketsDialog from "../store/BasketsDialog";
 import LogoutButton from "../store/LogoutButton";
 
-function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }) {
+function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, hideTopNav = false }) {
   const pathname = usePathname();
 
   return (
     <>
-      {/* --- الديسكتوب: لم يتغير --- */}
+      {!hideTopNav && (
+        <>
+          {/* --- الديسكتوب: لم يتغير --- */}
       <nav className="hidden lg:block w-full bg-white/95 backdrop-blur-md border-b sticky top-0 z-50 shadow-sm" dir="rtl">
         <div className="container mx-auto px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-12">
@@ -70,6 +72,8 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn }
           <SearchBar /> 
         </div>
       </nav>
+      </>
+      )}
 
       {/* --- الموبايل: زر تغيير العملة العائم --- */}
       <div className="lg:hidden fixed bottom-20 left-4 z-40 drop-shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">

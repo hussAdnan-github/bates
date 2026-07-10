@@ -7,11 +7,17 @@ import QuantityProduct from "@/components/store/QuantityProduct";
 import { Button } from "@/components/ui/button";
 import ButtonCart from "@/components/store/ButtonCart";
 import ProductActionSection from "@/components/store/ProductActionSection";
+import { cookies } from "next/headers";
+
 async function page({ params }) {
 
   const Productid = (await params).productid;
 
   const product = await getProdutsId(Productid);
+  const cookieStore = await cookies();
+  const type_money = cookieStore.get("type_money")?.value || "3";
+  const currencyName = type_money === "3" ? "ر.س" : type_money === "1" ? "يمني قديم" : "ر.س";
+
   const breadcrumbs = ["الرئيسية", `${product.data.name_department}`  ,`${product.data.name}` ];
 
   return (
@@ -64,12 +70,39 @@ async function page({ params }) {
             </p>
 
             {/* السعر */}
-            <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-[#145463]">
-                {product.data.price}
-              </span>
-              <span className="text-xl font-bold text-gray-400">ر.س</span>
-            </div>
+            {product.data.prices ? (
+              <div className="flex items-center gap-8 pt-4 pb-6 mb-2">
+                {product.data.prices?.retail_price !== undefined && product.data.prices?.retail_price !== null && (
+                  <div className="flex flex-col">
+                    <span className="text-xs text-gray-400 font-bold mb-1">سعر التجزئة</span>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-4xl font-black text-[var(--secondary_color)]">
+                        {product.data.prices.retail_price}
+                      </span>
+                      <span className="text-lg font-bold text-gray-500">{currencyName}</span>
+                    </div>
+                  </div>
+                )}
+                {product.data.prices?.wholesale_price !== undefined && product.data.prices?.wholesale_price !== null && (
+                  <div className="flex flex-col border-r-2 border-gray-100 pr-8">
+                    <span className="text-xs text-gray-400 font-bold mb-1">سعر الجملة</span>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-black text-gray-600">
+                        {product.data.prices.wholesale_price}
+                      </span>
+                      <span className="text-sm font-bold text-gray-400">{currencyName}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-baseline gap-2 pt-4 pb-6 mb-2">
+                <span className="text-4xl font-black text-[#145463]">
+                  {product.data.price}
+                </span>
+                <span className="text-xl font-bold text-gray-400">{currencyName}</span>
+              </div>
+            )}
 
             {/* قسم الأكشن المطور */}
             <div className="bg-gray-50/50 p-6 rounded-3xl border border-gray-100">

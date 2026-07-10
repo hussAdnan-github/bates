@@ -20,7 +20,9 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
     } else {
       params.set("department__company", id);
     }
+    // مسح رقم الصفحة والقسم القديم عند تغيير الشركة
     params.delete("page");
+    params.delete("department");
     startTransition(() => {
       router.push(`?${params.toString()}`, { scroll: false });
       if (onSelect) onSelect();

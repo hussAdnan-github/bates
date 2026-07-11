@@ -13,10 +13,12 @@ import {
 import { toast } from "sonner";
 import { changeCurrency } from "@/actions/users";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
-export default function CurrencyDropdown({ isMobile }) {
+export default function CurrencyDropdown({ isMobile, currentCurrency = "3" }) {
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleCurrencyChange = async (typeMoney) => {
     setIsPending(true);
@@ -25,8 +27,17 @@ export default function CurrencyDropdown({ isMobile }) {
 
     try {
       const result = await changeCurrency(formData);
+      console.log(result);
       if (result.success) {
         toast.success("تم تغيير العملة بنجاح");
+        
+        // إشعار التطبيق لتحديث الرموز فوراً
+        window.dispatchEvent(new Event("currencyChanged"));
+        
+        // إعادة جلب السلة والطلبات للحصول على الأسعار الجديدة
+        queryClient.invalidateQueries();
+        
+        // تحديث المكونات الخادمة (Server Components) بدون إعادة تحميل كاملة للصفحة
         router.refresh();
       } else {
         toast.error(result.message || "حدث خطأ أثناء تغيير العملة");
@@ -74,22 +85,44 @@ export default function CurrencyDropdown({ isMobile }) {
         
         <DropdownMenuItem 
           onClick={() => handleCurrencyChange(3)} 
-          className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold cursor-pointer rounded-xl p-2 md:p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 group"
+          className={`flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold cursor-pointer rounded-xl p-2 md:p-3 transition-all relative group ${
+            currentCurrency === "3" 
+              ? "bg-[var(--primary_color)]/10 text-[var(--primary_color)]" 
+              : "text-gray-700 hover:bg-gray-50 focus:bg-gray-50 focus:text-gray-900"
+          }`}
         >
-          <div className="bg-green-50 text-green-600 p-1.5 md:p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">
+          <div className={`p-1.5 md:p-2 rounded-lg flex items-center justify-center transition-colors ${
+            currentCurrency === "3"
+              ? "bg-[var(--primary_color)] text-white shadow-md shadow-[var(--primary_color)]/20"
+              : "bg-green-50 text-green-600 group-focus:bg-green-100"
+          }`}>
             <DollarSign className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </div>
           ريال سعودي
+          {currentCurrency === "3" && (
+            <div className="absolute left-3 w-2 h-2 rounded-full bg-[var(--primary_color)] animate-in fade-in zoom-in duration-300" />
+          )}
         </DropdownMenuItem>
 
         <DropdownMenuItem 
           onClick={() => handleCurrencyChange(1)} 
-          className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold cursor-pointer rounded-xl p-2 md:p-3 focus:bg-[var(--primary_color)] focus:text-white transition-all text-gray-700 mt-1 group"
+          className={`flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold cursor-pointer rounded-xl p-2 md:p-3 mt-1 transition-all relative group ${
+            currentCurrency === "1" 
+              ? "bg-[var(--primary_color)]/10 text-[var(--primary_color)]" 
+              : "text-gray-700 hover:bg-gray-50 focus:bg-gray-50 focus:text-gray-900"
+          }`}
         >
-          <div className="bg-amber-50 text-amber-600 p-1.5 md:p-2 rounded-lg flex items-center justify-center group-focus:bg-white/20 group-focus:text-white transition-colors">
+          <div className={`p-1.5 md:p-2 rounded-lg flex items-center justify-center transition-colors ${
+            currentCurrency === "1"
+              ? "bg-[var(--primary_color)] text-white shadow-md shadow-[var(--primary_color)]/20"
+              : "bg-amber-50 text-amber-600 group-focus:bg-amber-100"
+          }`}>
             <Coins className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </div>
           ريال يمني (قديم)
+          {currentCurrency === "1" && (
+            <div className="absolute left-3 w-2 h-2 rounded-full bg-[var(--primary_color)] animate-in fade-in zoom-in duration-300" />
+          )}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

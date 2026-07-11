@@ -9,7 +9,7 @@ export async function getBaskets(page = 1, status = null, search = "") {
 
   if (page) params.append("page", page);
   if (status) params.append("status", status);
-  if (search) params.append("search", search);
+  if (search) params.append("search", search); 
   const result = await request(`/baskets/baskets/?${params.toString()}`, "GET");
   return result.data
 

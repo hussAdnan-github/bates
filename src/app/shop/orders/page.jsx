@@ -16,6 +16,8 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import FiltersDropdown from "@/components/dashboard/FiltersDropdown";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useCurrency } from "@/hooks/useCurrency";
 
 const formatDate = (dateString) => {
   if (!dateString) return "---";
@@ -39,6 +41,8 @@ function Page() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const currencySymbol = useCurrency();
 
   const currentStatus = searchParams.get("status") || "all";
 
@@ -154,7 +158,7 @@ function Page() {
                     />
                   </td>
                   <td className="py-5 font-black text-[var(--primary_color)]">
-                    {order.total_price} ر.س
+                    {order.total_price} {currencySymbol}
                   </td>
                   <td className="py-5 px-4">
                     <div className="flex justify-start gap-2">
@@ -202,7 +206,7 @@ function Page() {
                     <Banknote size={14} /> الإجمالي
                   </span>
                   <span className="font-black text-[var(--primary_color)]">
-                    {order.total_price} ر.س
+                    {order.total_price} {currencySymbol}
                   </span>
                 </div>
               </div>

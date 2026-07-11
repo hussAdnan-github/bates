@@ -31,7 +31,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
               </div>
             </Link>
             <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-               <Link href="/shop" className="text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">الرئيسية</Link>
+               <Link href="/shop" className="text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">من نحن</Link>
                <Link href="/shop/products" className="text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">المنتجات</Link>
                <Link href="/shop/orders" className="text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">الطلبات</Link>
             </div>
@@ -96,12 +96,12 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-gray-100 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.04)]">
         <div className="flex justify-around items-center h-14 px-1 relative" dir="rtl">
           
-          {/* الرئيسية */}
+          {/* من نحن */}
           <Link href="/shop" className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${pathname === '/shop' ? "text-[var(--secondary_color)]" : "text-gray-400"}`}>
               <div className={`transition-transform duration-300 ${pathname === '/shop' ? "-translate-y-0.5" : ""}`}>
               <Home className="w-5 h-5" />
             </div>
-            <span className={`text-[9px] transition-all duration-300 ${pathname === '/shop' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>الرئيسية</span>
+            <span className={`text-[9px] transition-all duration-300 ${pathname === '/shop' ? "font-black opacity-100" : "font-semibold opacity-90"}`}>من نحن</span>
           </Link>
 
           {/* المنتجات */}

@@ -22,6 +22,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/useCartStore";
+import { useCurrency } from "@/hooks/useCurrency";
 
 const BasketsDialog = () => {
   const queryClient = useQueryClient();
@@ -29,6 +30,7 @@ const BasketsDialog = () => {
   const [open, setOpen] = useState(false);
 
   const [mounted, setMounted] = useState(false);
+  const currencySymbol = useCurrency();
 
   useEffect(() => {
     setMounted(true);
@@ -164,7 +166,7 @@ const BasketsDialog = () => {
                       </span>
                     </div>
                     <div className="col-span-2 text-gray-700">
-                      {item.products_price} ر.س
+                      {item.products_price} {currencySymbol}
                     </div>
                     <div className="col-span-2 flex justify-center">
                       <QuantityBasket number={item.quantity} id={item.id} isLocal={isLocal} />
@@ -194,7 +196,7 @@ const BasketsDialog = () => {
                         {item.products_name}
                       </p>
                       <p className="text-primary text-sm">
-                        {item.products_price} ر.س
+                        {item.products_price} {currencySymbol}
                       </p>
                       <div className="flex justify-between items-center mt-2">
                         <QuantityBasket number={item.quantity} id={item.id} isLocal={isLocal} />
@@ -214,7 +216,7 @@ const BasketsDialog = () => {
                   <div className="flex justify-between text-xl font-black">
                     <span className="text-gray-800">المجموع الإجمالي</span>
                     <span className="text-primary">
-                      {displayTotal} ر.س
+                      {displayTotal} {currencySymbol}
                     </span>
                   </div>
                 </div>
@@ -224,7 +226,7 @@ const BasketsDialog = () => {
                 <Button
                   onClick={handleCheckout}
                   disabled={isPending}
-                  className="bg-gradient-to-l from-[var(--primary_color)] to-[#4B2E83] hover:from-[#4B2E83] hover:to-[var(--primary_color)] shadow-lg shadow-[var(--primary_color)]/20 hover:shadow-xl hover:shadow-[var(--primary_color)]/40 transition-all duration-500 hover:-translate-y-0.5 h-14 px-8 text-lg font-black rounded-xl w-full md:w-auto order-1 md:order-2 flex items-center justify-center gap-3 text-white border-none group"
+                  className="bg-[var(--primary_color)] hover:bg-[var(--secondary_color)] shadow-lg shadow-[var(--primary_color)]/20 hover:shadow-xl hover:shadow-[var(--primary_color)]/40 transition-all duration-300 hover:-translate-y-0.5 h-14 px-8 text-lg font-black rounded-xl w-full md:w-auto order-1 md:order-2 flex items-center justify-center gap-3 text-white border-none group"
                 >
                   التقدم لإتمام الشراء
                   {isPending ? (

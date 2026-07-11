@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowRight, Package, Calendar, CreditCard, CheckCircle2 } from "lucide-react";
 import { getOrdsersId } from "@/actions/orders";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
  
 const InfoItem = ({ icon: Icon, label, value, className = "" } ) => (
@@ -38,8 +39,10 @@ const InfoItem = ({ icon: Icon, label, value, className = "" } ) => (
 const OrderDetails = async ({ params }) => {
   const { showorder } = await params;
   const allOrders = await getOrdsersId(showorder);
- 
- 
+  
+  const cookieStore = await cookies();
+  const type_money = cookieStore.get("type_money")?.value;
+  const currencySymbol = type_money === "1" ? "ريال يمني (قديم)" : "ر.س";
  
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8 dir-rtl" dir="rtl">
@@ -53,7 +56,7 @@ const OrderDetails = async ({ params }) => {
             عرض حالة وتفاصيل مشترياتك
           </p>
         </div>
-        <Link href={`/orders`} className="flex items-center gap-2 px-5 py-2.5 bg-[var(--primary_color)] text-white rounded-xl hover:bg-gray-700 transition-all text-sm font-medium shadow-lg shadow-gray-200">
+        <Link href={`/shop/orders`} className="flex items-center gap-2 px-5 py-2.5 bg-[var(--primary_color)] text-white rounded-xl hover:bg-gray-700 transition-all text-sm font-medium shadow-lg shadow-gray-200">
           <ArrowRight size={18} />
           العودة للطلبات
         </Link>
@@ -121,7 +124,7 @@ const OrderDetails = async ({ params }) => {
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center text-gray-600 font-medium">
-                    {item.products_price} ر.س
+                    {item.products_price} {currencySymbol}
                   </td>
                   <td className="px-6 py-4 text-center">
                     <span className="px-3 py-1 bg-gray-100 rounded-md text-gray-700 font-bold text-sm">
@@ -129,7 +132,7 @@ const OrderDetails = async ({ params }) => {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-left font-black text-[var(--primary_color)]">
-                    {item.subtotal} ر.س
+                    {item.subtotal} {currencySymbol}
                   </td>
                 </tr>
               ))}
@@ -147,7 +150,7 @@ const OrderDetails = async ({ params }) => {
           <p className="text-gray-500 text-xs">شامل ضريبة القيمة المضافة</p>
         </div>
         <div className="text-3xl font-black text-secondary">
-          {allOrders.data.total_price} <span className="text-sm">ر.س</span>
+          {allOrders.data.total_price} <span className="text-sm">{currencySymbol}</span>
         </div>
       </div>
     </div>

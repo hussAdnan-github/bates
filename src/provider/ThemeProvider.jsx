@@ -32,6 +32,7 @@ function ThemeLogic() {
         document.documentElement.style.setProperty("--secondary_color", secondary);
         document.cookie = `primary_color=${primary}; path=/; max-age=31536000`;
         document.cookie = `secondary_color=${secondary}; path=/; max-age=31536000`;
+        document.cookie = `active_company_id=${selected.id}; path=/; max-age=31536000`;
       }
     }
   }, [activeCompany, companies]);

@@ -17,3 +17,4 @@ export default function CompaniesResponsive({ companies, activeCompanyId }) {
     </div>
   ); 
 }
+ 

@@ -13,7 +13,7 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
   const activeCompany = searchParams.get("department__company") || activeCompanyId || "";
   const [isPending, startTransition] = useTransition();
 
-  const handleFilter = (id) => {
+  const handleFilter = (id) => { 
     const params = new URLSearchParams(searchParams.toString());
     if (id === "") {
       params.delete("department__company");

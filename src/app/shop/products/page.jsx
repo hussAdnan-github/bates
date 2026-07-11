@@ -34,9 +34,16 @@ async function page({ searchParams }) {
       c.name_ar?.includes("يوجرين")
   );
 
+  const cookieStore = await cookies();
+  const savedCompanyId = cookieStore.get("active_company_id")?.value;
+
   let effectiveCompany = department__company;
-  if (!effectiveCompany && ugreenCompany) {
-    effectiveCompany = ugreenCompany.id.toString();
+  if (!effectiveCompany) {
+    if (savedCompanyId) {
+      effectiveCompany = savedCompanyId;
+    } else if (ugreenCompany) {
+      effectiveCompany = ugreenCompany.id.toString();
+    }
   }
 
   const departmentData = await getDepartment(effectiveCompany);
@@ -50,7 +57,6 @@ async function page({ searchParams }) {
     getBanners(effectiveCompany),
   ]);
 
-  const cookieStore = await cookies();
   const type_money = cookieStore.get("type_money")?.value || "3";
 
   return (
@@ -73,37 +79,7 @@ async function page({ searchParams }) {
             <div className="">
               <Department department={departmentData} />
             </div>
-            <div className="lg:hidden w-full mb-4 px-2">
-              {/* <Sheet>
-                <SheetTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-full flex justify-between items-center py-7 border-2 border-gray-100 rounded-2xl shadow-sm bg-white"
-                  >
-                    <div className="flex items-center gap-2 font-bold text-[var(--secondary_color)]">
-                      <SlidersHorizontal className="w-5 h-5 text-[var(--primary_color)]" />
-                      تصفية النتائج
-                    </div>
-                    <span className="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-500">
-                      تعديل
-                    </span>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent
-                  side="right"
-                  className="w-[300px] overflow-y-auto bg-white px-4"
-                  dir="rtl"
-                >
-                  <SheetHeader className="text-right border-b pb-4 mb-6">
-                    <SheetTitle className="flex items-center gap-2 text-[var(--secondary_color)]">
-                      <Filter className="w-5 h-5 text-[var(--primary_color)]" />
-                      خيارات التصفية
-                    </SheetTitle>
-                  </SheetHeader>
-                  <FilterContent departmentData={departmentData} />
-                </SheetContent>
-              </Sheet> */}
-            </div>
+           
 
             <InfiniteProductList
               show={3}

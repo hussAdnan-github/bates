@@ -34,8 +34,8 @@ export const viewport = {
 
 export default async function RootLayout({ children }) {
   const cookieStore = await cookies();
-  const primaryColor = cookieStore.get("primary_color")?.value || "#00A36C"; // Default Ugreen Primary
-  const secondaryColor = cookieStore.get("secondary_color")?.value || "#00594B"; // Default Ugreen Secondary
+  const primaryColor = cookieStore.get("primary_color")?.value || "#00A36C";  
+  const secondaryColor = cookieStore.get("secondary_color")?.value || "#00594B";  
 
   return (
     <html

@@ -22,90 +22,93 @@ async function page({ params }) {
 
   return (
     <div className="bg-white min-h-screen pb-20" dir="rtl">
-       <div className="container mx-auto px-4 py-4 flex items-center gap-2 text-sm text-gray-500">
+       <div className="container mx-auto px-4 py-4 flex items-center gap-2 text-sm text-gray-500 overflow-x-auto whitespace-nowrap custom-scrollbar">
         {breadcrumbs.map((item, index) => (
           <React.Fragment key={index}>
             <span
               className={
                 index === breadcrumbs.length - 1
-                  ? "text-gray-800 font-bold"
-                  : "hover:text-[var(--primary_color)] cursor-pointer"
+                  ? "text-[var(--secondary_color)] font-black text-[12px] md:text-sm shrink-0"
+                  : "hover:text-[var(--primary_color)] cursor-pointer text-[12px] md:text-sm shrink-0 transition-colors"
               }
             >   
               {item}
             </span>
             {index < breadcrumbs.length - 1 && (
-              <ChevronLeft size={14} className="rotate-180" />
+              <ChevronLeft size={14} className="rotate-180 shrink-0 text-gray-400" />
             )}
           </React.Fragment>
         ))}
       </div>
 
-      <div className="container mx-auto px-4 mt-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="container mx-auto px-4 mt-2 md:mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
            <ImagesProduct
             mainImage={product.data.image}
             images={product.data.images}
             title={product.data.name}
           />
-          <div className="flex flex-col space-y-8 text-right max-w-2xl">
+          <div className="flex flex-col space-y-6 md:space-y-8 text-right max-w-2xl mt-4 md:mt-0">
             {/* العنوان والفئة */}
-            <div className="space-y-2">
-              <h1 className="text-3xl md:text-5xl font-black text-gray-900 leading-tight">
+            <div className="space-y-3">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#2D1B50] leading-tight md:leading-tight">
                 {product.data.name}
               </h1>
-            </div>
- <div className="grid grid-cols-2 gap-4 pt-6 text-sm">
-              <div className="flex items-center gap-2 text-gray-500">
-                <span className="font-medium">موديل المنتج:</span>
-                <span className="font-bold text-gray-900 bg-gray-100 px-2 py-0.5 rounded">
-                  {product.data.model}
-                </span>
+              
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <div className="inline-flex items-center gap-2 bg-gray-50/80 px-3 py-1.5 rounded-xl border border-gray-100">
+                  <span className="text-[11px] md:text-xs font-bold text-gray-500">الموديل:</span>
+                  <span className="text-xs md:text-sm font-black text-[var(--secondary_color)]">
+                    {product.data.model}
+                  </span>
+                </div>
               </div>
-             
             </div>
-            {/* الوصف */}
-            <p className="text-lg leading-relaxed text-gray-600 border-r-4 border-gray-100 pr-4">
-              {product.data.description}
-            </p>
 
             {/* السعر */}
             {product.data.prices ? (
-              <div className="flex items-center gap-8 pt-4 pb-6 mb-2">
+              <div className="flex flex-wrap items-center gap-6 md:gap-8 bg-[var(--primary_color)]/5 p-4 md:p-5 rounded-2xl border border-[var(--primary_color)]/10">
                 {product.data.prices?.retail_price !== undefined && product.data.prices?.retail_price !== null && (
                   <div className="flex flex-col">
-                    <span className="text-xs text-gray-400 font-bold mb-1">سعر التجزئة</span>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-black text-[var(--secondary_color)]">
+                    <span className="text-[11px] md:text-xs text-gray-500 font-bold mb-1">سعر التجزئة</span>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-2xl md:text-4xl font-black text-[var(--secondary_color)] tracking-tight">
                         {product.data.prices.retail_price}
                       </span>
-                      <span className="text-lg font-bold text-gray-500">{currencyName}</span>
+                      <span className="text-xs md:text-sm font-bold text-gray-600">{currencyName}</span>
                     </div>
                   </div>
                 )}
                 {product.data.prices?.wholesale_price !== undefined && product.data.prices?.wholesale_price !== null && (
-                  <div className="flex flex-col border-r-2 border-gray-100 pr-8">
-                    <span className="text-xs text-gray-400 font-bold mb-1">سعر الجملة</span>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-2xl font-black text-gray-600">
+                  <div className="flex flex-col border-r-2 border-[var(--primary_color)]/10 pr-6 md:pr-8">
+                    <span className="text-[11px] md:text-xs text-gray-500 font-bold mb-1">سعر الجملة</span>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-xl md:text-3xl font-black text-gray-700 tracking-tight">
                         {product.data.prices.wholesale_price}
                       </span>
-                      <span className="text-sm font-bold text-gray-400">{currencyName}</span>
+                      <span className="text-[10px] md:text-xs font-bold text-gray-500">{currencyName}</span>
                     </div>
                   </div>
                 )}
               </div>
             ) : (
-              <div className="flex items-baseline gap-2 pt-4 pb-6 mb-2">
-                <span className="text-4xl font-black text-[#145463]">
+              <div className="flex items-baseline gap-2 bg-gray-50/50 p-4 md:p-5 rounded-2xl border border-gray-100">
+                <span className="text-2xl md:text-4xl font-black text-[var(--secondary_color)] tracking-tight">
                   {product.data.price}
                 </span>
-                <span className="text-xl font-bold text-gray-400">{currencyName}</span>
+                <span className="text-xs md:text-sm font-bold text-gray-500">{currencyName}</span>
               </div>
             )}
 
+            {/* الوصف */}
+            <div className="prose prose-sm md:prose-base prose-gray">
+              <p className="text-[15px] md:text-lg leading-relaxed text-gray-600 border-r-4 border-[var(--primary_color)]/60 pr-4">
+                {product.data.description}
+              </p>
+            </div>
+
             {/* قسم الأكشن المطور */}
-            <div className="bg-gray-50/50 p-6 rounded-3xl border border-gray-100">
+            <div className="bg-white md:bg-gray-50/50 p-2 md:p-6 rounded-2xl md:rounded-3xl border border-gray-100 shadow-sm md:shadow-none">
               <ProductActionSection 
                 productId={product.data.id} 
                 product={{

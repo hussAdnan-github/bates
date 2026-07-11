@@ -108,138 +108,154 @@ const BasketsDialog = () => {
       </DialogTrigger>
 
       <DialogContent
-        className="w-[90vw] md:w-[75vw] !max-w-none max-h-[90vh] overflow-y-auto bg-white"
+        className="w-[95vw] sm:w-[85vw] md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl md:rounded-3xl p-0"
         dir="rtl"
       >
-        <div className="p-2 md:p-6">
+        <div className="p-4 md:p-8">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-black text-center text-gray-800 mb-6">
+            <DialogTitle className="text-lg md:text-2xl font-black text-center text-[#2D1B50] mb-4 md:mb-8 flex items-center justify-center gap-2">
+              <ShoppingBag className="w-5 h-5 md:w-7 md:h-7 text-[var(--primary_color)]" />
               سلة التسوق الخاصة بك
             </DialogTitle>
           </DialogHeader>
 
           {isLoading && !isLocal ? (
-            <div className="flex flex-col justify-center items-center py-20 gap-4">
-              <Loader2 className="h-10 w-10 animate-spin text-primary" />
-              <p className="text-gray-500 animate-pulse">جارٍ جلب سلتك...</p>
+            <div className="flex flex-col justify-center items-center py-16 gap-4">
+              <Loader2 className="h-8 w-8 animate-spin text-[var(--primary_color)]" />
+              <p className="text-gray-500 text-sm font-medium animate-pulse">جارٍ جلب سلتك...</p>
             </div>
           ) : displayCount === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="bg-gray-100 p-6 rounded-full mb-6">
-                <ShoppingBag className="h-16 w-16 text-gray-400" />
+            <div className="flex flex-col items-center justify-center py-12 md:py-20 text-center">
+              <div className="bg-gray-50 border border-gray-100 p-6 rounded-full mb-6 shadow-inner">
+                <ShoppingBag className="h-12 w-12 text-gray-300" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">
+              <h3 className="text-lg md:text-xl font-black text-gray-800 mb-2">
                 سلتك فارغة حالياً
               </h3>
-              <p className="text-gray-500 mb-8 max-w-sm">
+              <p className="text-xs md:text-sm text-gray-500 mb-8 max-w-sm leading-relaxed">
                 يبدو أنك لم تقم بإضافة أي منتجات إلى سلة التسوق الخاصة بك حتى
-                الآن.
+                الآن. تصفح منتجاتنا المميزة.
               </p>
+              <DialogTrigger asChild>
+                <Button className="bg-[#2D1B50] hover:bg-[#3a2366] text-white rounded-xl px-8 h-12 text-sm font-bold shadow-lg shadow-[#2D1B50]/20 transition-all active:scale-95">
+                  تصفح المنتجات
+                </Button>
+              </DialogTrigger>
             </div>
           ) : (
             <>
+              {/* ديسكتوب */}
               <div className="hidden md:block">
-                <div className="grid grid-cols-12 gap-4 bg-gray-50 p-4 rounded-t-lg text-sm font-bold text-gray-500 text-center">
-                  <div className="col-span-4 text-right">المنتج</div>
+                <div className="grid grid-cols-12 gap-4 bg-gray-50/80 p-4 rounded-2xl text-xs font-bold text-gray-500 text-center border border-gray-100 mb-4">
+                  <div className="col-span-5 text-right pr-4">المنتج</div>
                   <div className="col-span-2">السعر</div>
                   <div className="col-span-2">الكمية</div>
                   <div className="col-span-2">الموديل</div>
-                  <div className="col-span-2">الإجراء</div>
+                  <div className="col-span-1"></div>
                 </div>
 
-                {displayItems.map((item) => (
-                  <div
-                    key={item.id}
-                    className="grid grid-cols-12 gap-4 items-center p-4 border-b border-gray-100 text-center"
-                  >
-                    <div className="col-span-4 flex items-center gap-4 text-right">
-                      <div className="relative w-16 h-16 border rounded-md overflow-hidden bg-white shrink-0">
-                        <Image
-                          src={item.products_image}
-                          alt="product"
-                          fill
-                          className="object-contain"
-                        />
+                <div className="space-y-3">
+                  {displayItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="grid grid-cols-12 gap-4 items-center p-3 border border-gray-100 rounded-2xl text-center hover:shadow-md transition-shadow bg-white"
+                    >
+                      <div className="col-span-5 flex items-center gap-4 text-right pr-2">
+                        <div className="relative w-16 h-16 border border-gray-100 rounded-xl overflow-hidden bg-gray-50/50 shrink-0 p-1">
+                          <Image
+                            src={item.products_image}
+                            alt="product"
+                            fill
+                            className="object-contain mix-blend-multiply"
+                          />
+                        </div>
+                        <span className="text-gray-800 text-sm font-bold line-clamp-2 leading-tight">
+                          {item.products_name}
+                        </span>
                       </div>
-                      <span className="text-gray-800 text-sm font-medium">
-                        {item.products_name}
-                      </span>
-                    </div>
-                    <div className="col-span-2 text-gray-700">
-                      {item.products_price} {currencySymbol}
-                    </div>
-                    <div className="col-span-2 flex justify-center">
-                      <QuantityBasket number={item.quantity} id={item.id} isLocal={isLocal} />
-                    </div>
-                    <div className="col-span-2 text-gray-500">
-                      {item.products_model}
-                    </div>
-                    <div className="col-span-2">
-                      <DeleteBasketItem id={item.id} refresh={"basketShow"} isLocal={isLocal} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="md:hidden space-y-4">
-                {displayItems.map((item) => (
-                  <div key={item.id} className="flex gap-4 border-b pb-4">
-                    <Image
-                      src={item.products_image}
-                      alt=""
-                      width={60}
-                      height={60}
-                      className="rounded object-contain"
-                    />
-                    <div className="flex-1">
-                      <p className="font-bold text-sm">
-                        {item.products_name}
-                      </p>
-                      <p className="text-primary text-sm">
-                        {item.products_price} {currencySymbol}
-                      </p>
-                      <div className="flex justify-between items-center mt-2">
+                      <div className="col-span-2 text-[var(--secondary_color)] font-black text-base">
+                        {item.products_price} <span className="text-xs text-gray-400 font-bold">{currencySymbol}</span>
+                      </div>
+                      <div className="col-span-2 flex justify-center">
                         <QuantityBasket number={item.quantity} id={item.id} isLocal={isLocal} />
+                      </div>
+                      <div className="col-span-2 text-gray-500 font-medium text-xs bg-gray-50 py-1 px-2 rounded-lg inline-block">
+                        {item.products_model}
+                      </div>
+                      <div className="col-span-1 flex justify-center">
                         <DeleteBasketItem id={item.id} refresh={"basketShow"} isLocal={isLocal} />
                       </div>
                     </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* موبايل */}
+              <div className="md:hidden space-y-3">
+                {displayItems.map((item) => (
+                  <div key={item.id} className="flex gap-3 bg-white border border-gray-100 p-3 rounded-2xl shadow-sm relative">
+                    <div className="relative w-20 h-20 bg-gray-50/50 border border-gray-100 rounded-xl p-1 shrink-0">
+                      <Image
+                        src={item.products_image}
+                        alt=""
+                        fill
+                        className="object-contain mix-blend-multiply"
+                      />
+                    </div>
+                    <div className="flex-1 flex flex-col justify-between py-0.5">
+                      <div className="pr-1">
+                        <p className="font-bold text-xs text-[#2D1B50] line-clamp-2 leading-tight mb-1.5">
+                          {item.products_name}
+                        </p>
+                        <p className="font-black text-[13px] text-[var(--secondary_color)]">
+                          {item.products_price} <span className="text-[9px] text-gray-400 font-bold">{currencySymbol}</span>
+                        </p>
+                      </div>
+                      <div className="flex justify-between items-center mt-3 bg-gray-50 p-1.5 rounded-xl border border-gray-100">
+                        <QuantityBasket number={item.quantity} id={item.id} isLocal={isLocal} />
+                      </div>
+                    </div>
+                    <div className="absolute top-2 left-2">
+                       <DeleteBasketItem id={item.id} refresh={"basketShow"} isLocal={isLocal} />
+                    </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-8 bg-gray-50/50 border rounded-xl p-6">
-                <div className="space-y-4">
-                  <div className="flex justify-between text-gray-600 font-bold">
+              <div className="mt-6 md:mt-8 bg-gray-50/50 border border-gray-100 rounded-2xl p-4 md:p-6">
+                <div className="space-y-3 md:space-y-4">
+                  {/* <div className="flex justify-between text-gray-500 text-xs md:text-sm font-bold">
                     <span>المجموع الفرعي</span>
-                  </div>
-                  <Separator />
-                  <div className="flex justify-between text-xl font-black">
-                    <span className="text-gray-800">المجموع الإجمالي</span>
-                    <span className="text-primary">
-                      {displayTotal} {currencySymbol}
+                    <span>{displayTotal} {currencySymbol}</span>
+                  </div> */}
+                  <Separator className="bg-gray-200/60" />
+                  <div className="flex justify-between items-center text-base md:text-xl font-black">
+                    <span className="text-[#2D1B50]">المجموع الإجمالي</span>
+                    <span className="text-[var(--secondary_color)] bg-[var(--primary_color)]/10 px-3 py-1 md:px-4 md:py-1.5 rounded-xl border border-[var(--primary_color)]/20">
+                      {displayTotal} <span className="text-xs text-gray-500 font-bold">{currencySymbol}</span>
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 flex flex-col md:flex-row justify-between gap-4">
+              <div className="mt-6 md:mt-8 flex flex-col md:flex-row justify-between gap-3 md:gap-4">
                 <Button
                   onClick={handleCheckout}
                   disabled={isPending}
-                  className="bg-[var(--primary_color)] hover:bg-[var(--secondary_color)] shadow-lg shadow-[var(--primary_color)]/20 hover:shadow-xl hover:shadow-[var(--primary_color)]/40 transition-all duration-300 hover:-translate-y-0.5 h-14 px-8 text-lg font-black rounded-xl w-full md:w-auto order-1 md:order-2 flex items-center justify-center gap-3 text-white border-none group"
+                  className="bg-[#2D1B50] hover:bg-[#3a2366] shadow-lg shadow-[#2D1B50]/20 transition-all duration-300 hover:-translate-y-0.5 h-12 md:h-14 px-6 md:px-8 text-sm md:text-base font-black rounded-xl w-full md:w-auto order-1 md:order-2 flex items-center justify-center gap-2 text-white border-none group active:scale-95"
                 >
                   التقدم لإتمام الشراء
                   {isPending ? (
-                     <Loader2 className="h-5 w-5 animate-spin" />
+                     <Loader2 className="h-4 w-4 md:h-5 md:w-5 animate-spin" />
                   ) : (
-                     <ArrowLeft className="h-5 w-5 transition-transform duration-300 group-hover:-translate-x-1" />
+                     <ArrowLeft className="h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 group-hover:-translate-x-1" />
                   )}
                 </Button>
 
                 <DialogTrigger asChild>
                   <Button
                     variant="outline"
-                    className="bg-slate-500 hover:bg-slate-600 text-white h-12 px-8 text-lg font-bold rounded-lg w-full md:w-auto order-2 md:order-1 border-none"
+                    className="bg-white border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-gray-900 h-10 md:h-12 px-6 text-xs md:text-sm font-bold rounded-xl w-full md:w-auto order-2 md:order-1 transition-all active:scale-95"
                   >
                     متابعة التسوق
                   </Button>

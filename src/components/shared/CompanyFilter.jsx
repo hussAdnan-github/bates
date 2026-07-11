@@ -29,17 +29,7 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
     });
   };
 
-  // Optimize sorting with useMemo so it only runs when companies change
-  const sortedCompanies = useMemo(() => {
-    return [...(companies || [])].sort((a, b) => {
-      if (a.number !== null && b.number !== null) {
-        return a.number - b.number;
-      }
-      if (a.number !== null) return -1;
-      if (b.number !== null) return 1;
-      return 0;
-    });
-  }, [companies]);
+  const sortedCompanies = companies || [];
 
   return (
     <div className="relative w-full">
@@ -94,9 +84,9 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
                 )}
               </div>
 
-               <div className={`flex-1 flex items-center justify-center text-center md:text-right md:ml-4 ${inDrawer ? "text-right ml-4 justify-start" : ""}`}>
+               <div className={`flex-1 flex items-center justify-center w-full text-center md:text-right md:ml-4 px-1 ${inDrawer ? "text-right ml-4 justify-start" : "mt-1 md:mt-0"}`}>
                 <p
-                  className={`text-[9.5px] sm:text-xs md:text-sm font-black ${!inDrawer ? "whitespace-normal md:whitespace-nowrap line-clamp-1 md:line-clamp-none" : ""} transition-colors ${isActive ? "text-[var(--secondary_color)]" : "text-gray-600"}`}
+                  className={`text-[10px] sm:text-xs md:text-sm leading-snug font-black transition-colors text-balance ${isActive ? "text-[var(--secondary_color)]" : "text-gray-600"}`}
                 >
                   {com.name_ar}
                 </p>

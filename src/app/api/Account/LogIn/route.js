@@ -53,19 +53,6 @@ export async function POST(req) {
       });
     }
 
-    response.cookies.set("primary_color", primary_color, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-    });
-
-    response.cookies.set("secondary_color", secondary_color, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-    });
      console.log("response" , response)
     return response;
   } catch (err) {

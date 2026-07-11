@@ -15,9 +15,8 @@ export async function POST() {
 
   response.cookies.delete("auth_token");
   response.cookies.delete("basket_count");
-  response.cookies.delete("primary_color");
-  response.cookies.delete("secondary_color");
   response.cookies.delete("username");
+  response.cookies.delete("taype_custom");
 
   return response;
 }

@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "@/components/layout/Footer";
 import StoreNavbar from "@/components/layout/StoreNavbar";
 import ProvidersQuery from "@/provider/QueryClientProvider";
+import ThemeProvider from "@/provider/ThemeProvider";
 import { Toaster } from "sonner";
 import { cookies } from "next/headers";
 
@@ -33,20 +34,27 @@ export const viewport = {
 
 export default async function RootLayout({ children }) {
   const cookieStore = await cookies();
-  const primaryColor = cookieStore.get("primary_color")?.value || "#2D1B4D";
-  const secondaryColor = cookieStore.get("secondary_color")?.value || "#FFC107";
-  console.log(primaryColor);
+  const primaryColor = cookieStore.get("primary_color")?.value || "#00A36C"; // Default Ugreen Primary
+  const secondaryColor = cookieStore.get("secondary_color")?.value || "#00594B"; // Default Ugreen Secondary
+
   return (
-    <html lang="ar" dir="rtl">
+    <html 
+      lang="ar" 
+      dir="rtl"
+      style={{
+        "--primary_color": primaryColor,
+        "--secondary_color": secondaryColor,
+      }}
+    >
       <body
-        style={{
-          "--primary_color": primaryColor,
-          "--secondary_color": secondaryColor,
-        }}
         className={`${ibmPlexSansArabic.variable} ${cairo.variable} font-sans antialiased bg-white text-gray-900`}
       >
         <main>
-          <ProvidersQuery>{children}</ProvidersQuery>
+          <ProvidersQuery>
+            <ThemeProvider>
+              {children}
+            </ThemeProvider>
+          </ProvidersQuery>
           <Toaster />
         </main>
       </body>

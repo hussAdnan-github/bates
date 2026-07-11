@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useTransition } from "react";
+import React, { useTransition, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Check, Building2, Globe } from "lucide-react";
 import Image from "next/image";
@@ -20,7 +20,7 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
     } else {
       params.set("department__company", id);
     }
-    // مسح رقم الصفحة والقسم القديم عند تغيير الشركة
+
     params.delete("page");
     params.delete("department");
     startTransition(() => {
@@ -29,14 +29,17 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
     });
   };
 
-  const sortedCompanies = [...(companies || [])].sort((a, b) => {
-    if (a.number !== null && b.number !== null) {
-      return a.number - b.number;
-    }
-    if (a.number !== null) return -1;
-    if (b.number !== null) return 1;
-    return 0;
-  });
+  // Optimize sorting with useMemo so it only runs when companies change
+  const sortedCompanies = useMemo(() => {
+    return [...(companies || [])].sort((a, b) => {
+      if (a.number !== null && b.number !== null) {
+        return a.number - b.number;
+      }
+      if (a.number !== null) return -1;
+      if (b.number !== null) return 1;
+      return 0;
+    });
+  }, [companies]);
 
   return (
     <div className="relative w-full">

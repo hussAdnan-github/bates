@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import StoreNavbar from "@/components/layout/StoreNavbar";
 import CurrencyButton from "@/components/layout/CurrencyButton";
 import { cookies } from "next/headers";
-
+ 
 export const dynamic = "force-dynamic";
 export default async function AuthLayout({ children }) {
   const cookieStore = await cookies();

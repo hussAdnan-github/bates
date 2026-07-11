@@ -11,7 +11,7 @@ export default async function AuthLayout({ children }) {
   const authToken = cookieStore.get("auth_token");
   const isLoggedIn = !!(
     authToken && 
-    authToken.value && 
+    authToken.value &&  
     authToken.value !== "undefined" && 
     authToken.value !== "null" && 
     authToken.value.trim() !== ""

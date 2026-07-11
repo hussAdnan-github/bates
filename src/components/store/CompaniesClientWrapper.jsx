@@ -21,7 +21,7 @@ export default function CompaniesClientWrapper({ children, activeCompanyName, ha
             <Building2 className={`w-5 h-5 transition-colors ${hasActive ? "text-[var(--primary_color)]" : "text-gray-400 group-hover:text-[var(--secondary_color)]"}`} />
           </div>
           <div className="text-right flex flex-col justify-center">
-            <h3 className="font-black text-[var(--secondary_color)] text-sm md:text-base flex items-center gap-2">
+            <h3 className="font-bold text-[var(--secondary_color)] text-sm md:text-base flex items-center gap-2">
               تصفية حسب الماركة
               {hasActive && !isOpen && (
                 <span className="flex w-2 h-2 rounded-full bg-[var(--primary_color)] relative">

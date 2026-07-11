@@ -7,26 +7,31 @@
   --color-secondary: var(--secondary-color);
   --color-secondary-hover: color-mix(in srgb, var(--secondary-color), black 15%);
 
-  --font-sans: var(--font-ibm-plex), var(--font-cairo), ui-sans-serif, system-ui,
+  --font-sans: var(--font-cairo), var(--font-ibm-plex), ui-sans-serif, system-ui,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 }
+
 @layer utilities {
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
+
 @media print {
   @page {
-    margin: 0;  
+    margin: 0;
     size: auto;
   }
+
   body {
-    margin: 0;  
-    -webkit-print-color-adjust: exact;  
+    margin: 0;
+    -webkit-print-color-adjust: exact;
   }
 }
+
 @custom-variant dark (&:is(.dark *));
+
 /* Chrome, Safari, Edge */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -43,22 +48,28 @@ input[type="number"] {
 .styled-scrollbar::-webkit-scrollbar {
   height: 4px;
 }
+
 .styled-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .styled-scrollbar::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 4px;
 }
+
 .styled-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 4px;

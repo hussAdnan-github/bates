@@ -95,10 +95,10 @@ function Page() {
       <div className="bg-gradient-to-r from-white to-gray-50/50 p-4 md:p-8 rounded-[2rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--primary_color)]/5 rounded-full blur-3xl -z-10"></div>
         <div className="text-right z-10">
-          <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-l from-gray-900 to-gray-600 bg-clip-text text-transparent mb-2">
+          <h1 className="text-xl md:text-3xl font-black bg-gradient-to-l from-gray-900 to-gray-600 bg-clip-text text-transparent mb-2">
             قائمة الطلبات
           </h1>
-          <p className="text-gray-500 font-medium text-sm">
+          <p className="text-gray-500   text-sm">
             إدارة ومتابعة طلباتك بشكل فوري
           </p>
         </div>

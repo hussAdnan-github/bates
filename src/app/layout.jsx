@@ -1,5 +1,5 @@
 import Navbar from "@/components/layout/Navbar";
-import { Cairo, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { Cairo, Alexandria } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/layout/Footer";
 import StoreNavbar from "@/components/layout/StoreNavbar";
@@ -15,10 +15,10 @@ const cairo = Cairo({
   display: "swap",
 });
 
-const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
+const alexandria = Alexandria({
   subsets: ["arabic"],
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
-  variable: "--font-ibm-plex",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-alexandria",
   display: "swap",
 });
 
@@ -38,8 +38,8 @@ export default async function RootLayout({ children }) {
   const secondaryColor = cookieStore.get("secondary_color")?.value || "#00594B"; // Default Ugreen Secondary
 
   return (
-    <html 
-      lang="ar" 
+    <html
+      lang="ar"
       dir="rtl"
       style={{
         "--primary_color": primaryColor,
@@ -47,7 +47,7 @@ export default async function RootLayout({ children }) {
       }}
     >
       <body
-        className={`${ibmPlexSansArabic.variable} ${cairo.variable} font-sans antialiased bg-white text-gray-900`}
+        className={`${alexandria.className} antialiased bg-white text-gray-900`}
       >
         <main>
           <ProvidersQuery>

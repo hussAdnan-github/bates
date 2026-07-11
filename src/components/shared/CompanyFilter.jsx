@@ -96,7 +96,7 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
 
                <div className={`flex-1 flex items-center justify-center text-center md:text-right md:ml-4 ${inDrawer ? "text-right ml-4 justify-start" : ""}`}>
                 <p
-                  className={`text-[9.5px] sm:text-xs md:text-sm font-black ${!inDrawer ? "whitespace-normal md:whitespace-nowrap line-clamp-1 md:line-clamp-none" : ""} transition-colors ${isActive ? "text-[var(--secondary_color)]" : "text-gray-600"}`}
+                  className={`text-[9.5px] sm:text-xs md:text-sm transition-colors ${isActive ? "text-[var(--secondary_color)] font-bold" : "text-gray-600 font-bold"}`}
                 >
                   {com.name_ar}
                 </p>

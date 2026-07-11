@@ -21,32 +21,19 @@ function ThemeLogic() {
   useEffect(() => {
     if (!companies || companies.length === 0) return;
 
-    let primary = "#00A36C"; // Default Ugreen primary
-    let secondary = "#00594B"; // Default Ugreen secondary
-
+    // فقط إذا كان هناك شركة محددة صراحة في الرابط، نقوم بتحديث الهوية البصرية
     if (activeCompany) {
       const selected = companies.find((c) => c.id.toString() === activeCompany);
       if (selected) {
-        primary = selected.primary_color || primary;
-        secondary = selected.secondary_color || secondary;
-      }
-    } else {
-      const ugreen = companies.find(
-        (c) =>
-          c.name_en?.toLowerCase().includes("ugreen") ||
-          c.name_ar?.toLowerCase().includes("ugreen") ||
-          c.name_ar?.includes("يوجرين")
-      );
-      if (ugreen) {
-        primary = ugreen.primary_color || primary;
-        secondary = ugreen.secondary_color || secondary;
+        const primary = selected.primary_color || "#00A36C";
+        const secondary = selected.secondary_color || "#00594B";
+        
+        document.documentElement.style.setProperty("--primary_color", primary);
+        document.documentElement.style.setProperty("--secondary_color", secondary);
+        document.cookie = `primary_color=${primary}; path=/; max-age=31536000`;
+        document.cookie = `secondary_color=${secondary}; path=/; max-age=31536000`;
       }
     }
-
-    document.documentElement.style.setProperty("--primary_color", primary);
-    document.documentElement.style.setProperty("--secondary_color", secondary);
-    document.cookie = `primary_color=${primary}; path=/; max-age=31536000`;
-    document.cookie = `secondary_color=${secondary}; path=/; max-age=31536000`;
   }, [activeCompany, companies]);
 
   return null;

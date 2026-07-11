@@ -30,8 +30,8 @@ export default function Department({ department }) {
     <div className="w-full relative">
       {isPending && (
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-white shadow-xl shadow-gray-200/50 border border-gray-100 rounded-full px-5 py-2.5 flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
-           <span className="w-4 h-4 border-2 border-[var(--primary_color)] border-t-transparent rounded-full animate-spin"></span>
-           {/* <span className="text-sm font-black text-[#2D1B50]">جاري تحديث النتائج...</span> */}
+          <span className="w-4 h-4 border-2 border-[var(--primary_color)] border-t-transparent rounded-full animate-spin"></span>
+          {/* <span className="text-sm font-black text-[#2D1B50]">جاري تحديث النتائج...</span> */}
         </div>
       )}
       {/* Horizontal Scroll Container with elegant visible scrollbar */}
@@ -63,7 +63,7 @@ function CategoryItem({ children, active, onClick }) {
         }
       `}
     >
-      <span className={`text-[12px] tracking-wide transition-all duration-300 ${active ? "font-black" : "font-bold"}`}>
+      <span className={`text-[12px] tracking-wide transition-all duration-300 ${active ? "font-normal" : "font-light"}`}>
         {children}
       </span>
 

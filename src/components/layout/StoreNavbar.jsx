@@ -21,14 +21,20 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
           {/* --- الديسكتوب: لم يتغير --- */}
       <nav className="hidden lg:block w-full bg-white/95 backdrop-blur-md border-b sticky top-0 z-50 shadow-sm" dir="rtl">
         <div className="container mx-auto px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-12">
-            <Link href="/" className="text-2xl font-black text-[#2D1B50] tracking-tighter">
-              BTS <span className="text-[#FFC107] text-sm">STORE</span>
+          <div className="flex items-center gap-6 xl:gap-12">
+            <Link href="/" className="flex items-center gap-3 xl:gap-4 hover:opacity-90 transition-opacity">
+              <div className="text-2xl xl:text-3xl font-black text-[#2D1B50] tracking-tighter leading-none">
+                BTS <span className="text-[#FFC107] text-lg xl:text-xl">STORE</span>
+              </div>
+              <div className="flex flex-col border-r-2 border-gray-200 pr-3 xl:pr-4 py-0.5">
+                <span className="text-xs xl:text-sm font-black text-[#2D1B50] tracking-tight">مؤسسة محمد باتيس للتجارة</span>
+                <span className="text-[9px] xl:text-[11px] font-bold text-gray-500 mt-0.5">وكلاء ( Ugreen & Vidvie )</span>
+              </div>
             </Link>
-            <div className="flex items-center gap-8">
-               <Link href="/shop" className=" text-gray-500">الرئيسية</Link>
-               <Link href="/shop/products" className=" text-gray-500">المنتجات</Link>
-               <Link href="/shop/orders" className=" text-gray-500">الطلبات</Link>
+            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+               <Link href="/shop" className="text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">الرئيسية</Link>
+               <Link href="/shop/products" className="text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">المنتجات</Link>
+               <Link href="/shop/orders" className="text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">الطلبات</Link>
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -60,10 +66,18 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
       </nav>
 
       {/* --- الموبايل: الهيدر (لوجو فقط لأن الخروج نزل تحت) --- */}
-      <nav className="lg:hidden w-full bg-white   sticky top-0 z-50" dir="rtl">
-        <div className="px-4 h-14 flex items-center justify-center">
-          <Link href="/" className="text-xl font-black text-[#2D1B50]">
-            BTS <span className="text-[#FFC107] text-xs">STORE</span>
+      <nav className="lg:hidden w-full bg-white sticky top-0 z-50 shadow-sm" dir="rtl">
+        <div className="px-4 py-2.5 flex flex-col items-center justify-center">
+          <Link href="/" className="flex flex-col items-center text-center hover:opacity-90 transition-opacity">
+            <div className="text-xl font-black text-[#2D1B50] leading-none mb-1.5">
+              BTS <span className="text-[#FFC107] text-sm">STORE</span>
+            </div>
+            <div className="text-[13px] font-black text-[#2D1B50] leading-tight">
+              مؤسسة محمد باتيس للتجارة
+            </div>
+            <div className="text-[10px] font-semibold text-gray-500 mt-0.5">
+              وكلاء ( Ugreen & Vidvie )
+            </div>
           </Link>
         </div>
 

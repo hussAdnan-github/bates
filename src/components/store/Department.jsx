@@ -6,7 +6,7 @@ import { Check } from "lucide-react";
 export default function Department({ department }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentDepartment = searchParams.get("department") || "";
+  const currentDepartment = searchParams.get("department") || (department?.data?.length > 0 ? department.data[0].id.toString() : "");
   const [isPending, startTransition] = useTransition();
 
   const handelDepartment = (id) => {

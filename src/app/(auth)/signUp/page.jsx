@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Upload, User, Lock, Phone, Camera, CheckCircle2, Mail } from "lucide-react";
+import { Eye, EyeOff, Upload, User, Lock, Phone, Camera, CheckCircle2, Mail, MapPin, Wallet, Briefcase } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -22,6 +22,9 @@ const registerSchema = z.object({
   phone: z.string().min(9, "رقم الهاتف غير صالح"),
   password: z.string().min(8, "يجب أن تكون كلمة المرور 8 أحرف على الأقل"),
   password2: z.string(),
+  type_money: z.string().nullable().optional(),
+  taype_custom: z.string().nullable().optional(),
+  place: z.string().nullable().optional(),
 }).refine((data) => data.password === data.password2, {
   message: "كلمتا المرور غير متطابقتين",
   path: ["password2"],
@@ -38,6 +41,7 @@ function SignUpPage() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema),
@@ -49,6 +53,9 @@ function SignUpPage() {
       phone: "",
       password: "",
       password2: "",
+      type_money: "",
+      taype_custom: "",
+      place: "",
     },
   });
 
@@ -71,10 +78,13 @@ function SignUpPage() {
       if (data.first_name) formData.append("first_name", data.first_name);
       if (data.last_name) formData.append("last_name", data.last_name);
       formData.append("phone", data.phone);
+      if (data.type_money) formData.append("type_money", data.type_money);
+      if (data.taype_custom) formData.append("taype_custom", data.taype_custom);
+      if (data.place) formData.append("place", data.place);
       
-      // if (profileFile) {
-      //   formData.append("profile_picture", profileFile);
-      // }
+      if (profileFile) {
+        formData.append("profile_picture", profileFile);
+      }
  
       const res = await fetch("https://bts.pythonanywhere.com/api/register/", {
         method: "POST",
@@ -82,13 +92,30 @@ function SignUpPage() {
       });
      console.log(Object.fromEntries(formData));
       const responseData = await res.json();
- console.log(responseData);
-      if (res.ok && (responseData.success || responseData.token || !responseData.error)) {
+      console.log(responseData);
+
+      if (res.ok && responseData.success !== false && !responseData.error && !responseData.errors) {
         toast.success("تم إنشاء الحساب بنجاح!");
         router.replace("/login");
       } else {
-        const errorMsg = responseData.error || Object.values(responseData).flat()[0] || "حدث خطأ أثناء التسجيل";
-        toast.error(typeof errorMsg === 'string' ? errorMsg : "تأكد من صحة البيانات المدخلة");
+        if (responseData.message) {
+          toast.error(responseData.message);
+        } else {
+          const errorMsg = responseData.error || (responseData.errors ? "يوجد أخطاء في البيانات المدخلة" : "حدث خطأ أثناء التسجيل");
+          toast.error(typeof errorMsg === 'string' ? errorMsg : "تأكد من صحة البيانات المدخلة");
+        }
+
+        if (responseData.errors && typeof responseData.errors === 'object') {
+          Object.keys(responseData.errors).forEach((key) => {
+            const errorFieldMsg = Array.isArray(responseData.errors[key]) 
+              ? responseData.errors[key][0] 
+              : responseData.errors[key];
+            setError(key, {
+              type: "server",
+              message: errorFieldMsg,
+            });
+          });
+        }
       }
     } catch (err) {
       toast.error("حدث خطأ في الاتصال. يرجى التحقق من الإنترنت.");
@@ -205,6 +232,59 @@ function SignUpPage() {
                 />
               </div>
               {errors.phone && <p className="text-red-500 text-xs mt-1 text-right">{errors.phone.message}</p>}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="space-y-2">
+                <Label className="text-gray-600 font-bold mr-1 text-xs">نوع العملة</Label>
+                <div className="relative">
+                  <Wallet className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <select
+                    {...register("type_money")}
+                    className={`w-full h-12 pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 appearance-none border ${errors.type_money ? "border-red-500" : "border-gray-100"}`}
+                  >
+                    <option value="">اختر العملة (اختياري)</option>
+                    <option value="3">ر.س (ريال سعودي)</option>
+                    <option value="1">يمني قديم</option>
+                  </select>
+                </div>
+                {errors.type_money && <p className="text-red-500 text-xs mt-1">{errors.type_money.message}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-gray-600 font-bold mr-1 text-xs">نوع العميل</Label>
+                <div className="relative">
+                  <Briefcase className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <select
+                    {...register("taype_custom")}
+                    className={`w-full h-12 pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 appearance-none border ${errors.taype_custom ? "border-red-500" : "border-gray-100"}`}
+                  >
+                    <option value="">اختر نوع العميل (اختياري)</option>
+                    <option value="1">تاجر جملة الجملة</option>
+                    <option value="2">تاجر جملة</option>
+                    <option value="3">تاجر تجزئة</option>
+                  </select>
+                </div>
+                {errors.taype_custom && <p className="text-red-500 text-xs mt-1">{errors.taype_custom.message}</p>}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-gray-600 font-bold mr-1 text-xs">المحافظة</Label>
+              <div className="relative">
+                <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <select
+                  {...register("place")}
+                  className={`w-full h-12 pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 appearance-none border ${errors.place ? "border-red-500" : "border-gray-100"}`}
+                >
+                  <option value="">اختر المحافظة (اختياري)</option>
+                  <option value="1">صنعاء</option>
+                  <option value="2">حضرموت</option>
+                  <option value="3">تعز</option>
+                  <option value="4">المهرة</option>
+                </select>
+              </div>
+              {errors.place && <p className="text-red-500 text-xs mt-1">{errors.place.message}</p>}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

@@ -25,7 +25,7 @@ export default async function AuthLayout({ children }) {
         isLoggedIn={isLoggedIn}
         hideTopNav={true}
       />
-      <div className="fixed top-4 right-4 md:top-6 md:right-6 z-[100]">
+      <div className="hidden md:block fixed top-4 right-4 md:top-6 md:right-6 z-[100]">
         <Link 
           href="/" 
           className="flex items-center gap-2 px-3 py-2 md:px-5 md:py-2.5 bg-white/90 backdrop-blur-md rounded-xl md:rounded-2xl shadow-md md:shadow-lg shadow-gray-200/50 text-xs md:text-sm font-black text-[#2D1B50] hover:bg-[#2D1B50] hover:text-[#FFC107] transition-all border border-gray-100"

@@ -122,9 +122,11 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
              {isLoggedIn ? (
                <LogoutButton isMobile={true} />
              ) : (
-               <Link href="/login" className="flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-[var(--secondary_color)] transition-all duration-300">
-                 <User className="w-5 h-5" />
-                 <span className="text-[9px] font-semibold opacity-90">تسجيل</span>
+               <Link href="/login" className={`flex flex-col items-center justify-center gap-1 transition-all duration-300 ${pathname === '/login' || pathname === '/signUp' ? "text-[var(--secondary_color)]" : "text-gray-400 hover:text-[var(--secondary_color)]"}`}>
+                 <div className={`transition-transform duration-300 ${(pathname === '/login' || pathname === '/signUp') ? "-translate-y-0.5" : ""}`}>
+                   <User className="w-5 h-5" />
+                 </div>
+                 <span className={`text-[9px] transition-all duration-300 ${(pathname === '/login' || pathname === '/signUp') ? "font-black opacity-100" : "font-semibold opacity-90"}`}>تسجيل</span>
                </Link>
              )}
           </div>

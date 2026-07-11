@@ -50,7 +50,7 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
       <div className={
         inDrawer
           ? `flex flex-col gap-3 pt-2 pb-6 px-1 ${isPending ? "opacity-50 pointer-events-none" : ""}`
-          : `flex items-center gap-3 overflow-x-auto pb-4 pt-4 px-1 scrollbar-hide ${isPending ? "opacity-50 pointer-events-none" : ""}`
+          : `grid grid-cols-3 sm:grid-cols-4 md:flex md:items-center gap-2 md:gap-3 md:overflow-x-auto pb-4 pt-4 px-1 md:scrollbar-hide ${isPending ? "opacity-50 pointer-events-none" : ""}`
       }>
         
        
@@ -63,8 +63,8 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
               key={com.id}
               onClick={() => handleFilter(com.id.toString())}
               className={`
-                relative flex-shrink-0 flex items-center p-1 md:p-2 pr-1 md:pr-2 pl-2 md:pl-4 min-h-[2.5rem] md:min-h-[3.5rem] rounded-xl  transition-all duration-300 group
-                ${inDrawer ? "w-full" : "w-auto min-w-[90px] md:min-w-[140px]"}
+                relative flex-shrink-0 flex flex-col md:flex-row items-center justify-center md:justify-start p-2 min-h-[4.5rem] md:min-h-[3.5rem] rounded-xl transition-all duration-300 group border
+                ${inDrawer ? "w-full flex-row" : "w-full md:w-auto md:min-w-[140px]"}
                 ${
                   isActive
                     ? "bg-white border-[var(--primary_color)] shadow-xl shadow-yellow-500/10 -translate-y-1"
@@ -74,7 +74,7 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
             >
                <div
                 className={`
-                w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 shrink-0 rounded-xl overflow-hidden border ml-1.5 md:ml-3 flex items-center justify-center p-0.5 md:p-1 bg-white transition-all duration-300
+                w-8 h-8 md:w-10 md:h-10 shrink-0 rounded-xl overflow-hidden border mb-1 md:mb-0 md:ml-3 flex items-center justify-center p-0.5 md:p-1 bg-white transition-all duration-300
                 ${isActive ? "border-[var(--primary_color)] shadow-inner scale-105" : "border-gray-50 group-hover:scale-105"}
               `}
               >
@@ -87,21 +87,21 @@ export default function CompanyFilter({ companies, activeCompanyId, inDrawer = f
                     className="object-contain transition-transform group-hover:scale-110 w-full h-full"
                   />
                 ) : (
-                  <Globe className="text-gray-200 w-3.5 h-3.5 md:w-5 md:h-5" />
+                  <Globe className="text-gray-200 w-4 h-4 md:w-5 md:h-5" />
                 )}
               </div>
 
-               <div className="flex-1 text-right ml-1.5 md:ml-4">
+               <div className={`flex-1 flex items-center justify-center text-center md:text-right md:ml-4 ${inDrawer ? "text-right ml-4 justify-start" : ""}`}>
                 <p
-                  className={`text-[9.5px] sm:text-xs md:text-sm font-black ${!inDrawer ? "whitespace-nowrap" : ""} transition-colors ${isActive ? "text-[var(--secondary_color)]" : "text-gray-600"}`}
+                  className={`text-[9.5px] sm:text-xs md:text-sm font-black ${!inDrawer ? "whitespace-normal md:whitespace-nowrap line-clamp-1 md:line-clamp-none" : ""} transition-colors ${isActive ? "text-[var(--secondary_color)]" : "text-gray-600"}`}
                 >
                   {com.name_ar}
                 </p>
               </div>
 
               {isActive && (
-                <div className="mr-2 bg-[var(--secondary_color)] text-[var(--primary_color)] p-1 rounded-full animate-in zoom-in duration-300">
-                  <Check className="w-3.5 h-3.5" />
+                <div className={`absolute top-1 right-1 md:static md:mr-2 bg-[var(--secondary_color)] text-[var(--primary_color)] p-0.5 md:p-1 rounded-full animate-in zoom-in duration-300 ${inDrawer ? "static mr-auto" : ""}`}>
+                  <Check className="w-3 h-3 md:w-3.5 md:h-3.5" />
                 </div>
               )}
             </button>

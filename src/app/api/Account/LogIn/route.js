@@ -70,9 +70,10 @@ export async function POST(req) {
     return response;
   } catch (err) {
     console.error("Login error:", err.response?.data || err.message);
+    const errorData = err.response?.data || { success: false, message: "Login failed" };
     return NextResponse.json(
-      { success: false, error: "Login failed" },
-      { status: 401 },
+      errorData,
+      { status: err.response?.status || 401 },
     );
   }
 }

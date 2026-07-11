@@ -54,7 +54,11 @@ function LoginPage() {
         router.replace("/");
         router.refresh();
       } else {
-        setError(data.error || "اسم المستخدم أو كلمة المرور غير صحيحة");
+        if (data.message) {
+          setError(Array.isArray(data.message) ? data.message[0] : data.message);
+        } else {
+          setError(data.error || "اسم المستخدم أو كلمة المرور غير صحيحة");
+        }
       }
     } catch (err) {
       setError("حدث خطأ في الاتصال. يرجى التحقق من الإنترنت.");

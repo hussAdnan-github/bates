@@ -39,9 +39,14 @@ async function page({ searchParams }) {
     effectiveCompany = ugreenCompany.id.toString();
   }
 
-  const [products, departmentData, bannersData] = await Promise.all([
-    getProduts(price, department, effectiveCompany),
-    getDepartment(effectiveCompany),
+  const departmentData = await getDepartment(effectiveCompany);
+  let effectiveDepartment = department;
+  if (!effectiveDepartment && departmentData?.data?.length > 0) {
+    effectiveDepartment = departmentData.data[0].id.toString();
+  }
+
+  const [products, bannersData] = await Promise.all([
+    getProduts(price, effectiveDepartment, effectiveCompany),
     getBanners(effectiveCompany),
   ]);
 

@@ -23,7 +23,6 @@ const registerSchema = z.object({
   password: z.string().min(8, "يجب أن تكون كلمة المرور 8 أحرف على الأقل"),
   password2: z.string(),
   type_money: z.string().nullable().optional(),
-  taype_custom: z.string().nullable().optional(),
   place: z.string().nullable().optional(),
 }).refine((data) => data.password === data.password2, {
   message: "كلمتا المرور غير متطابقتين",
@@ -54,7 +53,6 @@ function SignUpPage() {
       password: "",
       password2: "",
       type_money: "",
-      taype_custom: "",
       place: "",
     },
   });
@@ -79,7 +77,6 @@ function SignUpPage() {
       if (data.last_name) formData.append("last_name", data.last_name);
       formData.append("phone", data.phone);
       if (data.type_money) formData.append("type_money", data.type_money);
-      if (data.taype_custom) formData.append("taype_custom", data.taype_custom);
       if (data.place) formData.append("place", data.place);
       
       if (profileFile) {
@@ -249,23 +246,6 @@ function SignUpPage() {
                   </select>
                 </div>
                 {errors.type_money && <p className="text-red-500 text-xs mt-1">{errors.type_money.message}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label className="text-gray-600 font-bold mr-1 text-xs">نوع العميل</Label>
-                <div className="relative">
-                  <Briefcase className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                  <select
-                    {...register("taype_custom")}
-                    className={`w-full h-12 pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 appearance-none border ${errors.taype_custom ? "border-red-500" : "border-gray-100"}`}
-                  >
-                    <option value="">اختر نوع العميل (اختياري)</option>
-                    <option value="1">تاجر جملة الجملة</option>
-                    <option value="2">تاجر جملة</option>
-                    <option value="3">تاجر تجزئة</option>
-                  </select>
-                </div>
-                {errors.taype_custom && <p className="text-red-500 text-xs mt-1">{errors.taype_custom.message}</p>}
               </div>
             </div>
 

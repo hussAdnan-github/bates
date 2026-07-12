@@ -136,11 +136,11 @@ const SearchBar = () => {
                     />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-black text-[var(--secondary_color)] line-clamp-1 group-hover:text-[var(--primary_color)] transition-colors">
+                    <p className="text-[11px] md:text-sm font-black text-[var(--secondary_color)] line-clamp-1 group-hover:text-[var(--primary_color)] transition-colors">
                       {item.name}
                     </p>
                     <div className="mt-1">
-                      <span className="text-xs font-bold text-[var(--secondary_color)] bg-[#FFC107]/10 px-2.5 py-1 rounded-md inline-block">
+                      <span className="text-[10px] md:text-xs font-bold text-[var(--secondary_color)] bg-[#FFC107]/10 px-2.5 py-1 rounded-md inline-block">
                         {item.price} ر.س
                       </span>
                     </div>

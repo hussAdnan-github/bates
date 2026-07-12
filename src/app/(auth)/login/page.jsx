@@ -83,15 +83,15 @@ function LoginPage() {
         className="w-full max-w-[450px] z-10"
       >
         {/* اللوجو */}
-        <div className="text-center mb-8">
-          <Link href="/" className="text-4xl font-black text-[#2D1B50] tracking-tighter">
+        <div className="text-center mb-6 md:mb-8">
+          <Link href="/" className="text-3xl md:text-4xl font-black text-[#2D1B50] tracking-tighter">
             BTS <span className="text-[#FFC107]">STORE</span>
           </Link>
-          <p className="text-gray-500 mt-2 font-medium">مرحباً بك مجدداً في متجرنا</p>
+          <p className="text-gray-500 mt-2 font-medium text-sm md:text-base">مرحباً بك مجدداً في متجرنا</p>
         </div>
 
         <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100">
-          <h1 className="text-2xl font-black text-[#2D1B50] text-center mb-8">تسجيل الدخول</h1>
+          <h1 className="text-xl md:text-2xl font-black text-[#2D1B50] text-center mb-6 md:mb-8">تسجيل الدخول</h1>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
@@ -117,7 +117,7 @@ function LoginPage() {
                   onChange={(e) => setusername(e.target.value)}
                   type="text"
                   placeholder="Username"
-                  className="h-14 pr-11 bg-gray-50/50 border-gray-100 rounded-2xl focus:bg-white focus:ring-2 focus:ring-[#2D1B50]/5 transition-all"
+                  className="h-12 md:h-14 text-sm md:text-base pr-11 bg-gray-50/50 border-gray-100 rounded-2xl focus:bg-white focus:ring-2 focus:ring-[#2D1B50]/5 transition-all"
                   required
                 />
               </div>
@@ -137,7 +137,7 @@ function LoginPage() {
                   value={password}
                   onChange={(e) => setpassword(e.target.value)}
                   placeholder="••••••••"
-                  className="h-14 pr-11 bg-gray-50/50 border-gray-100 rounded-2xl focus:bg-white focus:ring-2 focus:ring-[#2D1B50]/5 transition-all"
+                  className="h-12 md:h-14 text-sm md:text-base pr-11 bg-gray-50/50 border-gray-100 rounded-2xl focus:bg-white focus:ring-2 focus:ring-[#2D1B50]/5 transition-all"
                   required
                 />
                 <button
@@ -153,7 +153,7 @@ function LoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-14 bg-[#2D1B50] hover:bg-[#1a1030] text-white rounded-2xl font-bold text-lg shadow-lg shadow-indigo-100 transition-all active:scale-[0.98] disabled:opacity-70 mt-4"
+              className="w-full h-12 md:h-14 bg-[#2D1B50] hover:bg-[#1a1030] text-white rounded-2xl font-bold text-base md:text-lg shadow-lg shadow-indigo-100 transition-all active:scale-[0.98] disabled:opacity-70 mt-4"
             >
               {loading ? (
                 <div className="flex items-center gap-2">

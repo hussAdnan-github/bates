@@ -24,7 +24,7 @@ export function middleware(request) {
   // 1. إذا لم يكن هناك توكن، نوجهه لصفحة تسجيل الدخول فقط إذا حاول الوصول لصفحات محمية
   if (!token) {
     if (isDashboard || isCheckout) {
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(new URL("/signUp", request.url));
     }
     // السماح بالوصول لصفحات التسوق والصفحات الأخرى للزوار
     return response;

@@ -99,7 +99,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
       {/* 2. منطقة المعلومات */}
       <div className="p-3 md:p-5 flex flex-col flex-grow bg-white">
         <Link href={`/shop/products/${id}`}>
-          <h3 className="text-xs md:text-base lg:text-lg   text-gray-800 line-clamp-2 mb-1 md:mb-2 group-hover:text-[var(--primary_color)] transition-colors leading-tight min-h-[32px] md:min-h-[48px]">
+          <h3 className="text-[10px] md:text-base lg:text-lg   text-gray-800 line-clamp-2 mb-1 md:mb-2 group-hover:text-[var(--primary_color)] transition-colors leading-tight min-h-[32px] md:min-h-[48px]">
             {title}
           </h3>
         </Link>
@@ -109,7 +109,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
             <div className="flex flex-row gap-4">
               {prices?.retail_price !== undefined && prices?.retail_price !== null && (
                 <div className="flex items-center gap-0.5">
-                  <span className="text-[12px] md:text-xl lg:text-2xl font-black text-[var(--secondary_color)]">
+                  <span className="text-[11px] md:text-xl lg:text-2xl font-black text-[var(--secondary_color)]">
                     {prices.retail_price}
                   </span>
                   <span className="text-[8px] md:text-xs font-bold text-gray-400">{currencyName}</span>
@@ -117,7 +117,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
               )}
               {prices?.wholesale_price !== undefined && prices?.wholesale_price !== null && (
                 <div className="flex items-center gap-0.5">
-                  <span className="text-sm md:text-xl lg:text-sm font-black text-gray-500">
+                  <span className="text-[10px] md:text-xl lg:text-sm font-black text-gray-500">
                     {prices.wholesale_price}
                   </span>
                   <span className="text-[8px] md:text-xs font-bold text-gray-400">{currencyName}</span>

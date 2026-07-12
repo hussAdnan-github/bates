@@ -12,10 +12,10 @@ function Footer() {
       <div className="container mx-auto px-4 md:px-8">
 
         {/* الجزء العلوي: روابط ومعلومات */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16 text-center md:text-right">
 
           {/* العمود 1: عن الشركة */}
-          <div className="space-y-6">
+          <div className="space-y-6 flex flex-col items-center md:items-start">
             <Link href="/" className="text-3xl font-black tracking-tighter">
               BTS <span className="text-[#FFC107]">STORE</span>
             </Link>
@@ -24,9 +24,9 @@ function Footer() {
             </p>
             <div className="pt-2 space-y-6">
               {/* Ugreen */}
-              <div>
+              <div className="flex flex-col items-center md:items-start">
                 <h4 className="text-xs font-bold text-gray-300 mb-3">تابع وكالة Ugreen:</h4>
-                <div className="flex flex-wrap gap-2.5">
+                <div className="flex flex-wrap justify-center md:justify-start gap-2.5">
                   <SocialLink href="https://www.facebook.com/ugreenye?mibextid=ZbWKwL" title="Facebook Ugreen" icon={<Facebook size={18} />} />
                   <SocialLink href="https://www.instagram.com/ugreenye?igsh=c3Rzcnhkdmg1Y3h0" title="Instagram Ugreen" icon={<Instagram size={18} />} />
                   <SocialLink href="https://www.tiktok.com/@ugreenye" title="TikTok Ugreen" icon={<TikTokIcon size={18} />} />
@@ -35,9 +35,9 @@ function Footer() {
               </div>
 
               {/* Vidvie */}
-              <div>
+              <div className="flex flex-col items-center md:items-start">
                 <h4 className="text-xs font-bold text-gray-300 mb-3">تابع وكالة Vidvie:</h4>
-                <div className="flex flex-wrap gap-2.5">
+                <div className="flex flex-wrap justify-center md:justify-start gap-2.5">
                   <SocialLink href="https://www.facebook.com/vidvieyemen?mibextid=ZbWKwL" title="Facebook Vidvie" icon={<Facebook size={18} />} />
                   <SocialLink href="https://www.instagram.com/vidvieyemen?igsh=MTF6MDUxa2FkMmZzdg==" title="Instagram Vidvie" icon={<Instagram size={18} />} />
                   <SocialLink href="https://www.tiktok.com/@vidvie.ye?_r=1&_t=ZS-97wcxFyS4To" title="TikTok Vidvie" icon={<TikTokIcon size={18} />} />
@@ -48,26 +48,26 @@ function Footer() {
           </div>
 
           {/* العمود 2: فروعنا */}
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <h4 className="text-lg font-bold mb-6 text-[#FFC107]">فروعنا ومكاتبنا</h4>
-            <ul className="space-y-5 text-gray-400">
-              <li className="flex items-start gap-3">
-                <MapPin size={20} className="text-[#FFC107] mt-1 shrink-0" />
-                <div className="flex flex-col">
+            <ul className="space-y-5 text-gray-400 w-full">
+              <li className="flex flex-col md:flex-row items-center md:items-start gap-3">
+                <MapPin size={20} className="text-[#FFC107] md:mt-1 shrink-0" />
+                <div className="flex flex-col items-center md:items-start">
                   <span className="text-white font-bold text-sm mb-1">المركز الرئيسي - صنعاء</span>
                   <span className="text-sm leading-relaxed">شارع القصر - خلف البنك العربي</span>
                 </div>
               </li>
-              <li className="flex items-start gap-3">
-                <MapPin size={20} className="text-[#FFC107] mt-1 shrink-0" />
-                <div className="flex flex-col">
+              <li className="flex flex-col md:flex-row items-center md:items-start gap-3">
+                <MapPin size={20} className="text-[#FFC107] md:mt-1 shrink-0" />
+                <div className="flex flex-col items-center md:items-start">
                   <span className="text-white font-bold text-sm mb-1">مكتب عدن</span>
                   <span className="text-sm leading-relaxed">المنصورة - شارع القصر - جوار المتحدون فون الدور الثالث</span>
                 </div>
               </li>
-              <li className="flex items-start gap-3">
-                <MapPin size={20} className="text-[#FFC107] mt-1 shrink-0" />
-                <div className="flex flex-col">
+              <li className="flex flex-col md:flex-row items-center md:items-start gap-3">
+                <MapPin size={20} className="text-[#FFC107] md:mt-1 shrink-0" />
+                <div className="flex flex-col items-center md:items-start">
                   <span className="text-white font-bold text-sm mb-1">مكتب المكلا</span>
                   <span className="text-sm leading-relaxed">الغار الأحمر - مقابل المؤسسة الاقتصادية</span>
                 </div>
@@ -76,23 +76,23 @@ function Footer() {
           </div>
 
           {/* العمود 3: خدمة العملاء */}
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <h4 className="text-lg font-bold mb-6 text-[#FFC107]">خدمة العملاء</h4>
-            <ul className="space-y-6 text-gray-400">
-              <li className="flex items-center gap-3 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+            <ul className="space-y-6 text-gray-400 w-full">
+              <li className="flex flex-col md:flex-row items-center md:items-start gap-3 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors text-center md:text-right">
                 <div className="w-10 h-10 rounded-full bg-[#FFC107]/20 flex items-center justify-center shrink-0">
                   <Phone size={20} className="text-[#FFC107]" />
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center md:items-start">
                   <span className="text-white font-bold text-sm mb-1">خدمة عملاء Ugreen</span>
                   <a href="tel:771125554" className="text-lg font-black text-[#FFC107] tracking-wider" dir="ltr">771 125 554</a>
                 </div>
               </li>
-              <li className="flex items-center gap-3 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+              <li className="flex flex-col md:flex-row items-center md:items-start gap-3 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors text-center md:text-right">
                 <div className="w-10 h-10 rounded-full bg-[#FFC107]/20 flex items-center justify-center shrink-0">
                   <Phone size={20} className="text-[#FFC107]" />
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center md:items-start">
                   <span className="text-white font-bold text-sm mb-1">خدمة عملاء Vidvie</span>
                   <a href="tel:784311180" className="text-lg font-black text-[#FFC107] tracking-wider" dir="ltr">784 311 180</a>
                 </div>

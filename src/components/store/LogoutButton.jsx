@@ -55,10 +55,11 @@ import { LogOut, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
-// أضفنا خاصية isMobile
-function LogoutButton({ isMobile = false }) {
+ function LogoutButton({ isMobile = false }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
@@ -66,6 +67,11 @@ function LogoutButton({ isMobile = false }) {
     setLoading(true);
     try {
       await fetch("/api/Account/logout", { method: "POST" });
+       
+      queryClient.clear();
+      
+      router.refresh();
+      
       router.replace("/login");
     } catch (error) {
       console.error("Logout failed", error);

@@ -13,7 +13,10 @@ export const useCartStore = create(
           
           if (existingItemIndex !== -1) {
              const updatedCart = [...state.localCart];
-             updatedCart[existingItemIndex].quantity += quantity;
+             updatedCart[existingItemIndex] = {
+               ...updatedCart[existingItemIndex],
+               quantity: updatedCart[existingItemIndex].quantity + quantity
+             };
              return { localCart: updatedCart };
           } else {
              return { localCart: [...state.localCart, { ...product, quantity }] };

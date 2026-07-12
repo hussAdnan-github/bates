@@ -29,7 +29,7 @@ export default function CurrencyDropdown({ isMobile, currentCurrency = "3" }) {
       const result = await changeCurrency(formData);
       console.log(result);
       if (result.success) {
-        toast.success("تم تغيير العملة بنجاح");
+        toast.success("تم تغيير العملة بنجاح", { position: "top-center" });
         
         // إشعار التطبيق لتحديث الرموز فوراً
         window.dispatchEvent(new Event("currencyChanged"));
@@ -40,10 +40,10 @@ export default function CurrencyDropdown({ isMobile, currentCurrency = "3" }) {
         // تحديث المكونات الخادمة (Server Components) بدون إعادة تحميل كاملة للصفحة
         router.refresh();
       } else {
-        toast.error(result.message || "حدث خطأ أثناء تغيير العملة");
+        toast.error(result.message || "حدث خطأ أثناء تغيير العملة", { position: "top-center" });
       }
     } catch (error) {
-      toast.error("تعذر الاتصال بالخادم");
+      toast.error("تعذر الاتصال بالخادم", { position: "top-center" });
     } finally {
       setIsPending(false);
     }

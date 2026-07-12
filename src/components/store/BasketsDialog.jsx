@@ -61,11 +61,17 @@ const BasketsDialog = () => {
   const isLocal = isServerEmpty && localCart.length > 0;
   const displayItems = isLocal ? localCart : serverCartItems;
 
-  const displayCount = mounted ? (isLocal ? getCartCount() : (
+  const displayCount = mounted ? (isLocal ? localCart.length : (
     orders?.data?.results?.reduce((total, order) => total + (order.basketitems?.length || 0), 0) || 0
   )) : 0;
 
-  const displayTotal = mounted ? (isLocal ? getCartTotal() : (orders?.data?.results?.[0]?.total_price || 0)) : 0;
+  const displayTotal = mounted ? (isLocal ? 
+    localCart.reduce((total, item) => {
+      const priceStr = String(item.products_price || "0");
+      const priceNum = parseFloat(priceStr.replace(/[^\d.]/g, '')) || 0;
+      return total + (priceNum * item.quantity);
+    }, 0) 
+  : (orders?.data?.results?.[0]?.total_price || 0)) : 0;
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (id) => {

@@ -17,6 +17,7 @@ export async function POST() {
   response.cookies.delete("basket_count");
   response.cookies.delete("username");
   response.cookies.delete("taype_custom");
+  response.cookies.delete("type_money");
 
   return response;
 }

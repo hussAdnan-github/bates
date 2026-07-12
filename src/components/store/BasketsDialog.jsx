@@ -84,7 +84,7 @@ const BasketsDialog = () => {
     if (isLocal || isServerEmpty) {
       // غير مسجل دخول، نوجهه لصفحة الدخول ليتم دمج السلة بعدها
       setOpen(false);
-      router.push("/login");
+      router.push("/signUp");
     } else {
       // مسجل دخول ولديه سلة سيرفر
       mutate(orders?.data?.results[0].id);

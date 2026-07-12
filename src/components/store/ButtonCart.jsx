@@ -42,8 +42,8 @@ function ButtonCart({ id, quantity, show = 1, product }) {
       className={`
         relative overflow-hidden transition-all duration-300 active:scale-95
         ${show === 1 
-          ? "bg-gray-100 hover:bg-[var(--primary_color)] text-[var(--secondary_color)] h-10 w-10 md:w-auto px-4 rounded-xl" 
-          : "bg-[var(--primary_color)] hover:bg-[var(--primary_color)] text-white h-14 w-full md:flex-1 text-lg font-bold rounded-2xl shadow-lg shadow-orange-200"
+          ? "bg-primary-transparent hover:bg-primary text-primary hover:text-white h-10 w-10 md:w-auto px-4 rounded-xl" 
+          : "bg-primary hover:bg-primary-hover text-white h-14 w-full md:flex-1 text-lg font-bold rounded-2xl shadow-lg shadow-primary-transparent/50"
         }
       `}
     >

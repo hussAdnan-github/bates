@@ -58,8 +58,8 @@ function CategoryItem({ children, active, onClick }) {
         relative group flex-shrink-0 flex items-center justify-center gap-1.5 px-4 py-2
         transition-all duration-300 ease-out snap-center outline-none bg-transparent
         ${active
-          ? "text-[var(--secondary_color)] scale-105"
-          : "text-gray-500 hover:text-[var(--secondary_color)] hover:-translate-y-0.5"
+          ? "text-secondary scale-105"
+          : "text-gray-500 hover:text-secondary hover:-translate-y-0.5"
         }
       `}
     >
@@ -69,13 +69,13 @@ function CategoryItem({ children, active, onClick }) {
 
       {/* علامة الصح مع تأثير حركي احترافي */}
       {active && (
-        <span className="flex items-center justify-center text-[var(--primary_color)] animate-in zoom-in slide-in-from-right-2 duration-300 fade-in">
+        <span className="flex items-center justify-center text-primary animate-in zoom-in slide-in-from-right-2 duration-300 fade-in">
           <Check className="w-4 h-4 stroke-[3]" />
         </span>
       )}
 
       {/* خط سفلي خفيف يزيد من الاحترافية عند التفعيل */}
-      <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[var(--primary_color)] rounded-t-full transition-all duration-300 ${active ? "w-1/2 opacity-100" : "w-0 opacity-0"}`} />
+      <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-primary rounded-t-full transition-all duration-300 ${active ? "w-1/2 opacity-100" : "w-0 opacity-0"}`} />
     </button>
   );
 }

@@ -114,7 +114,7 @@ async function page({ params }) {
                 product={{
                   id: product.data.id,
                   products_name: product.data.name,
-                  products_price: product.data.price,
+                  products_price: product.data.prices?.retail_price ?? product.data.prices?.wholesale_price ?? product.data.price ?? 0,
                   products_image: product.data.image,
                   products_model: product.data.model,
                 }}

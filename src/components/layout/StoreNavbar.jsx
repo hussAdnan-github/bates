@@ -69,7 +69,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
             <div className="px-4 py-2.5 flex flex-col items-center justify-center">
               <Link href="/" className="flex flex-col items-center text-center hover:opacity-90 transition-opacity">
                 <div className="text-[13px] sm:text-sm font-black text-[#2D1B50] leading-tight mb-1 flex items-center justify-center flex-wrap gap-x-1.5">
-                  <span>BTS - <span className="text-[#FFC107]">Store</span></span>
+                  <span>BTS  <span className="text-[#FFC107] text-[11px]">Store</span></span>
                   <span className="text-gray-300 font-normal">|</span>
                   <span className="text-[11px] sm:text-xs mt-0.5">مؤسسة محمد باتيس للتجارة</span>
                 </div>

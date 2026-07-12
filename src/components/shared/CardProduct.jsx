@@ -57,7 +57,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
                 setCurrentIndex(index);
               }}
               className={`relative w-6 h-6 md:w-7 md:h-7 rounded-full overflow-hidden transition-all duration-300 border-2 ${currentIndex === index
-                ? "border-[var(--primary_color)] scale-110"
+                ? "border-primary scale-110"
                 : "border-transparent opacity-70"
                 }`}
             >
@@ -90,7 +90,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
 
         {/* الموديل / البراند */}
         <div className="absolute top-2 left-2 md:top-4 md:left-4">
-          <span className="bg-[var(--primary_color)] text-[var(--secondary_color)] text-[9px] md:text-[10px]   px-2 py-0.5 md:px-3 md:py-1 rounded-lg backdrop-blur-sm">
+          <span className="bg-primary-light text-primary font-bold text-[9px] md:text-[10px] px-2 py-0.5 md:px-3 md:py-1 rounded-lg backdrop-blur-sm border border-primary-transparent">
             {model}
           </span>
         </div>
@@ -99,7 +99,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
       {/* 2. منطقة المعلومات */}
       <div className="p-3 md:p-5 flex flex-col flex-grow bg-white">
         <Link href={`/shop/products/${id}`}>
-          <h3 className="text-[10px] md:text-base lg:text-lg   text-gray-800 line-clamp-2 mb-1 md:mb-2 group-hover:text-[var(--primary_color)] transition-colors leading-tight min-h-[32px] md:min-h-[48px]">
+          <h3 className="text-[10px] md:text-base lg:text-lg text-gray-800 font-semibold line-clamp-2 mb-1 md:mb-2 group-hover:text-primary transition-colors leading-tight min-h-[32px] md:min-h-[48px]">
             {title}
           </h3>
         </Link>
@@ -109,7 +109,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
             <div className="flex flex-row gap-4">
               {prices?.retail_price !== undefined && prices?.retail_price !== null && (
                 <div className="flex items-center gap-0.5">
-                  <span className="text-[11px] md:text-xl lg:text-2xl font-black text-[var(--secondary_color)]">
+                  <span className="text-[11px] md:text-xl lg:text-2xl font-black text-secondary">
                     {prices.retail_price}
                   </span>
                   <span className="text-[8px] md:text-xs font-bold text-gray-400">{currencyName}</span>
@@ -138,7 +138,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
                   e.stopPropagation(); // منع الانتقال لصفحة المنتج عند النقر للكتابة
                 }}
                 min="1"
-                className="w-12 h-8 md:w-16 md:h-10 bg-gray-50 border border-gray-200 rounded-lg text-center text-xs md:text-sm font-bold text-gray-700 focus:outline-none focus:border-[var(--primary_color)] focus:ring-1 focus:ring-[var(--primary_color)] transition-all"
+                className="w-12 h-8 md:w-16 md:h-10 bg-gray-50 border border-gray-200 rounded-lg text-center text-xs md:text-sm font-bold text-gray-700 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
               />
             </div>
           </div>
@@ -153,7 +153,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
                 product={{
                   id,
                   products_name: title,
-                  products_price: prices.price,
+                  products_price: prices?.retail_price ?? prices?.wholesale_price ?? prices?.price ?? 0,
                   products_image: image,
                   products_model: model,
                 }}

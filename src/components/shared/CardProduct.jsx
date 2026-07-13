@@ -98,22 +98,22 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
 
       {/* 2. منطقة المعلومات */}
       <div className="p-3 md:p-5 flex flex-col flex-grow bg-white">
-        <Link href={`/shop/products/${id}`}>
-          <h3 className="text-[10px] md:text-base lg:text-lg text-gray-800 font-semibold line-clamp-2 mb-1 md:mb-2 group-hover:text-primary transition-colors leading-tight min-h-[32px] md:min-h-[48px]">
+        <Link href={`/shop/products/${id}`} className="block mb-2 md:mb-3 h-[28px] md:h-[40px] lg:h-[48px] overflow-hidden">
+          <h3 className="text-[10px] md:text-base lg:text-lg text-gray-800 font-semibold line-clamp-2 group-hover:text-primary transition-colors leading-tight break-words" title={title}>
             {title}
           </h3>
         </Link>
 
         <div className="flex flex-col gap-3 mt-auto pt-2">
-          <div className="flex items-center justify-between">
-            <div className="flex flex-row gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2 md:gap-4 min-w-0 flex-1">
               {prices?.retail_price !== undefined && prices?.retail_price !== null && (
                 <div className="flex items-center gap-0.5">
                   <span className="text-[11px] md:text-xl lg:text-2xl font-black text-secondary">
                     {prices.retail_price}
                   </span>
                   <span className="text-[8px] md:text-xs font-bold text-gray-400">{currencyName}</span>
-                </div> 
+                </div>
               )}
               {prices?.wholesale_price !== undefined && prices?.wholesale_price !== null && (
                 <div className="flex items-center gap-0.5">
@@ -162,7 +162,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
 
 
             <Link href={`/shop/products/${id}`}>
-              <Eye size={20} className="transition-transform group-hover/eye:scale-110 active:scale-90" />
+              <Eye size={20} className="text-primary transition-transform group-hover/eye:scale-110 active:scale-90" />
             </Link>
 
           </div>

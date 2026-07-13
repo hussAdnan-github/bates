@@ -3,7 +3,7 @@
       "target": {
         "namespace": "android_app",
         "package_name": "com.bts_store.www.twa",
-        "sha256_cert_fingerprints": ["71:7B:A4:AB:87:E5:09:BA:DA:9A:62:86:BF:C4:C7:FD:51:77:4B:E7:0E:04:C8:7A:89:3F:AB:D3:57:8F:8F:6C"]
+        "sha256_cert_fingerprints": ["3B:46:5E:13:3F:92:8B:F1:12:31:DD:52:80:47:F6:EA:71:5E:9F:ED:C0:EA:F0:49:43:F5:BB:8C:51:0C:C8:F5"]
       }
     }]
   

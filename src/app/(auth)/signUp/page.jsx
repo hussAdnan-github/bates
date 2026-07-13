@@ -152,22 +152,7 @@ function SignUpPage() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
-            <div className="flex flex-col items-center justify-center mb-8">
-              <div className="relative group">
-                <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
-                  {imagePreview ? (
-                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-                  ) : (
-                    <Camera className="text-gray-300 w-8 h-8 group-hover:text-[#FFC107] transition-colors" />
-                  )}
-                </div>
-                <label htmlFor="profile-pic" className="absolute bottom-0 right-0 bg-[#2D1B50] text-white p-2 rounded-full cursor-pointer hover:bg-[#FFC107] hover:text-[#2D1B50] transition-all shadow-lg">
-                  <Upload size={14} />
-                  <input id="profile-pic" type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
-                </label>
-              </div>
-              <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">صورة الحساب (اختياري)</span>
-            </div>
+         
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
@@ -321,7 +306,22 @@ function SignUpPage() {
                 {errors.password2 && <p className="text-red-500 text-xs mt-1">{errors.password2.message}</p>}
               </div>
             </div>
-
+   <div className="flex flex-col items-center justify-center mb-8">
+              <div className="relative group">
+                <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
+                  {imagePreview ? (
+                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <Camera className="text-gray-300 w-8 h-8 group-hover:text-[#FFC107] transition-colors" />
+                  )}
+                </div>
+                <label htmlFor="profile-pic" className="absolute bottom-0 right-0 bg-[#2D1B50] text-white p-2 rounded-full cursor-pointer hover:bg-[#FFC107] hover:text-[#2D1B50] transition-all shadow-lg">
+                  <Upload size={14} />
+                  <input id="profile-pic" type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
+                </label>
+              </div>
+              <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">صورة الحساب (اختياري)</span>
+            </div>
             <Button
               type="submit"
               disabled={loading}

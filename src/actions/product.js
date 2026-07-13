@@ -4,12 +4,12 @@ import request from "@/lib/apiService";
 import { revalidatePath } from "next/cache";
 export async function getAllProduts() {
   const result = await request(`products/products/?pagination=false`, "GET");
- 
 
-  
+
+
   return result.data;
 }
-export async function getProduts( 
+export async function getProduts(
   price,
   department,
   department__company,
@@ -92,6 +92,22 @@ export async function putProdut(formData, id) {
   }
   return result;
 }
+
+export async function patchProduct(formData, id) {
+  console.log(formData);
+  const result = await request(
+    `products/products/${id}/`,
+    "PATCH",
+    formData,
+    true,
+  );
+  console.log(result);
+  if (result.success) {
+    revalidatePath("/dashboard/products");
+    revalidatePath(`/dashboard/products/${id}`);
+  }
+  return result;
+}
 export async function deleteProdut(id) {
   const result = await request(`products/products/${id}/`, "DELETE");
   revalidatePath("/dashboard/products");
@@ -103,11 +119,11 @@ export async function getBanners(companyId) {
   if (companyId) {
     params.append("companies", companyId);
   }
-  
+
   const result = await request(
     `products/banners/?${params.toString()}`,
     "GET"
   );
-  
+
   return result.data;
 }

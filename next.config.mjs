@@ -8,8 +8,13 @@ const withPWA = withPWAInit({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /* config options here */
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '15mb',
+    },
+  },
   reactCompiler: true,
-  images: {
+  images: { 
     remotePatterns: [
       {
         protocol: "https",

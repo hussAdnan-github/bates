@@ -4,6 +4,7 @@ import { ArrowRight, Image, UserCircle2 } from "lucide-react";
 import InputField from "@/components/dashboard/InputField";
 import BackPage from "@/components/dashboard/BackPage";
 import ImagesProducts from "@/components/dashboard/ImagesProducts";
+import { Textarea } from "@/components/ui/textarea";
 import { useParams, useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,11 +31,17 @@ function page() {
         setDepartmentList(department?.data?.results || []);
 
         reset({
-          name: data?.data?.name,
-          price: data?.data?.price,
-          priceMax: data?.data?.wholesale_price,
-          priceMin: data?.data?.serial_number,
-          model: data?.data?.model,
+          name: data?.data?.name || "",
+          price: data?.data?.price || 0,
+          wholesale_price: data?.data?.wholesale_price || 0,
+          retail_price: data?.data?.retail_price || 0,
+          retail_price_ye_new: data?.data?.retail_price_ye_new || 0,
+          retail_price_ye_old: data?.data?.retail_price_ye_old || 0,
+          model: data?.data?.model || "",
+          serial_number: data?.data?.serial_number || "",
+          description: data?.data?.description || "",
+          number: data?.data?.number || "",
+          department: data?.data?.department || "",
         });
       } catch (error) {
         console.error(error);
@@ -59,8 +66,12 @@ function page() {
       department: "",
       wholesale_price: 0,
       retail_price: 0,
+      retail_price_ye_new: 0,
+      retail_price_ye_old: 0,
       model: "",
       serial_number: "",
+      description: "",
+      number: "",
       image: null,
     },
   });
@@ -149,28 +160,43 @@ function page() {
 
             {/* رقم الهاتف */}
             <InputField
-              label="سعر الجملة الجلمة"
+              label="السعر الأساسي"
               placeholder="0.00"
               type="number"
               {...register("price")}
               error={errors.price?.message}
             />
             <InputField
-              label="سعر  سعر الجملة"
+              label="سعر الجملة"
               placeholder="0.00"
               type="number"
               {...register("wholesale_price")}
               error={errors.wholesale_price?.message}
             />
             <InputField
-              label="سعر سعر التجزئة"
+              label="سعر التجزئة"
               placeholder="0.00"
               type="number"
               {...register("retail_price")}
               error={errors.retail_price?.message}
             />
 
-            {/* .ext حقل إضافي */}
+            <InputField
+              label="سعر التجزئة (يمني جديد)"
+              placeholder="0.00"
+              type="number"
+              {...register("retail_price_ye_new")}
+              error={errors.retail_price_ye_new?.message}
+            />
+
+            <InputField
+              label="سعر التجزئة (يمني قديم)"
+              placeholder="0.00"
+              type="number"
+              {...register("retail_price_ye_old")}
+              error={errors.retail_price_ye_old?.message}
+            />
+
             <InputField
               label="الموديل"
               placeholder="مثال :BTS"
@@ -183,6 +209,25 @@ function page() {
               {...register("serial_number")}
               error={errors.serial_number?.message}
             />
+            
+            <InputField
+              label="الرقم / العدد (Number)"
+              placeholder="أختياري"
+              type="number"
+              {...register("number")}
+              error={errors.number?.message}
+            />
+
+            <div>
+              <label className="text-gray-600 text-sm font-medium">الوصف</label>
+              <Textarea
+                placeholder="اكتب وصف المنتج"
+                {...register("description")}
+                error={errors.description?.message}
+                className="mt-1"
+              />
+            </div>
+
             <div>
               <Controller
                 name="department"

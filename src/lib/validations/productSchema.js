@@ -10,12 +10,18 @@ export const productSchema = z.object({
   
   retail_price: z.coerce.number({ invalid_type_error: "يجب إدخال سعر صحيح" }).min(0),
   
-  model: z.string().optional().or(z.literal("")),
+  model: z.string().min(1, "يرجى إدخال الموديل"),
   
   department: z.coerce.number({ invalid_type_error: "يرجى اختيار القسم" }).min(1, "يرجى اختيار القسم"),
 
   serial_number: z.string().optional().or(z.literal("")),
   
+  description: z.string().optional().or(z.literal("")),
+  status: z.coerce.number().optional(),
+  number: z.coerce.number().optional().or(z.string().optional()),
+  retail_price_ye_new: z.coerce.number({ invalid_type_error: "يجب إدخال سعر صحيح" }).min(0).optional(),
+  retail_price_ye_old: z.coerce.number({ invalid_type_error: "يجب إدخال سعر صحيح" }).min(0).optional(),
+
   // في التعديل غالباً ما تكون الصورة اختيارية
   image: z.any().optional(),
 });

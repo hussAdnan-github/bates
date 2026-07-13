@@ -4,6 +4,7 @@ import { ArrowRight, Image, UserCircle2 } from "lucide-react";
 import InputField from "@/components/dashboard/InputField";
 import BackPage from "@/components/dashboard/BackPage";
 import ImagesProducts from "@/components/dashboard/ImagesProducts";
+import { Textarea } from "@/components/ui/textarea";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -51,8 +52,13 @@ function page() {
       department: "",
       wholesale_price: 0,
       retail_price: 0,
+      retail_price_ye_new: 0,
+      retail_price_ye_old: 0,
       model: "",
       serial_number: "",
+      description: "",
+      number: "",
+      status: 1,
       image: null,
     },
   });
@@ -62,8 +68,10 @@ function page() {
     Object.keys(data).forEach((key) => {
       if (key === "image" && data.image) {
         formData.append("image", data.image);
-      } else {
-        formData.append(key, data[key]);
+      } else if (key !== "image") {
+        if (data[key] !== null && data[key] !== "") {
+           formData.append(key, data[key]);
+        }
       }
     });
     Object.values(extraImages).forEach((file) => {
@@ -138,28 +146,42 @@ function page() {
 
             {/* رقم الهاتف */}
             <InputField
-              label="سعر الجملة الجلمة"
+              label="السعر الأساسي"
               placeholder="0.00"
               type="number"
               {...register("price")}
               error={errors.price?.message}
             />
             <InputField
-              label="سعر  سعر الجملة"
+              label="سعر الجملة"
               placeholder="0.00"
               type="number"
               {...register("wholesale_price")}
               error={errors.wholesale_price?.message}
             />
             <InputField
-              label="سعر سعر التجزئة"
+              label="سعر التجزئة"
               placeholder="0.00"
               type="number"
               {...register("retail_price")}
               error={errors.retail_price?.message}
             />
 
-            {/* .ext حقل إضافي */}
+            <InputField
+              label="سعر التجزئة (يمني جديد)"
+              placeholder="0.00"
+              type="number"
+              {...register("retail_price_ye_new")}
+              error={errors.retail_price_ye_new?.message}
+            />
+
+            <InputField
+              label="سعر التجزئة (يمني قديم)"
+              placeholder="0.00"
+              type="number"
+              {...register("retail_price_ye_old")}
+              error={errors.retail_price_ye_old?.message}
+            />
             <InputField
               label="الموديل"
               placeholder="مثال :BTS"
@@ -172,6 +194,47 @@ function page() {
               {...register("serial_number")}
               error={errors.serial_number?.message}
             />
+            
+            <InputField
+              label="الرقم   "
+              placeholder="أختياري"
+              type="number"
+              {...register("number")}
+              error={errors.number?.message}
+            />
+
+            <div>
+              <label className="text-gray-600 text-sm font-medium">الحالة</label>
+              <Controller
+                name="status"
+                control={control}
+                render={({ field }) => (
+                  <select
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    className={`w-full border rounded-lg p-3 bg-gray-50 mt-1 ${
+                      errors.status ? "border-red-500" : "border-gray-200"
+                    }`}
+                  >
+                    <option value={1}>نشط</option>
+                    <option value={0}>غير نشط</option>
+                  </select>
+                )}
+              />
+              {errors.status && (
+                <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="text-gray-600 text-sm font-medium">الوصف</label>
+              <Textarea
+                placeholder="اكتب وصف المنتج"
+                {...register("description")}
+                error={errors.description?.message}
+                className="mt-1"
+              />
+            </div>
             <div>
               <Controller
                 name="department"

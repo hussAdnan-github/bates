@@ -7,7 +7,7 @@ export async function getUsers(page = 1, isActive, typeCustom, searchQuery) {
 
   if (page) params.append("page", page);
   if (isActive) params.append("is_active", isActive);
-  if (typeCustom) params.append("type_custom", typeCustom);
+  if (typeCustom) params.append("taype_custom", typeCustom);
   if (searchQuery) params.append("search", searchQuery);
 
 

@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { userSchema } from "@/lib/validations/userSchema";
 
@@ -30,7 +30,7 @@ function Page() {
     queryFn: () => getPlaces(),
     staleTime: 1000 * 60 * 60,
   });
-  const places = placesData?.results || [];
+  const places = placesData?.data?.results || placesData?.results || [];
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -54,7 +54,7 @@ function Page() {
       last_name: "",
       email: "",
       phone: "",
-      ext: "",
+      // ext: "",
       userType: "1",
       type_money: "3",
       place: "",
@@ -185,11 +185,11 @@ function Page() {
               )}
             </div>
 
-            <InputField
+            {/* <InputField
               label=".ext"
               placeholder="إضافة ملحق"
               {...register("ext")}
-            />
+            /> */}
 
             <div className="flex flex-col gap-2 w-full text-right">
               <label className="text-gray-600 text-sm font-medium">

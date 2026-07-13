@@ -47,28 +47,26 @@ function ProductsRow({ product, onDelete }) {
   };
 
   return (
-    <div className="flex flex-row-reverse items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-right">
-      {/* 1. إجراءات */}
-      <div className="flex items-center justify-center gap-3 w-[20%]">
-        <button
-          onClick={handelDelete}
-          className="text-gray-400 hover:text-red-600 transition-colors">
-          <Trash2 size={18} />
-        </button>
-        <Link href={`products/${product.id}`} className="text-gray-400 hover:text-blue-600 transition-colors">
-          <Pencil size={18} />
-        </Link>
+    <div className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-center">
+      {/* 1. المنتج */}
+      <div className="flex items-center gap-3 w-[30%] justify-start pr-4">
+        <div className="w-10 h-10 rounded-full border overflow-hidden bg-gray-50 flex-shrink-0 flex items-center justify-center">
+          <img
+            src={product.image || "/placeholder.png"}
+            alt={product.name}
+            className="w-8 h-8 object-contain"
+          />
+        </div>
+        <span className="font-bold text-gray-800 line-clamp-2 text-right leading-tight" title={product.name}>{product.name}</span>
       </div>
 
-
-
-      {/* السعر */}
-      <div className="w-[15%] text-center text-gray-600 font-medium">
-        {product.price}
+      {/* 2. القسم */}
+      <div className="w-[15%] text-gray-500 font-medium line-clamp-1" dir="rtl" title={product.name_department}>
+        {product.name_department || "غير محدد"}
       </div>
 
-      {/* الحالة */}
-      <div className="w-[15%] flex justify-center items-center">
+      {/* 3. الحالة */}
+      <div className="w-[10%] flex justify-center items-center">
         <button
           onClick={toggleStatus}
           disabled={isUpdating}
@@ -88,21 +86,26 @@ function ProductsRow({ product, onDelete }) {
         </button>
       </div>
 
-      {/* القسم */}
-      <div className="w-[15%] text-center text-gray-500 font-medium" dir="rtl">
-        {product.name_department || "غير محدد"}
+      {/* 4. السعر الأساسي (الجملة) */}
+      <div className="w-[15%] text-purple-700 font-bold">
+        {product.price || 0} <span className="text-xs text-gray-400 font-normal">ر.ي</span>
       </div>
 
-      {/* المنتج */}
-      <div className="flex flex-row-reverse items-center gap-3 w-[35%] justify-end">
-        <span className="font-bold text-gray-800 line-clamp-1">{product.name}</span>
-        <div className="w-10 h-10 rounded-full border overflow-hidden bg-gray-50 flex items-center justify-center">
-          <img
-            src={product.image || "/placeholder.png"}
-            alt={product.name}
-            className="w-8 h-8 object-contain"
-          />
-        </div>
+      {/* 5. سعر التجزئة */}
+      <div className="w-[15%] text-green-600 font-bold">
+        {product.retail_price_ye_new || 0} <span className="text-xs text-gray-400 font-normal">ر.ي</span>
+      </div>
+
+      {/* 6. إجراءات */}
+      <div className="flex items-center justify-end gap-3 w-[15%] pl-4">
+        <Link href={`products/${product.id}`} className="text-gray-400 hover:text-blue-600 transition-colors p-2 bg-blue-50 rounded-lg hover:bg-blue-100">
+          <Pencil size={18} />
+        </Link>
+        <button
+          onClick={handelDelete}
+          className="text-gray-400 hover:text-red-600 transition-colors p-2 bg-red-50 rounded-lg hover:bg-red-100">
+          <Trash2 size={18} />
+        </button>
       </div>
     </div>
   )

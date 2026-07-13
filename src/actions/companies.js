@@ -16,9 +16,12 @@ import { revalidatePath } from "next/cache";
 //   return result.data;
 // }
 
-export async function getCompanies(page = 1) {
-  const result = await request(`companies/companies/?page=${page}`, "GET");
+export async function getCompanies(page = 1, searchQuery = "") {
+  const params = new URLSearchParams();
+  if (page) params.append("page", page.toString());
+  if (searchQuery) params.append("search", searchQuery);
 
+  const result = await request(`companies/companies/?${params.toString()}`, "GET");
   return result.data;
 }
 

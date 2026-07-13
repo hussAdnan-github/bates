@@ -8,20 +8,21 @@ import FiltersDropdown from "@/components/dashboard/FiltersDropdown";
 import CompaniesRow from "@/components/dashboard/data/CompaniesRow";
 import { useQuery } from "@tanstack/react-query";
 import { getCompanies } from "@/actions/companies";
- import Pagination from "@/components/dashboard/Pagination";
+import Pagination from "@/components/dashboard/Pagination";
+import { useFiltter } from "@/hooks/useFiltter";
 
 const ITEMS_PER_PAGE = 21;
 
 function page({ searchParams: searchParamsPage }) {
- const searchParams = use(searchParamsPage);
-
-  const currentPage = Number(searchParams.page) || 1;
-
-  const handleSearch = (val) => console.log("بحث عن:", val);
+  const {
+    searchTerm,
+    setSearchTerm,
+    currentPage,
+  } = useFiltter(searchParamsPage);
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["Company", currentPage],
-    queryFn: () => getCompanies(currentPage),
+    queryKey: ["Company", currentPage, searchTerm],
+    queryFn: () => getCompanies(currentPage, searchTerm),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
     placeholderData: (previousData) => previousData,
@@ -56,7 +57,7 @@ function page({ searchParams: searchParamsPage }) {
         </div>
         <SearchInput
           placeholder="البحث بأسم الشركة  ..."
-          onSearch={handleSearch}
+          onSearch={setSearchTerm}
         />
       </div>
       <div className="flex justify-start mb-6">

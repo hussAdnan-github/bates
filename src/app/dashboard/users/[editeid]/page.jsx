@@ -36,7 +36,7 @@ function page() {
     queryFn: () => getPlaces(),
     staleTime: 1000 * 60 * 60,
   });
-  const places = placesData?.results || [];
+  const places = placesData?.data?.results || placesData?.results || [];
 
   useEffect(() => {
     async function fetchUser() {
@@ -52,7 +52,7 @@ function page() {
           email: userData?.email || "",
           phone: userData?.phone || "",
           place: userData?.place || "",
-          ext: userData?.ext || "",
+          // ext: userData?.ext || "",
           userType: userData?.taype_custom?.toString() || "3",
           type_money: userData?.type_money?.toString() || "3",
           isActive: userData?.is_active ?? true,
@@ -89,7 +89,7 @@ function page() {
       email: "",
       phone: "",
       place: "",
-      ext: "",
+      // ext: "",
       userType: "3",
       type_money: "3",
       isActive: true,
@@ -220,12 +220,12 @@ function page() {
                 </p>
               )}
             </div>
-
+{/* 
             <InputField
               label=".ext"
               placeholder="إضافة ملحق"
               {...register("ext")}
-            />
+            /> */}
 
             <div className="flex flex-col gap-2 w-full text-right">
               <label className="text-gray-600 text-sm font-medium">
@@ -307,34 +307,7 @@ function page() {
               <span className="font-bold text-lg"> الصلاحيات</span>
             </div>
             <div className="px-6">
-              <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-gray-300   transition-all">
-                <div className="flex flex-col gap-0.5">
-                  <label
-                    htmlFor="active-status"
-                    className="text-slate-700 font-semibold text-sm cursor-pointer"
-                  >
-                    حالة النشاط
-                  </label>
-                  {/* <span className="text-slate-400 text-xs">تفعيل أو تعطيل هذا المستخدم</span> */}
-                </div>
 
-                <Controller
-                  name="isActive"
-                  control={control}
-                  render={({ field }) => (
-                    <Switch
-                      id="active-status"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      className="
-          data-[state=checked]:bg-purple-900 
-          data-[state=unchecked]:bg-slate-200
-          transition-colors
-        "
-                    />
-                  )}
-                />
-              </div>
               <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-gray-300   transition-all">
                 <div className="flex flex-col gap-0.5">
                   <label

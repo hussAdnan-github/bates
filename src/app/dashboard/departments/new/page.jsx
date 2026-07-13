@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ArrowRight, Bookmark, Building2, UserCircle2 } from "lucide-react";
+import { ArrowRight, Bookmark, Building2, UserCircle2, Camera, Upload } from "lucide-react";
 import InputField from "@/components/dashboard/InputField";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,8 +19,19 @@ import { departmentSchema } from "@/lib/validations/departmentSchema";
 function page() {
   const [comaniesList, setComaniesList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [iconFile, setIconFile] = useState(null);
+  
   const queryClient = useQueryClient();
   const router = useRouter();
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setIconFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
   const {
     register,
     handleSubmit,
@@ -30,6 +41,7 @@ function page() {
     resolver: zodResolver(departmentSchema),
     defaultValues: {
       name: "",
+      number: "",
       company: [],
     },
   });
@@ -49,7 +61,24 @@ function page() {
     fetchUser();
   }, []);
   const onSubmit = async (data) => {
-    const result = await postDepartment(data);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    
+    if (data.number) {
+      formData.append("number", data.number);
+    }
+    
+    if (data.company && data.company.length > 0) {
+      data.company.forEach((id) => {
+        formData.append("company", id);
+      });
+    }
+
+    if (iconFile) {
+      formData.append("icons", iconFile);
+    }
+
+    const result = await postDepartment(formData);
 
     if (!result.success) {
       if (result.errors) {
@@ -93,12 +122,21 @@ function page() {
 
         <div className="p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-            {/* اسم المستخدم */}
+            {/* اسم القسم */}
             <InputField
               label="اسم القسم"
               placeholder="ادخل اسم القسم"
               {...register("name")}
               error={errors.name?.message}
+            />
+
+            {/* الرقم */}
+            <InputField
+              label="رقم القسم"
+              placeholder="مثال: 1"
+              type="number"
+              {...register("number")}
+              error={errors.number?.message}
             />
             <div className="flex flex-col gap-2">
               <label className="text-gray-600 text-sm font-medium">
@@ -135,6 +173,23 @@ function page() {
                   )}
                 />
               </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-center mb-8 mt-10">
+              <div className="relative group">
+                <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
+                  {imagePreview ? (
+                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <Camera className="text-gray-300 w-8 h-8 group-hover:text-[#FFC107] transition-colors" />
+                  )}
+                </div>
+                <label htmlFor="icon-pic" className="absolute bottom-0 right-0 bg-purple-900 text-white p-2 rounded-full cursor-pointer hover:bg-orange-400 hover:text-white transition-all shadow-lg">
+                  <Upload size={14} />
+                  <input id="icon-pic" type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
+                </label>
+              </div>
+              <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">أيقونة القسم (اختياري)</span>
             </div>
 
             {/* زر الحفظ (إضافي من عندي ليكتمل النموذج) */}

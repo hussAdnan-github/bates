@@ -35,6 +35,15 @@ export async function editeUser(formData, id) {
   }
   return result;
 }
+
+export async function patchUser(data, id, isFormData = true) {
+  const result = await request(`users/${id}/`, "PATCH", data, isFormData);
+  if (result.success) {
+    revalidatePath("/dashboard/users");
+    revalidatePath(`/dashboard/users/${id}`);
+  }
+  return result;
+}
 export async function deleteUser(id) {
   const result = await request(`users/${id}/`, "DELETE");
   revalidatePath("/dashboard/users");

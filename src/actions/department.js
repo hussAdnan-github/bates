@@ -1,6 +1,7 @@
 "use server";
 
 import request from "@/lib/apiService";
+import { revalidatePath } from "next/cache";
 
 export async function getDepartment(company) { 
   const params = new URLSearchParams();
@@ -40,14 +41,14 @@ export async function getDepartmentId(id) {
 }
 export async function postDepartment(formData) {
   console.log(formData)
-  const result = await request(`departments/departments/`, "POST", formData, false);
+  const result = await request(`departments/departments/`, "POST", formData, true);
   if (result.success) {
     revalidatePath("/dashboard/departments");  
   }
   return result;
 }
 export async function editeDepartment(formData, id) {
-  const result = await request(`departments/departments/${id}/`, "PUT", formData, false);
+  const result = await request(`departments/departments/${id}/`, "PATCH", formData, true);
 
   if (result.success) {
     revalidatePath("/dashboard/departments");

@@ -38,7 +38,7 @@ function BillsList({ searchParams: searchParamsPage }) {
   const handleTypeChange = (val) => updateFilters({type: val});
   const handleSearch = (val) => setSearchTerm(val);
   const { data, isLoading, error } = useQuery({
-    queryKey: ["baskets", currentPage, type, searchTerm],
+    queryKey: ["bills", currentPage, type, searchTerm],
     queryFn: () => getBills(currentPage, type, searchTerm),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
@@ -102,15 +102,21 @@ function BillsList({ searchParams: searchParamsPage }) {
           <div className="w-[10%] text-center pr-2">إجراءات</div>
         </div>
 
-        {/* قائمة المستخدمين */}
+        {/* قائمة الفواتير */}
         <div className="flex flex-col">
-          {bills.map((bill) => (
-            <BillsRowRow key={bill.id} bills={bill} />
-          ))}
+          {bills.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-40 bg-white text-gray-500 text-center">
+              <p className="text-lg">🚫 لا توجد فواتير متاحة حاليًا</p>
+            </div>
+          ) : (
+            bills.map((bill) => (
+              <BillsRowRow key={bill.id} bills={bill} />
+            ))
+          )}
         </div>
         <div className="flex justify-between items-center flex-row-reverse mt-8">
           <Pagination
-            nameApi="/dashboard/baskets"
+            nameApi="/dashboard/bills"
             currentPage={currentPage}
             totalPages={totalPages}
             hasNextPage={hasNextPage}

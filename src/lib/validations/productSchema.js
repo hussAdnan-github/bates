@@ -14,7 +14,7 @@ export const productSchema = z.object({
   
   department: z.coerce.number({ invalid_type_error: "يرجى اختيار القسم" }).min(1, "يرجى اختيار القسم"),
 
-  serial_number: z.string().optional().or(z.literal("")),
+  serial_number: z.coerce.string().min(1, "رقم أو ترتيب المنتج إجباري"),
   
   description: z.string().optional().or(z.literal("")),
   status: z.coerce.number().optional(),

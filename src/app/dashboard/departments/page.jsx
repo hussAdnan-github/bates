@@ -121,12 +121,12 @@ function page({ searchParams: searchParamsPage }) {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="flex items-center justify-between bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-400 text-sm font-bold">
-          <div className="w-[20%] text-right pl-10">اسم القسم</div>
+        <div className="flex items-center justify-between bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-500 text-sm font-bold">
+          <div className="w-[25%] text-right pl-10">اسم القسم</div>
+          <div className="w-[15%] text-center">الترتيب</div>
           <div className="w-[25%] text-center">الشركة التابع لها</div>
           <div className="w-[20%] text-center"> عدد المنتجات داخل القسم</div>
-
-          <div className="w-[10%] text-center pr-2">إجراءات</div>
+          <div className="w-[15%] text-center pr-2">إجراءات</div>
         </div>
 
         {/* قائمة المستخدمين */}

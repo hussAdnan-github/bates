@@ -189,8 +189,9 @@ function page() {
               error={errors.model?.message}
             />
             <InputField
-              label="الرقم التسلسلي"
-              placeholder="أختياري"
+              label="رقم أو ترتيب المنتج (اجباري)"
+              placeholder="1"
+              type="number"
               {...register("serial_number")}
               error={errors.serial_number?.message}
             />

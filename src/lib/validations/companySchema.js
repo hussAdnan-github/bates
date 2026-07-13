@@ -9,7 +9,7 @@ export const companySchema = z.object({
   // إذا كنت ستضيف شعار لاحقاً
   logo: z.any().optional(),
   website: z.string().url("رابط الموقع غير صحيح").or(z.literal("")).optional(),
-  number: z.number().or(z.string()).optional(),
+  number: z.coerce.string().min(1, "رقم أو ترتيب الشركة إجباري"),
   primary_color: z.string().optional(),
   secondary_color: z.string().optional(),
 });

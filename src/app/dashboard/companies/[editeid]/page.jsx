@@ -184,9 +184,9 @@ function page() {
             />
 
             <InputField
-              label="الرقم"
+              label="رقم أو ترتيب الشركة (اجباري)"
               type="number"
-              placeholder="رقم أو ترتيب الشركة"
+              placeholder="1"
               {...register("number")}
               error={errors.number?.message}
             />

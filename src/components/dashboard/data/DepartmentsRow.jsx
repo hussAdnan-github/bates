@@ -20,7 +20,7 @@ function DepartmentsRow({ department, onDelete }) {
   return (
     <div className="flex flex-row-reverse items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-right">
       {/* 1. إجراءات */}
-      <div className="flex items-center gap-3 w-[10%]">
+      <div className="flex items-center justify-end gap-3 w-[15%]">
         <button
           onClick={handelDelete}
           className="text-gray-400 hover:text-red-600 transition-colors"
@@ -45,7 +45,11 @@ function DepartmentsRow({ department, onDelete }) {
           : "غير محدد"}
       </div>
 
-      <div className="flex flex-row-reverse items-center gap-3 w-[20%] justify-end">
+      <div className="w-[15%] text-center font-bold text-gray-700">
+        {department.number || "-"}
+      </div>
+
+      <div className="flex flex-row-reverse items-center gap-3 w-[25%] justify-end">
         <span className="font-bold text-gray-800">{department.name}</span>
         <div className="w-10 h-10 rounded-full border overflow-hidden bg-gray-50 flex items-center justify-center">
           <img

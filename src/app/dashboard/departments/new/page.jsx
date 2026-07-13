@@ -132,8 +132,8 @@ function page() {
 
             {/* الرقم */}
             <InputField
-              label="رقم القسم"
-              placeholder="مثال: 1"
+              label="رقم أو ترتيب القسم (اجباري)"
+              placeholder="1"
               type="number"
               {...register("number")}
               error={errors.number?.message}

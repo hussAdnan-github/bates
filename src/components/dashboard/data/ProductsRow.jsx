@@ -49,7 +49,7 @@ function ProductsRow({ product, onDelete }) {
   return (
     <div className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-center">
       {/* 1. المنتج */}
-      <div className="flex items-center gap-3 w-[30%] justify-start pr-4">
+      <div className="flex items-center gap-3 w-[20%] justify-start pr-4">
         <div className="w-10 h-10 rounded-full border overflow-hidden bg-gray-50 flex-shrink-0 flex items-center justify-center">
           <img
             src={product.image || "/placeholder.png"}
@@ -60,8 +60,12 @@ function ProductsRow({ product, onDelete }) {
         <span className="font-bold text-gray-800 line-clamp-2 text-right leading-tight" title={product.name}>{product.name}</span>
       </div>
 
+      <div className="w-[10%] text-center font-bold text-gray-700">
+        {product.serial_number || "-"}
+      </div>
+
       {/* 2. القسم */}
-      <div className="w-[15%] text-gray-500 font-medium line-clamp-1" dir="rtl" title={product.name_department}>
+      <div className="w-[10%] text-gray-500 font-medium line-clamp-1" dir="rtl" title={product.name_department}>
         {product.name_department || "غير محدد"}
       </div>
 
@@ -87,17 +91,22 @@ function ProductsRow({ product, onDelete }) {
       </div>
 
       {/* 4. السعر الأساسي (الجملة) */}
-      <div className="w-[15%] text-purple-700 font-bold">
+      <div className="w-[10%] text-purple-700 font-bold">
         {product.price || 0} <span className="text-xs text-gray-400 font-normal">ر.ي</span>
       </div>
 
-      {/* 5. سعر التجزئة */}
+      {/* 5. سعر التجزئة السعودي */}
+      <div className="w-[15%] text-blue-600 font-bold">
+        {product.retail_price || 0} <span className="text-xs text-gray-400 font-normal">ر.س</span>
+      </div>
+
+      {/* 6. سعر التجزئة اليمني */}
       <div className="w-[15%] text-green-600 font-bold">
         {product.retail_price_ye_new || 0} <span className="text-xs text-gray-400 font-normal">ر.ي</span>
       </div>
 
-      {/* 6. إجراءات */}
-      <div className="flex items-center justify-end gap-3 w-[15%] pl-4">
+      {/* 7. إجراءات */}
+      <div className="flex items-center justify-end gap-3 w-[10%] pl-4">
         <Link href={`products/${product.id}`} className="text-gray-400 hover:text-blue-600 transition-colors p-2 bg-blue-50 rounded-lg hover:bg-blue-100">
           <Pencil size={18} />
         </Link>

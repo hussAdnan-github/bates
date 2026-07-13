@@ -16,12 +16,22 @@ const InvoicePage = async ({ params }) => {
 
   const getBillType = (type) => (type === 2 ? "آجل" : "نقدي");
 
+  const currencyMap = {
+    1: "يمني قديم",
+    2: "يمني جديد",
+    3: "ر.س",
+  };
+
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("ar-YE", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    const date = new Date(dateString);
+    if (isNaN(date)) return dateString;
+    return new Intl.DateTimeFormat('ar-YE', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    }).format(date);
   };
 
   return (
@@ -131,7 +141,9 @@ const InvoicePage = async ({ params }) => {
               <div className="border-l border-white/20 pl-6">
                 <span className="text-sm block opacity-70 mb-1">المبلغ المطلوب سداده</span>
                 <span className="text-3xl font-black tracking-tight">{parseFloat(bill.total_price).toFixed(2)}</span>
-                <span className="mr-2 text-sm font-bold opacity-80 text-orange-300">ر.س</span>
+                <span className="mr-2 text-sm font-bold opacity-80 text-orange-300">
+                  {currencyMap[bill.type_many] || "غير محدد"}
+                </span>
               </div>
             </div>
           </div>

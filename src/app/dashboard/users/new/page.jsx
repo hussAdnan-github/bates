@@ -1,12 +1,13 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { Image, PercentDiamondIcon, Shield, UserCircle2 } from "lucide-react";
+import { Image, PercentDiamondIcon, Shield, UserCircle2, Camera, Upload } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import InputField from "@/components/dashboard/InputField";
 import BackPage from "@/components/dashboard/BackPage";
 import { postUser } from "@/actions/users";
+import { getPlaces } from "@/actions/places";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,23 @@ import { userSchema } from "@/lib/validations/userSchema";
 function Page() {
   const route = useRouter();
   const queryClient = useQueryClient();
+  const [imagePreview, setImagePreview] = useState(null);
+  const [profileFile, setProfileFile] = useState(null);
+
+  const { data: placesData } = useQuery({
+    queryKey: ["Places"],
+    queryFn: () => getPlaces(),
+    staleTime: 1000 * 60 * 60,
+  });
+  const places = placesData?.results || [];
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
 
   const {
     register,
@@ -32,19 +50,40 @@ function Page() {
     resolver: zodResolver(userSchema),
     defaultValues: {
       username: "",
+      first_name: "",
+      last_name: "",
+      email: "",
       phone: "",
       ext: "",
       userType: "1",
+      type_money: "3",
+      place: "",
       password: "",
       confirmPassword: "",
-      isActive: false,
+      isActive: true,
       isStaff: false,
       image: null,
     },
   });
 
   const onSubmit = async (data) => {
-    const result = await postUser(data);
+    const formData = new FormData();
+    formData.append("username", data.username);
+    formData.append("password", data.password);
+    formData.append("password2", data.confirmPassword);
+    if (data.email) formData.append("email", data.email);
+    if (data.type_money) formData.append("type_money", data.type_money);
+    if (data.first_name) formData.append("first_name", data.first_name);
+    if (data.last_name) formData.append("last_name", data.last_name);
+    formData.append("phone", data.phone);
+    if (data.userType) formData.append("taype_custom", data.userType);
+    if (data.place) formData.append("place", data.place);
+    
+    if (profileFile) {
+      formData.append("profile_picture", profileFile);
+    }
+
+    const result = await postUser(formData);
     if (!result.success) {
       if (result.errors) {
         Object.entries(result.errors).map(([field, message]) =>
@@ -96,11 +135,55 @@ function Page() {
             />
 
             <InputField
+              label="الاسم الأول"
+              placeholder="الاسم الأول"
+              {...register("first_name")}
+              error={errors.first_name?.message}
+            />
+
+            <InputField
+              label="الاسم الأخير"
+              placeholder="الاسم الأخير"
+              {...register("last_name")}
+              error={errors.last_name?.message}
+            />
+
+            <InputField
+              label="البريد الإلكتروني"
+              placeholder="example@mail.com"
+              type="email"
+              {...register("email")}
+              error={errors.email?.message}
+            />
+
+            <InputField
               label="رقم الهاتف"
               placeholder="+967 XXX XXX XXX"
               {...register("phone")}
               error={errors.phone?.message}
             />
+
+            <div className="flex flex-col gap-2 w-full text-right">
+              <label className="text-gray-600 text-sm font-medium">
+                الموقع (المكان)
+              </label>
+              <select
+                {...register("place")}
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 appearance-none"
+              >
+                <option value="">اختر المحافظة (اختياري)</option>
+                {places.map((place) => (
+                  <option key={place.id} value={place.id}>
+                    {place.name}
+                  </option>
+                ))}
+              </select>
+              {errors.place && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.place?.message}
+                </p>
+              )}
+            </div>
 
             <InputField
               label=".ext"
@@ -123,6 +206,25 @@ function Page() {
               {errors.userType && (
                 <p className="text-red-500 text-xs mt-1">
                   {errors.userType?.message}
+                </p>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-2 w-full text-right">
+              <label className="text-gray-600 text-sm font-medium">
+                العملة
+              </label>
+              <select
+                {...register("type_money")}
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 appearance-none"
+              >
+                <option value="1">ريال يمني قديم</option>
+                <option value="2">ريال يمني جديد</option>
+                <option value="3">ريال سعودي</option>
+              </select>
+              {errors.type_money && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.type_money?.message}
                 </p>
               )}
             </div>
@@ -150,6 +252,23 @@ function Page() {
             <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900 mt-10">
               <Image size={24} />
               <span className="font-bold text-lg">صورة الملف الشخصي</span>
+            </div>
+
+            <div className="flex flex-col items-center justify-center mb-8">
+              <div className="relative group">
+                <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
+                  {imagePreview ? (
+                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <Camera className="text-gray-300 w-8 h-8 group-hover:text-[#FFC107] transition-colors" />
+                  )}
+                </div>
+                <label htmlFor="profile-pic" className="absolute bottom-0 right-0 bg-purple-900 text-white p-2 rounded-full cursor-pointer hover:bg-orange-400 hover:text-white transition-all shadow-lg">
+                  <Upload size={14} />
+                  <input id="profile-pic" type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
+                </label>
+              </div>
+              <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">اختر صورة (اختياري)</span>
             </div>
 
             <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900">

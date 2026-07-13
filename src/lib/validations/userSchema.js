@@ -3,11 +3,16 @@
 export const userSchema = z
   .object({
     username: z.string().min(3, "اسم المستخدم يجب أن يكون 3 أحرف على الأقل"),
+    first_name: z.string().optional().or(z.literal("")),
+    last_name: z.string().optional().or(z.literal("")),
+    email: z.string().optional().or(z.literal("")),
     phone: z.string().min(9, "رقم الهاتف غير صحيح"),
     ext: z.string().optional().or(z.literal("")),  
     userType: z.enum(["1", "2", "3"], {
       errorMap: () => ({ message: "يرجى اختيار نوع المستخدم" }),
-    }),
+    }).optional().or(z.literal("")),
+    type_money: z.enum(["1", "2", "3"]).optional().or(z.literal("")),
+    place: z.string().optional().or(z.literal("")),
      password: z
       .string()
       .optional()

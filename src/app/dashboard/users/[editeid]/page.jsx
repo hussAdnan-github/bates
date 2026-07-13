@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ArrowRight, Shield, UserCircle2 } from "lucide-react";
+import { ArrowRight, Shield, UserCircle2, Camera, Upload } from "lucide-react";
 import InputField from "@/components/dashboard/InputField";
 import BackPage from "@/components/dashboard/BackPage";
 import { editeUser, getUserId, postUser } from "@/actions/users";
@@ -9,18 +9,35 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useParams, useRouter } from "next/navigation";
 import { Switch } from "@/components/ui/switch";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { toast } from "sonner";
 import { userSchema } from "@/lib/validations/userSchema";
+import { getPlaces } from "@/actions/places";
  
 
 function page() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { editeid } = useParams();
+  const [imagePreview, setImagePreview] = useState(null);
+  const [profileFile, setProfileFile] = useState(null);
 
- 
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const { data: placesData } = useQuery({
+    queryKey: ["Places"],
+    queryFn: () => getPlaces(),
+    staleTime: 1000 * 60 * 60,
+  });
+  const places = placesData?.results || [];
+
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -29,13 +46,22 @@ function page() {
         console.log(data);
         const userData = data?.data?.results ? data?.data?.results[0] : (data?.data || data);
         reset({
-          username: userData?.username,
-          phone: userData?.phone,
-          ext: userData?.ext,
-          userType: userData?.taype_custom?.toString(),
+          username: userData?.username || "",
+          first_name: userData?.first_name || "",
+          last_name: userData?.last_name || "",
+          email: userData?.email || "",
+          phone: userData?.phone || "",
+          place: userData?.place || "",
+          ext: userData?.ext || "",
+          userType: userData?.taype_custom?.toString() || "3",
+          type_money: userData?.type_money?.toString() || "3",
           isActive: userData?.is_active ?? true,
           isStaff: userData?.is_staff ?? false,
         });
+
+        if (userData?.profile_picture) {
+          setImagePreview(userData.profile_picture);
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -58,35 +84,39 @@ function page() {
     resolver: zodResolver(userSchema),
     defaultValues: {
       username: "",
+      first_name: "",
+      last_name: "",
+      email: "",
       phone: "",
+      place: "",
       ext: "",
       userType: "3",
+      type_money: "3",
       isActive: true,
       isStaff: false,
     }
   });
   const onSubmit = async (data) => {
-    const payload = {
-      ...data,
-      taype_custom: data.userType !== undefined ? Number(data.userType) : undefined,
-      is_active: data.isActive,
-      is_staff: data.isStaff,
-    };
+    const formData = new FormData();
+    if (data.username) formData.append("username", data.username);
+    if (data.email) formData.append("email", data.email);
+    if (data.type_money) formData.append("type_money", data.type_money);
+    if (data.first_name) formData.append("first_name", data.first_name);
+    if (data.last_name) formData.append("last_name", data.last_name);
+    if (data.phone) formData.append("phone", data.phone);
+    if (data.userType) formData.append("taype_custom", data.userType);
+    if (data.place) formData.append("place", data.place);
     
-    delete payload.userType;
-    delete payload.isActive;
-    delete payload.isStaff;
+    if (data.password) {
+      formData.append("password", data.password);
+      formData.append("password2", data.confirmPassword);
+    }
 
-    const filteredData = Object.entries(payload).reduce((acc, [key, value]) => {
-      if (value !== "" && value !== undefined && value !== null) {
-        if (key !== "confirmPassword") {
-          acc[key] = value;
-        }
-      }
-      return acc;
-    }, {});
-    console.log("filteredData" , filteredData)
-    const result = await editeUser(filteredData, editeid);
+    if (profileFile) {
+      formData.append("profile_picture", profileFile);
+    }
+
+    const result = await editeUser(formData, editeid);
 
     if (!result.success) {
       if (result.errors) {
@@ -138,6 +168,29 @@ function page() {
               {...register("username")}
               error={errors.username?.message}
             />
+
+            <InputField
+              label="الاسم الأول"
+              placeholder="الاسم الأول"
+              {...register("first_name")}
+              error={errors.first_name?.message}
+            />
+
+            <InputField
+              label="الاسم الأخير"
+              placeholder="الاسم الأخير"
+              {...register("last_name")}
+              error={errors.last_name?.message}
+            />
+
+            <InputField
+              label="البريد الإلكتروني"
+              placeholder="example@mail.com"
+              type="email"
+              {...register("email")}
+              error={errors.email?.message}
+            />
+
             {/* رقم الهاتف */}
             <InputField
               label="رقم الهاتف"
@@ -145,6 +198,28 @@ function page() {
               {...register("phone")}
               error={errors.phone?.message}
             />
+
+            <div className="flex flex-col gap-2 w-full text-right">
+              <label className="text-gray-600 text-sm font-medium">
+                الموقع (المكان)
+              </label>
+              <select
+                {...register("place")}
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 appearance-none"
+              >
+                <option value="">اختر المحافظة (اختياري)</option>
+                {places.map((place) => (
+                  <option key={place.id} value={place.id}>
+                    {place.name}
+                  </option>
+                ))}
+              </select>
+              {errors.place && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.place?.message}
+                </p>
+              )}
+            </div>
 
             <InputField
               label=".ext"
@@ -171,6 +246,25 @@ function page() {
               )}
             </div>
 
+            <div className="flex flex-col gap-2 w-full text-right">
+              <label className="text-gray-600 text-sm font-medium">
+                العملة
+              </label>
+              <select
+                {...register("type_money")}
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 appearance-none"
+              >
+                <option value="1">ريال يمني قديم</option>
+                <option value="2">ريال يمني جديد</option>
+                <option value="3">ريال سعودي</option>
+              </select>
+              {errors.type_money && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.type_money?.message}
+                </p>
+              )}
+            </div>
+
             <InputField
               label="كلمة المرور (أختياري)"
               placeholder="اتركه فارغاً للحفاظ على الكلمة الحالية"
@@ -190,6 +284,24 @@ function page() {
             <p className="text-xs text-gray-400 mt-4 text-right">
               اتركها فارغة إذا كنت لا تريد تغييرها.
             </p>
+
+            <div className="flex flex-col items-center justify-center mb-8 mt-10">
+              <div className="relative group">
+                <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
+                  {imagePreview ? (
+                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <Camera className="text-gray-300 w-8 h-8 group-hover:text-[#FFC107] transition-colors" />
+                  )}
+                </div>
+                <label htmlFor="profile-pic" className="absolute bottom-0 right-0 bg-purple-900 text-white p-2 rounded-full cursor-pointer hover:bg-orange-400 hover:text-white transition-all shadow-lg">
+                  <Upload size={14} />
+                  <input id="profile-pic" type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
+                </label>
+              </div>
+              <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">تغيير الصورة (اختياري)</span>
+            </div>
+
             <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900">
               <Shield size={24} />
               <span className="font-bold text-lg"> الصلاحيات</span>

@@ -1,6 +1,7 @@
 "use server";
 
 import request from "@/lib/apiService";
+import { revalidatePath } from "next/cache";
 
 //  export async function getCompanies() {
 //   const result = await request(
@@ -26,7 +27,7 @@ export async function getCompaniesId(id) {
   return result.data;
 }
 export async function postcCompany(formData) {
-  const result = await request(`companies/companies/`, "POST", formData, false);
+  const result = await request(`companies/companies/`, "POST", formData, true);
    if (result.success) {
     revalidatePath("/dashboard/companies");  
   }
@@ -35,9 +36,9 @@ export async function postcCompany(formData) {
 export async function editeCompany(formData, id) {
   const result = await request(
     `companies/companies/${id}/`,
-    "PUT",
+    "PATCH",
     formData,
-    false,
+    true,
   );
   if (result.success) {
     revalidatePath("/dashboard/companies");

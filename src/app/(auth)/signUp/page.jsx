@@ -12,6 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation"; 
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import { getPlaces } from "@/actions/places";
 
 // بناء المخطط (Schema) للتحقق من صحة البيانات باستخدام Zod
 const registerSchema = z.object({
@@ -36,6 +38,13 @@ function SignUpPage() {
   const [imagePreview, setImagePreview] = useState(null);
   const [profileFile, setProfileFile] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const { data: placesData } = useQuery({
+    queryKey: ["Places"],
+    queryFn: () => getPlaces(),
+    staleTime: 1000 * 60 * 60,
+  });
+  const places = placesData?.results || [];
 
   const {
     register,
@@ -241,8 +250,9 @@ function SignUpPage() {
                     className={`w-full h-11 md:h-12 text-sm md:text-base pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 appearance-none border ${errors.type_money ? "border-red-500" : "border-gray-100"}`}
                   >
                     <option value="">اختر العملة (اختياري)</option>
-                    <option value="3">ر.س (ريال سعودي)</option>
-                    <option value="1">يمني قديم</option>
+                    <option value="1">ريال يمني قديم</option>
+                    <option value="2">ريال يمني جديد</option>
+                    <option value="3">ريال سعودي</option>
                   </select>
                 </div>
                 {errors.type_money && <p className="text-red-500 text-xs mt-1">{errors.type_money.message}</p>}
@@ -258,10 +268,11 @@ function SignUpPage() {
                   className={`w-full h-11 md:h-12 text-sm md:text-base pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 appearance-none border ${errors.place ? "border-red-500" : "border-gray-100"}`}
                 >
                   <option value="">اختر المحافظة (اختياري)</option>
-                  <option value="1">صنعاء</option>
-                  <option value="2">حضرموت</option>
-                  <option value="3">تعز</option>
-                  <option value="4">المهرة</option>
+                  {places.map((place) => (
+                    <option key={place.id} value={place.id}>
+                      {place.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               {errors.place && <p className="text-red-500 text-xs mt-1">{errors.place.message}</p>}

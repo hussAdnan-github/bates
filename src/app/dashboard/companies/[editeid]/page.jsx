@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ArrowRight, Building2, Image } from "lucide-react";
+import { ArrowRight, Building2, Image, Camera, Upload } from "lucide-react";
 import InputField from "@/components/dashboard/InputField";
 import BackPage from "@/components/dashboard/BackPage";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,6 +21,16 @@ function page() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const queryClient = useQueryClient();
+  const [imagePreview, setImagePreview] = useState(null);
+  const [profileFile, setProfileFile] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
 
   useEffect(() => {
     async function fetchUser() {
@@ -29,10 +39,19 @@ function page() {
 
         console.log(data);
         reset({
-          nameAr: data?.data?.name_ar,
-          nameEn: data?.data?.name_en,
-          description: data?.data?.description,
+          nameAr: data?.data?.name_ar || "",
+          nameEn: data?.data?.name_en || "",
+          description: data?.data?.description || "",
+          website: data?.data?.website || "",
+          number: data?.data?.number || "",
+          primary_color: data?.data?.primary_color || "",
+          secondary_color: data?.data?.secondary_color || "",
+          custom_user: data?.data?.custom_user || [],
         });
+
+        if (data?.data?.logo) {
+          setImagePreview(data.data.logo);
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -54,8 +73,11 @@ function page() {
     defaultValues: {
       nameAr: "",
       nameEn: "",
-
       description: "",
+      website: "",
+      number: "",
+      primary_color: "",
+      secondary_color: "",
       custom_user: [],
     },
   });
@@ -76,14 +98,26 @@ function page() {
   }, []);
 
   const onSubmit = async (data) => {
-    const filteredData = Object.entries(data).reduce((acc, [key, value]) => {
-      if (value !== "" && value !== undefined && value !== null) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
+    const formData = new FormData();
+    if (data.nameAr) formData.append("name_ar", data.nameAr);
+    if (data.nameEn) formData.append("name_en", data.nameEn);
+    if (data.description) formData.append("description", data.description);
+    if (data.website) formData.append("website", data.website);
+    if (data.number) formData.append("number", data.number);
+    if (data.primary_color) formData.append("primary_color", data.primary_color);
+    if (data.secondary_color) formData.append("secondary_color", data.secondary_color);
+    
+    if (data.custom_user && data.custom_user.length > 0) {
+      data.custom_user.forEach((userId) => {
+        formData.append("custom_user", userId);
+      });
+    }
 
-    const result = await editeCompany(filteredData, editeid);
+    if (profileFile) {
+      formData.append("logo", profileFile);
+    }
+
+    const result = await editeCompany(formData, editeid);
 
     if (!result.success) {
       if (result.errors) {
@@ -142,6 +176,40 @@ function page() {
               error={errors.nameEn?.message}
             />
 
+            <InputField
+              label="رابط الموقع"
+              placeholder="https://example.com"
+              {...register("website")}
+              error={errors.website?.message}
+            />
+
+            <InputField
+              label="الرقم"
+              type="number"
+              placeholder="رقم أو ترتيب الشركة"
+              {...register("number")}
+              error={errors.number?.message}
+            />
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2 w-full text-right">
+                <label className="text-gray-600 text-sm font-medium">اللون الأساسي</label>
+                <input
+                  type="color"
+                  {...register("primary_color")}
+                  className="w-full h-12 rounded-lg cursor-pointer border border-gray-200"
+                />
+              </div>
+              <div className="flex flex-col gap-2 w-full text-right">
+                <label className="text-gray-600 text-sm font-medium">اللون الثانوي</label>
+                <input
+                  type="color"
+                  {...register("secondary_color")}
+                  className="w-full h-12 rounded-lg cursor-pointer border border-gray-200"
+                />
+              </div>
+            </div>
+
             <label className="text-gray-600 text-sm font-medium">
               وصف الشركة
             </label>
@@ -184,6 +252,23 @@ function page() {
             <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900">
               <Image size={24} />
               <span className="font-bold text-lg">شعار الشركة</span>
+            </div>
+
+            <div className="flex flex-col items-center justify-center mb-8 mt-10">
+              <div className="relative group">
+                <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
+                  {imagePreview ? (
+                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <Camera className="text-gray-300 w-8 h-8 group-hover:text-[#FFC107] transition-colors" />
+                  )}
+                </div>
+                <label htmlFor="company-logo" className="absolute bottom-0 right-0 bg-purple-900 text-white p-2 rounded-full cursor-pointer hover:bg-orange-400 hover:text-white transition-all shadow-lg">
+                  <Upload size={14} />
+                  <input id="company-logo" type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
+                </label>
+              </div>
+              <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">تغيير الشعار (اختياري)</span>
             </div>
 
             <div className="mt-8 pt-6 gap-2 border-t border-gray-50 flex justify-end">

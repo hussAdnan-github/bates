@@ -6,6 +6,8 @@ import {
   Image,
   PersonStanding,
   UserCircle2,
+  Camera,
+  Upload,
 } from "lucide-react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,7 +29,8 @@ import { companySchema } from "@/lib/validations/companySchema";
 function page() {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [preview, setPreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [profileFile, setProfileFile] = useState(null);
   const fileInputRef = useRef(null);
   const [errorsApi, setErrorsApi] = useState({});
   const [generalError, setGeneralError] = useState("");
@@ -42,10 +45,13 @@ function page() {
   } = useForm({
     resolver: zodResolver(companySchema),
     defaultValues: {
-      name_ar: "",
-      name_en: "",
-
+      nameAr: "",
+      nameEn: "",
       description: "",
+      website: "",
+      number: "",
+      primary_color: "",
+      secondary_color: "",
       custom_user: [],
     },
   });
@@ -66,14 +72,25 @@ function page() {
   }, []);
   const onSubmit = async (data) => {
     const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
+    if (data.nameAr) formData.append("name_ar", data.nameAr);
+    if (data.nameEn) formData.append("name_en", data.nameEn);
+    if (data.description) formData.append("description", data.description);
+    if (data.website) formData.append("website", data.website);
+    if (data.number) formData.append("number", data.number);
+    if (data.primary_color) formData.append("primary_color", data.primary_color);
+    if (data.secondary_color) formData.append("secondary_color", data.secondary_color);
+    
+    if (data.custom_user && data.custom_user.length > 0) {
+      data.custom_user.forEach((userId) => {
+        formData.append("custom_user", userId);
+      });
     }
-    const result = await postcCompany(data);
+
+    if (profileFile) {
+      formData.append("logo", profileFile);
+    }
+
+    const result = await postcCompany(formData);
 
     if (!result.success) {
       if (result.errors) {
@@ -105,15 +122,11 @@ function page() {
       route.back();
     }
   };
-  const handleImageChange = (e, onChange) => {
+  const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      onChange(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setProfileFile(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
   return (
@@ -134,16 +147,50 @@ function page() {
             <InputField
               label="اسم الشركة (بالعربية)"
               placeholder="اسم الشركة بالعربية"
-              {...register("name_ar")}
-              error={errors.name_ar?.message}
+              {...register("nameAr")}
+              error={errors.nameAr?.message}
             />
 
             <InputField
               label="اسم الشركة (بالإنجليزية)"
               placeholder="اسم الشركة بالإنجليزية"
-              {...register("name_en")}
-              error={errors.name_en?.message}
+              {...register("nameEn")}
+              error={errors.nameEn?.message}
             />
+
+            <InputField
+              label="رابط الموقع"
+              placeholder="https://example.com"
+              {...register("website")}
+              error={errors.website?.message}
+            />
+
+            <InputField
+              label="الرقم"
+              type="number"
+              placeholder="رقم أو ترتيب الشركة"
+              {...register("number")}
+              error={errors.number?.message}
+            />
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2 w-full text-right">
+                <label className="text-gray-600 text-sm font-medium">اللون الأساسي</label>
+                <input
+                  type="color"
+                  {...register("primary_color")}
+                  className="w-full h-12 rounded-lg cursor-pointer border border-gray-200"
+                />
+              </div>
+              <div className="flex flex-col gap-2 w-full text-right">
+                <label className="text-gray-600 text-sm font-medium">اللون الثانوي</label>
+                <input
+                  type="color"
+                  {...register("secondary_color")}
+                  className="w-full h-12 rounded-lg cursor-pointer border border-gray-200"
+                />
+              </div>
+            </div>
 
             <label className="text-gray-600 text-sm font-medium">
               وصف الشركة
@@ -189,40 +236,26 @@ function page() {
                 )}
               />
             </div>
-            <div className="flex flex-col items-center py-10 gap-4">
-              <Controller
-                name="image"
-                control={control}
-                render={({ field }) => (
-                  <>
-                    <div className="relative w-36 h-36 rounded-full border-[5px] border-gray-100 shadow-xl overflow-hidden bg-white flex items-center justify-center transition-all hover:scale-105">
-                      {preview ? (
-                        <img
-                          src={preview}
-                          alt="image"
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <UserCircle2 size={80} className="text-gray-200" />
-                      )}
-                    </div>
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      className="hidden"
-                      accept="image/*"
-                      onChange={(e) => handleImageChange(e, field.onChange)}
-                    />
-                    <Button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="bg-[#FFC107] hover:bg-[#e0ac00] text-[#2D1B50] font-bold px-8 py-5 rounded-xl shadow-md"
-                    >
-                      تغيير الصورة
-                    </Button>
-                  </>
-                )}
-              />
+            <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900 mt-10">
+              <Image size={24} />
+              <span className="font-bold text-lg">شعار الشركة</span>
+            </div>
+
+            <div className="flex flex-col items-center justify-center mb-8 mt-10">
+              <div className="relative group">
+                <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
+                  {imagePreview ? (
+                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <Camera className="text-gray-300 w-8 h-8 group-hover:text-[#FFC107] transition-colors" />
+                  )}
+                </div>
+                <label htmlFor="company-logo" className="absolute bottom-0 right-0 bg-purple-900 text-white p-2 rounded-full cursor-pointer hover:bg-orange-400 hover:text-white transition-all shadow-lg">
+                  <Upload size={14} />
+                  <input id="company-logo" type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
+                </label>
+              </div>
+              <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">إضافة الشعار (اختياري)</span>
             </div>
             <div className="mt-8 pt-6 gap-2 border-t border-gray-50 flex justify-end">
               <button

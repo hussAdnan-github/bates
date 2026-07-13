@@ -21,14 +21,14 @@ export async function getUserId(id) {
   return result.data;
 }
 export async function postUser(formData) {
-  const result = await request(`users/`, "POST", formData, false);
+  const result = await request(`users/`, "POST", formData, true);
   if (result.success) {
     revalidatePath("/dashboard/users");
   }
   return result;
 }
 export async function editeUser(formData, id) {
-  const result = await request(`users/${id}/`, "PATCH", formData, false);
+  const result = await request(`users/${id}/`, "PATCH", formData, true);
   if (result.success) {
     revalidatePath("/dashboard/users");
     revalidatePath(`/dashboard/users/${id}`);

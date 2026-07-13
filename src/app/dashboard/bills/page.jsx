@@ -65,36 +65,8 @@ function BillsList({ searchParams: searchParamsPage }) {
   const hasNextPage = data?.data?.next;
   const hasPrevPage = data?.data?.previous;
 
-  console.log(bills)
-  // const bills = [
-  //   {
-  //     id: 1,
-  //     number: 20,
-  //     customer: "test",
-  //     department: "كيبلات",
-  //     price: "10.00ر.س",
-  //     type: "كيبلات",
-  //     date: "29 Oct, 2025",
-  //   },
-  //   {
-  //     id: 2,
-  //     number: 20,
-  //     customer: "test",
-  //     department: "كيبلات",
-  //     price: "10.00ر.س",
-  //     type: "كيبلات",
-  //     date: "29 Oct, 2025",
-  //   },
-  //   {
-  //     id: 3,
-  //     number: 20,
-  //     customer: "test",
-  //     department: "كيبلات",
-  //     price: "10.00ر.س",
-  //     type: "كيبلات",
-  //     date: "29 Oct, 2025",
-  //   },
-  // ];
+ 
+   
   return (
     <div className="p-6 " dir="rtl">
       <div className="flex flex-row justify-between mb-6">

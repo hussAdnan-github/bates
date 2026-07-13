@@ -8,4 +8,8 @@ export const companySchema = z.object({
   custom_user: z.array(z.number()).min(1, "يجب اختيار مستخدم واحد على الأقل"),
   // إذا كنت ستضيف شعار لاحقاً
   logo: z.any().optional(),
+  website: z.string().url("رابط الموقع غير صحيح").or(z.literal("")).optional(),
+  number: z.number().or(z.string()).optional(),
+  primary_color: z.string().optional(),
+  secondary_color: z.string().optional(),
 });

@@ -9,7 +9,23 @@ function billsRowRow({ bills }) {
     2: { text: "أجل", type: "success" },
   };
 
-  
+  const currencyMap = {
+    1: "يمني قديم",
+    2: "يمني جديد",
+    3: "ر.س",
+  };
+
+  const date = new Date(bills.created_at);
+  const formattedDate = isNaN(date) 
+    ? bills.created_at 
+    : new Intl.DateTimeFormat('ar-EG', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      }).format(date);
+
   return (
     <div className="flex flex-row-reverse items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-right">
       <div className="flex items-center justify-center gap-3 w-[10%]">
@@ -21,8 +37,8 @@ function billsRowRow({ bills }) {
         </Link>
       </div>
 
-      <div className="w-[20%] text-center text-gray-600 font-medium">
-        {bills.created_at}
+      <div className="w-[20%] text-center text-gray-600 font-medium text-xs md:text-sm">
+        <div style={{ direction: "ltr" }}>{formattedDate}</div>
       </div>
 
       <div className="w-[20%] text-center">
@@ -33,8 +49,13 @@ function billsRowRow({ bills }) {
       </div>
 
       {/* 4. نوع التاجر */}
-      <div className="w-[20%] text-center text-gray-600 font-medium">
-        {bills.total_price}
+      <div className="w-[20%] text-center text-gray-600 font-bold flex flex-col items-center justify-center gap-0.5">
+        <span>{bills.total_price}</span>
+        {bills.type_many && (
+          <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
+            {currencyMap[bills.type_many] || "غير محدد"}
+          </span>
+        )}
       </div>
 
       {/* 5. رقم الهاتف */}

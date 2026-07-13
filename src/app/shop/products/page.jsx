@@ -27,12 +27,7 @@ async function page({ searchParams }) {
   const { price, department, department__company } = await searchParams;
 
   const companiesData = await getCompanies();
-  const ugreenCompany = companiesData?.data?.results?.find(
-    (c) =>
-      c.name_en?.toLowerCase().includes("ugreen") ||
-      c.name_ar?.toLowerCase().includes("ugreen") ||
-      c.name_ar?.includes("يوجرين")
-  );
+  const defaultCompany = companiesData?.data?.results?.[0];
 
   const cookieStore = await cookies();
   const savedCompanyId = cookieStore.get("active_company_id")?.value;
@@ -41,8 +36,8 @@ async function page({ searchParams }) {
   if (!effectiveCompany) {
     if (savedCompanyId) {
       effectiveCompany = savedCompanyId;
-    } else if (ugreenCompany) {
-      effectiveCompany = ugreenCompany.id.toString();
+    } else if (defaultCompany) {
+      effectiveCompany = defaultCompany.id.toString();
     }
   }
 
@@ -85,7 +80,7 @@ async function page({ searchParams }) {
               show={3}
               initialData={products.data}
               price={price}
-              department={department}
+              department={effectiveDepartment}
               department__company={effectiveCompany}
               type_money={type_money}
             />

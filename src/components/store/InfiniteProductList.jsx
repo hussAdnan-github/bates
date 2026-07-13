@@ -26,11 +26,18 @@ function InfiniteProductList({
   const loadMoreProducts = async () => {
     if (nextPage && !loading) {
       setLoading(true);
+      
+      let pageNumber = nextPage;
+      if (typeof nextPage === 'string') {
+        const match = nextPage.match(/page=(\d+)/);
+        if (match) pageNumber = match[1];
+      }
+
       const data = await getProduts(
         price,
         department,
         department__company,
-        nextPage,
+        pageNumber,
       );
       if (data) {
         setProducts((prev) => [...prev, ...data.data.results]);

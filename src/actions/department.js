@@ -2,9 +2,13 @@
 
 import request from "@/lib/apiService";
 import { revalidatePath } from "next/cache";
+export async function getDepartmentsList() { 
+  const result = await request(`departments/departments/?pagination=false`, "GET");
+  return result.data;
+}
 
-export async function getDepartment(company) { 
-  const params = new URLSearchParams();
+export async function getDepartment(company) {  
+  const params = new URLSearchParams(); 
 
   if (company) params.append("company", company);
   // console.log(

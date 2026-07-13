@@ -4,16 +4,13 @@ import request from "@/lib/apiService";
 import { revalidatePath } from "next/cache";
 export async function getAllProduts() {
   const result = await request(`products/products/?pagination=false`, "GET");
-
-
-
   return result.data;
-}
+} 
 export async function getProduts(
   price,
   department,
   department__company,
-  page = 1,
+  page = 1, 
 ) {
   const params = new URLSearchParams();
   if (price) params.append("price", price);

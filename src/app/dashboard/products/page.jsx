@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProduts, getProdutsDash } from "@/actions/product";
 import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "@/components/dashboard/Pagination";
-import { getDepartmentDashboard } from "@/actions/department";
+import {getDepartmentsList } from "@/actions/department";
 import { useFiltter } from "@/hooks/useFiltter";
 import { set } from "zod";
 const ITEMS_PER_PAGE = 21;
@@ -35,9 +35,9 @@ function page({ searchParams: searchParamsPage }) {
   useEffect(() => {
     async function fetchDepartment() {
       try {
-        const res = await getDepartmentDashboard();
+        const res = await getDepartmentsList();
 
-        setDepartmentList(res?.data?.results || []);
+        setDepartmentList(res?.data || []);
       } catch (error) {
         console.error(error);
       } finally {

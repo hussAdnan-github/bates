@@ -106,7 +106,7 @@ function BillsList({ searchParams: searchParamsPage }) {
         <div className="flex flex-col">
           {bills.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-40 bg-white text-gray-500 text-center">
-              <p className="text-lg">🚫 لا توجد فواتير متاحة حاليًا</p>
+              <p className="text-lg">  لا توجد فواتير متاحة حاليًا</p>
             </div>
           ) : (
             bills.map((bill) => (

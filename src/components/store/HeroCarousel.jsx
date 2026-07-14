@@ -16,19 +16,19 @@ const defaultSlides = [
     src: "/images/heroStore.jpg",
 
   },
-  
-   
+
+
 ];
 
 export default function HeroCarousel({ banners = [] }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  const actualSlides = banners && banners.length > 0 
+  const actualSlides = banners && banners.length > 0
     ? banners.map((b) => ({
-        id: b.id,
-        src: b.image,
-        title: b.name || 'صورة العرض',
-      }))
+      id: b.id,
+      src: b.image,
+      title: b.name || 'صورة العرض',
+    }))
     : defaultSlides;
 
   if (actualSlides.length === 0) return null;

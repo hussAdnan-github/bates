@@ -5,10 +5,10 @@ import { useInView } from "react-intersection-observer";
 import { getProduts } from "@/actions/product";
 
 function InfiniteProductList({
-  show = 3 ,
+  show = 3,
   initialData,
   price = "",
-  department = "", 
+  department = "",
   department__company = "",
   type_money = "3",
 }) {
@@ -26,7 +26,7 @@ function InfiniteProductList({
   const loadMoreProducts = async () => {
     if (nextPage && !loading) {
       setLoading(true);
-      
+
       let pageNumber = nextPage;
       if (typeof nextPage === 'string') {
         const match = nextPage.match(/page=(\d+)/);

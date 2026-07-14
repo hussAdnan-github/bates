@@ -57,10 +57,6 @@ export default function HeroCarousel({ banners = [] }) {
                   unoptimized
                   className="object-fill"
                 />
-                {/* تظليل متدرج فوق الصورة لإبراز النصوص */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2D1B50]/90 via-[#2D1B50]/30 to-transparent" />
-
-                {/* النصوص التوضيحية */}
 
               </div>
             </SwiperSlide>

@@ -36,7 +36,7 @@ export default function HeroCarousel({ banners = [] }) {
   return (
     <div className="relative w-full" dir="rtl">
       {/* الكاروسيل الرئيسي */}
-      <div className="relative w-full h-[150px] md:h-[350px] lg:h-[400px] overflow-hidden group">
+      <div className="relative w-full h-[200px] md:h-[350px] lg:h-[400px] overflow-hidden group">
         <Swiper
           modules={[Thumbs, Autoplay, EffectFade]}
           effect="fade"
@@ -54,7 +54,8 @@ export default function HeroCarousel({ banners = [] }) {
                   src={slide.src}
                   alt={slide.title || 'صورة العرض'}
                   fill
-                  className="object-cover"
+                  unoptimized
+                  className="object-fill"
                 />
                 {/* تظليل متدرج فوق الصورة لإبراز النصوص */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2D1B50]/90 via-[#2D1B50]/30 to-transparent" />
@@ -90,6 +91,7 @@ export default function HeroCarousel({ banners = [] }) {
                       src={slide.src}
                       alt={`thumbnail ${slide.title || 'صورة مصغرة'}`}
                       fill
+                      unoptimized
                       className="object-cover"
                     />
                   </div>

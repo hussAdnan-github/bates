@@ -1,6 +1,6 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
-import { Building2, Plus, Users } from "lucide-react";
+import { Building2, Plus, Users, PackageSearch } from "lucide-react";
 import UserRow from "@/components/dashboard/data/UserRow";
 import Link from "next/link";
 import SearchInput from "@/components/dashboard/SearchInput";
@@ -83,73 +83,67 @@ function page({ searchParams: searchParamsPage }) {
   const hasNextPage = data?.data?.next;
   const hasPrevPage = data?.data?.previous;
   return (
-    <div className="p-6 " dir="rtl">
-      <div className="flex flex-row justify-between mb-6">
-        <div className="flex items-center me-4">
-          <Building2 />
-          <h1 className="text-3xl font-bold">إدارة المنتجات</h1>
+    <div className="p-6" dir="rtl">
+      {/* 1. Header & Add Button */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-orange-100 text-orange-700 rounded-xl">
+            <PackageSearch size={28} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-extrabold text-gray-800">إدارة المنتجات</h1>
+            <p className="text-sm text-gray-500 font-medium mt-1">تصفح وإدارة جميع منتجات المتجر</p>
+          </div>
         </div>
-        <SearchInput
-          placeholder="البحث بالاسم او الموديل  ..."
-          value={searchTerm}
-          onSearch={setSearchTerm}
-        />
-        {/* <FiltersDropdown
-          // department__company
-
-          placeholder="كل الأقسام"
-          options={DepartmentList.map((dep) => ({
-            label: dep.name,
-            value: dep.id,
-          }))}
-          onChange={handleRoleChange}
-        /> */}
-        <FiltersDropdown
-          // department
-          value={department__company}
-          options={[
-            { label: "كل الاقسام", value: "" },
-            ...DepartmentList.map((dep) => ({
-              label: dep.name,
-              value: dep.id.toString(),
-            })),
-          ]}
-          // options={DepartmentList.map((dep) => ({
-          //   label: dep.name,
-          //   value: dep.id,
-          // }))}
-          onChange={handleRoleChange}
-        />
-        <FiltersDropdown
-          // status
-          value={status}
-          options={[
-            { label: "كل الحالات", value: "" },
-            { label: "نشط", value: 1 },
-            { label: "غير نشط", value: 2 },
-          ]}
-          onChange={handleStatusChange}
-        />
-      </div>
-      <div className="flex justify-start mb-6">
-        <Link
-          href={"products/new"}
-          className="bg-[#2D1B4D] text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-opacity-90 transition-all font-bold"
-        >
-          <Plus size={20} />
+        
+        <Link href={"products/new"} className="bg-[#2D1B4D] text-white px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-opacity-90 transition-all font-bold shadow-md hover:shadow-lg">
+          <span className="text-xl leading-none">+</span>
           <span>إضافة منتج</span>
         </Link>
       </div>
 
+      {/* 2. Search & Filters Bar */}
+      <div className="flex flex-col md:flex-row gap-4 items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-6">
+        <div className="flex-1 w-full">
+          <SearchInput
+            placeholder="البحث بالاسم او الموديل..."
+            value={searchTerm}
+            onSearch={setSearchTerm}
+          />
+        </div>
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <FiltersDropdown
+            value={department__company}
+            options={[
+              { label: "كل الاقسام", value: "" },
+              ...DepartmentList.map((dep) => ({
+                label: dep.name,
+                value: dep.id.toString(),
+              })),
+            ]}
+            onChange={handleRoleChange}
+          />
+          <FiltersDropdown
+            value={status}
+            options={[
+              { label: "كل الحالات", value: "" },
+              { label: "نشط", value: 1 },
+              { label: "غير نشط", value: 2 },
+            ]}
+            onChange={handleStatusChange}
+          />
+        </div>
+      </div>
+
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="flex items-center justify-between bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-500 text-sm font-bold text-center">
-          <div className="w-[20%] text-right pr-4">المنتج</div>
-          <div className="w-[10%]">الترتيب</div>
-          <div className="w-[10%]">القسم</div>
-          <div className="w-[10%]">الحالة</div>
-          <div className="w-[10%]">السعر الأساسي</div>
-          <div className="w-[15%]">تجزئة (سعودي)</div>
-          <div className="w-[15%]">تجزئة (يمني)</div>
+        <div className="flex items-center w-full bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-500 text-sm font-bold">
+          <div className="w-[25%] text-right pr-4">المنتج</div>
+          <div className="w-[10%] text-center">الترتيب</div>
+          <div className="w-[10%] text-center">القسم</div>
+          <div className="w-[10%] text-center">الحالة</div>
+          <div className="w-[10%] text-center">الأساسي</div>
+          <div className="w-[12%] text-center">تجزئة (سعودي)</div>
+          <div className="w-[13%] text-center">تجزئة (يمني)</div>
           <div className="w-[10%] text-left pl-4">إجراءات</div>
         </div>
 

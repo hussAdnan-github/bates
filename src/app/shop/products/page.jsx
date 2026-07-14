@@ -55,12 +55,18 @@ async function page({ searchParams }) {
   const bannersData = await bannersPromise;
 
   const type_money = cookieStore.get("type_money")?.value || "3";
+  const allBanners = bannersData?.data?.results || bannersData?.results || (Array.isArray(bannersData) ? bannersData : []);
+  
+  // تصفية البنرات لتعرض فقط البنرات التابعة للشركة المحددة (إذا وجدت)
+  const filteredBanners = effectiveCompany 
+    ? allBanners.filter(banner => banner.companies && banner.companies.includes(Number(effectiveCompany)))
+    : allBanners;
 
   return (
     <div className="bg-gray-50/50 min-h-screen  " dir="rtl">
       {/* السلايدر بعرض الصفحة بالكامل */}
       <div className="w-full mb-6">
-        <HeroCarousel banners={bannersData?.results || (Array.isArray(bannersData) ? bannersData : [])} />
+        <HeroCarousel banners={filteredBanners} />
       </div>
 
       <div className="container mx-auto px-4">

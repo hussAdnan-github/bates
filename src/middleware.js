@@ -17,14 +17,14 @@ export function middleware(request) {
     const redirectUrl = new URL("/products", request.url);
     response = NextResponse.redirect(redirectUrl);
     // Set a cookie so we know they've visited
-    response.cookies.set("has_visited", "true", { path: "/", maxAge: 60 * 60 * 24 * 365 }); 
+    response.cookies.set("has_visited", "true", { path: "/", maxAge: 60 * 60 * 24 * 365 });
     return response;
   }
 
   // 1. إذا لم يكن هناك توكن، نوجهه لصفحة تسجيل الدخول فقط إذا حاول الوصول لصفحات محمية
   if (!token) {
     if (isDashboard || isCheckout) {
-      return NextResponse.redirect(new URL("/signUp", request.url));
+      return NextResponse.redirect(new URL("/login", request.url));
     }
     // السماح بالوصول لصفحات التسوق والصفحات الأخرى للزوار
     return response;
@@ -41,8 +41,8 @@ export function middleware(request) {
     // منطق الأدمن: يُسمح له بكل شيء (لا نحتاج لوضع قيود)
     if (role === "admin") {
       return response;
-    } 
-    
+    }
+
     // منطق المستخدم العادي (غير الأدمن)
     else {
       // منع الوصول للوحة التحكم

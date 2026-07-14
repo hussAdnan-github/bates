@@ -61,57 +61,65 @@ function page({ searchParams: searchParamsPage }) {
   const hasPrevPage = data?.data?.previous;
 
   return (
-    <div className="p-6 " dir="rtl">
-      <div className="flex flex-row justify-between mb-6">
-        <div className="flex items-center me-4">
-          <Users />
-          <h1 className="text-3xl font-bold">إدارة المستخدمين</h1>
+    <div className="p-6" dir="rtl">
+      {/* 1. Header & Add Button */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-purple-100 text-purple-700 rounded-xl">
+            <Users size={28} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-extrabold text-gray-800">إدارة المستخدمين</h1>
+            <p className="text-sm text-gray-500 font-medium mt-1">تصفح وإدارة جميع مستخدمي النظام</p>
+          </div>
         </div>
-        <SearchInput
-          placeholder="البحث لاأسم او البريد..."
-          value={searchTerm}
-          onSearch={setSearchTerm}
-        />
-        <FiltersDropdown
-          value={typeCustom}
-          options={[
-            { label: "كل الانواع", value: "" },
-            { label: "تاجر جملة الجملة", value: 1 },
-            { label: "تاجر جملة", value: 2 },
-            { label: "تاجر تجزئة", value: 3 },
-          ]}
-          onChange={handleRoleChange}
-        />
-        <FiltersDropdown
-          // is_active=true
-          value={isActive}
-          options={[
-            { label: "كل الحالات", value: "" },
-
-            { label: "نشط", value: "true" },
-            { label: "غير نشط", value: "false" },
-          ]}
-          onChange={handleStatusChange}
-        />
-      </div>
-      <div className="flex justify-start mb-6">
-        <Link
-          href={"users/new"}
-          className="bg-[#2D1B4D] text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-opacity-90 transition-all font-bold"
-        >
-          <Plus size={20} />
+        
+        <Link href={"users/new"} className="bg-[#2D1B4D] text-white px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-opacity-90 transition-all font-bold shadow-md hover:shadow-lg">
+          <span className="text-xl leading-none">+</span>
           <span>إضافة مستخدم</span>
         </Link>
       </div>
 
+      {/* 2. Search & Filters Bar */}
+      <div className="flex flex-col md:flex-row gap-4 items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-6">
+        <div className="flex-1 w-full">
+          <SearchInput
+            placeholder="البحث بالاسم أو البريد..."
+            value={searchTerm}
+            onSearch={setSearchTerm}
+          />
+        </div>
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <FiltersDropdown
+            value={typeCustom}
+            options={[
+              { label: "كل الانواع", value: "" },
+              { label: "تاجر جملة الجملة", value: 1 },
+              { label: "تاجر جملة", value: 2 },
+              { label: "تاجر تجزئة", value: 3 },
+            ]}
+            onChange={handleRoleChange}
+          />
+          <FiltersDropdown
+            value={isActive}
+            options={[
+              { label: "كل الحالات", value: "" },
+              { label: "نشط", value: "true" },
+              { label: "غير نشط", value: "false" },
+            ]}
+            onChange={handleStatusChange}
+          />
+        </div>
+      </div>
+
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="flex items-center justify-between bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-400 text-sm font-bold">
-          <div className="w-[20%] text-right pl-10">المستخدم</div>
-          <div className="w-[25%] text-center">رقم الهاتف</div>
-          <div className="w-[20%] text-center">نوع التاجر</div>
+        <div className="flex items-center w-full bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-500 text-sm font-bold">
+          <div className="w-[25%] text-right pr-4">المستخدم</div>
+          <div className="w-[20%] text-center">رقم الهاتف</div>
+          <div className="w-[15%] text-center">نوع التاجر</div>
           <div className="w-[10%] text-center">الحالة</div>
-          <div className="w-[10%] text-center pr-2">إجراءات</div>
-          <div className="w-[15%] text-center">مشرف؟</div>
+          <div className="w-[15%] text-center">الرتبة</div>
+          <div className="w-[15%] text-left pl-4">إجراءات</div>
         </div>
 
         {/* قائمة المستخدمين */}

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
-import { Building2, Plus, Users } from "lucide-react";
+import React, { useState } from "react";
+import { ReceiptText, Plus, Users } from "lucide-react";
 import UserRow from "@/components/dashboard/data/UserRow";
 import Link from "next/link";
 import SearchInput from "@/components/dashboard/SearchInput";
@@ -68,38 +68,50 @@ function BillsList({ searchParams: searchParamsPage }) {
 
 
   return (
-    <div className="p-6 " dir="rtl">
-      <div className="flex flex-row justify-between mb-6">
-        <div className="flex items-center me-4">
-          <Building2 />
-          <h1 className="text-3xl font-bold">إدارة الفواتير</h1>
+    <div className="p-6" dir="rtl">
+      {/* 1. Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-indigo-100 text-indigo-700 rounded-xl">
+            <ReceiptText size={28} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-extrabold text-gray-800">إدارة الفواتير</h1>
+            <p className="text-sm text-gray-500 font-medium mt-1">تصفح وإدارة فواتير النظام والمبيعات</p>
+          </div>
         </div>
-        <SearchInput
-          placeholder="البحث برقم الطلب او ال عميل..."
-          value={searchTerm}
-          onSearch={setSearchTerm}
-        />
-        <FiltersDropdown
-          // taype_custom
-          value={type}
-          options={[
-            { label: "كل الأنواع", value: "" },
+      </div>
 
-            { label: "نقد", value: 1 },
-            { label: "أجل", value: 2 },
-          ]}
-          onChange={handleTypeChange}
-        />
+      {/* 2. Search & Filters Bar */}
+      <div className="flex flex-col md:flex-row gap-4 items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-6">
+        <div className="flex-1 w-full">
+          <SearchInput
+            placeholder="البحث برقم الطلب او العميل..."
+            value={searchTerm}
+            onSearch={setSearchTerm}
+          />
+        </div>
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <FiltersDropdown
+            value={type}
+            options={[
+              { label: "كل الأنواع", value: "" },
+              { label: "نقد", value: 1 },
+              { label: "أجل", value: 2 },
+            ]}
+            onChange={handleTypeChange}
+          />
+        </div>
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="flex items-center justify-between bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-400 text-sm font-bold">
-          <div className="w-[10%] text-right pl-10">رقم الفاتورة</div>
-          <div className="w-[20%] text-center"> العميل</div>
-          <div className="w-[20%] text-center"> الإجمالي</div>
-          <div className="w-[20%] text-center"> نوع الفاتورة</div>
-          <div className="w-[20%] text-center"> تاريخ الإصدار</div>
-          <div className="w-[10%] text-center pr-2">إجراءات</div>
+        <div className="flex items-center w-full bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-500 text-sm font-bold">
+          <div className="w-[15%] text-right pr-4">رقم الفاتورة</div>
+          <div className="w-[20%] text-center">العميل</div>
+          <div className="w-[20%] text-center">الإجمالي</div>
+          <div className="w-[15%] text-center">نوع الفاتورة</div>
+          <div className="w-[20%] text-center">تاريخ الإصدار</div>
+          <div className="w-[10%] text-left pl-4">إجراءات</div>
         </div>
 
         {/* قائمة الفواتير */}

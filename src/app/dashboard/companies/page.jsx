@@ -49,34 +49,42 @@ function page({ searchParams: searchParamsPage }) {
   const hasNextPage = data?.data?.next;
   const hasPrevPage = data?.data?.previous;
   return (
-    <div className="p-6 " dir="rtl">
-      <div className="flex flex-row justify-between mb-6">
-        <div className="flex items-center me-4">
-          <Building2 />
-          <h1 className="text-3xl font-bold">إدارة الشركات</h1>
+    <div className="p-6" dir="rtl">
+      {/* 1. Header & Add Button */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-blue-100 text-blue-700 rounded-xl">
+            <Building2 size={28} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-extrabold text-gray-800">إدارة الشركات</h1>
+            <p className="text-sm text-gray-500 font-medium mt-1">تصفح وإدارة جميع الشركات المسجلة</p>
+          </div>
         </div>
-        <SearchInput
-          placeholder="البحث بأسم الشركة  ..."
-          onSearch={setSearchTerm}
-        />
-      </div>
-      <div className="flex justify-start mb-6">
-        <Link
-          href={"companies/new"}
-          className="bg-[#2D1B4D] text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-opacity-90 transition-all font-bold"
-        >
-          <Plus size={20} />
+        
+        <Link href={"companies/new"} className="bg-[#2D1B4D] text-white px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-opacity-90 transition-all font-bold shadow-md hover:shadow-lg">
+          <span className="text-xl leading-none">+</span>
           <span>إضافة شركة</span>
         </Link>
       </div>
 
+      {/* 2. Search & Filters Bar */}
+      <div className="flex flex-col md:flex-row gap-4 items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-6">
+        <div className="flex-1 w-full">
+          <SearchInput
+            placeholder="البحث باسم الشركة..."
+            onSearch={setSearchTerm}
+          />
+        </div>
+      </div>
+
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="flex items-center justify-between bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-500 text-sm font-bold">
-          <div className="w-[25%] text-right pl-10">الشركة</div>
+        <div className="flex items-center w-full bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-500 text-sm font-bold">
+          <div className="w-[30%] text-right pr-4">الشركة</div>
           <div className="w-[15%] text-center">الترتيب</div>
-          <div className="w-[25%] text-center"> الموقع الإلكتروني</div>
-          <div className="w-[20%] text-center"> عدد المستخدمين</div>
-          <div className="w-[15%] text-center pr-2">إجراءات</div>
+          <div className="w-[20%] text-center">الموقع الإلكتروني</div>
+          <div className="w-[20%] text-center">عدد المستخدمين</div>
+          <div className="w-[15%] text-left pl-4">إجراءات</div>
         </div>
 
         {/* قائمة المستخدمين */}

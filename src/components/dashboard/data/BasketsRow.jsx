@@ -29,45 +29,48 @@ function BasketsRow({ basket }) {
   };
 
   return (
-    <div className="flex flex-row-reverse items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors text-right">
-      {/* إجراءات */}
-      <div className="flex justify-center gap-3 w-[10%]">
-        <Link href={`/dashboard/baskets/${basket.id}`} className="text-gray-400 hover:text-blue-600 transition-colors p-2 bg-blue-50 rounded-lg hover:bg-blue-100">
-          <Edit size={18} />
-        </Link>
+    <div className="flex items-center w-full px-4 py-3 bg-white border-b border-gray-100 hover:bg-blue-50/30 transition-all text-sm">
+      {/* 1. رقم الطلب */}
+      <div className="w-[12%] flex items-center pr-2 text-right">
+        <span className="font-bold text-gray-800 bg-gray-100 px-3 py-1 rounded-full text-xs border border-gray-200 shadow-sm">#{basket.id}</span>
       </div>
 
-      {/* تاريخ الطلب */}
-      <div className="w-[20%] text-center text-gray-600 font-medium text-sm">
-        {basket.created_at ? new Date(basket.created_at).toLocaleDateString("ar-EG") : "غير محدد"}
-      </div>
-      
-      {/* نوع الدفع */}
-      <div className="w-[15%] text-center">
-         <PremiumBadge config={paymentConfig[basket.type_payment]} />
-      </div>
-
-      {/* حالة الطلب */}
-      <div className="w-[15%] text-center">
-        <PremiumBadge config={statusConfig[basket.status]} />
-      </div>
-
-      {/* الإجمالي */}
-      <div className="w-[15%] text-center text-purple-700 font-bold">
-        {basket.total_price || 0} <span className="text-xs text-gray-400 font-normal">ر.ي</span>
-      </div>
-
-      {/* العميل */}
-      <div className="w-[15%] text-center flex flex-col items-center justify-center" dir="rtl">
-        <span className="font-bold text-gray-800 line-clamp-1">{basket.name_user || "غير متوفر"}</span>
+      {/* 2. العميل */}
+      <div className="w-[18%] flex flex-col items-center justify-center">
+        <span className="font-bold text-gray-800 line-clamp-1 text-center">{basket.name_user || "غير متوفر"}</span>
         {basket.user_phone && (
-          <span className="text-xs text-gray-500 line-clamp-1" dir="ltr">{String(basket.user_phone).split(',')[0]}</span>
+          <span className="text-xs text-gray-500 line-clamp-1 text-center font-mono" dir="ltr">{String(basket.user_phone).split(',')[0]}</span>
         )}
       </div>
 
-      {/* رقم الطلب */}
-      <div className="flex flex-row-reverse items-center gap-3 w-[10%] justify-end">
-        <span className="font-bold text-gray-800">#{basket.id}</span>
+      {/* 3. الإجمالي */}
+      <div className="w-[15%] text-center text-purple-700 font-bold flex justify-center items-baseline gap-1">
+        <span>{basket.total_price || 0}</span>
+        <span className="text-[10px] text-gray-400 font-normal">ر.ي</span>
+      </div>
+
+      {/* 4. حالة الطلب */}
+      <div className="w-[15%] flex justify-center">
+        <PremiumBadge config={statusConfig[basket.status]} />
+      </div>
+
+      {/* 5. نوع الدفع */}
+      <div className="w-[15%] flex justify-center">
+        <PremiumBadge config={paymentConfig[basket.type_payment]} />
+      </div>
+
+      {/* 6. تاريخ الطلب */}
+      <div className="w-[15%] flex justify-center text-gray-600 font-medium text-sm">
+        <div className="bg-gray-50 px-3 py-1 rounded-md border border-gray-100 shadow-sm">
+          {basket.created_at ? new Date(basket.created_at).toLocaleDateString("ar-EG") : "غير محدد"}
+        </div>
+      </div>
+
+      {/* 7. إجراءات */}
+      <div className="w-[10%] flex items-center justify-end gap-2 pl-2 text-left">
+        <Link href={`/dashboard/baskets/${basket.id}`} className="text-gray-400 hover:text-blue-600 transition-colors p-2 bg-gray-50 hover:bg-blue-100 rounded-lg">
+          <Edit size={18} />
+        </Link>
       </div>
     </div>
   );

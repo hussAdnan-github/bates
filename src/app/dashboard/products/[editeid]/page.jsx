@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { Switch } from "@/components/ui/switch";
 import { ArrowRight, Image, UserCircle2 } from "lucide-react";
 import InputField from "@/components/dashboard/InputField";
 import BackPage from "@/components/dashboard/BackPage";
@@ -42,6 +43,7 @@ function page() {
           description: data?.data?.description || "",
           number: data?.data?.number || "",
           department: data?.data?.department || "",
+          status: data?.data?.status !== undefined ? data?.data?.status : 1,
         });
       } catch (error) {
         console.error(error);
@@ -72,6 +74,7 @@ function page() {
       serial_number: "",
       description: "",
       number: "",
+      status: 1,
       image: null,
     },
   });
@@ -138,7 +141,8 @@ function page() {
 
             <span className="font-bold text-lg">تفاصيل منتج</span>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* اسم المستخدم */}
             <InputField
               label="اسم المنتج"
@@ -218,17 +222,35 @@ function page() {
               error={errors.number?.message}
             />
 
-            <div>
-              <label className="text-gray-600 text-sm font-medium">الوصف</label>
-              <Textarea
-                placeholder="اكتب وصف المنتج"
-                {...register("description")}
-                error={errors.description?.message}
-                className="mt-1"
+            <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50 transition-all hover:shadow-sm">
+              <div className="flex flex-col gap-1">
+                <label className="text-gray-700 font-bold text-sm cursor-pointer">
+                  حالة المنتج
+                </label>
+                <span className="text-gray-500 text-xs">تفعيل أو تعطيل ظهور هذا المنتج</span>
+              </div>
+              <Controller
+                name="status"
+                control={control}
+                render={({ field }) => (
+                  <Switch
+                    checked={field.value === 1}
+                    onCheckedChange={(val) => field.onChange(val ? 1 : 0)}
+                    className="
+                      data-[state=checked]:bg-purple-900 
+                      data-[state=unchecked]:bg-slate-200
+                      transition-colors
+                    "
+                  />
+                )}
               />
+              {errors.status && (
+                <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+              )}
             </div>
 
             <div>
+              <label className="text-gray-600 text-sm font-medium">القسم</label>
               <Controller
                 name="department"
                 control={control}
@@ -236,7 +258,7 @@ function page() {
                   <select
                     {...field} // يربط value و onChange تلقائياً
                     onChange={(e) => field.onChange(Number(e.target.value))} // تحويل القيمة لرقم
-                    className={`w-full border rounded-lg p-3 bg-gray-50 ${
+                    className={`w-full border rounded-lg p-3 bg-gray-50 mt-1 ${
                       errors.department ? "border-red-500" : "border-gray-200"
                     }`}
                   >
@@ -250,11 +272,24 @@ function page() {
                 )}
               />
               {errors.department && (
-                <p className="text-red-500 text-sm">
+                <p className="text-red-500 text-sm mt-1">
                   {errors.department.message}
                 </p>
               )}
             </div>
+
+            <div className="md:col-span-2">
+              <label className="text-gray-600 text-sm font-medium mb-2 block">الوصف</label>
+              <Textarea
+                placeholder="اكتب وصف المنتج"
+                {...register("description")}
+                error={errors.description?.message}
+                className="mt-1"
+              />
+            </div>
+            </div>
+
+            {/* department was moved up */}
             <ImagesProducts
               onChange={(files, id) =>
                 setExtraImages((prev) => ({ ...prev, [id]: files[0] }))
@@ -268,8 +303,13 @@ function page() {
               }
             />
 
-            {/* زر الحفظ (إضافي من عندي ليكتمل النموذج) */}
-            <div className="mt-8 pt-6 border-t border-gray-50 flex justify-end gap-4">
+            <div className="mt-10 pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
+              <Link
+                href={"/dashboard/products"}
+                className="bg-white text-gray-700 border border-gray-200 px-8 py-3 rounded-xl font-bold hover:bg-gray-50 transition-all"
+              >
+                الغاء
+              </Link>
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -277,12 +317,6 @@ function page() {
               >
                 {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
               </button>
-              <Link
-                href={"/dashboard/products"}
-                className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
-              >
-                الغاء
-              </Link>
             </div>
           </form>
         </div>

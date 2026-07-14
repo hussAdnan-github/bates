@@ -126,7 +126,8 @@ function Page() {
         </div>
 
         <div className="p-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <InputField
               label="اسم المستخدم"
               placeholder="مثال: mohammed_ali"
@@ -244,8 +245,8 @@ function Page() {
               {...register("confirmPassword")}
               error={errors.confirmPassword?.message}
             />
-
-            <p className="text-xs text-gray-400 mt-4 text-right">
+            </div>
+            <p className="text-xs text-gray-400 mt-2 text-right">
               يرجى تعيين كلمة مرور قوية للمستخدم الجديد.
             </p>
 
@@ -275,16 +276,16 @@ function Page() {
               <Shield size={24} />
               <span className="font-bold text-lg"> الصلاحيات</span>
             </div>
-            <div className="px-6">
-              <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-gray-300   transition-all">
-                <div className="flex flex-col gap-0.5">
+            <div className="px-0 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50 transition-all hover:shadow-sm">
+                <div className="flex flex-col gap-1">
                   <label
                     htmlFor="active-status"
-                    className="text-slate-700 font-semibold text-sm cursor-pointer"
+                    className="text-gray-700 font-bold text-sm cursor-pointer"
                   >
                     حالة النشاط
                   </label>
-                  {/* <span className="text-slate-400 text-xs">تفعيل أو تعطيل هذا المستخدم</span> */}
+                  <span className="text-gray-500 text-xs">تفعيل أو تعطيل حساب هذا المستخدم</span>
                 </div>
 
                 <Controller
@@ -304,15 +305,15 @@ function Page() {
                   )}
                 />
               </div>
-              <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-gray-300   transition-all">
-                <div className="flex flex-col gap-0.5">
+              <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50 transition-all hover:shadow-sm">
+                <div className="flex flex-col gap-1">
                   <label
-                    htmlFor="active-status"
-                    className="text-slate-700 font-semibold text-sm cursor-pointer"
+                    htmlFor="staff-status"
+                    className="text-gray-700 font-bold text-sm cursor-pointer"
                   >
                     فريق العمل؟
                   </label>
-                  {/* <span className="text-slate-400 text-xs">تفعيل أو تعطيل هذا المستخدم</span> */}
+                  <span className="text-gray-500 text-xs">هل هذا المستخدم من ضمن فريق العمل؟</span>
                 </div>
 
                 <Controller
@@ -334,7 +335,13 @@ function Page() {
               </div>
             </div>
             {/* زر الحفظ */}
-            <div className="mt-8 pt-6 gap-2 border-t border-gray-50 flex justify-end">
+            <div className="mt-10 pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
+              <Link
+                href={"/dashboard/users"}
+                className="bg-white text-gray-700 border border-gray-200 px-8 py-3 rounded-xl font-bold hover:bg-gray-50 transition-all"
+              >
+                الغاء
+              </Link>
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -342,12 +349,6 @@ function Page() {
               >
                 {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
               </button>
-              <Link
-                href={"/dashboard/users"}
-                className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
-              >
-                الغاء
-              </Link>
             </div>
           </form>
         </div>

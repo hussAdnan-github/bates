@@ -134,7 +134,8 @@ function page() {
         </div>
 
         <div className="p-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* اسم القسم */}
             <InputField
               label="اسم القسم"
@@ -151,7 +152,7 @@ function page() {
               {...register("number")}
               error={errors.number?.message}
             />
-            <div className="flex flex-col gap-2">
+            <div className="md:col-span-2 flex flex-col gap-2">
               <label className="text-gray-600 text-sm font-medium">
                 {" "}
                 الشركات المتربطة
@@ -187,6 +188,7 @@ function page() {
                 />
               </div>
             </div>
+            </div>
             <div className="flex flex-col items-center justify-center mb-8 mt-10">
               <div className="relative group">
                 <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
@@ -204,7 +206,13 @@ function page() {
               <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">أيقونة القسم (اختياري)</span>
             </div>
             
-            <div className="mt-8 pt-6 gap-2 border-t border-gray-50 flex justify-end">
+            <div className="mt-10 pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
+              <Link
+                href={"/dashboard/departments"}
+                className="bg-white text-gray-700 border border-gray-200 px-8 py-3 rounded-xl font-bold hover:bg-gray-50 transition-all"
+              >
+                الغاء
+              </Link>
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -212,12 +220,6 @@ function page() {
               >
                 {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
               </button>
-              <Link
-                href={"/dashboard/departments"}
-                className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
-              >
-                الغاء
-              </Link>
             </div>
           </form>
         </div>

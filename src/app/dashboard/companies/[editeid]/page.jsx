@@ -161,7 +161,8 @@ function page() {
             <span className="font-bold text-lg">تفاصيل الشركة</span>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <InputField
               label="اسم الشركة (بالعربية)"
               placeholder="اسم الشركة بالعربية"
@@ -191,8 +192,7 @@ function page() {
               error={errors.number?.message}
             />
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2 w-full text-right">
+            <div className="flex flex-col gap-2 w-full text-right">
                 <label className="text-gray-600 text-sm font-medium">اللون الأساسي</label>
                 <input
                   type="color"
@@ -208,16 +208,18 @@ function page() {
                   className="w-full h-12 rounded-lg cursor-pointer border border-gray-200"
                 />
               </div>
-            </div>
 
-            <label className="text-gray-600 text-sm font-medium">
-              وصف الشركة
-            </label>
-            <Textarea
-              placeholder="اكتب وصف الشركة"
-              {...register("description")}
-              error={errors.description?.message}
-            />
+            <div className="md:col-span-2">
+              <label className="text-gray-600 text-sm font-medium mb-2 block text-right">
+                وصف الشركة
+              </label>
+              <Textarea
+                placeholder="اكتب وصف الشركة"
+                {...register("description")}
+                error={errors.description?.message}
+              />
+            </div>
+            </div>
 
             <div>
               <Controller
@@ -271,16 +273,20 @@ function page() {
               <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">تغيير الشعار (اختياري)</span>
             </div>
 
-            <div className="mt-8 pt-6 gap-2 border-t border-gray-50 flex justify-end">
-              <button className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200">
-                حفظ البيانات
-              </button>
+            <div className="mt-10 pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
               <Link
                 href={"/dashboard/companies"}
-                className="bg-orange-400 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200"
+                className="bg-white text-gray-700 border border-gray-200 px-8 py-3 rounded-xl font-bold hover:bg-gray-50 transition-all"
               >
                 الغاء
               </Link>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200 disabled:bg-gray-400"
+              >
+                {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
+              </button>
             </div>
           </form>
         </div>

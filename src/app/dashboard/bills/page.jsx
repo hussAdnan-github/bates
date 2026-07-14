@@ -23,19 +23,19 @@ function BillsList({ searchParams: searchParamsPage }) {
     searchTerm,
     setSearchTerm,
     currentPage,
-    updateFilters, 
+    updateFilters,
     getQueryParam,
   } = useFiltter(searchParamsPage);
 
   const type = getQueryParam("type") || "";
- 
 
- 
 
- 
 
- 
-  const handleTypeChange = (val) => updateFilters({type: val});
+
+
+
+
+  const handleTypeChange = (val) => updateFilters({ type: val });
   const handleSearch = (val) => setSearchTerm(val);
   const { data, isLoading, error } = useQuery({
     queryKey: ["bills", currentPage, type, searchTerm],
@@ -65,8 +65,8 @@ function BillsList({ searchParams: searchParamsPage }) {
   const hasNextPage = data?.data?.next;
   const hasPrevPage = data?.data?.previous;
 
- 
-   
+
+
   return (
     <div className="p-6 " dir="rtl">
       <div className="flex flex-row justify-between mb-6">

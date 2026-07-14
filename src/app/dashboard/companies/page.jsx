@@ -87,25 +87,24 @@ function page({ searchParams: searchParamsPage }) {
             </div>
           ) : (
             companies.map((company) => (
-              <CompaniesRow key={company.id} company={company} onDelete={refetch}/>
+              <CompaniesRow key={company.id} company={company} onDelete={refetch} />
             ))
           )}
         </div>
       </div>
-       <div className="flex justify-between items-center flex-row-reverse mt-8">
-              <Pagination
-                nameApi="/dashboard/users"
-                currentPage={currentPage}
-                totalPages={totalPages}
-                hasNextPage={hasNextPage}
-                hasPrevPage={hasPrevPage}
-              />
-              <div>{`عرض 1 - ${ITEMS_PER_PAGE} من إجمالي ${totalCount} نتيجة`}</div>
-            </div>
+      <div className="flex justify-between items-center flex-row-reverse mt-8">
+        <Pagination
+          nameApi="/dashboard/users"
+          currentPage={currentPage}
+          totalPages={totalPages}
+          hasNextPage={hasNextPage}
+          hasPrevPage={hasPrevPage}
+        />
+        <div>{`عرض 1 - ${ITEMS_PER_PAGE} من إجمالي ${totalCount} نتيجة`}</div>
+      </div>
     </div>
   );
 }
 
 export default page;
 
- 

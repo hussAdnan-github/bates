@@ -1,9 +1,9 @@
- "use client";
+"use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, use } from "react";
 
 export function useFiltter(searchParamsPage) {
-  const router = useRouter(); 
+  const router = useRouter();
   const searchParamsQuery = useSearchParams();
 
   const resolvedSearchParams = use(searchParamsPage);

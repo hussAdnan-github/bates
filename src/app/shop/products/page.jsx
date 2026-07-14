@@ -26,31 +26,33 @@ import { cookies } from "next/headers";
 async function page({ searchParams }) {
   const { price, department, department__company } = await searchParams;
 
-  const companiesData = await getCompanies();
-  const defaultCompany = companiesData?.data?.results?.[0];
-
   const cookieStore = await cookies();
   const savedCompanyId = cookieStore.get("active_company_id")?.value;
 
-  let effectiveCompany = department__company;
+  let effectiveCompany = department__company || savedCompanyId;
+
   if (!effectiveCompany) {
-    if (savedCompanyId) {
-      effectiveCompany = savedCompanyId;
-    } else if (defaultCompany) {
+    const companiesData = await getCompanies();
+    const defaultCompany = companiesData?.data?.results?.[0];
+    if (defaultCompany) {
       effectiveCompany = defaultCompany.id.toString();
     }
   }
 
-  const departmentData = await getDepartment(effectiveCompany);
+  const bannersPromise = getBanners(effectiveCompany);
+  const departmentDataPromise = getDepartment(effectiveCompany);
+
+  const departmentData = await departmentDataPromise;
+
   let effectiveDepartment = department;
   if (!effectiveDepartment && departmentData?.data?.length > 0) {
     effectiveDepartment = departmentData.data[0].id.toString();
   }
 
-  const [products, bannersData] = await Promise.all([
-    getProduts(price, effectiveDepartment, effectiveCompany),
-    getBanners(effectiveCompany),
-  ]);
+  const productsPromise = getProduts(price, effectiveDepartment, effectiveCompany);
+
+  const products = await productsPromise;
+  const bannersData = await bannersPromise;
 
   const type_money = cookieStore.get("type_money")?.value || "3";
 
@@ -74,7 +76,7 @@ async function page({ searchParams }) {
             <div className="">
               <Department department={departmentData} />
             </div>
-           
+
 
             <InfiniteProductList
               show={3}

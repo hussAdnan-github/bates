@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProduts, getProdutsDash } from "@/actions/product";
 import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "@/components/dashboard/Pagination";
-import {getDepartmentsList } from "@/actions/department";
+import { getDepartmentsList } from "@/actions/department";
 import { useFiltter } from "@/hooks/useFiltter";
 import { set } from "zod";
 const ITEMS_PER_PAGE = 21;
@@ -23,7 +23,7 @@ function page({ searchParams: searchParamsPage }) {
     searchTerm,
     setSearchTerm,
     currentPage,
-    updateFilters, 
+    updateFilters,
     getQueryParam,
   } = useFiltter(searchParamsPage);
 
@@ -49,9 +49,9 @@ function page({ searchParams: searchParamsPage }) {
   }, []);
   const searchParams = use(searchParamsPage);
 
- 
-  const handleRoleChange = (val) => updateFilters({department__company: val});
-  const handleStatusChange = (val) => updateFilters({status : val});
+
+  const handleRoleChange = (val) => updateFilters({ department__company: val });
+  const handleStatusChange = (val) => updateFilters({ status: val });
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["Product", currentPage, department__company, status, searchTerm],

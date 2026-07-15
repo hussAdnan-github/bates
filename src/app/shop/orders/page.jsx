@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import {
   Eye,
   Pencil,
@@ -37,7 +37,7 @@ const statusMap = {
   6: { text: "تم رفض طلبك", type: "danger" },
 };
 
-function Page() {
+function OrdersContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -259,4 +259,19 @@ const EmptyState = () => (
   </div>
 );
 
-export default Page;
+export default function Page() {
+  return (
+    <Suspense 
+      fallback={
+        <div className="flex flex-col justify-center items-center h-[60vh] gap-4">
+          <Loader2 className="h-10 w-10 animate-spin text-[var(--primary_color)]" />
+          <p className="text-gray-500 animate-pulse text-lg font-bold">
+            جارٍ التحضير...
+          </p>
+        </div>
+      }
+    >
+      <OrdersContent />
+    </Suspense>
+  );
+}

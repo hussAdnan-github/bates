@@ -3,6 +3,7 @@ import { ArrowRight, Package, Calendar, CreditCard, CheckCircle2 } from "lucide-
 import { getOrdsersId } from "@/actions/orders";
 import Link from "next/link";
 import { cookies } from "next/headers";
+import Image from "next/image";
 
  
 const InfoItem = ({ icon: Icon, label, value, className = "" } ) => (
@@ -111,11 +112,13 @@ const OrderDetails = async ({ params }) => {
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden border border-gray-100">
-                        <img
+                      <div className="w-16 h-16 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden border border-gray-100 relative">
+                        <Image
                           src={item.products_image}
                           alt={item.products_name}
-                          className="w-full h-full object-cover"
+                          fill
+                          sizes="64px"
+                          className="object-cover"
                         />
                       </div>
                       <span className="font-bold text-gray-700 text-sm leading-relaxed max-w-[250px]">

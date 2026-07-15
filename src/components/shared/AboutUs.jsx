@@ -5,7 +5,7 @@ import { ShieldCheck, Cpu, Headset, BadgeCheck, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function AboutUs() {
-  
+
   return (
     <section className="relative py-6 bg-gray-50/50 overflow-hidden" dir="rtl">
       {/* Background Decor */}
@@ -14,9 +14,9 @@ export default function AboutUs() {
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
-          
+
           {/* Content Section */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -27,20 +27,20 @@ export default function AboutUs() {
               <span className="w-2 h-2 rounded-full bg-[#FFC107] animate-pulse"></span>
               <span className="text-sm font-bold text-gray-600">تعرف على متجرنا</span>
             </div>
-            
+
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#2D1B50] mb-6 leading-tight">
-              نحن نبتكر تجربة <br/>
+              نحن نبتكر تجربة <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#FFC107] to-orange-400">
                 تسوق استثنائية
               </span>
             </h2>
-            
+
             <p className="text-lg text-gray-600 leading-relaxed mb-10 font-medium">
-              نحن منصة رائدة متخصصة في تقديم أفضل المنتجات التقنية والإلكترونية بأعلى معايير الجودة. 
+              نحن منصة رائدة متخصصة في تقديم أفضل المنتجات التقنية والإلكترونية بأعلى معايير الجودة.
               نسعى دائماً لتوفير أحدث التقنيات لعملائنا، بالتعاون مع كبرى الشركات العالمية مثل <strong className="text-[#2D1B50]">UGREEN</strong> و <strong className="text-[#2D1B50]">VIDVE</strong> لضمان توفير منتجات أصلية ومضمونة تلبي كافة احتياجاتك.
             </p>
 
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="shop/products" className="inline-flex items-center justify-center gap-2 bg-[#2D1B50] text-white px-8 py-4 rounded-xl font-bold hover:bg-[#3a2366] transition-colors shadow-lg shadow-[#2D1B50]/20 group">
                 تصفح المنتجات
@@ -50,7 +50,7 @@ export default function AboutUs() {
           </motion.div>
 
           {/* Image Section */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -61,19 +61,19 @@ export default function AboutUs() {
               {/* Decorative elements behind image */}
               <div className="absolute inset-0 bg-gradient-to-tr from-[#FFC107] to-orange-200 rounded-[3rem] rotate-3 scale-105 opacity-20 blur-lg"></div>
               <div className="absolute inset-0 border-2 border-[#FFC107]/30 rounded-[3rem] -rotate-3 transition-transform duration-500 hover:rotate-0"></div>
-              
+
               <div className="relative w-full h-full rounded-[3rem] overflow-hidden shadow-2xl bg-white group">
-                <img 
-                  src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                  alt="تقنيات حديثة" 
+                <img
+                  src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                  alt="تقنيات حديثة"
                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700"
                 />
-                
+
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2D1B50]/80 via-transparent to-transparent opacity-60"></div>
-                
+
                 {/* Floating Badge */}
-                <motion.div 
+                <motion.div
                   initial={{ y: 20, opacity: 0 }}
                   whileInView={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.5, duration: 0.5 }}

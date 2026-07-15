@@ -42,8 +42,8 @@ function Navbar() {
   return (
     <nav
       className={`w-full sticky top-0 z-50 transition-all duration-300 ${isScrolled
-          ? "bg-white/80 backdrop-blur-md shadow-sm py-3"
-          : "bg-white py-5"
+        ? "bg-white/80 backdrop-blur-md shadow-sm py-3"
+        : "bg-white py-5"
         }`}
       dir="rtl"
     >

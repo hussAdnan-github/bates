@@ -19,7 +19,7 @@ export default function BannerCarousel() {
 
   return (
     <div className="relative w-full h-[150px] md:h-[200px] lg:h-[260px] rounded-2xl md:rounded-[24px] overflow-hidden shadow-sm border border-gray-100 mb-2 group bg-gray-100" dir="ltr">
-      <div 
+      <div
         className="flex h-full w-full transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
@@ -45,11 +45,10 @@ export default function BannerCarousel() {
           <button
             key={idx}
             onClick={() => setCurrentIndex(idx)}
-            className={`relative transition-all duration-300 rounded-md overflow-hidden ${
-              currentIndex === idx 
-                ? "w-12 h-8 md:w-14 md:h-9 border-2 border-[var(--primary_color)]   scale-110" 
+            className={`relative transition-all duration-300 rounded-md overflow-hidden ${currentIndex === idx
+                ? "w-12 h-8 md:w-14 md:h-9 border-2 border-[var(--primary_color)]   scale-110"
                 : "w-10 h-6 md:w-12 md:h-7 border-2 border-white/50 opacity-60 hover:opacity-100 hover:border-white"
-            }`}
+              }`}
           >
             <Image
               src={src}

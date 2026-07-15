@@ -17,7 +17,7 @@ function Hero() {
 
         {/* زر الإجراء - Call to Action Button */}
         <div className="flex justify-center">
-          <Button 
+          <Button
             size="lg"
             className="bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold text-lg px-10 py-7 rounded-lg transition-transform hover:scale-105 active:scale-95 shadow-lg"
           >

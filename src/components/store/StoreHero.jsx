@@ -134,7 +134,7 @@ function StoreHero() {
         />
         {/* التعتيم المتدرج لجعل النص يبرز بقوة */}
         <div className="absolute inset-0 bg-gradient-to-l from-[#2D1B50]/80 via-[#2D1B50]/40 to-transparent" />
-        <div className="absolute inset-0 bg-black/20" /> 
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       {/* المحتوى */}
@@ -148,18 +148,18 @@ function StoreHero() {
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
             >
-              <motion.span 
+              <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="inline-block bg-[var(--primary_color)] text-[var(--secondary_color)] px-4 py-1 rounded-full text-sm font-bold mb-4"
               >
                 وصل حديثاً
               </motion.span>
-              
+
               <h1 className="text-white text-4xl md:text-7xl font-black mb-6 leading-[1.2] drop-shadow-xl">
                 {slides[currentSlide].title}
               </h1>
-              
+
               <p className="text-white/90 text-lg md:text-2xl mb-10 font-light leading-relaxed max-w-xl">
                 {slides[currentSlide].subtitle}
               </p>
@@ -174,7 +174,7 @@ function StoreHero() {
             >
               <Link href="/products">اكتشف العروض</Link>
             </Button>
-            
+
             <Button
               asChild
               variant="outline"
@@ -191,11 +191,10 @@ function StoreHero() {
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`transition-all duration-500 rounded-full ${
-                  currentSlide === index 
-                  ? "bg-[var(--primary_color)] w-10 h-2" 
-                  : "bg-white/30 w-2 h-2 hover:bg-white/60"
-                }`}
+                className={`transition-all duration-500 rounded-full ${currentSlide === index
+                    ? "bg-[var(--primary_color)] w-10 h-2"
+                    : "bg-white/30 w-2 h-2 hover:bg-white/60"
+                  }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}

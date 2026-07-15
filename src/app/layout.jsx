@@ -7,6 +7,7 @@ import ProvidersQuery from "@/provider/QueryClientProvider";
 import ThemeProvider from "@/provider/ThemeProvider";
 import { Toaster } from "sonner";
 import { cookies } from "next/headers";
+import AppInstallBanner from "@/components/shared/AppInstallBanner";
 
 const cairo = Cairo({
   subsets: ["arabic"],
@@ -56,6 +57,7 @@ export default async function RootLayout({ children }) {
             </ThemeProvider>
           </ProvidersQuery>
           <Toaster />
+          <AppInstallBanner />
         </main>
       </body>
     </html>

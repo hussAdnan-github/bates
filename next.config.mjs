@@ -8,6 +8,7 @@ const withPWA = withPWAInit({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /* config options here */
+  output: "standalone",
   experimental: {
     serverActions: {
       bodySizeLimit: '15mb',

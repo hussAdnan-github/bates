@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 const defaultImages = [
-  "/images/heroStore.jpg",
-  "/images/product.jpg"
+  "/images/heroStore.jpg"
 ];
 
 export default function BannerCarousel() {
@@ -48,7 +47,7 @@ export default function BannerCarousel() {
             onClick={() => setCurrentIndex(idx)}
             className={`relative transition-all duration-300 rounded-md overflow-hidden ${
               currentIndex === idx 
-                ? "w-12 h-8 md:w-14 md:h-9 border-2 border-[var(--primary_color)] shadow-lg scale-110" 
+                ? "w-12 h-8 md:w-14 md:h-9 border-2 border-[var(--primary_color)]   scale-110" 
                 : "w-10 h-6 md:w-12 md:h-7 border-2 border-white/50 opacity-60 hover:opacity-100 hover:border-white"
             }`}
           >

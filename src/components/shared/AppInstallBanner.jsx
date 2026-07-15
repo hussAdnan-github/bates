@@ -8,8 +8,8 @@ export default function AppInstallBanner() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // تحقق مما إذا كان المستخدم قد أغلق الإشعار سابقاً
-    if (localStorage.getItem("appInstallDismissed")) {
+    // تحقق مما إذا كان المستخدم قد رأى الإشعار سابقاً (يظهر مرة واحدة فقط)
+    if (localStorage.getItem("appInstallShown")) {
       return;
     }
 
@@ -22,7 +22,11 @@ export default function AppInstallBanner() {
     // إظهار الإشعار فقط إذا لم يكن داخل التطبيق
     if (!isStandalone && !isWebView) {
       // تأخير بسيط لتحسين تجربة المستخدم
-      const timer = setTimeout(() => setIsVisible(true), 2500);
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+        // حفظ القيمة حتى لا يظهر الإشعار مرة أخرى في المستقبل
+        localStorage.setItem("appInstallShown", "true");
+      }, 2500);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -40,7 +44,6 @@ export default function AppInstallBanner() {
 
   const handleDismiss = () => {
     setIsVisible(false);
-    localStorage.setItem("appInstallDismissed", "true");
   };
 
   const handleInstall = () => {
@@ -52,6 +55,7 @@ export default function AppInstallBanner() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
+          key="install-banner"
           initial={{ y: 300, opacity: 0, scale: 0.9 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: 300, opacity: 0, scale: 0.9 }}
@@ -65,7 +69,7 @@ export default function AppInstallBanner() {
 
             <button
               onClick={handleDismiss}
-              className="absolute top-3 left-3 text-gray-400 hover:text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-full p-1.5 transition-all z-10 active:scale-95"
+              className="absolute top-3 left-3 text-gray-400 hover:text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-full p-1.5 transition-all z-50 active:scale-95"
               aria-label="إغلاق"
             >
               <X size={16} />

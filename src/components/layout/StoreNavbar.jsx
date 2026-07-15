@@ -20,25 +20,25 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
         <>
           {/* --- الديسكتوب: لم يتغير --- */}
           <nav className="hidden lg:block w-full bg-white/95 backdrop-blur-md border-b sticky top-0 z-50 shadow-sm" dir="rtl">
-            <div className="container mx-auto px-8 h-20 flex items-center justify-between">
-              <div className="flex items-center gap-6 xl:gap-12">
+            <div className="container mx-auto px-4 xl:px-8 h-20 flex items-center justify-between">
+              <div className="flex items-center gap-4 xl:gap-12">
                 <Link href="/" className="flex flex-col hover:opacity-90 transition-opacity">
-                  <div className="text-lg xl:text-xl font-black text-[#2D1B50] tracking-tight leading-none mb-1.5 flex items-center">
-                    BTS - <span className="text-[#FFC107] ml-1">Store</span> <span className="text-gray-300 font-normal  mx-2 xl:mx-3">|</span> مؤسسة محمد باتيس للتجارة
+                  <div className="text-base xl:text-xl font-black text-[#2D1B50] tracking-tight leading-none mb-1.5 flex items-center">
+                    BTS - <span className="text-[#FFC107] ml-1">Store</span> <span className="hidden xl:inline text-gray-300 font-normal mx-2 xl:mx-3">|</span> <span className="hidden xl:inline">مؤسسة محمد باتيس للتجارة</span>
                   </div>
                   <div className="text-[11px] xl:text-xs font-bold text-gray-500">
                     وكلاء ( Ugreen & Vidvie )
                   </div>
                 </Link>
-                <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-                  <Link href="/shop" className="text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">من نحن</Link>
-                  <Link href="/shop/products" className="text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">المنتجات</Link>
-                  <Link href="/shop/orders" className="text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">الطلبات</Link>
+                <div className="hidden lg:flex items-center gap-4 xl:gap-8">
+                  <Link href="/shop" className="text-sm xl:text-base text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">من نحن</Link>
+                  <Link href="/shop/products" className="text-sm xl:text-base text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">المنتجات</Link>
+                  <Link href="/shop/orders" className="text-sm xl:text-base text-gray-500 hover:text-[#2D1B50] font-semibold transition-colors">الطلبات</Link>
                 </div>
               </div>
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-3 xl:gap-6">
                 <SearchBar />
-                <div className="flex items-center border-r pr-6 gap-4">
+                <div className="flex items-center border-r pr-3 xl:pr-6 gap-2 xl:gap-4">
                   {currencyButtonDesktop}
                   <BasketsDialog />
                   {isLoggedIn ? (

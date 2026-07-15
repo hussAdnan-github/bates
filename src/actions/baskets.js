@@ -11,13 +11,13 @@ export async function getBaskets(page = 1, status = null, search = "") {
   if (status) params.append("status", status);
   if (search) params.append("search", search); 
   const result = await request(`/baskets/baskets/?${params.toString()}`, "GET");
-  return result.data
+  return result?.data ?? null;
 
 }
 export async function getBasketsAll() {
 
   const result = await request(`baskets/baskets/?pagination=false`, "GET");
-  return result.data
+  return result?.data ?? null;
 
 }
 export async function getBasketsId(id) {
@@ -25,7 +25,7 @@ export async function getBasketsId(id) {
 
   console.log(result.data)
 
-  return result.data;
+  return result?.data ?? null;
 }
 export async function postProductBasket(formData) {
   const result = await request(`baskets/basketItem/`, "POST", formData, true);

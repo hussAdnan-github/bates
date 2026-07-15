@@ -50,20 +50,20 @@ function Navbar() {
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
 
         {/* جهة اليمين: اللوجو والروابط */}
-        <div className="flex items-center gap-12">
+        <div className="flex items-center gap-6 xl:gap-12">
           <Link
             href="/"
-            className="text-3xl font-black tracking-tighter text-[#2D1B50] hover:opacity-80 transition-opacity"
+            className="text-2xl xl:text-3xl font-black tracking-tighter text-[#2D1B50] hover:opacity-80 transition-opacity"
           >
             BTS
           </Link>
 
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-5 xl:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.title}
                 href={link.href}
-                className="text-[15px] font-medium text-gray-600 hover:text-[#2D1B50] relative group transition-colors"
+                className="text-[14px] xl:text-[15px] font-medium text-gray-600 hover:text-[#2D1B50] relative group transition-colors"
               >
                 {link.title}
                 {/* خط انيميشن تحت الرابط عند الهوفر */}
@@ -74,7 +74,7 @@ function Navbar() {
         </div>
 
         {/* جهة اليسار: الأزرار */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3 xl:gap-4">
           <Link
             href="/login"
             className="text-[#2D1B50] font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-gray-50 transition-all active:scale-95"
@@ -84,7 +84,7 @@ function Navbar() {
 
           <Link
             href="/signUp"
-            className="bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold text-sm px-7 py-2.5 rounded-xl shadow-lg shadow-yellow-200/50 transition-all hover:shadow-yellow-200/80 active:scale-95"
+            className="bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold text-sm px-5 xl:px-7 py-2.5 rounded-xl shadow-lg shadow-yellow-200/50 transition-all hover:shadow-yellow-200/80 active:scale-95"
           >
             إنشاء حساب
           </Link>

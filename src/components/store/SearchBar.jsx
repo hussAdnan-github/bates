@@ -59,7 +59,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div ref={wrapperRef} className="relative w-full lg:w-[450px]" dir="rtl">
+    <div ref={wrapperRef} className="relative w-full lg:w-[390px]" dir="rtl">
       {/* حقل البحث */}
       <div 
         className={`relative flex items-center w-full h-10 lg:h-12 rounded-xl lg:rounded-2xl overflow-hidden transition-all duration-300 border-2 

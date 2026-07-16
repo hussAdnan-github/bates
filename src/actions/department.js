@@ -3,7 +3,10 @@
 import request from "@/lib/apiService";
 import { revalidatePath } from "next/cache";
 export async function getDepartmentsList() { 
-  const result = await request(`departments/departments/?pagination=false`, "GET");
+  const result = await request(`departments/departments/?pagination=false`, "GET", null, false, {
+    next: { revalidate: 3600, tags: ["departments"] },
+    skipAuth: true,
+  });
   return result.data;
 }
 
@@ -18,6 +21,12 @@ export async function getDepartment(company) {
   const result = await request(
     `departments/departments/?pagination=false&${params.toString()}`,
     "GET",
+    null,
+    false,
+    {
+      next: { revalidate: 3600, tags: ["departments"] },
+      skipAuth: true,
+    }
   );
  
 

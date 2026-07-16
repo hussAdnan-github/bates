@@ -21,7 +21,10 @@ export async function getCompanies(page = 1, searchQuery = "") {
   if (page) params.append("page", page.toString());
   if (searchQuery) params.append("search", searchQuery);
 
-  const result = await request(`companies/companies/?${params.toString()}`, "GET");
+  const result = await request(`companies/companies/?${params.toString()}`, "GET", null, false, {
+    next: { revalidate: 3600, tags: ["companies"] },
+    skipAuth: true,
+  });
   return result.data;
 }
 

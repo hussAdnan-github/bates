@@ -8,6 +8,7 @@ async function request(
   method = "GET",
   data = null,
   isFormData = false,
+  options = {},
 ) {
   try {
     const cookieStore = await cookies();
@@ -18,7 +19,7 @@ async function request(
 
     const headers = {};
 
-    if (token) {
+    if (token && !options.skipAuth) {
       headers["Authorization"] = `Token ${token}`;
     }
 
@@ -27,14 +28,21 @@ async function request(
       headers["Content-Type"] = "application/json";
     }
 
-    const options = {
+    const fetchOptions = {
       method,
       headers,
-      cache: "no-store",
       body: data ? (isFormData ? data : JSON.stringify(data)) : null,
     };
 
-    const response = await fetch(fullUrl, options);
+    if (options.next) {
+      fetchOptions.next = options.next;
+    } else if (options.cache) {
+      fetchOptions.cache = options.cache;
+    } else {
+      fetchOptions.cache = "no-store";
+    }
+
+    const response = await fetch(fullUrl, fetchOptions);
     const text = await response.text();
     
     let resultData = null;

@@ -3,7 +3,10 @@
 import request from "@/lib/apiService";
 import { revalidatePath } from "next/cache";
 export async function getAllProduts() {
-  const result = await request(`products/products/?pagination=false`, "GET");
+  const result = await request(`products/products/?pagination=false`, "GET", null, false, {
+    next: { revalidate: 300, tags: ["products"] },
+    skipAuth: true,
+  });
   return result.data;
 } 
 export async function getProduts(
@@ -22,6 +25,12 @@ export async function getProduts(
   const result = await request(
     `products/products/?${params.toString()}`,
     "GET",
+    null,
+    false,
+    {
+      next: { revalidate: 300, tags: ["products"] },
+      skipAuth: true,
+    }
   );
 
   return result.data;
@@ -32,6 +41,12 @@ export async function getSearchProduts(search) {
   const result = await request(
     `products/products/?${params.toString()}`,
     "GET",
+    null,
+    false,
+    {
+      next: { revalidate: 300, tags: ["products"] },
+      skipAuth: true,
+    }
   );
 
   return result.data;
@@ -119,7 +134,13 @@ export async function getBanners(companyId) {
 
   const result = await request(
     `products/banners/?${params.toString()}`,
-    "GET"
+    "GET",
+    null,
+    false,
+    {
+      next: { revalidate: 3600, tags: ["banners"] },
+      skipAuth: true,
+    }
   );
 
   return result.data;

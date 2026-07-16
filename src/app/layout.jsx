@@ -8,6 +8,7 @@ import ThemeProvider from "@/provider/ThemeProvider";
 import { Toaster } from "sonner";
 import { cookies } from "next/headers";
 import AppInstallBanner from "@/components/shared/AppInstallBanner";
+import NextTopLoader from "nextjs-toploader";
 
 const cairo = Cairo({
   subsets: ["arabic"],
@@ -51,6 +52,18 @@ export default async function RootLayout({ children }) {
         className={`${alexandria.className} antialiased bg-white text-gray-900`}
       >
         <main>
+          <NextTopLoader
+            color={primaryColor}
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={3}
+            crawl={true}
+            showSpinner={true}
+            easing="ease"
+            speed={200}
+            shadow={`0 0 10px ${primaryColor},0 0 5px ${primaryColor}`}
+            zIndex={1600}
+          />
           <ProvidersQuery>
             <ThemeProvider>
               {children}

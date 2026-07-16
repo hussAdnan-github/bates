@@ -8,10 +8,11 @@ export default function AppInstallBanner() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // تحقق مما إذا كان المستخدم قد رأى الإشعار سابقاً (يظهر مرة واحدة فقط)
-    if (localStorage.getItem("appInstallShown")) {
-      return;
-    }
+    // ملاحظة: قمت بإيقاف هذا الشرط مؤقتاً لتتمكن من رؤية الإشعار واختباره.
+    // في النسخة النهائية، يجب إعادة تفعيل هذا الشرط حتى لا يزعج المستخدم بظهوره في كل مرة يزور فيها الموقع.
+    // if (localStorage.getItem("appInstallShown")) {
+    //   return;
+    // }
 
     // التحقق مما إذا كان الموقع يعمل كتطبيق PWA
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
@@ -24,8 +25,8 @@ export default function AppInstallBanner() {
       // تأخير بسيط لتحسين تجربة المستخدم
       const timer = setTimeout(() => {
         setIsVisible(true);
-        // حفظ القيمة حتى لا يظهر الإشعار مرة أخرى في المستقبل
-        localStorage.setItem("appInstallShown", "true");
+        // تم إيقاف الحفظ مؤقتاً للاختبار
+        // localStorage.setItem("appInstallShown", "true");
       }, 2500);
       return () => clearTimeout(timer);
     }

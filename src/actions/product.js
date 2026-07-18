@@ -1,7 +1,7 @@
 "use server";
 
 import request from "@/lib/apiService";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 export async function getAllProduts() {
   const result = await request(`products/products/?pagination=false`, "GET", null, false, {
     next: { revalidate: 300, tags: ["products"] },
@@ -87,6 +87,7 @@ export async function postProdut(formData) {
  
   if (result.success) {
     revalidatePath("/dashboard/products");
+    revalidateTag("products");
   }
  
 
@@ -96,6 +97,9 @@ export async function postProdut(formData) {
 export async function postProductImage(formData) {
   const result = await request(`products/products_images/`, "POST", formData, true);
 
+  if (result.success) {
+    revalidateTag("products");
+  }
   return result;
 }
 export async function deleteProductImage(id) {
@@ -114,6 +118,7 @@ export async function putProdut(formData, id) {
   if (result.success) {
     revalidatePath("/dashboard/products");
     revalidatePath(`/dashboard/products/${id}`);
+    revalidateTag("products");
   }
   return result;
 }
@@ -130,12 +135,16 @@ export async function patchProduct(formData, id) {
   if (result.success) {
     revalidatePath("/dashboard/products");
     revalidatePath(`/dashboard/products/${id}`);
+    revalidateTag("products");
   }
   return result;
 }
 export async function deleteProdut(id) {
   const result = await request(`products/products/${id}/`, "DELETE");
-  revalidatePath("/dashboard/products");
+  if (result.success) {
+    revalidatePath("/dashboard/products");
+    revalidateTag("products");
+  }
   return result.data;
 }
 

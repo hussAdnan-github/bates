@@ -201,7 +201,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
                 
                 <div className="flex items-center border-r pr-3 xl:pr-5 gap-2 xl:gap-3">
                   {currencyButtonDesktop}
-                  <BasketsDialog />
+                  <BasketsDialog isLoggedIn={isLoggedIn} />
                   
                   {isLoggedIn ? (
                     <LogoutButton />
@@ -279,7 +279,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
           <div className="flex-none w-14 h-14 relative -top-5">
             <div className="absolute inset-0 bg-white rounded-full p-1 shadow-sm border border-gray-100">
               <div className="w-full h-full bg-[var(--secondary_color)] rounded-full flex items-center justify-center text-white shadow-md shadow-[var(--secondary_color)]/20 hover:scale-105 transition-transform duration-300">
-                <BasketsDialog />
+                <BasketsDialog isLoggedIn={isLoggedIn} />
               </div>
             </div>
           </div>

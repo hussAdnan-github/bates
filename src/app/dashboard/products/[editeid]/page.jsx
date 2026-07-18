@@ -152,16 +152,16 @@ function page() {
   const handleInstantUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     setIsUploading(true);
     const toastId = toast.loading(
       <div style={{ direction: "rtl", textAlign: "right" }}><strong>جاري رفع الصورة...</strong></div>
     );
-    
+
     const imgData = new FormData();
     imgData.append("product", editeid);
     imgData.append("image", file);
-    
+
     try {
       const uploadResult = await postProductImage(imgData);
       if (uploadResult.success && uploadResult.data) {
@@ -190,12 +190,12 @@ function page() {
 
   const handleDeleteSubImage = async () => {
     if (!imgToDelete) return;
-    
+
     setIsDeletingImg(true);
     const toastId = toast.loading(
       <div style={{ direction: "rtl", textAlign: "right" }}><strong>جاري الحذف...</strong></div>
     );
-    
+
     try {
       const result = await deleteProductImage(imgToDelete);
       if (result.success !== false) { // Assuming DELETE might not return typical JSON
@@ -430,23 +430,23 @@ function page() {
             )}
 
             <div className="overflow-hidden bg-purple-50/30 rounded-xl border border-dashed border-purple-200 mt-4 p-6">
-               <div className="flex flex-col items-center justify-center gap-3">
-                 <label className={`
+              <div className="flex flex-col items-center justify-center gap-3">
+                <label className={`
                     flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold transition-all cursor-pointer
                     ${isUploading ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-purple-100 text-purple-700 hover:bg-purple-200 shadow-sm'}
                  `}>
-                    {isUploading ? <Loader2 size={18} className="animate-spin" /> : <Image size={18} />}
-                    {isUploading ? 'جاري الرفع...' : 'اختر صورة فرعية جديدة لإضافتها فوراً'}
-                    <input 
-                      type="file" 
-                      accept="image/*" 
-                      className="hidden" 
-                      onChange={handleInstantUpload}
-                      disabled={isUploading}
-                    />
-                 </label>
-                 <p className="text-xs text-gray-500">سيتم رفع الصورة و إضافتها مباشرة دون الحاجة للضغط على حفظ البيانات</p>
-               </div>
+                  {isUploading ? <Loader2 size={18} className="animate-spin" /> : <Image size={18} />}
+                  {isUploading ? 'جاري الرفع...' : 'اختر صورة فرعية جديدة لإضافتها فوراً'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleInstantUpload}
+                    disabled={isUploading}
+                  />
+                </label>
+                <p className="text-xs text-gray-500">سيتم رفع الصورة و إضافتها مباشرة دون الحاجة للضغط على حفظ البيانات</p>
+              </div>
             </div>
 
             <div className="mt-10 pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
@@ -485,7 +485,7 @@ function page() {
             <AlertDialogCancel className="mt-0 w-32 border-gray-200 text-gray-700 hover:bg-gray-50 font-bold rounded-xl h-11">
               إلغاء
             </AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               onClick={handleDeleteSubImage}
               className="bg-red-500 text-white hover:bg-red-600 w-32 font-bold rounded-xl h-11"
             >

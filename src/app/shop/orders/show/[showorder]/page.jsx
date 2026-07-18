@@ -5,8 +5,8 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import Image from "next/image";
 
- 
-const InfoItem = ({ icon: Icon, label, value, className = "" } ) => (
+
+const InfoItem = ({ icon: Icon, label, value, className = "" }) => (
   <div className={`flex items-start gap-3 p-4 rounded-xl bg-gray-50/50 border border-gray-100 ${className}`}>
     <div className="p-2 bg-white rounded-lg shadow-sm text-primary">
       <Icon size={20} className="text-[var(--primary_color)]" />
@@ -17,20 +17,20 @@ const InfoItem = ({ icon: Icon, label, value, className = "" } ) => (
     </div>
   </div>
 );
- const statusMap = {
-    1: { text: "جاري معالجة طلبك", type: "active" },
-    2: { text: "تم شحن طلبك", type: "success" },
-    3: { text: "تم إلغاء طلبك", type: "danger" },
-    4: { text: "تم تعديل الطلب", type: "warning" },
-    5: { text: "تم قبول طلبك", type: "success" },
-    6: { text: "تم رفض طلبك", type: "danger" },
-  };
- const typeMap = {
-    1: { text: "الدفع عند الاستلام", type: "active" },
-    2: { text: "تحويل المبلغ", type: "success" },
- 
-  };
-  const formatDate = (dateString) => {
+const statusMap = {
+  1: { text: "جاري معالجة طلبك", type: "active" },
+  2: { text: "تم شحن طلبك", type: "success" },
+  3: { text: "تم إلغاء طلبك", type: "danger" },
+  4: { text: "تم تعديل الطلب", type: "warning" },
+  5: { text: "تم قبول طلبك", type: "success" },
+  6: { text: "تم رفض طلبك", type: "danger" },
+};
+const typeMap = {
+  1: { text: "الدفع عند الاستلام", type: "active" },
+  2: { text: "تحويل المبلغ", type: "success" },
+
+};
+const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("ar-SA", {
     year: "numeric",
     month: "2-digit",
@@ -40,11 +40,11 @@ const InfoItem = ({ icon: Icon, label, value, className = "" } ) => (
 const OrderDetails = async ({ params }) => {
   const { showorder } = await params;
   const allOrders = await getOrdsersId(showorder);
-  
+
   const cookieStore = await cookies();
   const type_money = cookieStore.get("type_money")?.value;
   const currencySymbol = type_money === "1" ? "ريال يمني (قديم)" : "ر.س";
- 
+
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8 dir-rtl" dir="rtl">
       {/* الرأس: العنوان وزر العودة */}

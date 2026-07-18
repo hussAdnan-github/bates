@@ -61,16 +61,16 @@ const SearchBar = () => {
   return (
     <div ref={wrapperRef} className="relative w-full lg:w-[320px]" dir="rtl">
       {/* حقل البحث */}
-      <div 
+      <div
         className={`relative flex items-center w-full h-10 lg:h-12 rounded-xl lg:rounded-2xl overflow-hidden transition-all duration-300 border-2 
-          ${isFocused 
-            ? "border-[var(--primary_color)] bg-white shadow-[0_4px_20px_rgba(255,193,7,0.15)]" 
+          ${isFocused
+            ? "border-[var(--primary_color)] bg-white shadow-[0_4px_20px_rgba(255,193,7,0.15)]"
             : "border-gray-100 bg-gray-50 hover:border-gray-200 hover:bg-white"}`}
       >
         <div className="flex items-center justify-center pl-2 pr-3 lg:pr-4 text-gray-400">
           <Search className={`w-4 h-4 lg:w-5 lg:h-5 transition-colors duration-300 ${isFocused ? "text-[var(--primary_color)]" : ""}`} />
         </div>
-        
+
         <input
           type="text"
           value={query}
@@ -97,7 +97,7 @@ const SearchBar = () => {
       {/* قائمة النتائج */}
       {isFocused && query.length >= 2 && (
         <div className="absolute top-[calc(100%+8px)] left-0 right-0 z-50 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-gray-100 max-h-[400px] overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2 duration-200">
-          
+
           {loading && results.length === 0 && (
             <div className="p-8 text-center text-sm font-bold text-gray-400 flex flex-col items-center gap-3">
               <Loader2 className="w-7 h-7 text-[var(--primary_color)] animate-spin" />

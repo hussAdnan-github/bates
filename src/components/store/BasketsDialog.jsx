@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/useCartStore";
 import { useCurrency } from "@/hooks/useCurrency";
 
-const BasketsDialog = () => {
+const BasketsDialog = ({ isLoggedIn }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -65,13 +65,13 @@ const BasketsDialog = () => {
     orders?.data?.results?.reduce((total, order) => total + (order.basketitems?.length || 0), 0) || 0
   )) : 0;
 
-  const displayTotal = mounted ? (isLocal ? 
+  const displayTotal = mounted ? (isLocal ?
     localCart.reduce((total, item) => {
       const priceStr = String(item.products_price || "0");
       const priceNum = parseFloat(priceStr.replace(/[^\d.]/g, '')) || 0;
       return total + (priceNum * item.quantity);
-    }, 0) 
-  : (orders?.data?.results?.[0]?.total_price || 0)) : 0;
+    }, 0)
+    : (orders?.data?.results?.[0]?.total_price || 0)) : 0;
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (id) => {
@@ -87,13 +87,18 @@ const BasketsDialog = () => {
   });
 
   const handleCheckout = () => {
-    if (isLocal || isServerEmpty) {
+    if (!isLoggedIn) {
       // غير مسجل دخول، نوجهه لصفحة الدخول ليتم دمج السلة بعدها
       setOpen(false);
       router.push("/signUp");
     } else {
-      // مسجل دخول ولديه سلة سيرفر
-      mutate(orders?.data?.results[0].id);
+      // مسجل دخول، نحوله إلى الطلبات
+      if (orders?.data?.results?.[0]?.id) {
+        mutate(orders.data.results[0].id);
+      } else {
+        setOpen(false);
+        router.push("/shop/orders");
+      }
     }
   };
 
@@ -222,7 +227,7 @@ const BasketsDialog = () => {
                       </div>
                     </div>
                     <div className="absolute top-2 left-2">
-                       <DeleteBasketItem id={item.id} refresh={"basketShow"} isLocal={isLocal} />
+                      <DeleteBasketItem id={item.id} refresh={"basketShow"} isLocal={isLocal} />
                     </div>
                   </div>
                 ))}
@@ -252,9 +257,9 @@ const BasketsDialog = () => {
                 >
                   التقدم لإتمام الشراء
                   {isPending ? (
-                     <Loader2 className="h-4 w-4 md:h-5 md:w-5 animate-spin" />
+                    <Loader2 className="h-4 w-4 md:h-5 md:w-5 animate-spin" />
                   ) : (
-                     <ArrowLeft className="h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 group-hover:-translate-x-1" />
+                    <ArrowLeft className="h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 group-hover:-translate-x-1" />
                   )}
                 </Button>
 

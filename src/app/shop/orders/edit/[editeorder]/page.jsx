@@ -138,7 +138,7 @@ const EditOrderDetails = async ({ params }) => {
         </div>
       </div>
       <div>
-        <ResponseOrder orderId = {allOrders.data.id} typeRequest = {allOrders.data.user_type_request}/>
+        <ResponseOrder orderId={allOrders.data.id} typeRequest={allOrders.data.user_type_request} />
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ function ImagesProduct({ mainImage, images, title }) {
 
   useEffect(() => {
     if (isHovered || allImages.length <= 1) return;
-    
+
     const interval = setInterval(() => {
       nextImage();
     }, 4000); // تغيير الصورة كل 4 ثواني
@@ -27,7 +27,7 @@ function ImagesProduct({ mainImage, images, title }) {
   return (
     <div className="space-y-6">
       {/* الصورة الكبيرة */}
-      <div 
+      <div
         className="relative aspect-square rounded-[2rem] border border-gray-100 overflow-hidden bg-white shadow-xl shadow-gray-200/40 group"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -58,11 +58,10 @@ function ImagesProduct({ mainImage, images, title }) {
               <button
                 key={idx}
                 onClick={() => setSelectedImage(idx)}
-                className={`transition-all duration-500 rounded-full ${
-                  selectedImage === idx
+                className={`transition-all duration-500 rounded-full ${selectedImage === idx
                     ? "w-8 h-2 bg-[var(--primary_color)]"
                     : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
-                }`}
+                  }`}
                 aria-label={`Go to slide ${idx + 1}`}
               />
             ))}
@@ -77,11 +76,10 @@ function ImagesProduct({ mainImage, images, title }) {
             <button
               key={index}
               onClick={() => setSelectedImage(index)}
-              className={`relative flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-white transition-all duration-300 snap-center ${
-                selectedImage === index
+              className={`relative flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-white transition-all duration-300 snap-center ${selectedImage === index
                   ? "border-2 border-[var(--primary_color)] shadow-xl shadow-[#2D1B50]/10 scale-105"
                   : "border border-gray-100 hover:border-gray-300 opacity-70 hover:opacity-100"
-              }`}
+                }`}
             >
               <Image
                 src={img.image}

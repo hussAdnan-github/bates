@@ -43,9 +43,10 @@ export async function editProductBasket(formData, id) {
   return result;
 }
 export async function putOrder(formData, id) {
-  console.log(formData, id)
   const result = await request(`baskets/orders/${id}/`, "PATCH", formData, false);
-  console.log(result)
+  if (result?.success) {
+    revalidatePath("/shop/orders");
+  }
   return result;
 }
 export async function deleteBasket(id) {

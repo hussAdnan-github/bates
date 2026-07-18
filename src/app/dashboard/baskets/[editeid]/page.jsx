@@ -40,6 +40,7 @@ import AddItemDialog from "@/components/dashboard/AddItemDialog";
 import { toast } from "sonner";
 import QuantityBasket from "@/components/store/QuantityBasket";
 import DeleteBasketItem from "@/components/store/DeleteBasketItem";
+import Link from "next/link";
 
 const OrderEditPage = () => {
   const [Loading, setLoading] = useState(false);
@@ -142,13 +143,13 @@ const OrderEditPage = () => {
           <FileText className="text-[#2D1B4D]" />
           تعديل الطلب #{data?.data?.id}
         </h1>
-        <Button
-          variant="outline"
+        <Link
+          href="/dashboard/baskets"
           className="gap-2 border-[#FFC107] text-gray-700 hover:bg-[#FFC107] hover:text-white transition-all"
         >
           <ArrowRight size={18} />
           العودة لقائمة الطلبات
-        </Button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -175,7 +175,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
               
               {/* القسم الأيمن: اللوجو والقائمة */}
               <div className="flex items-center gap-6 xl:gap-10">
-                <Link href="/" className="flex flex-col hover:opacity-90 transition-opacity">
+                <Link href="/shop" className="flex flex-col hover:opacity-90 transition-opacity">
                   <div className="text-sm xl:text-base font-extrabold text-[#2D1B50] tracking-tight leading-snug mb-0.5 flex items-center">
                     <span>BTS - <span className="text-[#FFC107]">Store</span></span>
                     <span className="hidden xl:inline text-gray-300 font-normal mx-2">|</span>

@@ -4,18 +4,19 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ResponseOrder = ({ orderId, typeRequest = "3" }) => {
   const [status, setStatus] = useState(typeRequest);
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [Loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
-    
+    e.preventDefault();
     setLoading(true);
     const dataForm = new FormData();
     dataForm.append("user_type_request", status);
     const result = await putOrder(dataForm, orderId);
-
     if (!result.success) {
       if (result.errors) {
         Object.entries(result.errors).map(([field, message]) =>
@@ -42,6 +43,8 @@ const ResponseOrder = ({ orderId, typeRequest = "3" }) => {
         </div>,
         { duration: 4000 },
       );
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      router.refresh();
       router.back();
     }
   };
@@ -112,6 +115,7 @@ const ResponseOrder = ({ orderId, typeRequest = "3" }) => {
         <div className="flex justify-end gap-3 border-t pt-6">
           <button
             type="button"
+            onClick={() => router.back()}
             className="px-8 py-2 text-white bg-gray-500 hover:bg-gray-600 rounded shadow-sm transition-all text-sm font-medium"
           >
             إلغاء

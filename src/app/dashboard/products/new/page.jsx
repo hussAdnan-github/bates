@@ -10,13 +10,13 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { getDepartmentDashboard } from "@/actions/department";
-import { postProdut } from "@/actions/product";
+import { postProdut, postProductImage } from "@/actions/product";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { productSchema } from "@/lib/validations/productSchema";
- 
+
 
 function page() {
   const queryClient = useQueryClient();
@@ -65,24 +65,21 @@ function page() {
   });
 
   const onSubmit = async (data) => {
+ 
     const formData = new FormData();
     Object.keys(data).forEach((key) => {
       if (key === "image" && data.image) {
         formData.append("image", data.image);
       } else if (key !== "image") {
         if (data[key] !== null && data[key] !== "") {
-           formData.append(key, data[key]);
+          formData.append(key, data[key]);
         }
       }
     });
-    Object.values(extraImages).forEach((file) => {
-      formData.append("images", file);
-    });
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-    const result = await postProdut(formData);
 
+
+    const result = await postProdut(formData);
+    
     if (!result.success) {
       if (result.errors) {
         Object.entries(result.errors).map(([field, message]) =>
@@ -102,6 +99,32 @@ function page() {
         );
       }
     } else {
+      const productId = result?.data?.data?.id || result?.data?.id || result?.id;
+      console.log("DEBUG - Product ID:", productId);
+      console.log("DEBUG - extraImages:", extraImages);
+      console.log("DEBUG - extraImages Length:", Object.keys(extraImages).length);
+
+      if (productId && Object.keys(extraImages).length > 0) {
+        // نرفع الصور بشكل متسلسل (واحدة تلو الأخرى) كما طلبت
+        for (const file of Object.values(extraImages)) {
+          const imgData = new FormData();
+          imgData.append("product", productId); 
+          imgData.append("image", file);
+
+          try {
+            await postProductImage(imgData);
+          } catch (error) {
+            console.error("خطأ في رفع إحدى الصور:", error);
+            toast.warning(
+              <div style={{ direction: "rtl", textAlign: "right" }}>
+                <strong>فشل رفع إحدى الصور الفرعية</strong>
+              </div>,
+              { duration: 4000 }
+            );
+          }
+        }
+      }
+
       queryClient.invalidateQueries({ queryKey: ["Product"] });
       toast.success(
         <div style={{ direction: "rtl", textAlign: "right" }}>
@@ -127,150 +150,149 @@ function page() {
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* اسم المستخدم */}
-            <InputField
-              label="اسم المنتج"
-              placeholder="مثال: شاحن سريع BTS"
-              {...register("name")}
-              error={errors.name?.message}
-            />
-            <Controller
-              name="image"
-              control={control}
-              render={({ field }) => (
-                <InputField
-                  label="الصورة الرئيسية"
-                  type="file"
-                  onChange={(e) => field.onChange(e.target.files[0])}
-                />
-              )}
-            />
-
-            {/* رقم الهاتف */}
-            <InputField
-              label="السعر الأساسي"
-              placeholder="0.00"
-              type="number"
-              {...register("price")}
-              error={errors.price?.message}
-            />
-            <InputField
-              label="سعر الجملة"
-              placeholder="0.00"
-              type="number"
-              {...register("wholesale_price")}
-              error={errors.wholesale_price?.message}
-            />
-            <InputField
-              label="سعر التجزئة"
-              placeholder="0.00"
-              type="number"
-              {...register("retail_price")}
-              error={errors.retail_price?.message}
-            />
-
-            <InputField
-              label="سعر التجزئة (يمني جديد)"
-              placeholder="0.00"
-              type="number"
-              {...register("retail_price_ye_new")}
-              error={errors.retail_price_ye_new?.message}
-            />
-
-            <InputField
-              label="سعر التجزئة (يمني قديم)"
-              placeholder="0.00"
-              type="number"
-              {...register("retail_price_ye_old")}
-              error={errors.retail_price_ye_old?.message}
-            />
-            <InputField
-              label="الموديل"
-              placeholder="مثال :BTS"
-              {...register("model")}
-              error={errors.model?.message}
-            />
-            <InputField
-              label="رقم أو ترتيب المنتج (اجباري)"
-              placeholder="1"
-              type="number"
-              {...register("serial_number")}
-              error={errors.serial_number?.message}
-            />
-            
-            <InputField
-              label="الرقم   "
-              placeholder="أختياري"
-              type="number"
-              {...register("number")}
-              error={errors.number?.message}
-            />
-
-            <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50 transition-all hover:shadow-sm">
-              <div className="flex flex-col gap-1">
-                <label className="text-gray-700 font-bold text-sm cursor-pointer">
-                  حالة المنتج
-                </label>
-                <span className="text-gray-500 text-xs">تفعيل أو تعطيل ظهور هذا المنتج</span>
-              </div>
+              {/* اسم المستخدم */}
+              <InputField
+                label="اسم المنتج"
+                placeholder="مثال: شاحن سريع BTS"
+                {...register("name")}
+                error={errors.name?.message}
+              />
               <Controller
-                name="status"
+                name="image"
                 control={control}
                 render={({ field }) => (
-                  <Switch
-                    checked={field.value === 1}
-                    onCheckedChange={(val) => field.onChange(val ? 1 : 0)}
-                    className="
+                  <InputField
+                    label="الصورة الرئيسية"
+                    type="file"
+                    onChange={(e) => field.onChange(e.target.files[0])}
+                  />
+                )}
+              />
+
+              {/* رقم الهاتف */}
+              <InputField
+                label="السعر الأساسي"
+                placeholder="0.00"
+                type="number"
+                {...register("price")}
+                error={errors.price?.message}
+              />
+              <InputField
+                label="سعر الجملة"
+                placeholder="0.00"
+                type="number"
+                {...register("wholesale_price")}
+                error={errors.wholesale_price?.message}
+              />
+              <InputField
+                label="سعر التجزئة"
+                placeholder="0.00"
+                type="number"
+                {...register("retail_price")}
+                error={errors.retail_price?.message}
+              />
+
+              <InputField
+                label="سعر التجزئة (يمني جديد)"
+                placeholder="0.00"
+                type="number"
+                {...register("retail_price_ye_new")}
+                error={errors.retail_price_ye_new?.message}
+              />
+
+              <InputField
+                label="سعر التجزئة (يمني قديم)"
+                placeholder="0.00"
+                type="number"
+                {...register("retail_price_ye_old")}
+                error={errors.retail_price_ye_old?.message}
+              />
+              <InputField
+                label="الموديل"
+                placeholder="مثال :BTS"
+                {...register("model")}
+                error={errors.model?.message}
+              />
+              <InputField
+                label="رقم أو ترتيب المنتج (اجباري)"
+                placeholder="1"
+                type="number"
+                {...register("number")}
+                error={errors.number?.message}
+              />
+
+              <InputField
+                label="الرقم التسلسلي"
+                placeholder="1321321"
+                type="number"
+                {...register("serial_number")}
+                error={errors.serial_number?.message}
+              />
+
+              <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50 transition-all hover:shadow-sm">
+                <div className="flex flex-col gap-1">
+                  <label className="text-gray-700 font-bold text-sm cursor-pointer">
+                    حالة المنتج
+                  </label>
+                  <span className="text-gray-500 text-xs">تفعيل أو تعطيل ظهور هذا المنتج</span>
+                </div>
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch
+                      checked={field.value === 1}
+                      onCheckedChange={(val) => field.onChange(val ? 1 : 0)}
+                      className="
                       data-[state=checked]:bg-purple-900 
                       data-[state=unchecked]:bg-slate-200
                       transition-colors
                     "
-                  />
+                    />
+                  )}
+                />
+                {errors.status && (
+                  <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
                 )}
-              />
-              {errors.status && (
-                <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
-              )}
-            </div>
+              </div>
 
-            <div>
-              <label className="text-gray-600 text-sm font-medium">القسم</label>
-              <Controller
-                name="department"
-                control={control}
-                render={({ field }) => (
-                  <select
-                    {...field}  
-                    onChange={(e) => field.onChange(Number(e.target.value))}  
-                    className={`w-full border rounded-lg p-3 bg-gray-50 mt-1 ${
-                      errors.department ? "border-red-500" : "border-gray-200"
-                    }`}
-                  >
-                    <option value="">اختر القسم</option>
-                    {DepartmentList.map((dep) => (
-                      <option key={dep.id} value={dep.id}>
-                        {dep.name}
-                      </option>
-                    ))}
-                  </select>
+              <div>
+                <label className="text-gray-600 text-sm font-medium">القسم</label>
+                <Controller
+                  name="department"
+                  control={control}
+                  render={({ field }) => (
+                    <select
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      className={`w-full border rounded-lg p-3 bg-gray-50 mt-1 ${errors.department ? "border-red-500" : "border-gray-200"
+                        }`}
+                    >
+                      <option value="">اختر القسم</option>
+                      {DepartmentList.map((dep) => (
+                        <option key={dep.id} value={dep.id}>
+                          {dep.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                />
+                {errors.department && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.department.message}
+                  </p>
                 )}
-              />
-              {errors.department && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.department.message}
-                </p>
-              )}
-            </div>
+              </div>
 
-            <div className="md:col-span-2">
-              <label className="text-gray-600 text-sm font-medium mb-2 block">الوصف</label>
-              <Textarea
-                placeholder="اكتب وصف المنتج"
-                {...register("description")}
-                error={errors.description?.message}
-                className="mt-1"
-              />
-            </div>
+              <div className="md:col-span-2">
+                <label className="text-gray-600 text-sm font-medium mb-2 block">الوصف</label>
+                <Textarea
+                  placeholder="اكتب وصف المنتج"
+                  {...register("description")}
+                  error={errors.description?.message}
+                  className="mt-1"
+                />
+              </div>
             </div>
             {/* department was moved up */}
             <ImagesProducts

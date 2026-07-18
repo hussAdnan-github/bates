@@ -4,6 +4,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import DeleteConfirmModal from "../DeleteConfirmModal";
+import { deleteDepartment } from "@/actions/department";
 
 const DepartmentsRow = ({ department, onDelete }) => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -11,7 +12,7 @@ const DepartmentsRow = ({ department, onDelete }) => {
   const handelDelete = async () => {
     const results = await deleteDepartment(department.id);
 
-    onDelete();
+    onDelete(); 
     setIsModalOpen(false);
     toast.success(
       <div style={{ direction: "rtl", textAlign: "right" }}>
@@ -25,7 +26,7 @@ const DepartmentsRow = ({ department, onDelete }) => {
       {/* 1. اسم القسم */}
       <div className="w-[30%] flex items-center gap-3 pr-2">
         <div className="w-10 h-10 rounded-full border border-gray-200 overflow-hidden bg-white flex items-center justify-center shrink-0 shadow-sm">
-          <img src={department.avatar || "/placeholder.png"} alt={department.name || "قسم"} className="w-8 h-8 object-contain" />
+          <img src={department.icons || "/placeholder.png"} alt={department.name || "قسم"} className="w-8 h-8 object-contain" />
         </div>
         <span className="font-bold text-gray-800 line-clamp-1">{department.name || "بدون اسم"}</span>
       </div>

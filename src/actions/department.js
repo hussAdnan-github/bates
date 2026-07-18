@@ -71,7 +71,7 @@ export async function editeDepartment(formData, id) {
 }
 export async function deleteDepartment(id) {
   const result = await request(`departments/departments/${id}/`, "DELETE");
-
+ 
  if (result.success) {
     revalidatePath("/dashboard/departments");  
   }

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
-import { ArrowRight, Image, UserCircle2 } from "lucide-react";
+import { ArrowRight, Image, UserCircle2, Trash2, Loader2 } from "lucide-react";
 import InputField from "@/components/dashboard/InputField";
 import BackPage from "@/components/dashboard/BackPage";
 import ImagesProducts from "@/components/dashboard/ImagesProducts";
@@ -10,7 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { getProdutsId, putProdut } from "@/actions/product";
+import { getProdutsId, putProdut, postProductImage, deleteProductImage } from "@/actions/product";
 import { getDepartmentDashboard } from "@/actions/department";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -21,7 +21,10 @@ function page() {
   const { editeid } = useParams();
   const [loading, setLoading] = useState(true);
   const [extraImages, setExtraImages] = useState({});
+  const [mainImagePreview, setMainImagePreview] = useState(null);
+  const [existingSubImages, setExistingSubImages] = useState([]);
   const [DepartmentList, setDepartmentList] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
   const queryClient = useQueryClient();
   const router = useRouter();
   useEffect(() => {
@@ -45,6 +48,13 @@ function page() {
           department: data?.data?.department || "",
           status: data?.data?.status !== undefined ? data?.data?.status : 1,
         });
+
+        if (data?.data?.image) {
+          setMainImagePreview(data.data.image);
+        }
+        if (data?.data?.images) {
+          setExistingSubImages(data.data.images);
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -93,9 +103,7 @@ function page() {
       }
     });
 
-    Object.values(extraImages).forEach((file) => {
-      formData.append("images", file);
-    });
+    // تم إزالة إضافة الصور الفرعية هنا لأنها تُرفع فوراً
 
     const result = await putProdut(formData, editeid);
 
@@ -128,6 +136,74 @@ function page() {
       router.back();
     }
   };
+
+  const handleInstantUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    setIsUploading(true);
+    const toastId = toast.loading(
+      <div style={{ direction: "rtl", textAlign: "right" }}><strong>جاري رفع الصورة...</strong></div>
+    );
+    
+    const imgData = new FormData();
+    imgData.append("product", editeid);
+    imgData.append("image", file);
+    
+    try {
+      const uploadResult = await postProductImage(imgData);
+      if (uploadResult.success && uploadResult.data) {
+        setExistingSubImages((prev) => [...prev, uploadResult.data]);
+        toast.success(
+          <div style={{ direction: "rtl", textAlign: "right" }}><strong>تم رفع الصورة بنجاح ✅</strong></div>,
+          { id: toastId }
+        );
+      } else {
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}><strong>فشل رفع الصورة</strong></div>,
+          { id: toastId }
+        );
+      }
+    } catch (error) {
+      toast.error(
+        <div style={{ direction: "rtl", textAlign: "right" }}><strong>حدث خطأ أثناء الرفع</strong></div>,
+        { id: toastId }
+      );
+    } finally {
+      setIsUploading(false);
+      e.target.value = null;
+    }
+  };
+
+  const handleDeleteSubImage = async (imageId) => {
+    if (!confirm("هل أنت متأكد من حذف هذه الصورة الفرعية؟")) return;
+    
+    const toastId = toast.loading(
+      <div style={{ direction: "rtl", textAlign: "right" }}><strong>جاري الحذف...</strong></div>
+    );
+    
+    try {
+      const result = await deleteProductImage(imageId);
+      if (result.success !== false) { // Assuming DELETE might not return typical JSON
+        setExistingSubImages((prev) => prev.filter((img) => img.id !== imageId));
+        toast.success(
+          <div style={{ direction: "rtl", textAlign: "right" }}><strong>تم حذف الصورة بنجاح ✅</strong></div>,
+          { id: toastId }
+        );
+      } else {
+        toast.error(
+          <div style={{ direction: "rtl", textAlign: "right" }}><strong>فشل حذف الصورة</strong></div>,
+          { id: toastId }
+        );
+      }
+    } catch (error) {
+      toast.error(
+        <div style={{ direction: "rtl", textAlign: "right" }}><strong>حدث خطأ أثناء الحذف</strong></div>,
+        { id: toastId }
+      );
+    }
+  };
+
   return (
     <div className="p-6 max-w-5xl mx-auto" dir="rtl">
       <BackPage title={`تعديل المنتج `} />
@@ -150,17 +226,29 @@ function page() {
                 {...register("name")}
                 error={errors.name?.message}
               />
-              <Controller
-                name="image"
-                control={control}
-                render={({ field }) => (
-                  <InputField
-                    label="الصورة الرئيسية"
-                    type="file"
-                    onChange={(e) => field.onChange(e.target.files[0])}
-                  />
+              <div className="flex flex-col gap-2">
+                <Controller
+                  name="image"
+                  control={control}
+                  render={({ field }) => (
+                    <InputField
+                      label="الصورة الرئيسية"
+                      type="file"
+                      onChange={(e) => {
+                        field.onChange(e.target.files[0]);
+                        if (e.target.files?.[0]) {
+                          setMainImagePreview(URL.createObjectURL(e.target.files[0]));
+                        }
+                      }}
+                    />
+                  )}
+                />
+                {mainImagePreview && (
+                  <div className="mt-2 w-24 h-24 rounded-xl border border-gray-200 overflow-hidden bg-gray-50 flex items-center justify-center shadow-sm">
+                    <img src={mainImagePreview} alt="Main Preview" className="w-full h-full object-cover" />
+                  </div>
                 )}
-              />
+              </div>
 
               {/* رقم الهاتف */}
               <InputField
@@ -215,16 +303,16 @@ function page() {
               <InputField
                 label="رقم أو ترتيب المنتج (اجباري)"
                 placeholder="1"
-                {...register("serial_number")}
-                error={errors.serial_number?.message}
+                {...register("number")}
+                error={errors.number?.message}
               />
 
               <InputField
-                label="الرقم / العدد (Number)"
+                label="الرقم التسلسلي"
                 placeholder="أختياري"
                 type="number"
-                {...register("number")}
-                error={errors.number?.message}
+                {...register("serial_number")}
+                error={errors.serial_number?.message}
               />
 
               <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50 transition-all hover:shadow-sm">
@@ -293,19 +381,56 @@ function page() {
               </div>
             </div>
 
-            {/* department was moved up */}
-            <ImagesProducts
-              onChange={(files, id) =>
-                setExtraImages((prev) => ({ ...prev, [id]: files[0] }))
-              }
-              onRemove={(id) =>
-                setExtraImages((prev) => {
-                  const newImages = { ...prev };
-                  delete newImages[id];
-                  return newImages;
-                })
-              }
-            />
+            {existingSubImages?.length > 0 && (
+              <div className="overflow-hidden bg-gray-50/50 rounded-xl border border-dashed border-gray-200 mt-4 p-6">
+                <label className="text-gray-700 font-bold text-sm mb-4 flex items-center gap-2">
+                  <Image size={20} className="text-purple-900" />
+                  الصور الفرعية الحالية
+                </label>
+                <div className="flex flex-wrap gap-4">
+                  {existingSubImages.map((img, idx) => (
+                    <div key={idx} className="relative group w-24 h-24 rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+                      <img
+                        src={typeof img === 'string' ? img : img.image}
+                        alt="Sub image"
+                        className="w-full h-full object-cover"
+                      />
+                      {img.id && (
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteSubImage(img.id)}
+                          disabled={isUploading}
+                          className="absolute top-1 right-1 bg-white/90 text-red-500 hover:text-red-700 rounded-full p-1.5 shadow-sm opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50"
+                          title="حذف الصورة"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="overflow-hidden bg-purple-50/30 rounded-xl border border-dashed border-purple-200 mt-4 p-6">
+               <div className="flex flex-col items-center justify-center gap-3">
+                 <label className={`
+                    flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold transition-all cursor-pointer
+                    ${isUploading ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-purple-100 text-purple-700 hover:bg-purple-200 shadow-sm'}
+                 `}>
+                    {isUploading ? <Loader2 size={18} className="animate-spin" /> : <Image size={18} />}
+                    {isUploading ? 'جاري الرفع...' : 'اختر صورة فرعية جديدة لإضافتها فوراً'}
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      className="hidden" 
+                      onChange={handleInstantUpload}
+                      disabled={isUploading}
+                    />
+                 </label>
+                 <p className="text-xs text-gray-500">سيتم رفع الصورة و إضافتها مباشرة دون الحاجة للضغط على حفظ البيانات</p>
+               </div>
+            </div>
 
             <div className="mt-10 pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
               <Link
@@ -316,10 +441,10 @@ function page() {
               </Link>
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isUploading}
                 className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200 disabled:bg-gray-400"
               >
-                {isSubmitting ? "جاري الحفظ..." : "حفظ البيانات"}
+                {isSubmitting ? "جاري الحفظ..." : isUploading ? "يُرجى الانتظار..." : "حفظ البيانات"}
               </button>
             </div>
           </form>

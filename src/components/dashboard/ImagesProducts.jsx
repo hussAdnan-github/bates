@@ -40,8 +40,7 @@ export default function ImagesProducts({ onChange, onRemove }) {
                 type="file"
                 accept="image/*"
                 onChange={(e) => {
-                  if (e.target.files?.[0]) {
-                    // نرسل الملف للأب مع المعرف الخاص به
+                   if (e.target.files?.[0]) {
                     onChange(e.target.files, field.id);
                   }
                 }}

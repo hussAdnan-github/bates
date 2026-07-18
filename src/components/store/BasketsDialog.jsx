@@ -81,6 +81,7 @@ const BasketsDialog = ({ isLoggedIn }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["basketShow"] });
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
       setOpen(false);
       router.push("/shop/orders");
     },

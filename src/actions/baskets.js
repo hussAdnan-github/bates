@@ -78,6 +78,9 @@ export async function editOrderBasket(formData, id) {
     true,
   );
 
+  if (result.success) {
+    revalidatePath("/shop/orders");
+  }
 
   return result;
 }

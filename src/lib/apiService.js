@@ -43,8 +43,13 @@ async function request(
     }
 
     const response = await fetch(fullUrl, fetchOptions);
-    const text = await response.text();
+    let text = await response.text();
     
+    // Force HTTPS for pythonanywhere links (Django load balancer issue)
+    if (text && typeof text === 'string') {
+      text = text.replace(/http:\/\/bts\.pythonanywhere\.com/g, "https://bts.pythonanywhere.com");
+    }
+
     let resultData = null;
     if (text) {
       try {

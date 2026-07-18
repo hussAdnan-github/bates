@@ -22,6 +22,11 @@ const nextConfig = {
         hostname: "bts.pythonanywhere.com",
         pathname: "/media/**",
       },
+      {
+        protocol: "http",
+        hostname: "bts.pythonanywhere.com",
+        pathname: "/media/**",
+      },
     ],
   },
   async redirects() {

@@ -95,7 +95,6 @@ export async function postProdut(formData) {
 
 export async function postProductImage(formData) {
   const result = await request(`products/products_images/`, "POST", formData, true);
-     console.log("result" , result);
 
   return result;
 }

@@ -1,7 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
-import { ArrowRight, Image, UserCircle2, Trash2, Loader2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { ArrowRight, Image, UserCircle2, Trash2, Loader2, AlertTriangle } from "lucide-react";
 import InputField from "@/components/dashboard/InputField";
 import BackPage from "@/components/dashboard/BackPage";
 import ImagesProducts from "@/components/dashboard/ImagesProducts";
@@ -25,6 +35,8 @@ function page() {
   const [existingSubImages, setExistingSubImages] = useState([]);
   const [DepartmentList, setDepartmentList] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [isDeletingImg, setIsDeletingImg] = useState(false);
+  const [imgToDelete, setImgToDelete] = useState(null);
   const queryClient = useQueryClient();
   const router = useRouter();
   useEffect(() => {
@@ -153,7 +165,8 @@ function page() {
     try {
       const uploadResult = await postProductImage(imgData);
       if (uploadResult.success && uploadResult.data) {
-        setExistingSubImages((prev) => [...prev, uploadResult.data]);
+        const newImage = uploadResult.data.data || uploadResult.data;
+        setExistingSubImages((prev) => [...prev, newImage]);
         toast.success(
           <div style={{ direction: "rtl", textAlign: "right" }}><strong>تم رفع الصورة بنجاح ✅</strong></div>,
           { id: toastId }
@@ -175,17 +188,18 @@ function page() {
     }
   };
 
-  const handleDeleteSubImage = async (imageId) => {
-    if (!confirm("هل أنت متأكد من حذف هذه الصورة الفرعية؟")) return;
+  const handleDeleteSubImage = async () => {
+    if (!imgToDelete) return;
     
+    setIsDeletingImg(true);
     const toastId = toast.loading(
       <div style={{ direction: "rtl", textAlign: "right" }}><strong>جاري الحذف...</strong></div>
     );
     
     try {
-      const result = await deleteProductImage(imageId);
+      const result = await deleteProductImage(imgToDelete);
       if (result.success !== false) { // Assuming DELETE might not return typical JSON
-        setExistingSubImages((prev) => prev.filter((img) => img.id !== imageId));
+        setExistingSubImages((prev) => prev.filter((img) => img.id !== imgToDelete));
         toast.success(
           <div style={{ direction: "rtl", textAlign: "right" }}><strong>تم حذف الصورة بنجاح ✅</strong></div>,
           { id: toastId }
@@ -201,6 +215,9 @@ function page() {
         <div style={{ direction: "rtl", textAlign: "right" }}><strong>حدث خطأ أثناء الحذف</strong></div>,
         { id: toastId }
       );
+    } finally {
+      setIsDeletingImg(false);
+      setImgToDelete(null);
     }
   };
 
@@ -398,8 +415,8 @@ function page() {
                       {img.id && (
                         <button
                           type="button"
-                          onClick={() => handleDeleteSubImage(img.id)}
-                          disabled={isUploading}
+                          onClick={() => setImgToDelete(img.id)}
+                          disabled={isUploading || isDeletingImg}
                           className="absolute top-1 right-1 bg-white/90 text-red-500 hover:text-red-700 rounded-full p-1.5 shadow-sm opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50"
                           title="حذف الصورة"
                         >
@@ -441,15 +458,42 @@ function page() {
               </Link>
               <button
                 type="submit"
-                disabled={isSubmitting || isUploading}
+                disabled={isSubmitting || isUploading || isDeletingImg}
                 className="bg-purple-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-purple-800 transition-all shadow-lg shadow-purple-200 disabled:bg-gray-400"
               >
-                {isSubmitting ? "جاري الحفظ..." : isUploading ? "يُرجى الانتظار..." : "حفظ البيانات"}
+                {isSubmitting ? "جاري الحفظ..." : isUploading || isDeletingImg ? "يُرجى الانتظار..." : "حفظ البيانات"}
               </button>
             </div>
           </form>
         </div>
       </div>
+
+      <AlertDialog open={!!imgToDelete} onOpenChange={(open) => !open && setImgToDelete(null)}>
+        <AlertDialogContent className="bg-white" dir="rtl">
+          <AlertDialogHeader className="flex flex-col items-center justify-center gap-2 mb-2">
+            <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mb-2">
+              <AlertTriangle className="text-red-500 w-8 h-8" />
+            </div>
+            <AlertDialogTitle className="text-xl font-bold text-gray-800 text-center">
+              هل أنت متأكد من الحذف؟
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-500 text-center mt-2 text-base">
+              هذا الإجراء سيقوم بحذف الصورة الفرعية للمنتج بشكل نهائي، ولا يمكن التراجع عنه.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex flex-row justify-center gap-3 mt-4 sm:justify-center">
+            <AlertDialogCancel className="mt-0 w-32 border-gray-200 text-gray-700 hover:bg-gray-50 font-bold rounded-xl h-11">
+              إلغاء
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteSubImage}
+              className="bg-red-500 text-white hover:bg-red-600 w-32 font-bold rounded-xl h-11"
+            >
+              حذف الصورة
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

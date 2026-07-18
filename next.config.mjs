@@ -15,15 +15,10 @@ const nextConfig = {
     },
   },
   reactCompiler: true,
-  images: { 
+  images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "bts.pythonanywhere.com",
-        pathname: "/media/**",
-      },
-      {
-        protocol: "http",
         hostname: "bts.pythonanywhere.com",
         pathname: "/media/**",
       },

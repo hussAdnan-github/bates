@@ -59,8 +59,8 @@ function ImagesProduct({ mainImage, images, title }) {
                 key={idx}
                 onClick={() => setSelectedImage(idx)}
                 className={`transition-all duration-500 rounded-full ${selectedImage === idx
-                    ? "w-8 h-2 bg-[var(--primary_color)]"
-                    : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
+                  ? "w-8 h-2 bg-[var(--primary_color)]"
+                  : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
                   }`}
                 aria-label={`Go to slide ${idx + 1}`}
               />
@@ -77,8 +77,8 @@ function ImagesProduct({ mainImage, images, title }) {
               key={index}
               onClick={() => setSelectedImage(index)}
               className={`relative flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-white transition-all duration-300 snap-center ${selectedImage === index
-                  ? "border-2 border-[var(--primary_color)] shadow-xl shadow-[#2D1B50]/10 scale-105"
-                  : "border border-gray-100 hover:border-gray-300 opacity-70 hover:opacity-100"
+                ? "border-2 border-[var(--primary_color)] shadow-xl shadow-[#2D1B50]/10 scale-105"
+                : "border border-gray-100 hover:border-gray-300 opacity-70 hover:opacity-100"
                 }`}
             >
               <Image

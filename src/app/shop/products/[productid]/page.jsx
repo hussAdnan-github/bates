@@ -14,6 +14,11 @@ async function page({ params }) {
   const Productid = (await params).productid;
 
   const product = await getProdutsId(Productid);
+
+  console.log("===== Product Images Debug =====", {
+    mainImage: product.data.image,
+    subImages: product.data.images
+  }); 
   const cookieStore = await cookies();
   const type_money = cookieStore.get("type_money")?.value || "3";
   const currencyName = type_money === "3" ? "ر.س" : type_money === "1" ? "يمني قديم" : "ر.س";

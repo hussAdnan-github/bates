@@ -13,7 +13,7 @@ async function request(
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
-    
+
     const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
     const fullUrl = `${BASE_URL}${cleanEndpoint}`;
 
@@ -43,12 +43,7 @@ async function request(
     }
 
     const response = await fetch(fullUrl, fetchOptions);
-    let text = await response.text();
-    
-    // Force HTTPS for pythonanywhere links (Django load balancer issue)
-    if (text && typeof text === 'string') {
-      text = text.replace(/http:\/\/bts\.pythonanywhere\.com/g, "https://bts.pythonanywhere.com");
-    }
+    const text = await response.text();
 
     let resultData = null;
     if (text) {
@@ -69,7 +64,7 @@ async function request(
         if (resultData.errors) {
           fieldErrors = resultData.errors;
           serverGeneralMessage = resultData.message || "يرجى التحقق من البيانات المدخلة";
-        } 
+        }
         // 2. إذا كانت الرسالة مباشرة في message
         else if (resultData.message) {
           serverGeneralMessage = resultData.message;
@@ -95,9 +90,9 @@ async function request(
     }
 
     // --- حالة النجاح ---
-    return { 
-      success: true, 
-      data: resultData 
+    return {
+      success: true,
+      data: resultData
     };
 
   } catch (error) {

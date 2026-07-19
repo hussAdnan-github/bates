@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { getPlaces } from "@/actions/places";
@@ -44,8 +44,8 @@ function SignUpPage() {
     queryFn: () => getPlaces(),
     staleTime: 1000 * 60 * 60,
   });
-  const places = placesData?.results || [];
-
+  const places = placesData?.data?.results || [];
+  
   const {
     register,
     handleSubmit,
@@ -87,16 +87,16 @@ function SignUpPage() {
       formData.append("phone", data.phone);
       if (data.type_money) formData.append("type_money", data.type_money);
       if (data.place) formData.append("place", data.place);
-      
+
       if (profileFile) {
         formData.append("profile_picture", profileFile);
       }
- 
+
       const res = await fetch("https://bts.pythonanywhere.com/api/register/", {
         method: "POST",
         body: formData,
       });
-     console.log(Object.fromEntries(formData));
+      console.log(Object.fromEntries(formData));
       const responseData = await res.json();
       console.log(responseData);
 
@@ -113,8 +113,8 @@ function SignUpPage() {
 
         if (responseData.errors && typeof responseData.errors === 'object') {
           Object.keys(responseData.errors).forEach((key) => {
-            const errorFieldMsg = Array.isArray(responseData.errors[key]) 
-              ? responseData.errors[key][0] 
+            const errorFieldMsg = Array.isArray(responseData.errors[key])
+              ? responseData.errors[key][0]
               : responseData.errors[key];
             setError(key, {
               type: "server",
@@ -152,7 +152,7 @@ function SignUpPage() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-5">
 
-         
+
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
@@ -197,7 +197,7 @@ function SignUpPage() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-gray-600 font-bold mr-1 text-xs">البريد الإلكتروني (اختياري)</Label>
+                <Label className="text-gray-600 font-bold mr-1 text-xs">البريد الإلكتروني  </Label>
                 <div className="relative">
                   <Mail className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <Input
@@ -233,7 +233,7 @@ function SignUpPage() {
                   {...register("type_money")}
                   className={`w-full h-10 md:h-11 text-xs md:text-sm pr-11 bg-gray-50/50 rounded-lg focus:ring-2 focus:ring-[#2D1B50]/20 appearance-none border ${errors.type_money ? "border-red-500" : "border-gray-100"}`}
                 >
-                  <option value="">اختر العملة (اختياري)</option>
+                  <option value="">اختر العملة  </option>
                   <option value="1">ريال يمني قديم</option>
                   <option value="2">ريال يمني جديد</option>
                   <option value="3">ريال سعودي</option>
@@ -250,7 +250,7 @@ function SignUpPage() {
                   {...register("place")}
                   className={`w-full h-10 md:h-11 text-xs md:text-sm pr-11 bg-gray-50/50 rounded-lg focus:ring-2 focus:ring-[#2D1B50]/20 appearance-none border ${errors.place ? "border-red-500" : "border-gray-100"}`}
                 >
-                  <option value="">اختر المحافظة (اختياري)</option>
+                  <option value="">اختر المحافظة  </option>
                   {places.map((place) => (
                     <option key={place.id} value={place.id}>
                       {place.name}
@@ -304,7 +304,7 @@ function SignUpPage() {
                 {errors.password2 && <p className="text-red-500 text-xs mt-1">{errors.password2.message}</p>}
               </div>
             </div>
-   <div className="flex flex-col items-center justify-center mb-8">
+            <div className="flex flex-col items-center justify-center mb-8">
               <div className="relative group">
                 <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
                   {imagePreview ? (
@@ -318,7 +318,7 @@ function SignUpPage() {
                   <input id="profile-pic" type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
                 </label>
               </div>
-              <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">صورة الحساب (اختياري)</span>
+              <span className="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">صورة الحساب  </span>
             </div>
             <Button
               type="submit"

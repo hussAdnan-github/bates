@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-function LoginPage() { 
+function LoginPage() {
   const router = useRouter();
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
@@ -34,7 +34,7 @@ function LoginPage() {
         // دمج السلة المحلية مع حساب المستخدم
         const { useCartStore } = await import("@/store/useCartStore");
         const { postProductBasket } = await import("@/actions/baskets");
-        
+
         const localCart = useCartStore.getState().localCart;
         if (localCart.length > 0 && data.user !== "admin") {
           try {
@@ -69,14 +69,14 @@ function LoginPage() {
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-[#F8F9FA] relative overflow-hidden py-12 px-4" dir="rtl">
-      
+
       {/* خلفية جمالية خفيفة */}
       <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#FFC107] rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#2D1B50] rounded-full blur-[120px]" />
       </div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -95,7 +95,7 @@ function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="bg-red-50 border border-red-100 text-red-600 p-3 rounded-xl text-sm flex items-center gap-2 font-medium"
@@ -112,14 +112,14 @@ function LoginPage() {
                 <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#2D1B50] transition-colors">
                   <User size={18} />
                 </div>
-                  <Input
-                    value={username}
-                    onChange={(e) => setusername(e.target.value)}
-                    type="text"
-                    placeholder="Username"
-                    className="h-11 md:h-12 text-xs md:text-sm pr-11 bg-gray-50/50 border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2D1B50]/20 transition-all"
-                    required
-                  />
+                <Input
+                  value={username}
+                  onChange={(e) => setusername(e.target.value)}
+                  type="text"
+                  placeholder="Username"
+                  className="h-11 md:h-12 text-xs md:text-sm pr-11 bg-gray-50/50 border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2D1B50]/20 transition-all"
+                  required
+                />
               </div>
             </div>
 
@@ -132,14 +132,14 @@ function LoginPage() {
                 <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#2D1B50] transition-colors">
                   <Lock size={18} />
                 </div>
-                  <Input
-                    type={showpassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setpassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="h-11 md:h-12 text-xs md:text-sm pr-11 bg-gray-50/50 border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2D1B50]/20 transition-all"
-                    required
-                  />
+                <Input
+                  type={showpassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setpassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="h-11 md:h-12 text-xs md:text-sm pr-11 bg-gray-50/50 border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2D1B50]/20 transition-all"
+                  required
+                />
                 <button
                   type="button"
                   onClick={() => setShowpassword(!showpassword)}
@@ -169,7 +169,7 @@ function LoginPage() {
               <p className="text-xs md:text-sm text-gray-500  ">
                 عضو جديد؟{" "}
                 <Link href="/signUp" className="text-[#FFC107]   font-bold hover:underline underline-offset-4">
-                   أنشئ حسابك الآن
+                  أنشئ حسابك الآن
                 </Link>
               </p>
             </div>

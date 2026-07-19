@@ -14,13 +14,13 @@ function Footer() {
         {/* الجزء العلوي: روابط ومعلومات */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16 text-center md:text-right">
 
-          {/* العمود 1: عن الشركة */}
+          {/* العمود 1: عن المؤسسة */}
           <div className="space-y-6 flex flex-col items-center md:items-start">
             <Link href="/" className="text-3xl font-black tracking-tighter">
               BTS <span className="text-[#FFC107]">STORE</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
-              نحن في شركة محمد باتيس للتجارة نسعى لتوفير أفضل مستلزمات الهواتف الذكية والتقنيات الحديثة بجودة عالية وأسعار تنافسية.
+              نحن في مؤسسة محمد باتيس للتجارة نسعى لتوفير أفضل مستلزمات الهواتف الذكية والتقنيات الحديثة بجودة عالية وأسعار تنافسية.
             </p>
             <div className="pt-2 space-y-6">
               {/* Ugreen */}
@@ -105,7 +105,7 @@ function Footer() {
         {/* الجزء السفلي: الحقوق ووسائل الدفع */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-gray-400 text-sm text-center md:text-right">
-            © {2025} شركة محمد باتيس للتجارة. جميع الحقوق محفوظة.
+            © {2025} مؤسسة محمد باتيس للتجارة. جميع الحقوق محفوظة.
           </p>
 
           {/* أيقونات وسائل الدفع (Dummy Icons for UI) */}

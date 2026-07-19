@@ -13,11 +13,15 @@ async function request(
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
+    // const type_money = cookieStore.get("type_money")?.value || "3";
 
     const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
     const fullUrl = `${BASE_URL}${cleanEndpoint}`;
-
     const headers = {};
+    // const headers = {
+    //   "type_money": type_money,
+    //   "Currency": type_money
+    // };
 
     if (token && !options.skipAuth) {
       headers["Authorization"] = `Token ${token}`;

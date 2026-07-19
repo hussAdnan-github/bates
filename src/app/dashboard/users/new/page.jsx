@@ -68,7 +68,7 @@ function Page() {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    formData.append("username", data.username);
+    formData.append("username", data.username.toLowerCase());
     formData.append("password", data.password);
     formData.append("password2", data.confirmPassword);
     if (data.email) formData.append("email", data.email);

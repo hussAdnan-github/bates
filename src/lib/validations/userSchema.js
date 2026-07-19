@@ -20,7 +20,7 @@ export const userSchema = z
     confirmPassword: z
       .string()
       .optional()
-      .or(z.literal("")),
+      .or(z.literal("")),   
     isActive: z.boolean().default(true),
     isStaff: z.boolean().default(false),
   })

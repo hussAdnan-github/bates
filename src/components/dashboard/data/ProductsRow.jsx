@@ -100,7 +100,7 @@ function ProductsRow({ product, onDelete }) {
       {/* 6. السعر الأساسي */}
       <div className="w-[8%] text-purple-700 font-bold flex justify-center items-baseline gap-1">
         <span>{product.price || 0}</span>
-        <span className="text-[10px] text-gray-400 font-normal">ر.ي</span>
+        <span className="text-[10px] text-gray-400 font-normal">ر.س</span>
       </div>
 
       {/* 7. سعر التجزئة السعودي */}

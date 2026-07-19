@@ -2,25 +2,30 @@
 
 import request from "@/lib/apiService";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 export async function getAllProduts() {
-  const result = await request(`products/products/?pagination=false`, "GET", null, false, {
-    next: { revalidate: 300, tags: ["products"] },
-    skipAuth: true,
+  const cookieStore = await cookies();
+  const type_money = cookieStore.get("type_money")?.value || "3";
+  const result = await request(`products/products/?pagination=false&type_money=${type_money}`, "GET", null, false, {
+    next: { revalidate: 300, tags: ["products"] }
   });
   return result.data;
-} 
+}
 export async function getProduts(
   price,
   department,
   department__company,
-  page = 1, 
+  page = 1,
 ) {
+  const cookieStore = await cookies();
+  const type_money = cookieStore.get("type_money")?.value || "3";
   const params = new URLSearchParams();
   if (price) params.append("price", price);
   if (department) params.append("department", department);
   if (department__company)
     params.append("department__company", department__company);
   params.append("page", page.toString());
+  params.append("type_money", type_money);
 
   const result = await request(
     `products/products/?${params.toString()}`,
@@ -28,24 +33,25 @@ export async function getProduts(
     null,
     false,
     {
-      next: { revalidate: 300, tags: ["products"] },
-      skipAuth: true,
+      next: { revalidate: 300, tags: ["products"] }
     }
   );
 
   return result.data;
 }
 export async function getSearchProduts(search) {
+  const cookieStore = await cookies();
+  const type_money = cookieStore.get("type_money")?.value || "3";
   const params = new URLSearchParams();
   params.append("search", search);
+  params.append("type_money", type_money);
   const result = await request(
     `products/products/?${params.toString()}`,
     "GET",
     null,
     false,
     {
-      next: { revalidate: 300, tags: ["products"] },
-      skipAuth: true,
+      next: { revalidate: 300, tags: ["products"] }
     }
   );
 
@@ -53,7 +59,9 @@ export async function getSearchProduts(search) {
 }
 
 export async function getProdutsId(id) {
-  const result = await request(`products/products/${id}`, "GET");
+  const cookieStore = await cookies();
+  const type_money = cookieStore.get("type_money")?.value || "3";
+  const result = await request(`products/products/${id}/?type_money=${type_money}`, "GET");
 
   return result.data;
 }
@@ -84,12 +92,12 @@ export async function getProdutsDash(
 export async function postProdut(formData) {
   // console.log("formData" ,formData);
   const result = await request(`products/products/`, "POST", formData, true);
- 
+
   if (result.success) {
     revalidatePath("/dashboard/products");
     revalidateTag("products");
   }
- 
+
 
   return result;
 }

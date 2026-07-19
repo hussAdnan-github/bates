@@ -98,7 +98,7 @@ function page() {
   });
   const onSubmit = async (data) => {
     const formData = new FormData();
-    if (data.username) formData.append("username", data.username);
+    if (data.username) formData.append("username", data.username.toLowerCase());
     if (data.email) formData.append("email", data.email);
     if (data.type_money) formData.append("type_money", data.type_money);
     if (data.first_name) formData.append("first_name", data.first_name);

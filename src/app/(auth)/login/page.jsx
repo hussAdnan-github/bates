@@ -25,7 +25,7 @@ function LoginPage() {
       const res = await fetch("/api/Account/LogIn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username: username.toLowerCase(), password }),
         credentials: "include",
       });
 

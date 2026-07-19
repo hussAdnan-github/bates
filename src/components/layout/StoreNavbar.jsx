@@ -172,7 +172,7 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
           {/* --- الديسكتوب: منظم ومنسق بخطوط أصغر وبدون تداخل --- */}
           <nav className="hidden lg:block w-full bg-white/95 backdrop-blur-md border-b sticky top-0 z-50 shadow-sm" dir="rtl">
             <div className="container mx-auto px-4 xl:px-6 h-16 flex items-center justify-between">
-              
+
               {/* القسم الأيمن: اللوجو والقائمة */}
               <div className="flex items-center gap-6 xl:gap-10">
                 <Link href="/shop" className="flex flex-col hover:opacity-90 transition-opacity">
@@ -198,11 +198,11 @@ function StoreNavbar({ currencyButtonDesktop, currencyButtonMobile, isLoggedIn, 
                 <div className="max-w-xs">
                   <SearchBar />
                 </div>
-                
+
                 <div className="flex items-center border-r pr-3 xl:pr-5 gap-2 xl:gap-3">
                   {currencyButtonDesktop}
                   <BasketsDialog isLoggedIn={isLoggedIn} />
-                  
+
                   {isLoggedIn ? (
                     <LogoutButton />
                   ) : (

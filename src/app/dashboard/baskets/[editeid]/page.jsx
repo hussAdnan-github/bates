@@ -143,13 +143,13 @@ const OrderEditPage = () => {
           <FileText className="text-[#2D1B4D]" />
           تعديل الطلب #{data?.data?.id}
         </h1>
-        <Link
-          href="/dashboard/baskets"
-          className="gap-2 border-[#FFC107] text-gray-700 hover:bg-[#FFC107] hover:text-white transition-all"
+        <Button
+          onClick={() => router.back()}
+          className="flex items-center gap-2 border-[#FFC107] text-gray-700 hover:bg-[#FFC107] hover:text-white transition-all"
         >
           <ArrowRight size={18} />
           العودة لقائمة الطلبات
-        </Link>
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

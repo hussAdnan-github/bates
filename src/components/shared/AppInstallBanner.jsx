@@ -20,8 +20,11 @@ export default function AppInstallBanner() {
     // التحقق مما إذا كان الموقع مفتوحاً داخل WebView (مثل تطبيق الـ APK)
     const isWebView = /(wv|WebView|Android.*Version\/[0-9]\.[0-9]|Line|Instagram|FBAN|FBAV)/i.test(navigator.userAgent);
 
-    // إظهار الإشعار فقط إذا لم يكن داخل التطبيق
-    if (!isStandalone && !isWebView) {
+    // التحقق من عرض الشاشة (موبايل فقط)
+    const isMobile = window.innerWidth <= 768;
+
+    // إظهار الإشعار فقط إذا لم يكن داخل التطبيق وكان الجهاز موبايل
+    if (!isStandalone && !isWebView && isMobile) {
       // تأخير بسيط لتحسين تجربة المستخدم
       const timer = setTimeout(() => {
         setIsVisible(true);
@@ -61,7 +64,7 @@ export default function AppInstallBanner() {
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: 300, opacity: 0, scale: 0.9 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          className="fixed bottom-4 left-4 right-4 md:left-auto md:right-8 md:bottom-8 z-[100] md:w-[420px]"
+          className="fixed bottom-4 left-4 right-4 md:hidden z-[100]"
           dir="rtl"
         >
           <div className="bg-white/95 backdrop-blur-xl border border-gray-100 shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-3xl p-4 md:p-5 flex items-start gap-3 md:gap-4 relative overflow-hidden group">

@@ -143,14 +143,14 @@ function SignUpPage() {
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-xl z-10"
       >
-        <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100">
+        <div className="bg-white p-6 md:p-8 rounded-[2rem] shadow-2xl shadow-gray-200/50 border border-gray-100/80">
 
-          <div className="text-center mb-10">
-            <h1 className="text-2xl md:text-3xl font-black text-[#2D1B50] mb-2 md:mb-3">انضم لـ <span className="text-[#FFC107]">BTS</span></h1>
-            <p className="text-gray-500 font-medium text-sm md:text-base">خطوة واحدة تفصلك عن أفضل تجربة تسوق</p>
+          <div className="text-center mb-8">
+            <h1 className="text-xl md:text-2xl font-black text-[#2D1B50] mb-1.5 md:mb-2">انضم لـ <span className="text-[#FFC107]">BTS</span></h1>
+            <p className="text-gray-500 font-medium text-xs md:text-sm">خطوة واحدة تفصلك عن أفضل تجربة تسوق</p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-5">
 
          
 
@@ -162,7 +162,7 @@ function SignUpPage() {
                   <Input
                     {...register("first_name")}
                     placeholder="الاسم الأول"
-                    className={`h-11 md:h-12 text-sm md:text-base pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 ${errors.first_name ? "border-red-500" : "border-gray-100"}`}
+                    className={`h-10 md:h-11 text-xs md:text-sm pr-11 bg-gray-50/50 rounded-lg focus:ring-2 focus:ring-[#2D1B50]/20 ${errors.first_name ? "border-red-500" : "border-gray-100"}`}
                   />
                 </div>
                 {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name.message}</p>}
@@ -175,7 +175,7 @@ function SignUpPage() {
                   <Input
                     {...register("last_name")}
                     placeholder="الاسم الأخير"
-                    className={`h-11 md:h-12 text-sm md:text-base pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 ${errors.last_name ? "border-red-500" : "border-gray-100"}`}
+                    className={`h-10 md:h-11 text-xs md:text-sm pr-11 bg-gray-50/50 rounded-lg focus:ring-2 focus:ring-[#2D1B50]/20 ${errors.last_name ? "border-red-500" : "border-gray-100"}`}
                   />
                 </div>
                 {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name.message}</p>}
@@ -190,7 +190,7 @@ function SignUpPage() {
                   <Input
                     {...register("username")}
                     placeholder="mohammed_ali"
-                    className={`h-11 md:h-12 text-sm md:text-base pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 ${errors.username ? "border-red-500" : "border-gray-100"}`}
+                    className={`h-10 md:h-11 text-xs md:text-sm pr-11 bg-gray-50/50 rounded-lg focus:ring-2 focus:ring-[#2D1B50]/20 ${errors.username ? "border-red-500" : "border-gray-100"}`}
                   />
                 </div>
                 {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>}
@@ -204,7 +204,7 @@ function SignUpPage() {
                     {...register("email")}
                     type="email"
                     placeholder="example@mail.com"
-                    className={`h-11 md:h-12 text-sm md:text-base pr-11 bg-gray-50/50 rounded-xl text-left focus:ring-2 focus:ring-[#2D1B50]/5 ${errors.email ? "border-red-500" : "border-gray-100"}`}
+                    className={`h-10 md:h-11 text-xs md:text-sm pr-11 bg-gray-50/50 rounded-lg text-left focus:ring-2 focus:ring-[#2D1B50]/20 ${errors.email ? "border-red-500" : "border-gray-100"}`}
                   />
                 </div>
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
@@ -219,29 +219,27 @@ function SignUpPage() {
                   {...register("phone")}
                   type="tel"
                   placeholder="+967 7xx xxx xxx"
-                  className={`h-11 md:h-12 text-sm md:text-base pl-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 text-left ${errors.phone ? "border-red-500" : "border-gray-100"}`}
+                  className={`h-10 md:h-11 text-xs md:text-sm pl-11 bg-gray-50/50 rounded-lg focus:ring-2 focus:ring-[#2D1B50]/20 text-left ${errors.phone ? "border-red-500" : "border-gray-100"}`}
                 />
               </div>
               {errors.phone && <p className="text-red-500 text-xs mt-1 text-right">{errors.phone.message}</p>}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="space-y-2">
-                <Label className="text-gray-600 font-bold mr-1 text-xs">نوع العملة</Label>
-                <div className="relative">
-                  <Wallet className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                  <select
-                    {...register("type_money")}
-                    className={`w-full h-11 md:h-12 text-sm md:text-base pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 appearance-none border ${errors.type_money ? "border-red-500" : "border-gray-100"}`}
-                  >
-                    <option value="">اختر العملة (اختياري)</option>
-                    <option value="1">ريال يمني قديم</option>
-                    <option value="2">ريال يمني جديد</option>
-                    <option value="3">ريال سعودي</option>
-                  </select>
-                </div>
-                {errors.type_money && <p className="text-red-500 text-xs mt-1">{errors.type_money.message}</p>}
+            <div className="space-y-2">
+              <Label className="text-gray-600 font-bold mr-1 text-xs">نوع العملة</Label>
+              <div className="relative">
+                <Wallet className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <select
+                  {...register("type_money")}
+                  className={`w-full h-10 md:h-11 text-xs md:text-sm pr-11 bg-gray-50/50 rounded-lg focus:ring-2 focus:ring-[#2D1B50]/20 appearance-none border ${errors.type_money ? "border-red-500" : "border-gray-100"}`}
+                >
+                  <option value="">اختر العملة (اختياري)</option>
+                  <option value="1">ريال يمني قديم</option>
+                  <option value="2">ريال يمني جديد</option>
+                  <option value="3">ريال سعودي</option>
+                </select>
               </div>
+              {errors.type_money && <p className="text-red-500 text-xs mt-1">{errors.type_money.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -250,7 +248,7 @@ function SignUpPage() {
                 <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                 <select
                   {...register("place")}
-                  className={`w-full h-11 md:h-12 text-sm md:text-base pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 appearance-none border ${errors.place ? "border-red-500" : "border-gray-100"}`}
+                  className={`w-full h-10 md:h-11 text-xs md:text-sm pr-11 bg-gray-50/50 rounded-lg focus:ring-2 focus:ring-[#2D1B50]/20 appearance-none border ${errors.place ? "border-red-500" : "border-gray-100"}`}
                 >
                   <option value="">اختر المحافظة (اختياري)</option>
                   {places.map((place) => (
@@ -272,7 +270,7 @@ function SignUpPage() {
                     {...register("password")}
                     type={showPassword ? "text" : "password"}
                     placeholder="كلمة مرور قوية"
-                    className={`h-11 md:h-12 text-sm md:text-base pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 ${errors.password ? "border-red-500" : "border-gray-100"}`}
+                    className={`h-10 md:h-11 text-xs md:text-sm pr-11 bg-gray-50/50 rounded-lg focus:ring-2 focus:ring-[#2D1B50]/20 ${errors.password ? "border-red-500" : "border-gray-100"}`}
                   />
                   <button
                     type="button"
@@ -293,7 +291,7 @@ function SignUpPage() {
                     {...register("password2")}
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="أعد كتابة كلمة المرور"
-                    className={`h-11 md:h-12 text-sm md:text-base pr-11 bg-gray-50/50 rounded-xl focus:ring-2 focus:ring-[#2D1B50]/5 ${errors.password2 ? "border-red-500" : "border-gray-100"}`}
+                    className={`h-10 md:h-11 text-xs md:text-sm pr-11 bg-gray-50/50 rounded-lg focus:ring-2 focus:ring-[#2D1B50]/20 ${errors.password2 ? "border-red-500" : "border-gray-100"}`}
                   />
                   <button
                     type="button"
@@ -325,15 +323,15 @@ function SignUpPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#2D1B50] hover:bg-[#1a1030] text-white font-black text-base md:text-lg h-12 md:h-14 rounded-2xl shadow-lg shadow-indigo-100 transition-all active:scale-[0.98] mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full bg-[#2D1B50] hover:bg-[#1a1030] text-white font-black text-sm md:text-base h-11 md:h-12 rounded-xl shadow-lg shadow-indigo-100 transition-all active:scale-[0.98] mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? "جاري التسجيل..." : "إكمال عملية التسجيل"}
             </Button>
 
             <div className="text-center mt-6">
-              <p className="text-sm text-gray-500 font-medium">
+              <p className="text-xs md:text-sm text-gray-500 ">
                 تمتلك حساباً بالفعل؟{" "}
-                <Link href="/login" className="text-[#FFC107] font-black hover:underline underline-offset-4">
+                <Link href="/login" className="text-[#FFC107]  font-bold  hover:underline underline-offset-4">
                   سجل دخولك هنا
                 </Link>
               </p>

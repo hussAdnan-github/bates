@@ -34,9 +34,9 @@ export default function HeroCarousel({ banners = [] }) {
   if (actualSlides.length === 0) return null;
 
   return (
-    <div className="relative w-full" dir="rtl">
+    <div className="relative w-full md:max-w-6xl md:mx-auto md:px-6 md:py-8 lg:max-w-7xl" dir="rtl">
       {/* الكاروسيل الرئيسي */}
-      <div className="relative w-full h-[200px] md:h-[350px] lg:h-[400px] overflow-hidden group">
+      <div className="relative w-full h-[200px] md:h-[450px] lg:h-[500px] md:rounded-[2rem] md:shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden group md:border-[6px] md:border-white/60 dark:md:border-gray-800/60 backdrop-blur-xl">
         <Swiper
           modules={[Thumbs, Autoplay, EffectFade]}
           effect="fade"
@@ -49,22 +49,23 @@ export default function HeroCarousel({ banners = [] }) {
         >
           {actualSlides.map((slide) => (
             <SwiperSlide key={`main-${slide.id}`}>
-              <div className="relative w-full h-full bg-gray-50">
+              <div className="relative w-full h-full bg-gray-100 dark:bg-gray-900">
                 <Image
                   src={slide.src}
                   alt={slide.title || 'صورة العرض'}
                   fill
                   unoptimized
-                  className="object-fill"
+                  className="object-cover"
                 />
-
+                {/* تأثير متدرج للظلال لإبراز الصور */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent hidden md:block"></div>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
 
         {/* شريط الصور المصغرة الدائرية (Thumbs Pagination) داخل السلايدر */}
-        <div className="absolute bottom-2 left-0 right-0 z-20 flex justify-center pb-2">
+        <div className="absolute bottom-2 md:bottom-6 left-0 right-0 z-20 flex justify-center pb-2 md:pb-0">
           <div className="w-[95%] md:w-[60%] lg:w-[45%]">
             <Swiper
               onSwiper={setThumbsSwiper}
@@ -82,7 +83,7 @@ export default function HeroCarousel({ banners = [] }) {
                   className="cursor-pointer flex justify-center group"
                 >
                   {/* دائرة الصورة المصغرة والتأثيرات عند التفعيل */}
-                  <div className="relative w-8 h-8 md:w-14 md:h-14 rounded-full overflow-hidden border-[2px] md:border-[3px] border-transparent transition-all duration-300 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 group-[.swiper-slide-thumb-active]:border-[var(--primary_color)] group-[.swiper-slide-thumb-active]:opacity-100 group-[.swiper-slide-thumb-active]:grayscale-0 group-[.swiper-slide-thumb-active]:shadow-[0_0_15px_rgba(255,193,7,0.5)] mx-auto">
+                  <div className="relative w-8 h-8 md:w-16 md:h-16 rounded-full overflow-hidden border-[2px] md:border-[3px] border-white/50 md:border-white transition-all duration-300 opacity-60 md:opacity-70 grayscale hover:grayscale-0 hover:opacity-100 group-[.swiper-slide-thumb-active]:border-[var(--primary_color)] group-[.swiper-slide-thumb-active]:opacity-100 group-[.swiper-slide-thumb-active]:grayscale-0 group-[.swiper-slide-thumb-active]:scale-110 mx-auto">
                     <Image
                       src={slide.src}
                       alt={`thumbnail ${slide.title || 'صورة مصغرة'}`}

@@ -137,14 +137,15 @@ function page({ searchParams: searchParamsPage }) {
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="flex items-center w-full bg-gray-50/80 px-4 py-4 border-b border-gray-200 text-gray-500 text-sm font-bold">
-          <div className="w-[25%] text-right pr-4">المنتج</div>
-          <div className="w-[10%] text-center">الترتيب</div>
+          <div className="w-[20%] text-right pr-4">المنتج</div>
+          <div className="w-[8%] text-center">الترتيب</div>
+          <div className="w-[10%] text-center">الموديل</div>
           <div className="w-[10%] text-center">القسم</div>
           <div className="w-[10%] text-center">الحالة</div>
-          <div className="w-[10%] text-center">الأساسي</div>
+          <div className="w-[8%] text-center">الأساسي</div>
           <div className="w-[12%] text-center">تجزئة (سعودي)</div>
           <div className="w-[13%] text-center">تجزئة (يمني)</div>
-          <div className="w-[10%] text-left pl-4">إجراءات</div>
+          <div className="w-[9%] text-left pl-4">إجراءات</div>
         </div>
 
         {/* قائمة المنتجات */}

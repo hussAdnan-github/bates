@@ -150,42 +150,61 @@ function page() {
   };
 
   const handleInstantUpload = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
     setIsUploading(true);
     const toastId = toast.loading(
-      <div style={{ direction: "rtl", textAlign: "right" }}><strong>جاري رفع الصورة...</strong></div>
+      <div style={{ direction: "rtl", textAlign: "right" }}><strong>جاري الرفع...</strong></div>
     );
 
-    const imgData = new FormData();
-    imgData.append("product", editeid);
-    imgData.append("image", file);
+    let successCount = 0;
+    let failCount = 0;
+    const newImagesList = [];
 
-    try {
-      const uploadResult = await postProductImage(imgData);
-      if (uploadResult.success && uploadResult.data) {
-        const newImage = uploadResult.data.data || uploadResult.data;
-        setExistingSubImages((prev) => [...prev, newImage]);
-        toast.success(
-          <div style={{ direction: "rtl", textAlign: "right" }}><strong>تم رفع الصورة بنجاح ✅</strong></div>,
-          { id: toastId }
-        );
-      } else {
-        toast.error(
-          <div style={{ direction: "rtl", textAlign: "right" }}><strong>فشل رفع الصورة</strong></div>,
-          { id: toastId }
-        );
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const imgData = new FormData();
+      imgData.append("product", editeid);
+      imgData.append("image", file);
+
+      try {
+        const uploadResult = await postProductImage(imgData);
+        if (uploadResult.success && uploadResult.data) {
+          const newImage = uploadResult.data.data || uploadResult.data;
+          newImagesList.push(newImage);
+          successCount++;
+        } else {
+          failCount++;
+        }
+      } catch (error) {
+        failCount++;
       }
-    } catch (error) {
-      toast.error(
-        <div style={{ direction: "rtl", textAlign: "right" }}><strong>حدث خطأ أثناء الرفع</strong></div>,
+    }
+
+    if (newImagesList.length > 0) {
+      setExistingSubImages((prev) => [...prev, ...newImagesList]);
+    }
+
+    if (failCount === 0) {
+      toast.success(
+        <div style={{ direction: "rtl", textAlign: "right" }}><strong>تم الرفع بنجاح ✅</strong></div>,
         { id: toastId }
       );
-    } finally {
-      setIsUploading(false);
-      e.target.value = null;
+    } else if (successCount > 0) {
+      toast.warning(
+        <div style={{ direction: "rtl", textAlign: "right" }}><strong>تم الرفع جزئياً، فشل {failCount} صور</strong></div>,
+        { id: toastId }
+      );
+    } else {
+      toast.error(
+        <div style={{ direction: "rtl", textAlign: "right" }}><strong>فشل رفع الصور</strong></div>,
+        { id: toastId }
+      );
     }
+
+    setIsUploading(false);
+    e.target.value = null;
   };
 
   const handleDeleteSubImage = async () => {
@@ -436,16 +455,17 @@ function page() {
                     ${isUploading ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-purple-100 text-purple-700 hover:bg-purple-200 shadow-sm'}
                  `}>
                   {isUploading ? <Loader2 size={18} className="animate-spin" /> : <Image size={18} />}
-                  {isUploading ? 'جاري الرفع...' : 'اختر صورة فرعية جديدة لإضافتها فوراً'}
+                  {isUploading ? 'جاري الرفع...' : 'انقر لاختيار صور فرعية جديدة لإضافتها فوراً'}
                   <input
                     type="file"
                     accept="image/*"
+                    multiple
                     className="hidden"
                     onChange={handleInstantUpload}
                     disabled={isUploading}
                   />
                 </label>
-                <p className="text-xs text-gray-500">سيتم رفع الصورة و إضافتها مباشرة دون الحاجة للضغط على حفظ البيانات</p>
+                <p className="text-xs text-gray-500">سيتم رفع الصور و إضافتها مباشرة (يمكنك تحديد أكثر من صورة)</p>
               </div>
             </div>
 

@@ -1,71 +1,135 @@
 "use client";
 
-import React, { useState } from "react";
-import { Image, PlusCircle, Trash2 } from "lucide-react";
-import InputField from "./InputField";
+import React, { useState, useRef } from "react";
+import { Image as ImageIcon, UploadCloud, Trash2 } from "lucide-react";
 
 export default function ImagesProducts({ onChange, onRemove }) {
-  const [imageFields, setImageFields] = useState([
-    { id: Date.now(), label: "صورة إضافية 1" },
-  ]);
+  const [images, setImages] = useState([]);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef(null);
 
-  const addImageField = () => {
-    const newId = Date.now();
-    setImageFields([
-      ...imageFields,
-      { id: newId, label: `صورة إضافية ${imageFields.length + 1}` },
-    ]);
+  const handleFiles = (files) => {
+    const newFiles = Array.from(files);
+    
+    newFiles.forEach((file) => {
+      const newId = Date.now() + Math.random().toString(36).substr(2, 9);
+      
+      const newImageObj = {
+        id: newId,
+        file: file,
+        preview: URL.createObjectURL(file),
+      };
+
+      setImages((prev) => [...prev, newImageObj]);
+      if (onChange) {
+        onChange([file], newId);
+      }
+    });
   };
 
-  const removeField = (id) => {
-    if (imageFields.length > 0) {
-      setImageFields(imageFields.filter((field) => field.id !== id));
-      // إخبار الأب بحذف الصورة من القائمة لديه أيضاً
-      if (onRemove) onRemove(id);
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      handleFiles(e.target.files);
+    }
+    // إعادة تعيين القيمة للسماح باختيار نفس الملفات مرة أخرى إذا لزم الأمر
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
+
+  const handleRemove = (id) => {
+    setImages((prev) => prev.filter((img) => img.id !== id));
+    if (onRemove) {
+      onRemove(id);
+    }
+  };
+
+  const onDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const onDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const onDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFiles(e.dataTransfer.files);
+    }
+  };
+
   return (
-    <div className="overflow-hidden bg-gray-50/50 rounded-xl border border-dashed border-gray-200 mt-4">
-       <div className="p-4 border-b border-gray-100 flex items-center justify-start gap-2 text-purple-900">
-        <Image size={20} />
+    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mt-6">
+      <div className="p-4 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900 bg-gray-50/50">
+        <ImageIcon size={20} />
         <span className="font-bold">معرض صور المنتج (إضافي)</span>
       </div>
 
-      <div className="p-6 space-y-4">
-         {imageFields.map((field, index) => (
-          <div key={field.id} className="relative group flex items-start gap-2">
-            <div className="flex-1">
-              <InputField
-                label={field.label}
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                   if (e.target.files?.[0]) {
-                    onChange(e.target.files, field.id);
-                  }
-                }}
-              />
-            </div>
-
-            <button
-              type="button"
-              onClick={() => removeField(field.id)}
-              className="mt-8 p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
-              title="حذف الحقل"
-            >
-              <Trash2 size={20} />
-            </button>
-          </div>
-        ))}
-
-        <button
-          type="button"
-          onClick={addImageField}
-          className="w-full mt-2 flex items-center justify-center gap-2 py-3 px-4 border-2 border-dashed border-purple-200 rounded-lg text-purple-700 hover:bg-purple-50 hover:border-purple-300 transition-all duration-200 group"
+      <div className="p-6 space-y-6">
+        {/* Dropzone */}
+        <div
+          className={`relative border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center gap-4 transition-all duration-300 ease-in-out cursor-pointer
+            ${isDragging ? "border-purple-500 bg-purple-50 scale-[1.02]" : "border-gray-200 hover:border-purple-300 hover:bg-gray-50/50"}
+          `}
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+          onDrop={onDrop}
+          onClick={() => fileInputRef.current?.click()}
         >
-          <PlusCircle size={18} />
-          <span className="font-medium text-sm">إضافة صورة أخرى للمعرض</span>
-        </button>
+          <div className={`p-4 rounded-full transition-colors duration-300 ${isDragging ? "bg-purple-100 text-purple-600" : "bg-gray-100 text-gray-500"}`}>
+            <UploadCloud size={32} />
+          </div>
+          <div className="text-center">
+            <h3 className="text-lg font-bold text-gray-700 mb-1">انقر أو اسحب الصور إلى هنا</h3>
+            <p className="text-sm text-gray-500">يمكنك اختيار أكثر من صورة في نفس الوقت (PNG, JPG, WEBP)</p>
+          </div>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            multiple
+            accept="image/*"
+            className="hidden"
+          />
+        </div>
+
+        {/* Previews */}
+        {images.length > 0 && (
+          <div className="space-y-3">
+            <h4 className="font-bold text-gray-700 text-sm flex items-center gap-2">
+              <span>الصور المحددة</span>
+              <span className="bg-purple-100 text-purple-700 py-0.5 px-2 rounded-full text-xs">{images.length}</span>
+            </h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {images.map((img) => (
+                <div key={img.id} className="group relative aspect-square rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all">
+                  <img
+                    src={img.preview}
+                    alt="Preview"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemove(img.id);
+                      }}
+                      className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 hover:scale-110 transition-all shadow-lg"
+                      title="حذف الصورة"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

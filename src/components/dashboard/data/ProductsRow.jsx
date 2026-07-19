@@ -51,7 +51,7 @@ function ProductsRow({ product, onDelete }) {
   return (
     <div className="flex items-center w-full px-4 py-3 bg-white border-b border-gray-100 hover:bg-blue-50/30 transition-all text-sm">
       {/* 1. المنتج */}
-      <div className="w-[25%] flex items-center gap-3 pr-2">
+      <div className="w-[20%] flex items-center gap-3 pr-2">
         <div className="w-10 h-10 rounded-full border border-gray-200 overflow-hidden bg-white flex items-center justify-center shrink-0 shadow-sm">
           <img src={product.image || "/placeholder.png"} alt={product.name || "Product"} className="w-8 h-8 object-contain" />
         </div>
@@ -59,16 +59,21 @@ function ProductsRow({ product, onDelete }) {
       </div>
 
       {/* 2. الترتيب */}
-      <div className="w-[10%] text-center font-bold text-gray-700">
-        {product.serial_number || "-"}
+      <div className="w-[8%] text-center font-bold text-gray-700">
+        {product.number || "-"}
       </div>
 
-      {/* 3. القسم */}
+      {/* 3. الموديل */}
+      <div className="w-[10%] text-center font-bold text-gray-600">
+        {product.model || "-"}
+      </div>
+
+      {/* 4. القسم */}
       <div className="w-[10%] text-center text-gray-500 font-medium line-clamp-1" dir="rtl" title={product.name_department}>
         {product.name_department || "غير محدد"}
       </div>
 
-      {/* 4. الحالة */}
+      {/* 5. الحالة */}
       <div className="w-[10%] flex justify-center items-center">
         <button
           onClick={toggleStatus}
@@ -92,26 +97,26 @@ function ProductsRow({ product, onDelete }) {
         </button>
       </div>
 
-      {/* 5. السعر الأساسي */}
-      <div className="w-[10%] text-purple-700 font-bold flex justify-center items-baseline gap-1">
+      {/* 6. السعر الأساسي */}
+      <div className="w-[8%] text-purple-700 font-bold flex justify-center items-baseline gap-1">
         <span>{product.price || 0}</span>
         <span className="text-[10px] text-gray-400 font-normal">ر.ي</span>
       </div>
 
-      {/* 6. سعر التجزئة السعودي */}
+      {/* 7. سعر التجزئة السعودي */}
       <div className="w-[12%] text-blue-600 font-bold flex justify-center items-baseline gap-1">
         <span>{product.retail_price || 0}</span>
         <span className="text-[10px] text-gray-400 font-normal">ر.س</span>
       </div>
 
-      {/* 7. سعر التجزئة اليمني */}
+      {/* 8. سعر التجزئة اليمني */}
       <div className="w-[13%] text-green-600 font-bold flex justify-center items-baseline gap-1">
         <span>{product.retail_price_ye_new || 0}</span>
         <span className="text-[10px] text-gray-400 font-normal">ر.ي</span>
       </div>
 
-      {/* 8. إجراءات */}
-      <div className="w-[10%] flex items-center justify-end gap-2 pl-2">
+      {/* 9. إجراءات */}
+      <div className="w-[9%] flex items-center justify-end gap-2 pl-2">
         <Link href={`products/${product.id}`} className="text-gray-400 hover:text-blue-600 transition-colors p-2 bg-gray-50 hover:bg-blue-100 rounded-lg">
           <Pencil size={18} />
         </Link>

@@ -59,7 +59,7 @@ export default async function RootLayout({ children }) {
             </ThemeProvider>
           </ProvidersQuery>
           <Toaster />
-          <AppInstallBanner />
+          {/* <AppInstallBanner /> */}
         </main>
       </body>
     </html>

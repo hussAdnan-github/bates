@@ -16,22 +16,18 @@ export default function AppInstallBanner() {
     // 1. التحقق مما إذا كان الموقع يعمل كتطبيق PWA
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
     
-    // 2. التحقق الشامل مما إذا كان الموقع مفتوحاً داخل تطبيق (APK / WebView / TWA)
+    // 2. التحقق مما إذا كان الموقع مفتوحاً داخل تطبيق (APK / WebView)
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const isWebView = (
-      // Android WebView العادي
-      /(wv|WebView|Android.*Version\/[0-9]\.[0-9]|Crosswalk)/i.test(userAgent) ||
+      // Android WebView (عادة يحتوي على wv أو WebView)
+      /(wv|WebView|Crosswalk)/i.test(userAgent) ||
       // iOS WebView (المتصفحات المدمجة التي لا تحتوي على Safari)
       (/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(userAgent)) ||
-      // المتصفحات المدمجة في تطبيقات التواصل الاجتماعي
+      // تطبيقات التواصل الاجتماعي
       /(Line|Instagram|FBAN|FBAV|Snapchat|Twitter)/i.test(userAgent) ||
-      // الكائنات المحقونة من قبل منصات بناء التطبيقات (مثل Capacitor, Cordova)
+      // منصات تحويل المواقع لتطبيقات
       typeof window.Capacitor !== "undefined" || 
-      typeof window.cordova !== "undefined" ||
-      typeof window.Android !== "undefined" ||
-      typeof window.android !== "undefined" ||
-      // التحقق من مصدر الزيارة (لبعض تطبيقات الـ TWA)
-      document.referrer.includes('android-app://')
+      typeof window.cordova !== "undefined"
     );
 
     // 3. التحقق من حجم الشاشة (جوال فقط)

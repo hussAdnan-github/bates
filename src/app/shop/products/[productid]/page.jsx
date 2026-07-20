@@ -51,7 +51,7 @@ async function page({ params }) {
           <div className="flex flex-col space-y-6 md:space-y-8 text-right max-w-2xl mt-4 md:mt-0">
             {/* العنوان والفئة */}
             <div className="space-y-3">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#2D1B50] leading-tight md:leading-tight">
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl   text-[#2D1B50] leading-tight md:leading-tight">
                 {product.data.name}
               </h1>
               

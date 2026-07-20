@@ -46,8 +46,8 @@ export default function BannerCarousel() {
             key={idx}
             onClick={() => setCurrentIndex(idx)}
             className={`relative transition-all duration-300 rounded-md overflow-hidden ${currentIndex === idx
-                ? "w-12 h-8 md:w-14 md:h-9 border-2 border-[var(--primary_color)]   scale-110"
-                : "w-10 h-6 md:w-12 md:h-7 border-2 border-white/50 opacity-60 hover:opacity-100 hover:border-white"
+              ? "w-12 h-8 md:w-14 md:h-9 border-2 border-[var(--primary_color)]   scale-110"
+              : "w-10 h-6 md:w-12 md:h-7 border-2 border-white/50 opacity-60 hover:opacity-100 hover:border-white"
               }`}
           >
             <Image

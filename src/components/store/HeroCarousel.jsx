@@ -55,7 +55,7 @@ export default function HeroCarousel({ banners = [] }) {
                   alt={slide.title || 'صورة العرض'}
                   fill
                   unoptimized
-                  className="object-cover"
+                  className="object-fill md:object-cover"
                 />
                 {/* تأثير متدرج للظلال لإبراز الصور */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent hidden md:block"></div>

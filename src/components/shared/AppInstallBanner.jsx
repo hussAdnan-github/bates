@@ -64,10 +64,7 @@ export default function AppInstallBanner() {
     setIsVisible(false);
   };
 
-  const handleInstall = () => {
-    // قم بتغيير هذا الرابط إلى رابط تحميل الـ APK الحقيقي الخاص بك لاحقاً
-    window.location.href = "/app.apk"; 
-  };
+
 
   return (
     <AnimatePresence>
@@ -103,13 +100,14 @@ export default function AppInstallBanner() {
                 تجربة تسوق أسرع، وأفضل. أحصل على افضل الأكترونيات و العرض ظمن مؤؤسسة محمد باتيس.
               </p>
               
-              <button
-                onClick={handleInstall}
+              <a
+                href="/bates-app.apk"
+                download="bates-app.apk"
                 className="w-full bg-[#FFC107] hover:bg-[#ffca2c] text-[#2D1B50] font-bold py-2 md:py-3 px-4 rounded-xl text-xs md:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 group-hover:shadow-lg hover:-translate-y-0.5"
               >
                 <Download className="w-4 h-4 md:w-5 md:h-5 animate-bounce" />
                 تنزيل التطبيق مجاناً
-              </button>
+              </a>
             </div>
           </div>
         </motion.div>

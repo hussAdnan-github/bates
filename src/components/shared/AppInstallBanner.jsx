@@ -8,28 +8,42 @@ export default function AppInstallBanner() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // ملاحظة: قمت بإيقاف هذا الشرط مؤقتاً لتتمكن من رؤية الإشعار واختباره.
-    // في النسخة النهائية، يجب إعادة تفعيل هذا الشرط حتى لا يزعج المستخدم بظهوره في كل مرة يزور فيها الموقع.
-    // if (localStorage.getItem("appInstallShown")) {
+    // التحقق إذا كان الإشعار قد تم إخفاؤه مسبقاً (قم بإزالة التعليق في بيئة الإنتاج)
+    // if (localStorage.getItem("appInstallDismissed")) {
     //   return;
     // }
 
-    // التحقق مما إذا كان الموقع يعمل كتطبيق PWA
+    // 1. التحقق مما إذا كان الموقع يعمل كتطبيق PWA
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
     
-    // التحقق مما إذا كان الموقع مفتوحاً داخل WebView (مثل تطبيق الـ APK)
-    const isWebView = /(wv|WebView|Android.*Version\/[0-9]\.[0-9]|Line|Instagram|FBAN|FBAV)/i.test(navigator.userAgent);
+    // 2. التحقق الشامل مما إذا كان الموقع مفتوحاً داخل تطبيق (APK / WebView / TWA)
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isWebView = (
+      // Android WebView العادي
+      /(wv|WebView|Android.*Version\/[0-9]\.[0-9]|Crosswalk)/i.test(userAgent) ||
+      // iOS WebView (المتصفحات المدمجة التي لا تحتوي على Safari)
+      (/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(userAgent)) ||
+      // المتصفحات المدمجة في تطبيقات التواصل الاجتماعي
+      /(Line|Instagram|FBAN|FBAV|Snapchat|Twitter)/i.test(userAgent) ||
+      // الكائنات المحقونة من قبل منصات بناء التطبيقات (مثل Capacitor, Cordova)
+      typeof window.Capacitor !== "undefined" || 
+      typeof window.cordova !== "undefined" ||
+      typeof window.Android !== "undefined" ||
+      typeof window.android !== "undefined" ||
+      // التحقق من مصدر الزيارة (لبعض تطبيقات الـ TWA)
+      document.referrer.includes('android-app://')
+    );
 
-    // التحقق من عرض الشاشة (موبايل فقط)
+    // 3. التحقق من حجم الشاشة (جوال فقط)
     const isMobile = window.innerWidth <= 768;
 
-    // إظهار الإشعار فقط إذا لم يكن داخل التطبيق وكان الجهاز موبايل
-    if (!isStandalone && !isWebView && isMobile) {
-      // تأخير بسيط لتحسين تجربة المستخدم
+    // يظهر فقط إذا كان:
+    // - حجم الشاشة للموبايل
+    // - ليس تطبيق ويب PWA
+    // - ليس مفتوحاً من خلال تطبيق APK
+    if (isMobile && !isWebView && !isStandalone) {
       const timer = setTimeout(() => {
         setIsVisible(true);
-        // تم إيقاف الحفظ مؤقتاً للاختبار
-        // localStorage.setItem("appInstallShown", "true");
       }, 2500);
       return () => clearTimeout(timer);
     }

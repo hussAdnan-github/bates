@@ -43,6 +43,11 @@ export default function NavigationLoader() {
         return;
       }
 
+      // Ignore links that are meant for downloading files
+      if (anchor.hasAttribute("download")) {
+        return;
+      }
+
       try {
         const targetUrl = new URL(anchor.href);
         const currentUrlObj = new URL(window.location.href);

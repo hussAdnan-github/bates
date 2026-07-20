@@ -93,7 +93,7 @@ export default function AppInstallBanner() {
             <div className="flex-1 relative z-10 pt-1">
               <h4 className="font-black text-gray-900 text-sm md:text-lg mb-1 tracking-tight">حمّل تطبيقنا الآن!</h4>
               <p className="text-[11px] md:text-sm text-gray-500 mb-3 md:mb-4 leading-relaxed font-medium">
-                تجربة تسوق أسرع، وأفضل. أحصل على افضل الأكترونيات و العرض ظمن مؤؤسسة محمد باتيس.
+                تجربة تسوق أسرع، وأفضل. أحصل على افضل الأكترونيات و العرض ضمن مؤسسة محمد باتيس.
               </p>
               
               <a

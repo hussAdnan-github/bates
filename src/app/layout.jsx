@@ -11,14 +11,14 @@ import NavigationLoader from "@/components/shared/NavigationLoader";
 
 const cairo = Cairo({
   subsets: ["arabic"],
-  weight: ["300", "400", "500", "700", "900"],
+  weight: ["400", "500", "700"],
   variable: "--font-cairo",
   display: "swap",
 });
 
 const alexandria = Alexandria({
   subsets: ["arabic"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-alexandria",
   display: "swap",
 });
@@ -48,7 +48,7 @@ export default async function RootLayout({ children }) {
       }}
     >
       <body
-        className={`${alexandria.className} antialiased bg-white text-gray-900`}
+        className={`${alexandria.className} ${cairo.variable} ${alexandria.variable} antialiased bg-white text-gray-900 font-sans`}
       >
         <main>
          

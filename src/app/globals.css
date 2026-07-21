@@ -12,9 +12,10 @@
   --color-secondary-light: color-mix(in srgb, var(--secondary_color), white 90%);
   --color-secondary-transparent: color-mix(in srgb, var(--secondary_color), transparent 85%);
 
-  --font-sans: var(--font-cairo), var(--font-ibm-plex), ui-sans-serif, system-ui,
+  --font-sans: var(--font-alexandria), ui-sans-serif, system-ui,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
+  --font-cairo: var(--font-cairo);
 }
 
 @layer utilities {

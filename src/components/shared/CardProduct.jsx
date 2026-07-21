@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ButtonCart from "../store/ButtonCart";
 import { Eye } from "lucide-react";
 
-function CardProduct({ id, image, title, prices, model, images, type_money = "3" }) {
+function CardProduct({ id, image, title, prices, model, images, type_money = "3", priority = false }) {
 
   const allImages = [image, ...images.map((img) => img.image)];
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -81,6 +81,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
                 src={allImages[currentIndex]}
                 alt={title}
                 fill
+                priority={priority}
                 className="object-contain p-2"
                 sizes="(max-width: 768px) 50vw, 25vw"
               />

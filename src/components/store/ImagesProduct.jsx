@@ -46,6 +46,7 @@ function ImagesProduct({ mainImage, images, title }) {
               alt={title || "Product Image"}
               fill
               className="object-contain p-8 sm:p-12 drop-shadow-2xl transition-transform duration-700 group-hover:scale-110"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               priority
             />
           </motion.div>

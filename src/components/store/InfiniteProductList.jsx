@@ -62,7 +62,7 @@ function InfiniteProductList({
         </div>
       )}
       <div className={show === 4 ? `grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-6` : `grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-6`}>
-        {products.map((product) => (
+        {products.map((product, index) => (
           <CardProduct
             key={product.id}
             id={product.id}
@@ -72,6 +72,7 @@ function InfiniteProductList({
             model={product.model}
             images={product.images}
             type_money={type_money}
+            priority={index < 4}
           />
         ))}
       </div>

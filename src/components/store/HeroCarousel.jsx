@@ -47,14 +47,15 @@ export default function HeroCarousel({ banners = [] }) {
           loop={true}
           className="w-full h-full"
         >
-          {actualSlides.map((slide) => (
+          {actualSlides.map((slide, index) => (
             <SwiperSlide key={`main-${slide.id}`}>
               <div className="relative w-full h-full bg-gray-100 dark:bg-gray-900">
                 <Image
                   src={slide.src}
                   alt={slide.title || 'صورة العرض'}
                   fill
-                  unoptimized
+                  priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, 1200px"
                   className="object-fill md:object-cover"
                 />
                 {/* تأثير متدرج للظلال لإبراز الصور */}
@@ -88,7 +89,7 @@ export default function HeroCarousel({ banners = [] }) {
                       src={slide.src}
                       alt={`thumbnail ${slide.title || 'صورة مصغرة'}`}
                       fill
-                      unoptimized
+                      sizes="80px"
                       className="object-cover"
                     />
                   </div>

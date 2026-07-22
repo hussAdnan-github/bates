@@ -138,6 +138,7 @@ function page() {
         );
       }
     } else {
+      queryClient.invalidateQueries({ queryKey: ["Company"] });
       queryClient.invalidateQueries({ queryKey: ["Users"] });
       toast.success(
         <div style={{ direction: "rtl", textAlign: "right" }}>

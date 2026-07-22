@@ -117,6 +117,7 @@ function page() {
         </div>,
         { duration: 4000 },
       );
+      queryClient.invalidateQueries({ queryKey: ["Company"] });
       queryClient.invalidateQueries({ queryKey: ["Users"] });
 
       route.back();

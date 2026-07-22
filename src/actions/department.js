@@ -1,7 +1,7 @@
 "use server";
 
 import request from "@/lib/apiService";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 export async function getDepartmentsList() { 
   const result = await request(`departments/departments/?pagination=false`, "GET", null, false, {
     next: { revalidate: 3600, tags: ["departments"] },
@@ -57,6 +57,7 @@ export async function postDepartment(formData) {
   const result = await request(`departments/departments/`, "POST", formData, true);
   if (result.success) {
     revalidatePath("/dashboard/departments");  
+    revalidateTag("departments");
   }
   return result;
 }
@@ -66,6 +67,7 @@ export async function editeDepartment(formData, id) {
   if (result.success) {
     revalidatePath("/dashboard/departments");
     revalidatePath(`/dashboard/departments/${id}`); 
+    revalidateTag("departments");
   }
   return result;  
 }
@@ -74,6 +76,7 @@ export async function deleteDepartment(id) {
  
  if (result.success) {
     revalidatePath("/dashboard/departments");  
+    revalidateTag("departments");
   }
   return result.data;
 }

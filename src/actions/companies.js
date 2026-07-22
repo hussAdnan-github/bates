@@ -1,7 +1,7 @@
 "use server";
 
 import request from "@/lib/apiService";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 //  export async function getCompanies() {
 //   const result = await request(
@@ -36,6 +36,7 @@ export async function postcCompany(formData) {
   const result = await request(`companies/companies/`, "POST", formData, true);
    if (result.success) {
     revalidatePath("/dashboard/companies");  
+    revalidateTag("companies");
   }
   return result;
 }
@@ -49,11 +50,15 @@ export async function editeCompany(formData, id) {
   if (result.success) {
     revalidatePath("/dashboard/companies");
     revalidatePath(`/dashboard/companies/${id}`);  
+    revalidateTag("companies");
   }
   return result;
 }
 export async function deleteCompany(id) {
   const result = await request(`companies/companies/${id}/`, "DELETE");
-revalidatePath("/dashboard/companies");
-  return result.data;
+  if (result.success) {
+    revalidatePath("/dashboard/companies");
+    revalidateTag("companies");
+  }
+  return result;
 }

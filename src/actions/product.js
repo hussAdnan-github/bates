@@ -165,6 +165,7 @@ export async function getBanners(companyId, noCache = false) {
     ? { cache: "no-store", skipAuth: true }
     : { next: { revalidate: 3600, tags: ["banners"] }, skipAuth: true };
 
+    
   const result = await request(
     `products/banners/?${params.toString()}`,
     "GET",

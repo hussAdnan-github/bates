@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs, Autoplay, EffectFade } from "swiper/modules";
+import { useQuery } from "@tanstack/react-query";
+import { getBanners } from "@/actions/product";
 
 // استيراد أنماط Swiper الأساسية
 import "swiper/css";
@@ -20,11 +22,28 @@ const defaultSlides = [
 
 ];
 
-export default function HeroCarousel({ banners = [] }) {
+export default function HeroCarousel({ banners = [], companyId = null }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  const actualSlides = banners && banners.length > 0
-    ? banners.map((b) => ({
+  // جلب البيانات في الخلفية لتجاوز كاش السيرفر وتحديث العرض فوراً
+  const { data: liveBanners } = useQuery({
+    queryKey: ["live_banners", companyId],
+    queryFn: async () => {
+      const res = await getBanners(companyId, true);
+      const allBanners = res?.results || (Array.isArray(res) ? res : []);
+      return companyId 
+        ? allBanners.filter(b => b.companies && b.companies.includes(Number(companyId)))
+        : allBanners;
+    },
+    initialData: banners,
+    staleTime: 0,
+    refetchOnMount: true,
+  });
+
+  const displayBanners = liveBanners && liveBanners.length > 0 ? liveBanners : banners;
+
+  const actualSlides = displayBanners && displayBanners.length > 0
+    ? displayBanners.map((b) => ({
       id: b.id,
       src: b.image,
       title: b.name || 'صورة العرض',
@@ -36,7 +55,7 @@ export default function HeroCarousel({ banners = [] }) {
   return (
     <div className="relative w-full md:max-w-6xl md:mx-auto md:px-6 md:py-8 lg:max-w-7xl" dir="rtl">
       {/* الكاروسيل الرئيسي */}
-      <div className="relative w-full h-[200px] md:h-[450px] lg:h-[500px] md:rounded-[2rem] md:shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden group md:border-[6px] md:border-white/60 dark:md:border-gray-800/60 backdrop-blur-xl">
+      <div className="relative w-full md:rounded-[2rem] md:shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden group md:border-[6px] md:border-white/60 dark:md:border-gray-800/60 backdrop-blur-xl">
         <Swiper
           modules={[Thumbs, Autoplay, EffectFade]}
           effect="fade"
@@ -45,18 +64,16 @@ export default function HeroCarousel({ banners = [] }) {
           thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
           loop={true}
-          className="w-full h-full"
+          autoHeight={true}
+          className="w-full"
         >
           {actualSlides.map((slide, index) => (
             <SwiperSlide key={`main-${slide.id}`}>
-              <div className="relative w-full h-full bg-gray-100 dark:bg-gray-900">
-                <Image
+              <div className="relative w-full bg-gray-100 dark:bg-gray-900 flex">
+                <img
                   src={slide.src}
                   alt={slide.title || 'صورة العرض'}
-                  fill
-                  priority={index === 0}
-                  sizes="(max-width: 768px) 100vw, 1200px"
-                  className="object-contain"
+                  className="w-full h-auto object-cover block"
                 />
                 {/* تأثير متدرج للظلال لإبراز الصور */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent hidden md:block"></div>

@@ -47,6 +47,17 @@ export default async function RootLayout({ children }) {
         "--secondary_color": secondaryColor,
       }}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.addEventListener('beforeinstallprompt', function(e) {
+                e.preventDefault();
+              });
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${alexandria.className} ${cairo.variable} ${alexandria.variable} antialiased bg-white text-gray-900 font-sans`}
       >

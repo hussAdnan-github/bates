@@ -18,7 +18,7 @@ async function HeroSection({ companyId }) {
     ? allBanners.filter(banner => banner.companies && banner.companies.includes(Number(companyId)))
     : allBanners;
 
-  return <HeroCarousel banners={filteredBanners} />;
+  return <HeroCarousel banners={filteredBanners} companyId={companyId} />;
 }
 
 async function ProductsSection({ price, department, company, type_money }) {

@@ -22,7 +22,6 @@ export async function getBasketsAll() {
 }
 export async function getBasketsId(id) {
   const result = await request(`/baskets/baskets/${id}`, "GET");
- 
 
   return result?.data ?? null;
 }

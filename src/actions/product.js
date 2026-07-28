@@ -155,21 +155,22 @@ export async function deleteProdut(id) {
   return result.data;
 }
 
-export async function getBanners(companyId) {
+export async function getBanners(companyId, noCache = false) {
   const params = new URLSearchParams();
   if (companyId) {
     params.append("companies", companyId);
   }
+
+  const options = noCache 
+    ? { cache: "no-store", skipAuth: true }
+    : { next: { revalidate: 3600, tags: ["banners"] }, skipAuth: true };
 
   const result = await request(
     `products/banners/?${params.toString()}`,
     "GET",
     null,
     false,
-    {
-      next: { revalidate: 3600, tags: ["banners"] },
-      skipAuth: true,
-    }
+    options
   );
 
   return result.data;

@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { Image as ImageIcon, UploadCloud, Trash2 } from "lucide-react";
+import Image from "next/image";
 
 export default function ImagesProducts({ onChange, onRemove }) {
   const [images, setImages] = useState([]);
@@ -107,9 +108,10 @@ export default function ImagesProducts({ onChange, onRemove }) {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {images.map((img) => (
                 <div key={img.id} className="group relative aspect-square rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all">
-                  <img
+                  <Image
                     src={img.preview}
                     alt="Preview"
+                    fill
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

@@ -72,7 +72,7 @@ function ImagesProduct({ mainImage, images, title }) {
 
       {/* الصور المصغرة (Thumbnails) */}
       {allImages.length > 1 && (
-        <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 styled-scrollbar px-1 snap-x">
+        <div className="flex gap-3 sm:gap-4 overflow-x-auto py-3 px-2 styled-scrollbar snap-x">
           {allImages.map((img, index) => (
             <button
               key={index}

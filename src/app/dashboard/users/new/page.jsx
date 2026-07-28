@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { Image, PercentDiamondIcon, Shield, UserCircle2, Camera, Upload } from "lucide-react";
+import {  PercentDiamondIcon, Shield, UserCircle2, Camera, Upload, ImagePlus } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { userSchema } from "@/lib/validations/userSchema";
+import Image from "next/image";
 
  
 
@@ -251,15 +252,16 @@ function Page() {
             </p>
 
             <div className="p-6 border-b border-gray-50 flex items-center justify-start gap-2 text-purple-900 mt-10">
-              <Image size={24} />
+                            <ImagePlus size={24}/>
+
               <span className="font-bold text-lg">صورة الملف الشخصي</span>
             </div>
 
             <div className="flex flex-col items-center justify-center mb-8">
               <div className="relative group">
-                <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
+                <div className="relative w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
                   {imagePreview ? (
-                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                    <Image src={imagePreview} alt="Preview" fill className="w-full h-full object-cover" />
                   ) : (
                     <Camera className="text-gray-300 w-8 h-8 group-hover:text-[#FFC107] transition-colors" />
                   )}

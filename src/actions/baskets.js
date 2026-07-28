@@ -22,8 +22,7 @@ export async function getBasketsAll() {
 }
 export async function getBasketsId(id) {
   const result = await request(`/baskets/baskets/${id}`, "GET");
-
-  console.log(result.data)
+ 
 
   return result?.data ?? null;
 }
@@ -37,40 +36,40 @@ export async function postProductBasket(formData) {
 
 
 export async function editProductBasket(formData, id) {
-  console.log(id);
+ 
   const result = await request(
     `baskets/basketItem/${id}/`,
     "PATCH",
     formData,
     true,
   );
-  console.log(result);
+ 
 
   return result;
 }
 export async function putBasket(formData, id) {
-  console.log(formData, id)
+ 
   const result = await request(`baskets/baskets/${id}/`, "PATCH", formData, true);
-  console.log(result)
+ 
 
   return result;
 }
 export async function deleteProductBasket(id) {
-  console.log(`baskets/basketItem/${id}/`);
+ 
   const result = await request(`baskets/basketItem/${id}/`, formData, "DELETE", true);
-  console.log(result);
+ 
 
   return result;
 }
 export async function deleteBasket(id) {
-  console.log(`baskets/basketItem/${id}/`);
+  
   const result = await request(`baskets/basketItem/${id}/`, "DELETE");
-  console.log(result);
+ 
 
   return result;
 }
 export async function editOrderBasket(formData, id) {
-  console.log(id);
+ 
   const result = await request(
     `baskets/baskets/${id}/`,
     "PATCH",

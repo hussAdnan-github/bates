@@ -25,7 +25,7 @@ async function ProductsSection({ price, department, company, type_money }) {
   const products = await getProduts(price, department, company);
   return (
     <InfiniteProductList
-      show={3}
+      show={4}
       initialData={products?.data || {}}
       price={price}
       department={department}

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import CardProduct from "@/components/shared/CardProduct";
 import { useInView } from "react-intersection-observer";
 import { getProduts } from "@/actions/product";
+import { PackageX } from "lucide-react";
 
 function InfiniteProductList({
   show = 3,
@@ -56,9 +57,14 @@ function InfiniteProductList({
   return (
     <div>
       {initialData.results.length === 0 && !loading && (
-        <div className="flex justify-center items-center h-40">
-          <p className="text-gray-500 text-lg">لا توجد منتجات بهذا السعر </p>
-          <p className="ms-4 font-bold text-primary">{price}</p>
+        <div className="flex flex-col justify-center items-center min-h-[300px] bg-gray-50/50 dark:bg-zinc-900/20 rounded-3xl border border-gray-100 dark:border-zinc-800/50 my-8 py-12 px-4 shadow-sm">
+          <div className="w-24 h-24 bg-white dark:bg-zinc-800 rounded-full flex justify-center items-center mb-6 shadow-sm border border-gray-50 dark:border-zinc-700/50">
+            <PackageX className="w-12 h-12 text-gray-300 dark:text-zinc-500" strokeWidth={1.5} />
+          </div>
+          <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">لا يوجد منتجات هنا</h3>
+          <p className="text-gray-500 dark:text-gray-400 text-center max-w-md text-base leading-relaxed">
+            عذراً، لم نتمكن من العثور على أي منتجات في الوقت الحالي. يرجى المحاولة مرة أخرى لاحقاً أو تغيير خيارات البحث.
+          </p>
         </div>
       )}
       <div className={show === 4 ? `grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-6` : `grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-6`}>

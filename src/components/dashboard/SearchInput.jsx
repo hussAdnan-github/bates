@@ -3,8 +3,7 @@ import React from 'react'
 import { Search } from 'lucide-react';
 
 function SearchInput({ placeholder = "ابحث هنا...", onSearch  }) {
-  console.log(`search ${onSearch}`)
-return (
+ return (
     <div className={`relative w-full max-w-xs  `}>
       <input
         type="text"

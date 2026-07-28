@@ -11,13 +11,13 @@ export async function getBills(page = 1, type = "", search = "") {
   if (type) params.append("type_bill", type);
   if (search) params.append("search", search);
   const result = await request(`/billsbills/?${params.toString()}`, "GET");
-  console.log(result.data);
+ 
   return result.data;
 }
 
 export async function getBillsId(id) {
   const result = await request(`/billsbills/${id}`, "GET");
-  console.log(id)
+ 
   return result.data;
 }
 export async function postProductBasket(formData) {
@@ -32,26 +32,22 @@ export async function postProductBasket(formData) {
 }
 
 export async function editProductBasket(formData, id) {
-  console.log(id);
+   
   const result = await request(
     `baskets/basketItem/${id}/`,
     "PATCH",
     formData,
     true,
   );
-  console.log(result);
+ 
 
   return result;
 }
-// export async function put(formData, id) {
-//   const result = await request(`Branch/id?id=${id}`, "PUT", formData, false);
-
-//   return result;
-// }
+ 
 export async function deleteBasket(id) {
-  console.log(`baskets/basketItem/${id}/`);
+ 
   const result = await request(`baskets/basketItem/${id}/`, "DELETE");
-  console.log(result);
+ 
 
   return result;
 }

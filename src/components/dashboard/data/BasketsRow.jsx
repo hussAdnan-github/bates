@@ -46,7 +46,7 @@ function BasketsRow({ basket }) {
       {/* 3. الإجمالي */}
       <div className="w-[15%] text-center text-purple-700 font-bold flex justify-center items-baseline gap-1">
         <span>{basket.total_price || 0}</span>
-        <span className="text-[10px] text-gray-400 font-normal">ر.ي</span>
+        <span className="text-[10px] text-gray-400 font-normal">ر.س</span>
       </div>
 
       {/* 4. حالة الطلب */}

@@ -2,7 +2,7 @@
 
 import request from "@/lib/apiService";
 import { revalidatePath, revalidateTag } from "next/cache";
-export async function getDepartmentsList() { 
+export async function getDepartmentsList() {
   const result = await request(`departments/departments/?pagination=false`, "GET", null, false, {
     next: { revalidate: 3600, tags: ["departments"] },
     skipAuth: true,
@@ -10,14 +10,11 @@ export async function getDepartmentsList() {
   return result.data;
 }
 
-export async function getDepartment(company) {  
-  const params = new URLSearchParams(); 
+export async function getDepartment(company) {
+  const params = new URLSearchParams();
 
   if (company) params.append("company", company);
-  // console.log(
-  //   "first ",
-  //   `departments/departments/?pagination=false&${params.toString()}`,
-  // );
+
   const result = await request(
     `departments/departments/?pagination=false&${params.toString()}`,
     "GET",
@@ -28,11 +25,11 @@ export async function getDepartment(company) {
       skipAuth: true,
     }
   );
- 
+
 
   return result.data;
 }
-export async function getDepartmentDashboard(page = 1 , company , search) {
+export async function getDepartmentDashboard(page = 1, company, search) {
   const params = new URLSearchParams();
 
   if (page) params.append("page", page);
@@ -41,7 +38,7 @@ export async function getDepartmentDashboard(page = 1 , company , search) {
 
   const result = await request(`departments/departments/?${params.toString()}`, "GET");
 
-  return result.data; 
+  return result.data;
 }
 export async function getDepartmentId(id) {
   const result = await request(`departments/departments/${id}`, "GET");
@@ -53,10 +50,10 @@ export async function getDepartmentId(id) {
   return result.data;
 }
 export async function postDepartment(formData) {
-  console.log(formData)
+
   const result = await request(`departments/departments/`, "POST", formData, true);
   if (result.success) {
-    revalidatePath("/dashboard/departments");  
+    revalidatePath("/dashboard/departments");
     revalidateTag("departments");
   }
   return result;
@@ -66,16 +63,16 @@ export async function editeDepartment(formData, id) {
 
   if (result.success) {
     revalidatePath("/dashboard/departments");
-    revalidatePath(`/dashboard/departments/${id}`); 
+    revalidatePath(`/dashboard/departments/${id}`);
     revalidateTag("departments");
   }
-  return result;  
+  return result;
 }
 export async function deleteDepartment(id) {
   const result = await request(`departments/departments/${id}/`, "DELETE");
- 
- if (result.success) {
-    revalidatePath("/dashboard/departments");  
+
+  if (result.success) {
+    revalidatePath("/dashboard/departments");
     revalidateTag("departments");
   }
   return result.data;

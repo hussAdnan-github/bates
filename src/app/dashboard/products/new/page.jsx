@@ -29,7 +29,7 @@ function page() {
     async function fetchUser() {
       try {
         const res = await getDepartmentDashboard();
-        console.log(DepartmentList);
+ 
         setDepartmentList(res?.data?.results || []);
       } catch (error) {
         console.error(error);
@@ -100,9 +100,7 @@ function page() {
       }
     } else {
       const productId = result?.data?.data?.id || result?.data?.id || result?.id;
-      console.log("DEBUG - Product ID:", productId);
-      console.log("DEBUG - extraImages:", extraImages);
-      console.log("DEBUG - extraImages Length:", Object.keys(extraImages).length);
+    
 
       if (productId && Object.keys(extraImages).length > 0) {
         // نرفع الصور بشكل متسلسل (واحدة تلو الأخرى) كما طلبت

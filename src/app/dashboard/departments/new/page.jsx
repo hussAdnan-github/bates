@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";
 import { departmentSchema } from "@/lib/validations/departmentSchema";
+import Image from "next/image";
  
 
 function page() {
@@ -179,9 +180,9 @@ function page() {
 
             <div className="flex flex-col items-center justify-center mb-8 mt-10">
               <div className="relative group">
-                <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
+                <div className="relative w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
                   {imagePreview ? (
-                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                    <Image src={imagePreview} alt="Preview" fill className="w-full h-full object-cover" />
                   ) : (
                     <Camera className="text-gray-300 w-8 h-8 group-hover:text-[#FFC107] transition-colors" />
                   )}

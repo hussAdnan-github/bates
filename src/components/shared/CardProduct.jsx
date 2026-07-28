@@ -100,7 +100,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
       {/* 2. منطقة المعلومات */}
       <div className="p-3 md:p-5 flex flex-col flex-grow bg-white">
         <Link href={`/shop/products/${id}`} className="block mb-2 md:mb-3 h-[28px] md:h-[40px] lg:h-[48px] overflow-hidden">
-          <h3 className="text-[10px] md:text-base lg:text-lg text-gray-800 font-semibold line-clamp-2 group-hover:text-primary transition-colors leading-tight break-words" title={title}>
+          <h3 className="text-[9px] md:text-xs lg:text-sm text-gray-800 font-semibold line-clamp-2 group-hover:text-primary transition-colors leading-tight break-words" title={title}>
             {title}
           </h3>
         </Link>
@@ -110,25 +110,25 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
             <div className="flex flex-wrap items-center gap-2 md:gap-4 min-w-0 flex-1">
               {prices?.retail_price !== undefined && prices?.retail_price !== null && (
                 <div className="flex items-center gap-0.5">
-                  <span className="text-[11px] md:text-xl lg:text-2xl font-black text-secondary">
+                  <span className="text-[10px] md:text-base lg:text-lg font-normal text-secondary">
                     {prices.retail_price}
                   </span>
-                  <span className="text-[8px] md:text-xs font-bold text-gray-400">{currencyName}</span>
+                  <span className="text-[8px] md:text-[9px] font-normal text-gray-400">{currencyName}</span>
                 </div>
               )}
               {prices?.wholesale_price !== undefined && prices?.wholesale_price !== null && (
                 <div className="flex items-center gap-0.5">
-                  <span className="text-[10px] md:text-xl lg:text-sm font-black text-gray-500">
+                  <span className="text-[9px] md:text-sm lg:text-xs font-normal text-gray-500">
                     {prices.wholesale_price}
                   </span>
-                  <span className="text-[8px] md:text-xs font-bold text-gray-400">{currencyName}</span>
+                  <span className="text-[8px] md:text-[9px] font-normal text-gray-400">{currencyName}</span>
                 </div>
               )}
             </div>
 
             {/* 2. حقل إدخال العدد (Quantity Input) */}
             <div className="flex items-center gap-2">
-              <label className="hidden md:block text-[10px] font-bold text-gray-400">الكمية:</label>
+              <label className="hidden md:block text-[9px] font-bold text-gray-400">الكمية:</label>
               <input
                 type="number"
                 value={quantity}

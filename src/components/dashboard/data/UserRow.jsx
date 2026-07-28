@@ -6,6 +6,7 @@ import Link from "next/link";
 import { deleteUser, patchUser } from "@/actions/users";
 import { toast } from "sonner";
 import DeleteConfirmModal from "../DeleteConfirmModal";
+import Image from "next/image";
 function UserRow({ user  , onDelete}) {
   const handelDelete =async ()=>{
     const results = await deleteUser(user.id);
@@ -57,8 +58,8 @@ function UserRow({ user  , onDelete}) {
     <div className="flex items-center w-full px-4 py-3 bg-white border-b border-gray-100 hover:bg-blue-50/30 transition-all text-sm">
       {/* 1. المستخدم */}
       <div className="w-[25%] flex items-center gap-3 pr-2">
-        <div className="w-10 h-10 rounded-full border border-gray-200 overflow-hidden bg-white flex items-center justify-center shrink-0 shadow-sm">
-          <img src={user.profile_picture || "/placeholder.png"} alt={user.username || "User"} className="w-10 h-10 object-cover" />
+        <div className="relative w-10 h-10 rounded-full border border-gray-200 overflow-hidden bg-white shrink-0 shadow-sm">
+          <Image src={user.profile_picture || "/placeholder.png"} fill alt={user.username || "User"} className="object-cover" sizes="40px" />
         </div>
         <span className="font-bold text-gray-800 line-clamp-1">{user.username || "بدون اسم"}</span>
       </div>

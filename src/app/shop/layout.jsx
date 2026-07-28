@@ -17,8 +17,7 @@ export default async function LocalLayout({ children }) {
     authToken.value !== "null" && 
     authToken.value.trim() !== ""
   );
-  console.log("=== LAYOUT AUTH CHECK ===", authToken, isLoggedIn);
-
+ 
   return (
     <div>
       <StoreNavbar 

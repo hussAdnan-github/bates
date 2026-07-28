@@ -34,8 +34,8 @@ export async function getCompaniesId(id) {
 }
 export async function postcCompany(formData) {
   const result = await request(`companies/companies/`, "POST", formData, true);
-   if (result.success) {
-    revalidatePath("/dashboard/companies");  
+  if (result.success) {
+    revalidatePath("/dashboard/companies");
     revalidateTag("companies");
   }
   return result;
@@ -49,7 +49,7 @@ export async function editeCompany(formData, id) {
   );
   if (result.success) {
     revalidatePath("/dashboard/companies");
-    revalidatePath(`/dashboard/companies/${id}`);  
+    revalidatePath(`/dashboard/companies/${id}`);
     revalidateTag("companies");
   }
   return result;

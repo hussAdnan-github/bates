@@ -27,8 +27,7 @@ export default function CurrencyDropdown({ isMobile, currentCurrency = "3" }) {
 
     try {
       const result = await changeCurrency(formData);
-      console.log(result);
-      if (result.success) {
+       if (result.success) {
         toast.success("تم تغيير العملة بنجاح", { position: "top-center" });
         
         // إشعار التطبيق لتحديث الرموز فوراً

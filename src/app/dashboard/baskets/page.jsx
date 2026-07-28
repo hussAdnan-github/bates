@@ -69,7 +69,7 @@ function BasketsList({ searchParamsPromise }) {
     );
 
   const baskets = data?.data?.results || [];
-  console.log(baskets);
+ 
   const totalCount = data?.data?.count || 0;
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   const hasNextPage = data?.data?.next;

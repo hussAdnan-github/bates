@@ -56,7 +56,7 @@ export default function HeroCarousel({ banners = [] }) {
                   fill
                   priority={index === 0}
                   sizes="(max-width: 768px) 100vw, 1200px"
-                  className="object-fill md:object-cover"
+                  className="object-contain"
                 />
                 {/* تأثير متدرج للظلال لإبراز الصور */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent hidden md:block"></div>
@@ -76,12 +76,12 @@ export default function HeroCarousel({ banners = [] }) {
               watchSlidesProgress={true}
               slideToClickedSlide={true} // يسمح بالتنقل عند النقر على الصورة المصغرة
               modules={[Thumbs]}
-              className="thumbs-swiper px-2 py-2"
+              className="thumbs-swiper px-2 py-3.5"
             >
               {actualSlides.map((slide) => (
                 <SwiperSlide
                   key={`thumb-${slide.id}`}
-                  className="cursor-pointer flex justify-center group"
+                  className="cursor-pointer flex justify-center group py-1"
                 >
                   {/* دائرة الصورة المصغرة والتأثيرات عند التفعيل */}
                   <div className="relative w-8 h-8 md:w-16 md:h-16 rounded-full overflow-hidden border-[2px] md:border-[3px] border-white/50 md:border-white transition-all duration-300 opacity-60 md:opacity-70 grayscale hover:grayscale-0 hover:opacity-100 group-[.swiper-slide-thumb-active]:border-[var(--primary_color)] group-[.swiper-slide-thumb-active]:opacity-100 group-[.swiper-slide-thumb-active]:grayscale-0 group-[.swiper-slide-thumb-active]:scale-110 mx-auto">

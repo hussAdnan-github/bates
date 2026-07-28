@@ -53,7 +53,7 @@ export async function POST(req) {
       });
     }
 
-     console.log("response" , response)
+ 
     return response;
   } catch (err) {
     console.error("Login error:", err.response?.data || err.message);

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { deleteCompany } from "@/actions/companies";
 import { toast } from "sonner";
 import DeleteConfirmModal from "../DeleteConfirmModal";
+import Image from "next/image";
  
 function CompaniesRow({ company, onDelete }) {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -23,8 +24,8 @@ function CompaniesRow({ company, onDelete }) {
     <div className="flex items-center w-full px-4 py-3 bg-white border-b border-gray-100 hover:bg-blue-50/30 transition-all text-sm">
       {/* 1. الشركة */}
       <div className="w-[30%] flex items-center gap-3 pr-2">
-        <div className="w-10 h-10 rounded-full border border-gray-200 overflow-hidden bg-white flex items-center justify-center shrink-0 shadow-sm">
-          <img src={company.logo || "/placeholder.png"} alt={company.name_ar} className="w-8 h-8 object-contain" />
+        <div className="relative w-10 h-10 rounded-full border border-gray-200 overflow-hidden bg-white shrink-0 shadow-sm">
+          <Image fill src={company.logo || "/placeholder.png"} alt={company.name_ar || "شركة"} className="object-contain p-1" sizes="40px" />
         </div>
         <span className="font-bold text-gray-800 line-clamp-1">{company.name_ar || "بدون اسم"}</span>
       </div>

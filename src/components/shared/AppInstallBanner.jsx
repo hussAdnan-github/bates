@@ -15,7 +15,7 @@ export default function AppInstallBanner() {
 
     // 1. التحقق مما إذا كان الموقع يعمل كتطبيق PWA
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
-    
+
     // 2. التحقق مما إذا كان الموقع مفتوحاً داخل تطبيق (APK / WebView)
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const isWebView = (
@@ -26,7 +26,7 @@ export default function AppInstallBanner() {
       // تطبيقات التواصل الاجتماعي
       /(Line|Instagram|FBAN|FBAV|Snapchat|Twitter)/i.test(userAgent) ||
       // منصات تحويل المواقع لتطبيقات
-      typeof window.Capacitor !== "undefined" || 
+      typeof window.Capacitor !== "undefined" ||
       typeof window.cordova !== "undefined"
     );
 
@@ -95,7 +95,7 @@ export default function AppInstallBanner() {
               <p className="text-[11px] md:text-sm text-gray-500 mb-3 md:mb-4 leading-relaxed font-medium">
                 تجربة تسوق أسرع، وأفضل. أحصل على افضل الأكترونيات و العرض ضمن مؤسسة محمد باتيس.
               </p>
-              
+
               <a
                 href="/bates-app.apk"
                 download="bates-app.apk"

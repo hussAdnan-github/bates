@@ -37,7 +37,7 @@ function page({ searchParams: searchParamsPage }) {
     async function fetchDepartment() {
       try {
         const res = await getCompanies();
-        console.log(CompaniestList);
+        
         setCompaniestList(res?.data?.results || []);
       } catch (error) {
         console.error(error);

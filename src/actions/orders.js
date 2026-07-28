@@ -9,7 +9,7 @@ export async function getOrdsers(status) {
 
   if (status) params.append("status", status);
   const result = await request(`/baskets/orders/?${params.toString()}`, "GET");
-  console.log(result)
+ 
   return result.data;
 }
 
@@ -22,8 +22,7 @@ export async function getOrdsersId(id) {
 }
 export async function postProductBasket(formData) {
   const result = await request(`baskets/basketItem/`, "POST", formData, true);
-  // const currentCount = Number(cookieStore.get("basket_count")?.value || 0);
-  // cookieStore.set("basket_count", (currentCount + 1).toString());
+ 
   if (result.success) {
     revalidatePath("/dashboard/baskets");
   }
@@ -31,14 +30,14 @@ export async function postProductBasket(formData) {
 }
 
 export async function editProductBasket(formData, id) {
-  console.log(id);
+ 
   const result = await request(
     `baskets/basketItem/${id}/`,
     "PATCH",
     formData,
     true,
   );
-  console.log(result);
+ 
 
   return result;
 }
@@ -50,9 +49,7 @@ export async function putOrder(formData, id) {
   return result;
 }
 export async function deleteBasket(id) {
-  console.log(`baskets/basketItem/${id}/`);
-  const result = await request(`baskets/basketItem/${id}/`, "DELETE");
-  console.log(result);
-
+   const result = await request(`baskets/basketItem/${id}/`, "DELETE");
+ 
   return result;
 }

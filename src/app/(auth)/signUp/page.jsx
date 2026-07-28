@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { getPlaces } from "@/actions/places";
+import Image from "next/image";
 
 // بناء المخطط (Schema) للتحقق من صحة البيانات باستخدام Zod
 const registerSchema = z.object({
@@ -96,9 +97,9 @@ function SignUpPage() {
         method: "POST",
         body: formData,
       });
-      console.log(Object.fromEntries(formData));
+    
       const responseData = await res.json();
-      console.log(responseData);
+  
 
       if (res.ok && responseData.success !== false && !responseData.error && !responseData.errors) {
         toast.success("تم إنشاء الحساب بنجاح!");
@@ -306,9 +307,9 @@ function SignUpPage() {
             </div>
             <div className="flex flex-col items-center justify-center mb-8">
               <div className="relative group">
-                <div className="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
+                <div className="relative w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-[#FFC107]">
                   {imagePreview ? (
-                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                    <Image src={imagePreview} alt="Preview" fill className="object-cover" sizes="96px" />
                   ) : (
                     <Camera className="text-gray-300 w-8 h-8 group-hover:text-[#FFC107] transition-colors" />
                   )}

@@ -84,16 +84,10 @@ const OrderEditPage = () => {
 
     dataForm.append("basket", id);
     const result = await deleteProductBasket(dataForm);
-    console.log(result);
+ 
   };
 
-  const updateFilters = async (key, value) => {
-    //  const dataForm = new FormData();
-    //    dataForm.append("status", data.productId);
-    //    dataForm.append("quantity", data.quantity);
-    //    const result = await postProductBasket(dataForm);
-    //    console.log(result)
-  };
+  
   const handleStatusChange = (val) => {
     setStatus(val);
   };

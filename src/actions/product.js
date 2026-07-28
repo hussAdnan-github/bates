@@ -90,7 +90,6 @@ export async function getProdutsDash(
   return result.data;
 }
 export async function postProdut(formData) {
-  // console.log("formData" ,formData);
   const result = await request(`products/products/`, "POST", formData, true);
 
   if (result.success) {
@@ -112,11 +111,13 @@ export async function postProductImage(formData) {
 }
 export async function deleteProductImage(id) {
   const result = await request(`products/products_images/${id}/`, "DELETE", null, false, { skipAuth: false });
+  if (result.success) {
+    revalidateTag("products");
+  }
   return result;
 }
 
 export async function putProdut(formData, id) {
-  console.log(formData);
   const result = await request(
     `products/products/${id}/`,
     "PUT",
@@ -132,14 +133,12 @@ export async function putProdut(formData, id) {
 }
 
 export async function patchProduct(formData, id) {
-  console.log(formData);
   const result = await request(
     `products/products/${id}/`,
     "PATCH",
     formData,
     true,
   );
-  console.log(result);
   if (result.success) {
     revalidatePath("/dashboard/products");
     revalidatePath(`/dashboard/products/${id}`);

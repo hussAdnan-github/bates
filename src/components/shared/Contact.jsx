@@ -9,8 +9,7 @@ function Contact() {
  const handleSubmit = (e) => {
     e.preventDefault();
     // هنا يمكنك إضافة منطق إرسال البيانات (API call)
-    console.log("تم إرسال الرسالة بنجاح");
-  };
+   };
 
   return (
     <section id='contact' className="py-20 bg-gray-50/30" dir="rtl">

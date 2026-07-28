@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { ArrowRight, Image, UserCircle2, Trash2, Loader2, AlertTriangle } from "lucide-react";
+import { ArrowRight,   UserCircle2, Trash2, Loader2, AlertTriangle, ImagePlus } from "lucide-react";
 import InputField from "@/components/dashboard/InputField";
 import BackPage from "@/components/dashboard/BackPage";
 import ImagesProducts from "@/components/dashboard/ImagesProducts";
@@ -26,6 +26,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import Link from "next/link";
 import { productSchema } from "@/lib/validations/productSchema";
+import Image from "next/image";
 
 function page() {
   const { editeid } = useParams();
@@ -280,8 +281,8 @@ function page() {
                   )}
                 />
                 {mainImagePreview && (
-                  <div className="mt-2 w-24 h-24 rounded-xl border border-gray-200 overflow-hidden bg-gray-50 flex items-center justify-center shadow-sm">
-                    <img src={mainImagePreview} alt="Main Preview" className="w-full h-full object-cover" />
+                  <div className="relative mt-2 w-24 h-24 rounded-xl border border-gray-200 overflow-hidden bg-gray-50 shadow-sm">
+                    <Image src={mainImagePreview} alt="Main Preview" fill className="object-cover" sizes="96px" />
                   </div>
                 )}
               </div>
@@ -420,14 +421,17 @@ function page() {
             {existingSubImages?.length > 0 && (
               <div className="overflow-hidden bg-gray-50/50 rounded-xl border border-dashed border-gray-200 mt-4 p-6">
                 <label className="text-gray-700 font-bold text-sm mb-4 flex items-center gap-2">
-                  <Image size={20} className="text-purple-900" />
+ 
+                                <ImagePlus size={24} className="text-purple-900"/>
+
                   الصور الفرعية الحالية
                 </label>
                 <div className="flex flex-wrap gap-4">
                   {existingSubImages.map((img, idx) => (
                     <div key={idx} className="relative group w-24 h-24 rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-                      <img
+                      <Image
                         src={typeof img === 'string' ? img : img.image}
+                      fill
                         alt="Sub image"
                         className="w-full h-full object-cover"
                       />
@@ -454,7 +458,8 @@ function page() {
                     flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold transition-all cursor-pointer
                     ${isUploading ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-purple-100 text-purple-700 hover:bg-purple-200 shadow-sm'}
                  `}>
-                  {isUploading ? <Loader2 size={18} className="animate-spin" /> : <Image size={18} />}
+                  {isUploading ? <Loader2 size={18} className="animate-spin" /> :              <ImagePlus size={18}/>
+}
                   {isUploading ? 'جاري الرفع...' : 'انقر لاختيار صور فرعية جديدة لإضافتها فوراً'}
                   <input
                     type="file"

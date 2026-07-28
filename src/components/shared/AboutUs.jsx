@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, Cpu, Headset, BadgeCheck, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AboutUs() {
 
@@ -63,10 +64,12 @@ export default function AboutUs() {
               <div className="absolute inset-0 border-2 border-[#FFC107]/30 rounded-[3rem] -rotate-3 transition-transform duration-500 hover:rotate-0"></div>
 
               <div className="relative w-full h-full rounded-[3rem] overflow-hidden shadow-2xl bg-white group">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                   alt="تقنيات حديثة"
-                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 500px"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
 
                 {/* Overlay Gradient */}

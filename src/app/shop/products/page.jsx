@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+
 import { getProduts, getBanners } from "@/actions/product";
 import Companies from "@/components/store/Companies";
 import Department from "@/components/store/Department";
@@ -7,8 +7,12 @@ import { getDepartment } from "@/actions/department";
 import InfiniteProductList from "@/components/store/InfiniteProductList";
 import { getCompanies } from "@/actions/companies";
 import { cookies } from "next/headers";
-import { Loader2 } from "lucide-react";
 
+export const metadata = {
+  title: "المنتجات | اكسسوارات الجوال وقطع الغيار - BTS اليمن، صنعاء",
+  description: "تصفح أحدث المنتجات واكسسوارات الجوال وقطع الغيار بأسعار التجزئة والجملة في مؤسسة محمد باتيس للتجارة باليمن، صنعاء.",
+  keywords: ["منتجات", "اكسسوارات", "جوالات", "اليمن", "صنعاء", "بيع جملة", "تجزئة", "BTS"],
+};
 async function HeroSection({ companyId }) {
   const bannersData = await getBanners(companyId);
   const allBanners = bannersData?.data?.results || bannersData?.results || (Array.isArray(bannersData) ? bannersData : []);
@@ -70,15 +74,7 @@ export default async function page({ searchParams }) {
     <div className="bg-gray-50/50 min-h-screen" dir="rtl">
       {/* السلايدر بعرض الصفحة بالكامل */}
       <div className="w-full mb-6">
-        <Suspense 
-          fallback={
-            <div className="w-full h-[200px] md:h-[400px] lg:h-[500px] bg-gray-200 animate-pulse flex items-center justify-center">
-              <Loader2 className="w-8 h-8 text-gray-400 animate-spin" />
-            </div>
-          }
-        >
           <HeroSection companyId={effectiveCompany} />
-        </Suspense>
       </div>
 
       <div className="container mx-auto px-4">
@@ -89,23 +85,12 @@ export default async function page({ searchParams }) {
               <Department department={departmentData} />
             </div>
 
-            <Suspense 
-              fallback={
-                <div className="flex justify-center items-center py-20">
-                  <div className="flex flex-col items-center gap-4">
-                    <Loader2 className="w-10 h-10 text-[var(--primary_color)] animate-spin" />
-                    <p className="text-gray-500 font-bold animate-pulse">جاري تحميل المنتجات...</p>
-                  </div>
-                </div>
-              }
-            >
               <ProductsSection 
                 price={price} 
                 department={effectiveDepartment} 
                 company={effectiveCompany} 
                 type_money={type_money} 
               />
-            </Suspense>
           </main>
         </div>
       </div>

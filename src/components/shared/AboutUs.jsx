@@ -65,7 +65,7 @@ export default function AboutUs() {
 
               <div className="relative w-full h-full rounded-[3rem] overflow-hidden shadow-2xl bg-white group">
                 <Image
-                  src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                  src="/home.avif"
                   alt="تقنيات حديثة"
                   fill
                   sizes="(max-width: 768px) 100vw, 500px"

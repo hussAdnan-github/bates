@@ -15,7 +15,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
 
   const [quantity, setQuantity] = useState(1);
 
-  const currencyName = type_money === "3" ? "ر.س" : type_money === "1" ? "يمني قديم" : "ر.س";
+  const currencyName = type_money === "3" ? "ر.ي" : type_money === "1" ? "يمني قديم" : "ر.ي";
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -110,18 +110,30 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
             <div className="flex flex-wrap items-center gap-2 md:gap-4 min-w-0 flex-1">
               {prices?.retail_price !== undefined && prices?.retail_price !== null && (
                 <div className="flex items-center gap-0.5">
-                  <span className="text-[10px] md:text-base lg:text-lg font-normal text-secondary">
-                    {prices.retail_price}
-                  </span>
-                  <span className="text-[8px] md:text-[9px] font-normal text-gray-400">{currencyName}</span>
+                  {Number(prices.retail_price) > 0 ? (
+                    <>
+                      <span className="text-[10px] md:text-base lg:text-lg font-normal text-secondary">
+                        {prices.retail_price}
+                      </span>
+                      <span className="text-[8px] md:text-[9px] font-normal text-gray-400">{currencyName}</span>
+                    </>
+                  ) : (
+                    <span className="text-[10px] md:text-xs lg:text-sm font-bold text-red-500">
+                      غير محدد
+                    </span>
+                  )}
                 </div>
               )}
               {prices?.wholesale_price !== undefined && prices?.wholesale_price !== null && (
                 <div className="flex items-center gap-0.5">
-                  <span className="text-[9px] md:text-sm lg:text-xs font-normal text-gray-500">
-                    {prices.wholesale_price}
-                  </span>
-                  <span className="text-[8px] md:text-[9px] font-normal text-gray-400">{currencyName}</span>
+                  {Number(prices.wholesale_price) > 0 ? (
+                    <>
+                      <span className="text-[9px] md:text-sm lg:text-xs font-normal text-gray-500">
+                        {prices.wholesale_price}
+                      </span>
+                      <span className="text-[8px] md:text-[9px] font-normal text-gray-400">{currencyName}</span>
+                    </>
+                  ) : null}
                 </div>
               )}
             </div>

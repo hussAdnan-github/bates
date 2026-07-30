@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 export function useCurrency() {
-  const [currencySymbol, setCurrencySymbol] = useState("ر.س");
+  const [currencySymbol, setCurrencySymbol] = useState("ر.ي");
 
   useEffect(() => {
     const updateCurrency = () => {
@@ -10,7 +10,7 @@ export function useCurrency() {
       if (match && match[2] === "1") {
         setCurrencySymbol("ريال يمني (قديم)");
       } else {
-        setCurrencySymbol("ر.س");
+        setCurrencySymbol("ر.ي");
       }
     };
 

@@ -9,6 +9,21 @@ import ButtonCart from "@/components/store/ButtonCart";
 import ProductActionSection from "@/components/store/ProductActionSection";
 import { cookies } from "next/headers";
 
+export async function generateMetadata({ params }) {
+  const Productid = (await params).productid;
+  const product = await getProdutsId(Productid);
+  
+  const productName = product?.data?.name || "منتج";
+  const productModel = product?.data?.model ? `موديل ${product.data.model}` : "";
+  const departmentName = product?.data?.name_department || "اكسسوارات الجوال";
+
+  return {
+    title: `${productName} ${productModel} | ${departmentName} - BTS اليمن، صنعاء`,
+    description: `تسوق ${productName} ${productModel} في اليمن، صنعاء من قسم ${departmentName}. ${product?.data?.description ? product.data.description.substring(0, 120) + '...' : ''}`,
+    keywords: [productName, productModel, departmentName, "اكسسوارات جوال", "اليمن", "صنعاء", "محمد باتيس", "شراء"],
+  };
+}
+
 async function page({ params }) {
 
   const Productid = (await params).productid;
@@ -16,7 +31,7 @@ async function page({ params }) {
   const product = await getProdutsId(Productid);
   const cookieStore = await cookies();
   const type_money = cookieStore.get("type_money")?.value || "3";
-  const currencyName = type_money === "3" ? "ر.س" : type_money === "1" ? "يمني قديم" : "ر.س";
+  const currencyName = type_money === "3" ? "ر.ي" : type_money === "1" ? "يمني قديم" : "ر.ي";
 
   const breadcrumbs = ["الرئيسية", `${product.data.name_department}`  ,`${product.data.name}` ];
 
@@ -72,10 +87,18 @@ async function page({ params }) {
                   <div className="flex flex-col">
                     <span className="text-[11px] md:text-xs text-gray-500 font-bold mb-1">سعر التجزئة</span>
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-2xl md:text-4xl font-black text-[var(--secondary_color)] tracking-tight">
-                        {product.data.prices.retail_price}
-                      </span>
-                      <span className="text-xs md:text-sm font-bold text-gray-600">{currencyName}</span>
+                      {Number(product.data.prices.retail_price) > 0 ? (
+                        <>
+                          <span className="text-2xl md:text-4xl font-black text-[var(--secondary_color)] tracking-tight">
+                            {product.data.prices.retail_price}
+                          </span>
+                          <span className="text-xs md:text-sm font-bold text-gray-600">{currencyName}</span>
+                        </>
+                      ) : (
+                        <span className="text-lg md:text-xl font-bold text-red-500 tracking-tight">
+                          غير محدد
+                        </span>
+                      )}
                     </div>
                   </div>
                 )}
@@ -83,20 +106,36 @@ async function page({ params }) {
                   <div className="flex flex-col border-r-2 border-[var(--primary_color)]/10 pr-6 md:pr-8">
                     <span className="text-[11px] md:text-xs text-gray-500 font-bold mb-1">سعر الجملة</span>
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-xl md:text-3xl font-black text-gray-700 tracking-tight">
-                        {product.data.prices.wholesale_price}
-                      </span>
-                      <span className="text-[10px] md:text-xs font-bold text-gray-500">{currencyName}</span>
+                      {Number(product.data.prices.wholesale_price) > 0 ? (
+                        <>
+                          <span className="text-xl md:text-3xl font-black text-gray-700 tracking-tight">
+                            {product.data.prices.wholesale_price}
+                          </span>
+                          <span className="text-[10px] md:text-xs font-bold text-gray-500">{currencyName}</span>
+                        </>
+                      ) : (
+                        <span className="text-lg font-bold text-red-500 tracking-tight">
+                          غير محدد
+                        </span>
+                      )}
                     </div>
                   </div>
                 )}
               </div>
             ) : (
               <div className="flex items-baseline gap-2 bg-gray-50/50 p-4 md:p-5 rounded-2xl border border-gray-100">
-                <span className="text-2xl md:text-4xl font-black text-[var(--secondary_color)] tracking-tight">
-                  {product.data.price}
-                </span>
-                <span className="text-xs md:text-sm font-bold text-gray-500">{currencyName}</span>
+                {Number(product.data.price) > 0 ? (
+                  <>
+                    <span className="text-2xl md:text-4xl font-black text-[var(--secondary_color)] tracking-tight">
+                      {product.data.price}
+                    </span>
+                    <span className="text-xs md:text-sm font-bold text-gray-500">{currencyName}</span>
+                  </>
+                ) : (
+                  <span className="text-xl md:text-2xl font-bold text-red-500 tracking-tight">
+                    السعر غير محدد
+                  </span>
+                )}
               </div>
             )}
 

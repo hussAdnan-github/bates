@@ -66,11 +66,11 @@ const BasketsDialog = ({ isLoggedIn }) => {
   )) : 0;
 
   const displayTotal = mounted ? (isLocal ?
-    localCart.reduce((total, item) => {
+    Number(localCart.reduce((total, item) => {
       const priceStr = String(item.products_price || "0");
       const priceNum = parseFloat(priceStr.replace(/[^\d.]/g, '')) || 0;
       return total + (priceNum * item.quantity);
-    }, 0)
+    }, 0).toFixed(2))
     : (orders?.data?.results?.[0]?.total_price || 0)) : 0;
 
   const { mutate, isPending } = useMutation({

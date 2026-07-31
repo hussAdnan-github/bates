@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCartStore } from "@/store/useCartStore";
 
-function ButtonCart({ id, quantity, show = 1, product }) {
+function ButtonCart({ id, quantity, show = 1, product, disabled = false }) {
  const queryClient = useQueryClient();
  const addItemLocal = useCartStore((state) => state.addItem);
 
@@ -37,7 +37,7 @@ function ButtonCart({ id, quantity, show = 1, product }) {
 
   return (
     <Button
-      disabled={isPending}
+      disabled={isPending || disabled}
       onClick={() => mutate()}
       className={`
         relative overflow-hidden transition-all duration-300 active:scale-95
@@ -45,6 +45,7 @@ function ButtonCart({ id, quantity, show = 1, product }) {
           ? "bg-primary-transparent hover:bg-primary text-primary hover:text-white h-10 w-10 md:w-auto px-4 rounded-xl" 
           : "bg-primary hover:bg-primary-hover text-white h-14 w-full md:flex-1 text-lg font-bold rounded-2xl shadow-lg shadow-primary-transparent/50"
         }
+        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
       `}
     >
       {isPending ? (

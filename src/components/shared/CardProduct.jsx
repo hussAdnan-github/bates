@@ -38,6 +38,12 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
     }
   };
 
+  // تحقق من صحة السعر بنفس المنطق المستخدم في العرض
+  const hasPricesObject = prices && typeof prices === 'object' && ('retail_price' in prices || 'wholesale_price' in prices);
+  const isPriceValid = hasPricesObject 
+    ? (Number(prices.retail_price) > 0 || Number(prices.wholesale_price) > 0)
+    : (Number(prices?.price) > 0);
+
   return (
     <div className="group bg-white rounded-[1.5rem] md:rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full overflow-hidden relative">
 
@@ -139,7 +145,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
             </div>
 
             {/* 2. حقل إدخال العدد (Quantity Input) */}
-            <div className="flex items-center gap-2">
+            <div className={`flex items-center gap-2 ${!isPriceValid ? "opacity-50 pointer-events-none" : ""}`}>
               <label className="hidden md:block text-[9px] font-bold text-gray-400">الكمية:</label>
               <input
                 type="number"
@@ -151,7 +157,8 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
                   e.stopPropagation(); // منع الانتقال لصفحة المنتج عند النقر للكتابة
                 }}
                 min="1"
-                className="w-12 h-8 md:w-16 md:h-10 bg-gray-50 border border-gray-200 rounded-lg text-center text-xs md:text-sm font-bold text-gray-700 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                disabled={!isPriceValid}
+                className="w-12 h-8 md:w-16 md:h-10 bg-gray-50 border border-gray-200 rounded-lg text-center text-xs md:text-sm font-bold text-gray-700 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all disabled:opacity-50"
               />
             </div>
           </div>
@@ -163,6 +170,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
                 id={id}
                 quantity={Number(quantity)}
                 show={1}
+                disabled={!isPriceValid}
                 product={{
                   id,
                   products_name: title,

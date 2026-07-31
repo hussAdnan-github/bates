@@ -12,7 +12,7 @@ import { cookies } from "next/headers";
 export async function generateMetadata({ params }) {
   const Productid = (await params).productid;
   const product = await getProdutsId(Productid);
-  
+
   const productName = product?.data?.name || "منتج";
   const productModel = product?.data?.model ? `موديل ${product.data.model}` : "";
   const departmentName = product?.data?.name_department || "اكسسوارات الجوال";
@@ -33,11 +33,11 @@ async function page({ params }) {
   const type_money = cookieStore.get("type_money")?.value || "3";
   const currencyName = type_money === "3" ? "ر.ي" : type_money === "1" ? "يمني قديم" : "ر.ي";
 
-  const breadcrumbs = ["الرئيسية", `${product.data.name_department}`  ,`${product.data.name}` ];
+  const breadcrumbs = ["الرئيسية", `${product.data.name_department}`, `${product.data.name}`];
 
   return (
     <div className="bg-white min-h-screen pb-20" dir="rtl">
-       <div className="container mx-auto px-4 py-4 flex items-center gap-2 text-sm text-gray-500 overflow-x-auto whitespace-nowrap custom-scrollbar">
+      <div className="container mx-auto px-4 py-4 flex items-center gap-2 text-sm text-gray-500 overflow-x-auto whitespace-nowrap custom-scrollbar">
         {breadcrumbs.map((item, index) => (
           <React.Fragment key={index}>
             <span
@@ -46,7 +46,7 @@ async function page({ params }) {
                   ? "text-[var(--secondary_color)] font-black text-[12px] md:text-sm shrink-0"
                   : "hover:text-[var(--primary_color)] cursor-pointer text-[12px] md:text-sm shrink-0 transition-colors"
               }
-            >   
+            >
               {item}
             </span>
             {index < breadcrumbs.length - 1 && (
@@ -58,7 +58,7 @@ async function page({ params }) {
 
       <div className="container mx-auto px-4 mt-2 md:mt-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-           <ImagesProduct
+          <ImagesProduct
             mainImage={product.data.image}
             images={product.data.images}
             title={product.data.name}
@@ -69,7 +69,7 @@ async function page({ params }) {
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl   text-[#2D1B50] leading-tight md:leading-tight">
                 {product.data.name}
               </h1>
-              
+
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <div className="inline-flex items-center gap-2 bg-gray-50/80 px-3 py-1.5 rounded-xl border border-gray-100">
                   <span className="text-[11px] md:text-xs font-bold text-gray-500">الموديل:</span>
@@ -148,20 +148,30 @@ async function page({ params }) {
 
             {/* قسم الأكشن المطور */}
             <div className="bg-white md:bg-gray-50/50 p-2 md:p-6 rounded-2xl md:rounded-3xl border border-gray-100 shadow-sm md:shadow-none">
-              <ProductActionSection 
-                productId={product.data.id} 
-                product={{
-                  id: product.data.id,
-                  products_name: product.data.name,
-                  products_price: product.data.prices?.retail_price ?? product.data.prices?.wholesale_price ?? product.data.price ?? 0,
-                  products_image: product.data.image,
-                  products_model: product.data.model,
-                }}
-              />
+              {(() => {
+                const hasPricesObject = product.data.prices && typeof product.data.prices === 'object';
+                const isPriceValid = hasPricesObject 
+                  ? (Number(product.data.prices.retail_price) > 0 || Number(product.data.prices.wholesale_price) > 0)
+                  : (Number(product.data.price) > 0);
+
+                return (
+                  <ProductActionSection
+                    productId={product.data.id}
+                    disabled={!isPriceValid}
+                    product={{
+                      id: product.data.id,
+                      products_name: product.data.name,
+                      products_price: product.data.prices?.retail_price ?? product.data.prices?.wholesale_price ?? product.data.price ?? 0,
+                      products_image: product.data.image,
+                      products_model: product.data.model,
+                    }}
+                  />
+                );
+              })()}
             </div>
 
             {/* تفاصيل إضافية */}
-           
+
           </div>
         </div>
       </div>

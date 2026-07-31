@@ -22,16 +22,16 @@ import { useState } from "react";
 import QuantityProduct from "./QuantityProduct";
 import ButtonCart from "./ButtonCart";
 
-export default function ProductActionSection({ productId, product }) {
+export default function ProductActionSection({ productId, product, disabled = false }) {
   const [quantity, setQuantity] = useState(1);
 
   return (
     <div className="flex flex-col sm:flex-row items-end gap-4 mt-4 w-full">
       <div className="w-full sm:w-auto">
-        <QuantityProduct quantity={quantity} setQuantity={setQuantity} />
+        <QuantityProduct quantity={quantity} setQuantity={setQuantity} disabled={disabled} />
       </div>
       <div className="w-full flex-1">
-        <ButtonCart id={productId} quantity={quantity} show={2} product={product} />
+        <ButtonCart id={productId} quantity={quantity} show={2} product={product} disabled={disabled} />
       </div>
     </div>
   );

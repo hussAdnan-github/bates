@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs, Autoplay, EffectFade } from "swiper/modules";
-import { useQuery } from "@tanstack/react-query";
-import { getBanners } from "@/actions/product";
 
 // استيراد أنماط Swiper الأساسية
 import "swiper/css";
@@ -16,34 +14,14 @@ const defaultSlides = [
   {
     id: 1,
     src: "/images/heroStore.jpg",
-
   },
-
-
 ];
 
 export default function HeroCarousel({ banners = [], companyId = null }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  // جلب البيانات في الخلفية لتجاوز كاش السيرفر وتحديث العرض فوراً
-  const { data: liveBanners } = useQuery({
-    queryKey: ["live_banners", companyId],
-    queryFn: async () => {
-      const res = await getBanners(companyId, true);
-      const allBanners = res?.results || (Array.isArray(res) ? res : []);
-      return companyId 
-        ? allBanners.filter(b => b.companies && b.companies.includes(Number(companyId)))
-        : allBanners;
-    },
-    initialData: banners,
-    staleTime: 0,
-    refetchOnMount: true,
-  });
-
-  const displayBanners = liveBanners && liveBanners.length > 0 ? liveBanners : banners;
-
-  const actualSlides = displayBanners && displayBanners.length > 0
-    ? displayBanners.map((b) => ({
+  const actualSlides = banners && banners.length > 0
+    ? banners.map((b) => ({
       id: b.id,
       src: b.image,
       title: b.name || 'صورة العرض',

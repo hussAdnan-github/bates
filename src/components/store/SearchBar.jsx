@@ -141,7 +141,7 @@ const SearchBar = () => {
                     </p>
                     <div className="mt-1">
                       <span className="text-[10px] md:text-xs font-bold text-[var(--secondary_color)] bg-[#FFC107]/10 px-2.5 py-1 rounded-md inline-block">
-                        {item.price} ر.س
+                        {item.prices.retail_price} ر.س
                       </span>
                     </div>
                   </div>

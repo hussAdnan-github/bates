@@ -50,9 +50,11 @@ function LoginPage() {
           }
         }
 
-        if (data.user === "admin") return router.replace("/dashboard");
-        router.replace("/");
-        router.refresh();
+        if (data.user === "admin") {
+          window.location.href = "/dashboard";
+          return;
+        }
+        window.location.href = "/";
       } else {
         if (data.message) {
           setError(Array.isArray(data.message) ? data.message[0] : data.message);

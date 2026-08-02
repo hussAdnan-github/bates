@@ -8,9 +8,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useQueryClient } from "@tanstack/react-query";
 
 function LoginPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
   const [showpassword, setShowpassword] = useState(false);
@@ -50,11 +52,14 @@ function LoginPage() {
           }
         }
 
+        queryClient.invalidateQueries();
+
         if (data.user === "admin") {
-          window.location.href = "/dashboard";
-          return;
+          router.replace("/dashboard");
+        } else {
+          router.replace("/");
         }
-        window.location.href = "/";
+        router.refresh();
       } else {
         if (data.message) {
           setError(Array.isArray(data.message) ? data.message[0] : data.message);

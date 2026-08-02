@@ -31,7 +31,7 @@ async function page({ params }) {
   const product = await getProdutsId(Productid);
   const cookieStore = await cookies();
   const type_money = cookieStore.get("type_money")?.value || "3";
-  const currencyName = type_money === "3" ? "ر.ي" : type_money === "1" ? "يمني قديم" : "ر.ي";
+  const currencyName = type_money === "3" ? "ر.س" : type_money === "1" ? "ر.ي قديم" : "ر.ي جديد";
 
   const breadcrumbs = ["الرئيسية", `${product.data.name_department}`, `${product.data.name}`];
 

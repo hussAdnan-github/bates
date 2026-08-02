@@ -39,7 +39,7 @@ const EditOrderDetails = async ({ params }) => {
 
   const cookieStore = await cookies();
   const type_money = cookieStore.get("type_money")?.value;
-  const currencySymbol = type_money === "1" ? "ريال يمني (قديم)" : "ر.س";
+  const currencySymbol = type_money === "3" ? "ر.س" : type_money === "1" ? "ر.ي قديم" : "ر.ي جديد";
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8 dir-rtl" dir="rtl">

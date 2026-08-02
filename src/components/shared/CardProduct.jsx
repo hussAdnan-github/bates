@@ -15,7 +15,7 @@ function CardProduct({ id, image, title, prices, model, images, type_money = "3"
 
   const [quantity, setQuantity] = useState(1);
 
-  const currencyName = type_money === "3" ? "ر.ي" : type_money === "1" ? "يمني قديم" : "ر.ي";
+  const currencyName = type_money === "3" ? "ر.س" : type_money === "1" ? "ر.ي قديم" : "ر.ي جديد";
 
   const handleInputChange = (e) => {
     const value = e.target.value;

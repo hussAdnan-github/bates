@@ -2,15 +2,17 @@
 import { useState, useEffect } from "react";
 
 export function useCurrency() {
-  const [currencySymbol, setCurrencySymbol] = useState("ر.ي");
+  const [currencySymbol, setCurrencySymbol] = useState("ر.س");
 
   useEffect(() => {
     const updateCurrency = () => {
       const match = document.cookie.match(/(^| )type_money=([^;]+)/);
-      if (match && match[2] === "1") {
-        setCurrencySymbol("ريال يمني (قديم)");
+      if (match && match[2] === "3") {
+        setCurrencySymbol("ر.س");
+      } else if (match && match[2] === "1") {
+        setCurrencySymbol("ر.ي قديم");
       } else {
-        setCurrencySymbol("ر.ي");
+        setCurrencySymbol("ر.ي جديد");
       }
     };
 

@@ -38,7 +38,7 @@ const EditOrderDetails = async ({ params }) => {
   const allOrders = await getOrdsersId(editeorder);
 
   const cookieStore = await cookies();
-  const type_money = cookieStore.get("type_money")?.value;
+  const type_money = cookieStore.get("type_money")?.value || "3";
   const currencySymbol = type_money === "3" ? "ر.س" : type_money === "1" ? "ر.ي قديم" : "ر.ي جديد";
 
   return (

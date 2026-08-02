@@ -7,9 +7,11 @@ export function useCurrency() {
   useEffect(() => {
     const updateCurrency = () => {
       const match = document.cookie.match(/(^| )type_money=([^;]+)/);
-      if (match && match[2] === "3") {
+      const type_money = match ? match[2] : "3";
+
+      if (type_money === "3") {
         setCurrencySymbol("ر.س");
-      } else if (match && match[2] === "1") {
+      } else if (type_money === "1") {
         setCurrencySymbol("ر.ي قديم");
       } else {
         setCurrencySymbol("ر.ي جديد");
